@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import { Collage, Image } from "./Collage";
+import React from "react";
+import { Collage } from "./Collage";
+import { Image } from "./Image";
 
 export const records: Image[] = [
   {
@@ -42,7 +43,7 @@ export const records: Image[] = [
   {
     title: "Arca",
     author: "Arca",
-    url: "https://e.snmc.io/i/fullres/s/c84c7f879f81dcd8fcd3cb32291d8ce9/6484900",
+    url: "https://fanart.tv/fanart/music/f7625f34-1799-42a4-a1c6-22b5377c767b/albumcover/arca-5c744e7000dd8.jpg",
   },
   {
     title: "Mezzanine",
@@ -56,8 +57,6 @@ export const records: Image[] = [
   },
 ];
 
-export class Home extends Component {
-  render() {
-    return <Collage images={records} titleVisible={true} />;
-  }
-}
+export const Home: React.FC = () => {
+  return <Collage images={records} titleVisible={true} />;
+};

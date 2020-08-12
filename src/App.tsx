@@ -1,6 +1,5 @@
 import React from "react";
 import { Home } from "./Home";
-import { Image } from "./Collage";
 
 function App() {
   return (

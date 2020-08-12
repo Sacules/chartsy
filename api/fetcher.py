@@ -73,14 +73,3 @@ class LastFM:
                 {'artist': al['artist'], 'album': al['name'], 'cover': cover})
 
         return {'albums': albums}
-
-
-def main():
-    l = LastFM()
-    r = l.search("dark side of the moon")
-    text = json.dumps(r, sort_keys=True, indent=4)
-    print(text)
-
-
-if __name__ == "__main__":
-    main()

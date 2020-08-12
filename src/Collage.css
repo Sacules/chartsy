@@ -1,0 +1,24 @@
+body {
+    background-color: #3c2f3a;
+}
+
+.collage-container {
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 20px 20px;
+}
+
+.collage-image {
+    display: block;
+    margin: auto auto;
+}
+
+p {
+    color: #ebedea;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}

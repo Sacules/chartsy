@@ -25,7 +25,7 @@ export const Home: React.FC = () => {
   return (
     <div>
       <Search setSearch={setSearch} />
-      <Collage images={images} titleVisible={false} />
+      <Collage images={images} titleVisible={true} />
     </div>
   );
 };

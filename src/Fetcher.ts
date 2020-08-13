@@ -9,6 +9,8 @@ export const getAlbum = async (al: string) => {
       for (const al of resp.data.albums) {
         albums.push({ title: al.album, author: al.artist, url: al.cover });
       }
+
+      return albums;
     })
     .catch((err) => {
       alert(err);

@@ -1,27 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Collage } from "./Collage";
 import { Image } from "./Image";
 import { Search } from "./Search";
-
-const defaultImage: Image = {
-  title: "A Nisman",
-  author: "Lo Mataron",
-  url: "https://i.imgur.com/w4toMiR.jpg",
-};
+import { getAlbum } from "./Fetcher";
 
 export const Home: React.FC = () => {
-  const [images, setImages] = useState(50);
+  const [images, setImages] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
+  // const [n, setN] = useState(50);
 
-  const defaultImages: Image[] = [];
-  for (let i = 0; i < images; i++) {
-    defaultImages.push(defaultImage);
-  }
+  useEffect(() => {
+    const download = async () => {
+      if (search === "") {
+        return;
+      }
+
+      let albums = await getAlbum(search);
+      setImages(albums);
+    };
+
+    download();
+  }, [search, setImages]);
 
   return (
     <div>
       <Search setSearch={setSearch} />
-      <Collage images={defaultImages} titleVisible={true} />
+      <Collage images={images} titleVisible={false} />
     </div>
   );
 };

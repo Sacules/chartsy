@@ -1,20 +1,19 @@
-import React, { Component } from "react";
-import "./Collage.css";
+import React from "react";
 import { Image } from "./Image";
 
+import "./Collage.css";
+
 interface Props {
-  titleVisible: boolean;
   images: Image[];
+  titleVisible: boolean;
 }
 
-export class Collage extends Component<Props> {
-  render() {
-    return (
-      <div className="collage-container">
-        {this.props.images.map((img) => (
-          <Image image={img} showTitle={this.props.titleVisible} />
-        ))}
-      </div>
-    );
-  }
-}
+export const Collage: React.FC<Props> = ({ images, titleVisible }) => {
+  return (
+    <div className="collage-container">
+      {images.map((img) => (
+        <Image key={img.url} image={img} showTitle={titleVisible} />
+      ))}
+    </div>
+  );
+};

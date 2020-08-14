@@ -1,0 +1,81 @@
+2020-08-13 15:27:36,364 DEBUG Trying to acquire lock on file /home/sacul/Code/Python/topsters3/src/.pyre/configuration_monitor/configuration_monitor.lock
+--- Logging error ---
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/logging/__init__.py", line 1085, in emit
+    self.flush()
+  File "/usr/lib/python3.8/logging/__init__.py", line 1065, in flush
+    self.stream.flush()
+OSError: [Errno 9] Bad file descriptor
+Call stack:
+  File "/home/sacul/.local/bin/pyre", line 8, in <module>
+    sys.exit(main())
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 258, in main
+    return _run_pyre_with_retry(arguments)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 191, in _run_pyre_with_retry
+    return run_pyre(arguments)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 121, in run_pyre
+    exit_code = command.run().exit_code()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/command.py", line 609, in run
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/persistent.py", line 70, in _run
+    Start(
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/command.py", line 609, in run
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/start.py", line 118, in _run
+    self._start_configuration_monitor()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/start.py", line 100, in _start_configuration_monitor
+    configuration_monitor.ConfigurationMonitor(
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/watchman.py", line 149, in daemonize
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/watchman.py", line 90, in _run
+    with acquire_lock(lock_path, blocking=False), (
+  File "/usr/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/filesystem.py", line 236, in acquire_lock
+    LOG.debug(
+Message: 'Trying to acquire %slock on file %s'
+Arguments: ('', '/home/sacul/Code/Python/topsters3/src/.pyre/configuration_monitor/configuration_monitor.lock')
+2020-08-13 15:27:36,381 DEBUG Registering process with pid 18212 in pid file `/home/sacul/Code/Python/topsters3/src/.pyre/configuration_monitor/configuration_monitor.pid`
+--- Logging error ---
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/logging/__init__.py", line 1085, in emit
+    self.flush()
+  File "/usr/lib/python3.8/logging/__init__.py", line 1065, in flush
+    self.stream.flush()
+OSError: [Errno 9] Bad file descriptor
+Call stack:
+  File "/home/sacul/.local/bin/pyre", line 8, in <module>
+    sys.exit(main())
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 258, in main
+    return _run_pyre_with_retry(arguments)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 191, in _run_pyre_with_retry
+    return run_pyre(arguments)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/pyre.py", line 121, in run_pyre
+    exit_code = command.run().exit_code()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/command.py", line 609, in run
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/persistent.py", line 70, in _run
+    Start(
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/command.py", line 609, in run
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/start.py", line 118, in _run
+    self._start_configuration_monitor()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/commands/start.py", line 100, in _start_configuration_monitor
+    configuration_monitor.ConfigurationMonitor(
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/watchman.py", line 149, in daemonize
+    self._run()
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/watchman.py", line 90, in _run
+    with acquire_lock(lock_path, blocking=False), (
+  File "/usr/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/process.py", line 54, in register_unique_process
+    with Process._register(pid, absolute_pid_path):
+  File "/usr/lib/python3.8/contextlib.py", line 113, in __enter__
+    return next(self.gen)
+  File "/home/sacul/.local/lib/python3.8/site-packages/pyre_check/client/process.py", line 28, in _register
+    LOG.debug(
+Message: 'Registering process with pid %d in pid file `%s`'
+Arguments: (18212, PosixPath('/home/sacul/Code/Python/topsters3/src/.pyre/configuration_monitor/configuration_monitor.pid'))
+2020-08-13 15:27:36,400 DEBUG Removing pid file: `/home/sacul/Code/Python/topsters3/src/.pyre/configuration_monitor/configuration_monitor.pid`
+2020-08-13 15:27:36,402 INFO Cleaning up lock and pid files before exiting.
+2020-08-13 15:27:36,402 INFO Not running configuration_monitor due to "watchman" executable not in PATH (%s), while executing [Errno 2] No such file or directory: 'watchman'

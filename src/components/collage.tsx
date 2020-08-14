@@ -1,7 +1,7 @@
 import React from "react";
-import { Image } from "./Image";
+import { Image } from "./image";
 
-import "./Collage.css";
+import "./collage.css";
 
 interface Props {
   images: Image[];

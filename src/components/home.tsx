@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Collage } from "./Collage";
-import { Image } from "./Image";
-import { Search } from "./Search";
-import { getAlbum } from "./Fetcher";
+import { Collage } from "./collage";
+import { Image } from "./image";
+import { Search } from "./search";
+import { getAlbum } from "./fetcher";
 
 export const Home: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);

@@ -1,17 +1,21 @@
 body {
+    max-width: 1366px;
     background-color: #3c2f3a;
 }
 
 .collage-container {
-    margin: auto;
+    margin: auto auto;
     display: grid;
     grid-template-columns: repeat(5, auto);
-    grid-gap: 20px 20px;
+    grid-gap: 20px;
+    align-items: stretch;
+    justify-items: center;
 }
 
 .collage-image {
     display: block;
     margin: auto auto;
+    border: red dotted;
 }
 
 p {
@@ -21,4 +25,5 @@ p {
 img {
     width: 100px;
     height: 100px;
+    max-width: 100%;
 }

@@ -1,4 +1,4 @@
-import { Image } from "./Image";
+import { Image } from "./image";
 import axios from "axios";
 
 export const getAlbum = async (al: string) => {

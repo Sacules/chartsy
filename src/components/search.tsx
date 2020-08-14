@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Input } from "semantic-ui-react";
 
 interface Props {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
@@ -14,17 +15,16 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
         e.preventDefault();
       }}
     >
-      <label>
-        <p>Search for an album:</p>
-        <input
-          type="text"
-          value={val}
-          onChange={(e) => {
-            setVal(e.target.value);
-            e.preventDefault();
-          }}
-        />
-      </label>
+      <Input
+        fluid
+        transparent
+        placeholder="Search for an album"
+        value={val}
+        onChange={(e) => {
+          setVal(e.target.value);
+          e.preventDefault();
+        }}
+      />
     </form>
   );
 };

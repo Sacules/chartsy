@@ -22,10 +22,16 @@ export const Home: React.FC = () => {
     download();
   }, [search, setImages]);
 
+  if (search === "") {
+    return <Search setSearch={setSearch} />;
+  }
+
   return (
-    <div>
+    <div className="home">
       <Search setSearch={setSearch} />
-      <Collage images={images} titleVisible={true} />
+      <span>
+        <Collage images={images} titleVisible={true} />
+      </span>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Collage } from "./collage";
+import { SearchResults } from "./results";
 import { Image } from "./image";
 import { Search } from "./search";
 import { getAlbum } from "./fetcher";
@@ -31,7 +31,7 @@ export const Home: React.FC = () => {
     <div className="home">
       <Search setSearch={setSearch} />
       <span>
-        <Collage images={images} titleVisible={true} />
+        <SearchResults images={images} />
       </span>
     </div>
   );

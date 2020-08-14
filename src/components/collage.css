@@ -1,10 +1,14 @@
 body {
     max-width: 1366px;
-    background-color: #3c2f3a;
+    background-color: #f1f2f2;
+}
+
+.home {
+    margin: auto;
+    widows: 100%;
 }
 
 .collage-container {
-    margin: auto auto;
     display: grid;
     grid-template-columns: repeat(5, auto);
     grid-gap: 20px;
@@ -19,7 +23,7 @@ body {
 }
 
 p {
-    color: #ebedea;
+    color: #080808;
 }
 
 img {

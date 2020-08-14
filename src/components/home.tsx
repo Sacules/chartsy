@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { Collage } from "./collage";
 import { Image } from "./image";
 import { Search } from "./search";

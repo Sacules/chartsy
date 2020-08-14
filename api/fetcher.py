@@ -64,7 +64,7 @@ class LastFM:
         albums = []
 
         for al in album_matches:
-            cover = al['image'][0]['#text']
+            cover = al['image'][2]['#text']
             if cover == "":
                 continue
 

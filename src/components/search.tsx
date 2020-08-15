@@ -17,7 +17,6 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
     >
       <Input
         fluid
-        transparent
         placeholder="Search for an album"
         value={val}
         onChange={(e) => {

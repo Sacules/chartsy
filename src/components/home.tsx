@@ -16,6 +16,22 @@ let defaultImages = () => {
   return imgs;
 };
 
+const onResults = (search: string, images: Image[]) => {
+  if (search === "") {
+    return "";
+  }
+
+  if (search.startsWith("http") || search.endsWith(".jpg") || search.endsWith(".png")) {
+    const img: Image = { url: search, author: "", title: "" };
+    const images: Image[] = [];
+    images.push(img);
+
+    return <SearchResults images={images} />;
+  }
+
+  return <SearchResults images={images} />;
+};
+
 export const Home: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
@@ -34,22 +50,6 @@ export const Home: React.FC = () => {
     download();
   }, [search, setImages]);
 
-  const onResults = () => {
-    if (search === "") {
-      return "";
-    }
-
-    if (search.startsWith("http") || search.endsWith(".jpg") || search.endsWith(".png")) {
-      const img: Image = { url: search, author: "", title: "" };
-      const images: Image[] = [];
-      images.push(img);
-
-      return <SearchResults images={images} />;
-    }
-
-    return <SearchResults images={images} />;
-  };
-
   return (
     <div className="home">
       <Grid celled>
@@ -58,7 +58,7 @@ export const Home: React.FC = () => {
             <Grid.Row>
               <Search setSearch={setSearch} />
             </Grid.Row>
-            <Grid.Row>{onResults()}</Grid.Row>
+            <Grid.Row>{onResults(search, images)}</Grid.Row>
           </Grid.Column>
           <Grid.Column divided="horizontally" width={12}>
             <Collage images={defaultImages()} titleVisible={false} />

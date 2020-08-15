@@ -10,9 +10,11 @@ interface Props {
 }
 
 export const SearchResults: React.FC<Props> = ({ images }) => {
-  const results = images.map((img) => {
-    const val = img.author + " - " + img.title;
-    return { key: img.url, text: val, value: val, image: { avatar: false, src: img.url } };
-  });
-  return <Dropdown placeholder="Click here to see results!" fluid selection options={results} />;
+  return (
+    <div className="results-container">
+      {images.map((img) => (
+        <Image key={img.url} image={img} showTitle={true} />
+      ))}
+    </div>
+  );
 };

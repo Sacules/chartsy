@@ -6,6 +6,12 @@ export type Image = {
   url: string;
 };
 
+export const defaultImage: Image = {
+  title: "",
+  author: "",
+  url: "https://i.imgur.com/w4toMiR.jpg",
+};
+
 interface ImageProps {
   showTitle: boolean;
   image: Image;

@@ -1,33 +1,47 @@
+html, body {
+    height: 100%;
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
 body {
-    max-width: 1366px;
+    display: table-cell;
+    vertical-align: middle;
     background-color: #f1f2f2;
 }
 
 .home {
-    margin: auto;
-    widows: 100%;
+    vertical-align: middle;
 }
 
 .collage-container {
     display: grid;
-    grid-template-columns: repeat(5, auto);
-    grid-gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
     align-items: stretch;
     justify-items: center;
 }
 
+.collage-row {
+    display: block;
+}
+
 .collage-image {
     display: block;
-    margin: auto auto;
-    border: red dotted;
+     margin: auto auto;
+}
+
+img {
+    width: auto;
+    height: 100px;
+    max-width: 100%;
 }
 
 p {
     color: #080808;
-}
-
-img {
-    width: 100px;
-    height: 100px;
-    max-width: 100%;
 }

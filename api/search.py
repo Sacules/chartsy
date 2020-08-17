@@ -7,7 +7,7 @@ import requests
 SearchResults = Dict[str, List[Any]]
 
 
-def search_lastfm(searchterm: str) -> SearchResults:
+def lastfm(searchterm: str) -> SearchResults:
     """Searches for album covers on Last.fm"""
 
     api_url = "http://ws.audioscrobbler.com/2.0/"
@@ -34,7 +34,7 @@ def search_lastfm(searchterm: str) -> SearchResults:
 
     for album in album_matches:
         # Only get small images
-        cover = album['image'][2]['#text']
+        cover = album.get('image', [])[2].get('#text', "")
         if cover == "":
             continue
 
@@ -44,7 +44,7 @@ def search_lastfm(searchterm: str) -> SearchResults:
     return {'albums': albums}
 
 
-def search_rawg(searchterm: str) -> SearchResults:
+def rawg(searchterm: str) -> SearchResults:
     """Searches for video game artworks on RAWG.io"""
 
     api_url = "https://api.rawg.io/api/games"

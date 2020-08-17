@@ -1,10 +1,13 @@
+""" Main module """
+
 from flask import Flask, request
-from fetcher import search_lastfm, search_rawg
+import search
 app = Flask(__name__)
 
 
 @app.route("/api", methods=['GET'])
 def index():
+    """ Dummy endpoint, only for testing"""
     return {
         "albums": [
             {
@@ -18,11 +21,13 @@ def index():
 
 @app.route("/api/albums", methods=['GET'])
 def get_albums():
+    """ Route for the albums """
     album = request.args.get('album', '')
-    return search_lastfm(album)
+    return search.lastfm(album)
 
 
 @app.route("/api/games", methods=['GET'])
 def get_games():
+    """ Route for the games """
     game = request.args.get('search', '')
-    return search_rawg(game)
+    return search.rawg(game)

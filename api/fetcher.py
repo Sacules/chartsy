@@ -2,11 +2,10 @@
 
 from typing import Dict, Any, List
 import abc
-import json
 import os
 import requests
 
-SearchResults = List[Dict[Any, Any]]
+SearchResults = Dict[str, List[Any]]
 
 
 class Searcher(metaclass=abc.ABCMeta):
@@ -39,7 +38,7 @@ class LastFM:
         self.api_key = os.environ["LASTFM_KEY"]
         self.user_agent = "topsters"
 
-    def lookup(self, payload: dict) -> SearchResults:
+    def lookup(self, payload: dict) -> Dict[Any, Any]:
         headers = {'user-agent': self.user_agent}
 
         payload['api_key'] = self.api_key
@@ -47,7 +46,7 @@ class LastFM:
 
         req = requests.get(self.api_url, headers=headers, params=payload)
         if req.status_code != 200:
-            return None
+            return {}
 
         return req.json()
 

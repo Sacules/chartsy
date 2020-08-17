@@ -25,3 +25,8 @@ yarn-error.log*
 
 topsters
 __pycache__
+.pylintrc
+.pyre/
+.pyre_configuration
+.watchmanconfig
+

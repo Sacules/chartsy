@@ -74,3 +74,33 @@ class LastFM:
                 {'artist': album['artist'], 'album': album['name'], 'cover': cover})
 
         return {'albums': albums}
+
+
+class Rawg:
+    """Searches for video game artworks on RAWG.io"""
+
+    def __init__(self):
+        self.api_url = "https://api.rawg.io/api/games"
+        self.user_agent = "topsters"
+
+    def search(self, searchterm: str) -> SearchResults:
+        """
+        Searches the given term on the RAWG.io database and returns
+        the games covers.
+        """
+        head = {'user-agent': self.user_agent}
+
+        req = requests.get(self.api_url + "?search=" +
+                           searchterm, headers=head)
+        if req.status_code != 200:
+            return {}
+
+        resp = req.json()
+        results = resp['results']
+
+        games = []
+        for game in results:
+            games.append(
+                {'title': game['name'], 'url': game['background_image']})
+
+        return {'games': games}

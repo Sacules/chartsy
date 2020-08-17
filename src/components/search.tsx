@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 
+export enum SearchType {
+  Music,
+  Movies,
+  Games,
+  Books,
+  Art,
+}
+
 interface Props {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }

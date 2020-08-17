@@ -1,9 +1,8 @@
 import React from "react";
-import { Grid } from "semantic-ui-react";
 
 export type Image = {
   title: string;
-  author: string;
+  author?: string;
   url: string;
 };
 

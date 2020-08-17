@@ -57,18 +57,20 @@ class LastFM:
         """
         results = self.lookup({'method': 'album.search', 'album': searchterm})
         if results is None:
-            return None
+            return {}
 
-        album_matches = results['results']['albummatches']['album']
+        album_matches = results.get('results', {}).get(
+            'albummatches', {}).get('album', [])
+        # album_matches = results['results']['albummatches']['album']
         albums = []
 
-        for al in album_matches:
-            cover = al['image'][2]['#text']
+        for album in album_matches:
+            # Only get small images
+            cover = album['image'][2]['#text']
             if cover == "":
                 continue
 
-            # Only get small images
             albums.append(
-                {'artist': al['artist'], 'album': al['name'], 'cover': cover})
+                {'artist': album['artist'], 'album': album['name'], 'cover': cover})
 
         return {'albums': albums}

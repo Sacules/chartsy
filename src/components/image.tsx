@@ -37,21 +37,11 @@ export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
   return (
     <div className="collage-image">
       <figure>
-        <img src={url} alt={author + " - " + title} />
+        <div draggable="true">
+          <img draggable="false" src={url} alt={author + " - " + title} />
+        </div>
         <div>{titleShow(showTitle)}</div>
       </figure>
     </div>
-  );
-};
-
-export const createRow = (row: Image[], titleVisible: boolean) => {
-  return (
-    <Grid.Row className="collage-row">
-      {row.map((img) => (
-        <Grid.Column key={img.url}>
-          <Image key={img.url} image={img} showTitle={titleVisible} />
-        </Grid.Column>
-      ))}
-    </Grid.Row>
   );
 };

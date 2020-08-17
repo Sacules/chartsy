@@ -1,5 +1,5 @@
 from flask import Flask, request
-from fetcher import LastFM, Rawg
+from fetcher import search_lastfm, search_rawg
 app = Flask(__name__)
 
 
@@ -18,13 +18,11 @@ def index():
 
 @app.route("/api/albums", methods=['GET'])
 def get_albums():
-    lastfm = LastFM()
     album = request.args.get('album', '')
-    return lastfm.search(album)
+    return search_lastfm(album)
 
 
 @app.route("/api/games", methods=['GET'])
 def get_games():
-    rawg = Rawg()
     game = request.args.get('search', '')
-    return rawg.search(game)
+    return search_rawg(game)

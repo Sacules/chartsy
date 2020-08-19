@@ -12,7 +12,7 @@ export const Collage: React.FC<Props> = ({ images, titleVisible }) => {
   return (
     <div className="collage-container">
       {images.map((img) => (
-        <Image key={img.url} image={img} showTitle={true} />
+        <Image key={img.url} image={img} showTitle={titleVisible} />
       ))}
     </div>
   );

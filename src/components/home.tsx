@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Grid, Button } from "semantic-ui-react";
 
 import { onResults } from "./results";
@@ -88,7 +88,7 @@ export const Home: React.FC = () => {
           <Grid.Row>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
         <Grid.Column divided="horizontally" width={12}>
-          <Collage images={defaultImages()} titleVisible={false} />
+          <Collage images={defaultImages()} titleVisible={true} />
         </Grid.Column>
       </Grid>
     </div>

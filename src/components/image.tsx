@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 export type Image = {
   title: string;
@@ -17,30 +17,48 @@ interface ImageProps {
   image: Image;
 }
 
-export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
-  const { title, author, url } = image;
-
-  const titleShow = (show: boolean) => {
-    if (!show) return "";
-
-    return (
-      <figcaption>
-        <p>
-          <b>{title}</b>
-          <br />
-          {author}
-        </p>
-      </figcaption>
-    );
-  };
+export const titleShow = (show: boolean, title: string, author: string | undefined) => {
+  if (!show) return "";
 
   return (
-    <div className="collage-image">
-      <figure>
-        <div draggable="true">
-          <img draggable="false" src={url} alt={author + " - " + title} />
+    <figcaption>
+      <p>
+        <div className="image-title">
+          <b>{title}</b>
         </div>
-        <div>{titleShow(showTitle)}</div>
+        <br />
+        <div className="image-author">{author}</div>
+      </p>
+    </figcaption>
+  );
+};
+
+export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
+  let [title, setTitle] = useState(image.title);
+  let [url, setUrl] = useState(image.url);
+  const { author } = image;
+
+  return (
+    <div>
+      <figure>
+        <img
+          onDragStart={(e) => {
+            e.dataTransfer.setData("image-title", title);
+            e.dataTransfer.setData("image-url", url);
+            // e.dataTransfer.setData("image-author", author);
+          }}
+          onDragOver={(e) => e.preventDefault()}
+          onDrop={(e) => {
+            setUrl(e.dataTransfer.getData("image-url"));
+            setTitle(e.dataTransfer.getData("image-title"));
+            e.preventDefault();
+          }}
+          className="collage-image"
+          draggable
+          src={url}
+          alt={author + " - " + title}
+        />
+        {titleShow(showTitle, title, author)}
       </figure>
     </div>
   );

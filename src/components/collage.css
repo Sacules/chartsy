@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
     width: 75%;
@@ -28,21 +32,38 @@ body {
     justify-items: center;
 }
 
+.results-container {
+    display: table;
+}
+
 .collage-row {
     display: block;
 }
 
 .collage-image {
     display: block;
-     margin: auto auto;
+    margin: auto auto;
+}
+
+.image {
+    cursor: move;
+}
+
+figure {
+    display: grid;
+}
+
+figcaption {
+    margin: auto;
 }
 
 img {
+    display: block;
     width: auto;
     height: 100px;
     max-width: 100%;
 }
 
 p {
-    color: #080808;
+    color: #303032;
 }

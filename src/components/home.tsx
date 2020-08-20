@@ -87,7 +87,7 @@ export const Home: React.FC = () => {
           </Grid.Row>
           <Grid.Row>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
-        <Grid.Column divided="horizontally" width={12}>
+        <Grid.Column divided="horizontally" width={13}>
           <Collage images={defaultImages()} titleVisible={true} />
         </Grid.Column>
       </Grid>

@@ -15,10 +15,7 @@ def lastfm(searchterm: str) -> SearchResults:
     user_agent = "topsters"
 
     headers = {'user-agent': user_agent}
-    payload = {'method': 'album.search', 'album': searchterm}
-
-    payload['api_key'] = api_key
-    payload['format'] = 'json'
+    payload = {'method': 'album.search', 'album': searchterm, 'api_key': api_key, 'format': 'json'}
 
     req = requests.get(api_url, headers=headers, params=payload)
     if req.status_code != 200:
@@ -28,8 +25,7 @@ def lastfm(searchterm: str) -> SearchResults:
     if results is None:
         return {}
 
-    album_matches = results.get('results', {}).get(
-        'albummatches', {}).get('album', [])
+    album_matches = results.get('results', {}).get('albummatches', {}).get('album', [])
     albums = []
 
     for album in album_matches:
@@ -38,8 +34,8 @@ def lastfm(searchterm: str) -> SearchResults:
         if cover == "":
             continue
 
-        albums.append(
-            {'artist': album['artist'], 'album': album['name'], 'cover': cover})
+        albums.append({'artist': album['artist'],
+                       'album': album['name'], 'cover': cover})
 
     return {'albums': albums}
 
@@ -51,8 +47,7 @@ def rawg(searchterm: str) -> SearchResults:
     user_agent = "topsters"
     head = {'user-agent': user_agent}
 
-    req = requests.get(api_url + "?search=" +
-                       searchterm, headers=head)
+    req = requests.get(api_url + "?search=" + searchterm, headers=head)
     if req.status_code != 200:
         return {}
 
@@ -61,7 +56,6 @@ def rawg(searchterm: str) -> SearchResults:
 
     games = []
     for game in results:
-        games.append(
-            {'title': game['name'], 'url': game['background_image']})
+        games.append({'title': game['name'], 'url': game['background_image']})
 
     return {'games': games}

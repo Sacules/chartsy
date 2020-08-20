@@ -15,6 +15,12 @@ export const getAlbum = async (al: string) => {
 
 export const getGame = async (game: string) => {
   return axios.get("/api/games?search=" + game.replace(" ", "+")).then((resp) => {
-    return resp.data.games;
+    let games: Image[] = [];
+
+    for (const g of resp.data.games) {
+      games.push({ title: g.title, author: "", url: g.url });
+    }
+
+    return games;
   });
 };

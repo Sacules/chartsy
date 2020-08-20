@@ -45,12 +45,16 @@ export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
             e.dataTransfer.setData("image-url", url);
             e.dataTransfer.setData("image-author", author);
           }}
+          onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
+          onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
           onDragOver={(e) => e.preventDefault()}
           onDrop={(e) => {
+            e.preventDefault();
+            e.currentTarget.style.opacity = "";
+
             setUrl(e.dataTransfer.getData("image-url"));
             setTitle(e.dataTransfer.getData("image-title"));
             setAuthor(e.dataTransfer.getData("image-author"));
-            e.preventDefault();
           }}
           className="collage-image"
           draggable

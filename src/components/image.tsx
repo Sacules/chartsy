@@ -37,32 +37,54 @@ export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
   let [author, setAuthor] = useState(image.author);
 
   return (
-    <div>
-      <figure>
-        <img
-          onDragStart={(e) => {
-            e.dataTransfer.setData("image-title", title);
-            e.dataTransfer.setData("image-url", url);
-            e.dataTransfer.setData("image-author", author);
-          }}
-          onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
-          onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => {
-            e.preventDefault();
-            e.currentTarget.style.opacity = "";
+    <figure>
+      <img
+        onDragStart={(e) => {
+          const parent = e.currentTarget.parentNode?.parentElement;
+          if (parent?.className === "results-container") {
+            e.dataTransfer.setData("drag-source", "results");
+          } else {
+            e.dataTransfer.setData("drag-source", "collage");
+          }
 
-            setUrl(e.dataTransfer.getData("image-url"));
-            setTitle(e.dataTransfer.getData("image-title"));
-            setAuthor(e.dataTransfer.getData("image-author"));
-          }}
-          className="collage-image"
-          draggable
-          src={url}
-          alt={author + " - " + title}
-        />
-        {titleShow(showTitle, title, author)}
-      </figure>
-    </div>
+          e.dataTransfer.setData("image-title", title);
+          e.dataTransfer.setData("image-url", url);
+          e.dataTransfer.setData("image-author", author);
+        }}
+        onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
+        onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
+        onDragOver={(e) => e.preventDefault()}
+        onDragEnd={(e) => {
+          if (e.dataTransfer.getData("drag-source") === "results") {
+            return;
+          }
+
+          setTitle(sessionStorage.getItem("dropped-title") as string);
+          setUrl(sessionStorage.getItem("dropped-url") as string);
+          setAuthor(sessionStorage.getItem("dropped-author") as string);
+
+          sessionStorage.clear();
+        }}
+        onDrop={(e) => {
+          e.preventDefault();
+          e.currentTarget.style.opacity = "";
+
+          if (e.dataTransfer.getData("drag-source") === "collage") {
+            sessionStorage.setItem("dropped-title", title);
+            sessionStorage.setItem("dropped-url", url);
+            sessionStorage.setItem("dropped-author", author);
+          }
+
+          setTitle(e.dataTransfer.getData("image-title"));
+          setUrl(e.dataTransfer.getData("image-url"));
+          setAuthor(e.dataTransfer.getData("image-author"));
+        }}
+        className="collage-image"
+        draggable
+        src={url}
+        alt={author + " - " + title}
+      />
+      {titleShow(showTitle, title, author)}
+    </figure>
   );
 };

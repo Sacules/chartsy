@@ -31,3 +31,17 @@ def get_games():
     """ Route for the games """
     game = request.args.get('search', '')
     return search.rawg(game)
+
+
+@app.route("/api/movies", methods=['GET'])
+def get_movies():
+    """ Route for the games """
+    movie = request.args.get('search', '')
+    return search.imdb_movies(movie)
+
+
+@app.route("/api/series", methods=['GET'])
+def get_series():
+    """ Route for the games """
+    show = request.args.get('search', '')
+    return search.imdb_series(show)

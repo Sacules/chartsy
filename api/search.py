@@ -52,10 +52,60 @@ def rawg(searchterm: str) -> SearchResults:
         return {}
 
     resp = req.json()
-    results = resp['results']
+    results = resp.get('results', [])
 
     games = []
     for game in results:
-        games.append({'title': game['name'], 'url': game['background_image']})
+        games.append({'title': game.get('name', ''), 'url': game.get('background_image', '')})
 
     return {'games': games}
+
+
+def imdb_movies(searchterm: str) -> SearchResults:
+    """Searches for movie posters on IMDB"""
+
+    api_url = "https://imdb-api.com/en/API/SearchMovie/"
+    api_key = os.environ["IMDB_KEY"]
+    user_agent = "topsters"
+
+    head = {'user-agent': user_agent}
+    resp = requests.get(api_url + '/' + api_key + '/' + searchterm, headers=head)
+    if resp.status_code != 200:
+        return {}
+
+    results = resp.json().get('results', [])
+
+    movies = []
+    for movie in results:
+        url = movie.get('image', "")
+        if url.endswith("nopicture.jpg"):
+            continue
+
+        movies.append({'title': movie.get('title', ''), 'url': url})
+
+    return {'movies': movies}
+
+
+def imdb_series(searchterm: str) -> SearchResults:
+    """Searches for series posters on IMDB"""
+
+    api_url = "https://imdb-api.com/en/API/SearchSeries/"
+    api_key = os.environ["IMDB_KEY"]
+    user_agent = "topsters"
+
+    head = {'user-agent': user_agent}
+    resp = requests.get(api_url + '/' + api_key + '/' + searchterm, headers=head)
+    if resp.status_code != 200:
+        return {}
+
+    results = resp.json().get('results', [])
+
+    series = []
+    for show in results:
+        url = show.get('image', "")
+        if url.endswith("nopicture.jpg"):
+            continue
+
+        series.append({'title': show.get('title', ''), 'url': url})
+
+    return {'series': series}

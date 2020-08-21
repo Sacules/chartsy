@@ -4,7 +4,7 @@ import { Grid, Button } from "semantic-ui-react";
 import { onResults } from "./results";
 import { Image, defaultImage } from "./image";
 import { Search, SearchType } from "./search";
-import { getAlbum, getGame } from "./fetcher";
+import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { Collage } from "./collage";
 
 let defaultImages = () => {
@@ -30,6 +30,37 @@ const onSearchType = (type: SearchType, setSearchType: React.Dispatch<React.SetS
             }}
           />
           <Button basic primary icon="game" />
+          <Button
+            basic
+            icon="film"
+            onClick={(e) => {
+              setSearchType(SearchType.Movies);
+              e.preventDefault();
+            }}
+          />
+        </Grid.Row>
+      );
+
+    case SearchType.Movies:
+      return (
+        <Grid.Row>
+          <Button
+            basic
+            icon="music"
+            onClick={(e) => {
+              setSearchType(SearchType.Music);
+              e.preventDefault();
+            }}
+          />
+          <Button
+            basic
+            icon="game"
+            onClick={(e) => {
+              setSearchType(SearchType.Games);
+              e.preventDefault();
+            }}
+          />
+          <Button basic primary icon="film" />
         </Grid.Row>
       );
 
@@ -42,6 +73,14 @@ const onSearchType = (type: SearchType, setSearchType: React.Dispatch<React.SetS
             icon="game"
             onClick={(e) => {
               setSearchType(SearchType.Games);
+              e.preventDefault();
+            }}
+          />
+          <Button
+            basic
+            icon="film"
+            onClick={(e) => {
+              setSearchType(SearchType.Movies);
               e.preventDefault();
             }}
           />
@@ -65,6 +104,16 @@ export const Home: React.FC = () => {
         case SearchType.Games:
           let albums = await getGame(search);
           setImages(albums);
+          break;
+
+        case SearchType.Movies:
+          let movies = await getMovie(search);
+          setImages(movies);
+          break;
+
+        case SearchType.Series:
+          let series = await getSeries(search);
+          setImages(series);
           break;
 
         default:

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Input } from "semantic-ui-react";
 
 export enum SearchType {
+  Art,
+  Books,
+  Games,
   Music,
   Movies,
-  Games,
-  Books,
-  Art,
+  Series,
 }
 
 interface Props {

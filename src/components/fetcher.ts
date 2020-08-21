@@ -24,3 +24,27 @@ export const getGame = async (game: string) => {
     return games;
   });
 };
+
+export const getMovie = async (movie: string) => {
+  return axios.get("/api/movies?search=" + movie.replace(" ", "+")).then((resp) => {
+    let movies: Image[] = [];
+
+    for (const g of resp.data.movies) {
+      movies.push({ title: g.title, author: "", url: g.url });
+    }
+
+    return movies;
+  });
+};
+
+export const getSeries = async (show: string) => {
+  return axios.get("/api/series?search=" + show.replace(" ", "+")).then((resp) => {
+    let series: Image[] = [];
+
+    for (const g of resp.data.series) {
+      series.push({ title: g.title, author: "", url: g.url });
+    }
+
+    return series;
+  });
+};

@@ -10,7 +10,7 @@ import { onResults } from "./results";
 
 let defaultImages = () => {
   let imgs: Image[] = [];
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 20; i++) {
     imgs.push(defaultImage);
   }
 

@@ -16,79 +16,6 @@ let defaultImages = () => {
   return imgs;
 };
 
-const onSearchType = (type: SearchType, setSearchType: React.Dispatch<React.SetStateAction<SearchType>>) => {
-  switch (type) {
-    case SearchType.Games:
-      return (
-        <Grid.Row>
-          <Button
-            basic
-            icon="music"
-            onClick={(e) => {
-              setSearchType(SearchType.Music);
-              e.preventDefault();
-            }}
-          />
-          <Button basic primary icon="game" />
-          <Button
-            basic
-            icon="film"
-            onClick={(e) => {
-              setSearchType(SearchType.Movies);
-              e.preventDefault();
-            }}
-          />
-        </Grid.Row>
-      );
-
-    case SearchType.Movies:
-      return (
-        <Grid.Row>
-          <Button
-            basic
-            icon="music"
-            onClick={(e) => {
-              setSearchType(SearchType.Music);
-              e.preventDefault();
-            }}
-          />
-          <Button
-            basic
-            icon="game"
-            onClick={(e) => {
-              setSearchType(SearchType.Games);
-              e.preventDefault();
-            }}
-          />
-          <Button basic primary icon="film" />
-        </Grid.Row>
-      );
-
-    default:
-      return (
-        <Grid.Row>
-          <Button basic primary icon="music" />
-          <Button
-            basic
-            icon="game"
-            onClick={(e) => {
-              setSearchType(SearchType.Games);
-              e.preventDefault();
-            }}
-          />
-          <Button
-            basic
-            icon="film"
-            onClick={(e) => {
-              setSearchType(SearchType.Movies);
-              e.preventDefault();
-            }}
-          />
-        </Grid.Row>
-      );
-  }
-};
-
 export const Home: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
@@ -128,9 +55,44 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <Grid celled>
+      <Grid celled padded>
         <Grid.Column width={3}>
-          {onSearchType(searchType, setSearchType)}
+          <Grid.Row>
+            <Button.Group>
+              <Button
+                basic
+                icon="music"
+                onClick={(e) => {
+                  setSearchType(SearchType.Music);
+                  e.preventDefault();
+                }}
+              />
+              <Button
+                basic
+                icon="game"
+                onClick={(e) => {
+                  setSearchType(SearchType.Games);
+                  e.preventDefault();
+                }}
+              />
+              <Button
+                basic
+                icon="film"
+                onClick={(e) => {
+                  setSearchType(SearchType.Movies);
+                  e.preventDefault();
+                }}
+              />
+              <Button
+                basic
+                icon="tv"
+                onClick={(e) => {
+                  setSearchType(SearchType.Series);
+                  e.preventDefault();
+                }}
+              />
+            </Button.Group>
+          </Grid.Row>
           <Grid.Row>
             <Search setSearch={setSearch} />
           </Grid.Row>

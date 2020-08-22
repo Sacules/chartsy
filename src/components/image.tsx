@@ -37,11 +37,11 @@ export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
   let [author, setAuthor] = useState(image.author);
 
   return (
-    <figure>
+    <div>
       <img
         onDragStart={(e) => {
-          const parent = e.currentTarget.parentNode?.parentElement;
-          if (parent?.className === "results-container") {
+          const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
+          if (parent?.className.includes("results")) {
             e.dataTransfer.setData("drag-source", "results");
           } else {
             e.dataTransfer.setData("drag-source", "collage");
@@ -85,6 +85,6 @@ export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
         alt={author + " - " + title}
       />
       {titleShow(showTitle, title, author)}
-    </figure>
+    </div>
   );
 };

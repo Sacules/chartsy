@@ -2,6 +2,7 @@ import React from "react";
 
 import { Image } from "./image";
 import "./collage.css";
+import { Grid } from "semantic-ui-react";
 
 interface Props {
   images: Image[];
@@ -10,10 +11,12 @@ interface Props {
 
 export const Collage: React.FC<Props> = ({ images, titleVisible }) => {
   return (
-    <div className="collage-container">
+    <Grid className="collage-container" columns={10} padded>
       {images.map((img) => (
-        <Image key={img.url} image={img} showTitle={titleVisible} />
+        <Grid.Column key={img.url}>
+          <Image image={img} showTitle={true} />
+        </Grid.Column>
       ))}
-    </div>
+    </Grid>
   );
 };

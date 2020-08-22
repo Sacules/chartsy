@@ -2,6 +2,7 @@ import React from "react";
 
 import { Image } from "./image";
 import "./collage.css";
+import { Grid } from "semantic-ui-react";
 
 interface Props {
   images: Image[];
@@ -25,10 +26,12 @@ export const onResults = (search: string, images: Image[]) => {
 
 export const SearchResults: React.FC<Props> = ({ images }) => {
   return (
-    <div className="results-container">
+    <Grid className="results" centered padded>
       {images.map((img) => (
-        <Image key={img.url} image={img} showTitle={true} />
+        <Grid.Row>
+          <Image key={img.url} image={img} showTitle={true} />
+        </Grid.Row>
       ))}
-    </div>
+    </Grid>
   );
 };

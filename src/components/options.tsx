@@ -21,12 +21,7 @@ export const Save: React.FC<Props> = ({ cols, setCols }) => {
       </Grid.Row>
 
       <Grid.Row>
-        <Button
-          content="Save to PNG"
-          onClick={() => {
-            console.log("saving...");
-          }}
-        />
+        <Button content="Save to PNG" />
       </Grid.Row>
     </Grid>
   );

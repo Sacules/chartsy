@@ -22,6 +22,7 @@ export const Home: React.FC = () => {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
   const [activeButton, setActiveButton] = useState("music");
+  const [columns, setColumns] = useState(5);
 
   useEffect(() => {
     const download = async () => {
@@ -109,10 +110,10 @@ export const Home: React.FC = () => {
           <Grid.Row padded>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
         <Grid.Column width={11}>
-          <Collage images={defaultImages()} titleVisible={true} />
+          <Collage cols={columns} images={defaultImages()} titleVisible={true} />
         </Grid.Column>
-        <Grid.Column>
-          <Save />
+        <Grid.Column width={2}>
+          <Save cols={columns} setCols={setColumns} />
         </Grid.Column>
       </Grid>
     </div>

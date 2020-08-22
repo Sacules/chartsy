@@ -24,8 +24,10 @@ body {
     margin: auto;
 }
 
-.collage-row {
-    display: block;
+
+.collage-container {
+    color: #f1f2f2;
+    background-color: #f1f2f2;
 }
 
 .collage-image {
@@ -40,6 +42,8 @@ body {
 
 figcaption {
     margin: auto;
+    text-align: center;
+    width: 100px;
 }
 
 img {

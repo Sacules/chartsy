@@ -16,7 +16,8 @@
     "react-scripts": "3.4.2",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^1.2.0",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "use-screenshot-hook": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

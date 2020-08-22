@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import React, { useState, useEffect } from "react";
-import { Grid, Button } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 import { Image, defaultImage } from "./image";
 import { Search, SearchType } from "./search";
@@ -22,7 +22,6 @@ export const Home: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
-  const [activeButton, setActiveButton] = useState("music");
   const [columns, setColumns] = useState(5);
 
   useEffect(() => {
@@ -62,51 +61,7 @@ export const Home: React.FC = () => {
       <Grid padded>
         <Grid.Column width={3}>
           <Grid.Row>
-            <Button.Group>
-              <Button
-                basic
-                active={activeButton === "music"}
-                icon="music"
-                onClick={(e) => {
-                  setSearchType(SearchType.Music);
-                  setActiveButton("music");
-                  e.preventDefault();
-                }}
-              />
-              <Button
-                basic
-                active={activeButton === "game"}
-                icon="game"
-                onClick={(e) => {
-                  setSearchType(SearchType.Games);
-                  setActiveButton("game");
-                  e.preventDefault();
-                }}
-              />
-              <Button
-                basic
-                active={activeButton === "film"}
-                icon="film"
-                onClick={(e) => {
-                  setSearchType(SearchType.Movies);
-                  setActiveButton("film");
-                  e.preventDefault();
-                }}
-              />
-              <Button
-                basic
-                active={activeButton === "tv"}
-                icon="tv"
-                onClick={(e) => {
-                  setSearchType(SearchType.Series);
-                  setActiveButton("tv");
-                  e.preventDefault();
-                }}
-              />
-            </Button.Group>
-          </Grid.Row>
-          <Grid.Row>
-            <Search setSearch={setSearch} />
+            <Search setSearchType={setSearchType} setSearch={setSearch} />
           </Grid.Row>
           <Grid.Row padded>{onResults(search, images)}</Grid.Row>
         </Grid.Column>

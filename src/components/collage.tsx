@@ -10,18 +10,36 @@ import "./collage.css";
 
 interface Props {
   cols: number;
+  setCols: (cols: number) => void;
   images: Image[];
   titleVisible: boolean;
 }
 
-export const Collage: React.FC<Props> = ({ cols, images, titleVisible }) => {
+export const Collage: React.FC<Props> = ({ setCols, cols, images, titleVisible }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const { image, takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
+
   return (
-    <div>
-      <a href={image} onClick={(e) => e.currentTarget.click()} target="blank">
-        <Button loading={isLoading} onClick={() => takeScreenshot("png")} content="click" />
-      </a>
+    <div className="collage-section">
+      <Grid padded="very">
+        <Grid.Column width={4}>
+          <a href={image} download="topsters3.png" onChange={(e) => e.currentTarget.click()} target="blank">
+            <Button loading={isLoading} onClick={() => takeScreenshot("png")}>
+              Save to PNG
+            </Button>
+          </a>
+        </Grid.Column>
+
+        <Grid.Column width={4}>
+          <p>
+            <b>Columns </b>
+            {cols}
+          </p>
+          <Button content="-" onClick={() => setCols(cols - 1)} />
+          <Button content="+" onClick={() => setCols(cols + 1)} />
+        </Grid.Column>
+      </Grid>
+
       <div ref={divRef}>
         <Grid className="collage-container" columns={cols} padded>
           {images.map((img) => (

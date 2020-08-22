@@ -1,10 +1,11 @@
+// @ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import { Grid, Button } from "semantic-ui-react";
 
 import { Image, defaultImage } from "./image";
 import { Search, SearchType } from "./search";
 import { Collage } from "./collage";
-import { Save } from "./options";
 import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { onResults } from "./results";
 
@@ -109,11 +110,8 @@ export const Home: React.FC = () => {
           </Grid.Row>
           <Grid.Row padded>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
-        <Grid.Column width={11}>
-          <Collage cols={columns} images={defaultImages()} titleVisible={true} />
-        </Grid.Column>
-        <Grid.Column width={2}>
-          <Save cols={columns} setCols={setColumns} />
+        <Grid.Column width={columns + 1}>
+          <Collage setCols={setColumns} cols={columns} images={defaultImages()} titleVisible={true} />
         </Grid.Column>
       </Grid>
     </div>

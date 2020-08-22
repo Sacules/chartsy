@@ -106,10 +106,13 @@ export const Home: React.FC = () => {
           <Grid.Row>
             <Search setSearch={setSearch} />
           </Grid.Row>
-          <Grid.Row>{onResults(search, images)}</Grid.Row>
+          <Grid.Row padded>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
-        <Grid.Column divided="horizontally" width={13}>
+        <Grid.Column width={11}>
           <Collage images={defaultImages()} titleVisible={true} />
+        </Grid.Column>
+        <Grid.Column>
+          <Save />
         </Grid.Column>
       </Grid>
     </div>

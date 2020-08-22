@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button } from "semantic-ui-react";
 
-import { onResults } from "./results";
 import { Image, defaultImage } from "./image";
 import { Search, SearchType } from "./search";
-import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { Collage } from "./collage";
+import { Save } from "./options";
+import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
+import { onResults } from "./results";
 
 let defaultImages = () => {
   let imgs: Image[] = [];
@@ -20,6 +21,7 @@ export const Home: React.FC = () => {
   const [images, setImages] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
+  const [activeButton, setActiveButton] = useState("music");
 
   useEffect(() => {
     const download = async () => {
@@ -55,39 +57,47 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <Grid celled padded>
+      <Grid padded>
         <Grid.Column width={3}>
           <Grid.Row>
             <Button.Group>
               <Button
                 basic
+                active={activeButton === "music"}
                 icon="music"
                 onClick={(e) => {
                   setSearchType(SearchType.Music);
+                  setActiveButton("music");
                   e.preventDefault();
                 }}
               />
               <Button
                 basic
+                active={activeButton === "game"}
                 icon="game"
                 onClick={(e) => {
                   setSearchType(SearchType.Games);
+                  setActiveButton("game");
                   e.preventDefault();
                 }}
               />
               <Button
                 basic
+                active={activeButton === "film"}
                 icon="film"
                 onClick={(e) => {
                   setSearchType(SearchType.Movies);
+                  setActiveButton("film");
                   e.preventDefault();
                 }}
               />
               <Button
                 basic
+                active={activeButton === "tv"}
                 icon="tv"
                 onClick={(e) => {
                   setSearchType(SearchType.Series);
+                  setActiveButton("tv");
                   e.preventDefault();
                 }}
               />

@@ -23,6 +23,8 @@ export const Home: React.FC = () => {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
   const [columns, setColumns] = useState(5);
+  const [padding, setPadding] = useState(5);
+  const [showTitle, setShowTitle] = useState(true);
 
   useEffect(() => {
     const download = async () => {
@@ -65,8 +67,16 @@ export const Home: React.FC = () => {
           </Grid.Row>
           <Grid.Row padded>{onResults(search, images)}</Grid.Row>
         </Grid.Column>
-        <Grid.Column width={columns + 1}>
-          <Collage setCols={setColumns} cols={columns} images={defaultImages()} titleVisible={true} />
+        <Grid.Column width={padding}>
+          <Collage
+            pad={padding}
+            setPad={setPadding}
+            setCols={setColumns}
+            cols={columns}
+            images={defaultImages()}
+            setTitleVisible={setShowTitle}
+            titleVisible={showTitle}
+          />
         </Grid.Column>
       </Grid>
     </div>

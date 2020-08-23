@@ -9,34 +9,48 @@ import { Image } from "./image";
 import "./collage.css";
 
 interface Props {
+  pad: number;
+  setPad: (pad: number) => void;
   cols: number;
   setCols: (cols: number) => void;
   images: Image[];
+  setTitleVisible: (titleVisible: boolean) => void;
   titleVisible: boolean;
 }
 
-export const Collage: React.FC<Props> = ({ setCols, cols, images, titleVisible }) => {
+export const Collage: React.FC<Props> = ({ pad, setPad, setCols, cols, images, titleVisible, setTitleVisible }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const { image, takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
   return (
     <div className="collage-section">
-      <Grid padded="very">
+      <Grid verticalAlign="middle" padded="very">
         <Grid.Column width={4}>
+          <p>
+            <b>Columns</b>
+          </p>
+          <Button content="-" onClick={() => setCols(cols - 1)} />
+          <Button content="+" onClick={() => setCols(cols + 1)} />
+        </Grid.Column>
+
+        <Grid.Column width={4}>
+          <p>
+            <b>Padding </b>
+          </p>
+          <Button content="-" onClick={() => setPad(pad - 1)} />
+          <Button content="+" onClick={() => setPad(pad + 1)} />
+        </Grid.Column>
+
+        <Grid.Column width={3}>
+          <Button content="Show Titles" onClick={() => setTitleVisible(!titleVisible)} />
+        </Grid.Column>
+
+        <Grid.Column width={3}>
           <a href={image} download="topsters3.png" onChange={(e) => e.currentTarget.click()} target="blank">
             <Button loading={isLoading} onClick={() => takeScreenshot("png")}>
               Save to PNG
             </Button>
           </a>
-        </Grid.Column>
-
-        <Grid.Column width={4}>
-          <p>
-            <b>Columns </b>
-            {cols}
-          </p>
-          <Button content="-" onClick={() => setCols(cols - 1)} />
-          <Button content="+" onClick={() => setCols(cols + 1)} />
         </Grid.Column>
       </Grid>
 

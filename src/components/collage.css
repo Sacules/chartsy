@@ -22,6 +22,8 @@ body {
 
 .results {
     margin: auto;
+    max-height: 80vh;
+    overflow: auto;
 }
 
 
@@ -51,6 +53,10 @@ img {
     width: 100px;
     height: auto;
     box-shadow: 0px 0px 10px #303032;
+}
+
+img:hover{
+    box-shadow: 0px 0px 10px #7180AC;
 }
 
 p {

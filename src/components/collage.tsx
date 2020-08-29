@@ -21,7 +21,7 @@ export const Collage: React.FC<Props> = ({ images }) => {
 
   return (
     <Grid.Column className="collage-section" width={pad}>
-      <Grid verticalAlign="middle" padded="very">
+      <Grid verticalAlign="middle" padded>
         <Grid.Column width={4}>
           <p>
             <b>Columns</b>
@@ -43,7 +43,7 @@ export const Collage: React.FC<Props> = ({ images }) => {
         </Grid.Column>
 
         <Grid.Column width={3}>
-          <a href={image} download="topsters3.png" onChange={(e) => e.currentTarget.click()} target="blank">
+          <a href={image} download="topsters3.png" target="blank">
             <Button loading={isLoading} onClick={() => takeScreenshot("png")}>
               Save to PNG
             </Button>

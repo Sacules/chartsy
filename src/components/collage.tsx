@@ -26,7 +26,7 @@ export const Collage: React.FC = () => {
   let images = defaultImages();
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { image, takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
+  const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
   return (
     <Grid.Column className="collage-section" width={pad}>
@@ -59,11 +59,18 @@ export const Collage: React.FC = () => {
         </Grid.Column>
 
         <Grid.Column width={3}>
-          <a href={image} download="topsters3.png" target="blank">
-            <Button loading={isLoading} onClick={() => takeScreenshot("png")}>
-              Save to PNG
-            </Button>
-          </a>
+          <Button
+            loading={isLoading}
+            onClick={async () => {
+              let img = await takeScreenshot("png");
+              let link = document.createElement("a");
+              link.download = "topsters3.png";
+              link.href = img;
+              link.click();
+            }}
+          >
+            Save to PNG
+          </Button>
         </Grid.Column>
       </Grid>
 

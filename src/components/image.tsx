@@ -14,7 +14,7 @@ export const defaultImage: Image = {
 
 interface ImageProps {
   showTitle: boolean;
-  image: Image;
+  img: Image;
 }
 
 const titleShow = (show: boolean, title: string, author: string | undefined) => {
@@ -31,10 +31,10 @@ const titleShow = (show: boolean, title: string, author: string | undefined) => 
   );
 };
 
-export const Image: React.FC<ImageProps> = ({ image, showTitle }) => {
-  let [title, setTitle] = useState(image.title);
-  let [url, setUrl] = useState(image.url);
-  let [author, setAuthor] = useState(image.author);
+export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
+  let [title, setTitle] = useState(img.title);
+  let [url, setUrl] = useState(img.url);
+  let [author, setAuthor] = useState(img.author);
 
   return (
     <div>

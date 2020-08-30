@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "semantic-ui-react";
 
-import { Image, defaultImage } from "./image";
+import { Image } from "./image";
 import { Search, SearchType } from "./search";
 import { Collage } from "./collage";
 import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { onResults } from "./results";
 
-let defaultImages = () => {
-  let imgs: Image[] = [];
-  for (let i = 0; i < 25; i++) {
-    imgs.push(defaultImage);
-  }
-
-  return imgs;
-};
-
 export const Home: React.FC = () => {
-  const [images, setImages] = useState<Image[]>([]);
+  const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
 
@@ -30,28 +21,28 @@ export const Home: React.FC = () => {
       switch (searchType) {
         case SearchType.Games:
           let albums = await getGame(search);
-          setImages(albums);
+          setResultsImgs(albums);
           break;
 
         case SearchType.Movies:
           let movies = await getMovie(search);
-          setImages(movies);
+          setResultsImgs(movies);
           break;
 
         case SearchType.Series:
           let series = await getSeries(search);
-          setImages(series);
+          setResultsImgs(series);
           break;
 
         default:
           let games = await getAlbum(search);
-          setImages(games);
+          setResultsImgs(games);
           break;
       }
     };
 
     download();
-  }, [search, setImages, searchType]);
+  }, [search, setResultsImgs, searchType]);
 
   return (
     <div className="home">
@@ -60,9 +51,9 @@ export const Home: React.FC = () => {
           <Grid.Row>
             <Search setSearchType={setSearchType} setSearch={setSearch} />
           </Grid.Row>
-          <Grid.Row padded>{onResults(search, images)}</Grid.Row>
+          <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
-        <Collage images={defaultImages()} />
+        <Collage />
       </Grid>
     </div>
   );

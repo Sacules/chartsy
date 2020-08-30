@@ -5,23 +5,39 @@ import React, { useState, useRef } from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
-import { Image } from "./image";
+import { Image, defaultImage } from "./image";
 import "./collage.css";
 
-interface Props {
-  images: Image[];
-}
-
-export const Collage: React.FC<Props> = ({ images }) => {
+export const Collage: React.FC = () => {
+  const [rows, setRows] = useState(5);
   const [cols, setCols] = useState(5);
   const [pad, setPad] = useState(7);
   const [showTitle, setShowTitle] = useState(false);
+
+  let defaultImages = () => {
+    let imgs: Image[] = [];
+    for (let i = 0; i < rows * cols; i++) {
+      imgs.push(defaultImage);
+    }
+
+    return imgs;
+  };
+
+  let images = defaultImages();
   const divRef = useRef<HTMLDivElement>(null);
+
   const { image, takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
   return (
     <Grid.Column className="collage-section" width={pad}>
       <Grid verticalAlign="middle" padded>
+        <Grid.Column width={4}>
+          <p>
+            <b>Rows</b>
+          </p>
+          <Button content="-" onClick={() => setRows(rows - 1)} />
+          <Button content="+" onClick={() => setRows(rows + 1)} />
+        </Grid.Column>
         <Grid.Column width={4}>
           <p>
             <b>Columns</b>
@@ -52,10 +68,10 @@ export const Collage: React.FC<Props> = ({ images }) => {
       </Grid>
 
       <div ref={divRef}>
-        <Grid className="collage-container" columns={cols} padded>
-          {images.map((img) => (
-            <Grid.Column centered key={img.url}>
-              <Image image={img} showTitle={showTitle} />
+        <Grid verticalAlign="top" className="collage-container" columns={cols} padded>
+          {images.map((img, i) => (
+            <Grid.Column centered key={i}>
+              <Image img={img} showTitle={showTitle} />
             </Grid.Column>
           ))}
         </Grid>

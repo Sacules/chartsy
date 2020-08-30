@@ -29,7 +29,7 @@ export const SearchResults: React.FC<Props> = ({ images }) => {
     <Grid className="results" centered padded>
       {images.map((img) => (
         <Grid.Row>
-          <Image key={img.url} image={img} showTitle={true} />
+          <Image key={img.url} img={img} showTitle={true} />
         </Grid.Row>
       ))}
     </Grid>

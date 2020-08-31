@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
@@ -20,6 +21,8 @@ func (s *server) routes() {
 	s.router.Route("/api", func(r chi.Router) {
 		r.Get("/albums", s.handleGetMusic())
 		r.Get("/games", s.handleGetGames())
+		r.Get("/movies", s.handleGetMovies())
+		r.Get("/series", s.handleGetSeries())
 	})
 
 	log.Info("installed the following routes:")
@@ -147,6 +150,128 @@ func (s *server) handleGetGames() http.HandlerFunc {
 		for i, res := range results.Results {
 			apiResponse.Games[i].Title = res.Name
 			apiResponse.Games[i].Url = res.BackgroundImage
+		}
+
+		render.JSON(w, r, &apiResponse)
+	}
+}
+
+func (s *server) handleGetMovies() http.HandlerFunc {
+	type movie struct {
+		Title string `json:"title"`
+		Url   string `json:"url"`
+	}
+
+	type response struct {
+		Movies []movie `json:"movies"`
+	}
+
+	apiUrl := "https://imdb-api.com/en/API/SearchMovie/"
+	apiKey, ok := os.LookupEnv("IMDB_KEY")
+	if !ok {
+		log.Warning("missing IMDB_KEY")
+		return nil
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		search := r.Form.Get("search")
+
+		req, err := http.NewRequest("GET", apiUrl+"/"+apiKey+"/"+search, nil)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+		req.Header.Set("user-agent", userAgent)
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+		defer resp.Body.Close()
+
+		var results ImdbResults
+		err = render.DecodeJSON(resp.Body, &results)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+
+		apiResponse := response{Movies: make([]movie, 0, len(results.Results))}
+		for _, mov := range results.Results {
+			cover := mov.Image
+			if strings.HasSuffix(cover, "nopicture.jpg") {
+				continue
+			}
+
+			movie := movie{Title: mov.Title, Url: cover}
+			apiResponse.Movies = append(apiResponse.Movies, movie)
+		}
+
+		render.JSON(w, r, &apiResponse)
+	}
+}
+
+func (s *server) handleGetSeries() http.HandlerFunc {
+	type series struct {
+		Title string `json:"title"`
+		Url   string `json:"url"`
+	}
+
+	type response struct {
+		Series []series `json:"series"`
+	}
+
+	apiUrl := "https://imdb-api.com/en/API/SearchSeries/"
+	apiKey, ok := os.LookupEnv("IMDB_KEY")
+	if !ok {
+		log.Warning("missing IMDB_KEY")
+		return nil
+	}
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		search := r.Form.Get("search")
+
+		req, err := http.NewRequest("GET", apiUrl+"/"+apiKey+"/"+search, nil)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+		req.Header.Set("user-agent", userAgent)
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+		defer resp.Body.Close()
+
+		var results ImdbResults
+		err = render.DecodeJSON(resp.Body, &results)
+		if err != nil {
+			internalError(w, err)
+			return
+		}
+
+		apiResponse := response{Series: make([]series, 0, len(results.Results))}
+		for _, show := range results.Results {
+			cover := show.Image
+			if strings.HasSuffix(cover, "nopicture.jpg") {
+				continue
+			}
+
+			series := series{Title: show.Title, Url: cover}
+			apiResponse.Series = append(apiResponse.Series, series)
 		}
 
 		render.JSON(w, r, &apiResponse)

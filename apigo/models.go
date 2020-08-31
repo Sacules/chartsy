@@ -111,3 +111,16 @@ type RawgGamesResults struct {
 	} `json:"results"`
 	UserPlatforms bool `json:"user_platforms"`
 }
+
+type ImdbResults struct {
+	ErrorMessage string `json:"errorMessage"`
+	Expression   string `json:"expression"`
+	Results      []struct {
+		Description string `json:"description"`
+		ID          string `json:"id"`
+		Image       string `json:"image"`
+		ResultType  string `json:"resultType"`
+		Title       string `json:"title"`
+	} `json:"results"`
+	SearchType string `json:"searchType"`
+}

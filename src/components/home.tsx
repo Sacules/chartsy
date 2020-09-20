@@ -53,7 +53,9 @@ export const Home: React.FC = () => {
           </Grid.Row>
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
-        <Collage />
+        <Grid.Column width={13}>
+          <Collage />
+        </Grid.Column>
       </Grid>
     </div>
   );

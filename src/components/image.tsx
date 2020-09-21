@@ -42,20 +42,20 @@ export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
         onDragStart={(e) => {
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
           if (parent?.className.includes("results")) {
-            e.dataTransfer.setData("drag-source", "results");
+            sessionStorage.setItem("drag-source", "results");
           } else {
-            e.dataTransfer.setData("drag-source", "collage");
+            sessionStorage.setItem("drag-source", "collage");
           }
 
-          e.dataTransfer.setData("image-title", title);
-          e.dataTransfer.setData("image-url", url);
-          e.dataTransfer.setData("image-author", author);
+          sessionStorage.setItem("image-title", title);
+          sessionStorage.setItem("image-url", url);
+          sessionStorage.setItem("image-author", author);
         }}
         onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
         onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
         onDragOver={(e) => e.preventDefault()}
         onDragEnd={(e) => {
-          if (e.dataTransfer.getData("drag-source") === "results") {
+          if (sessionStorage.getItem("drag-source") === "results") {
             return;
           }
 
@@ -69,15 +69,21 @@ export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
           e.preventDefault();
           e.currentTarget.style.opacity = "";
 
-          if (e.dataTransfer.getData("drag-source") === "collage") {
+          if (sessionStorage.getItem("drag-source") === "collage") {
             sessionStorage.setItem("dropped-title", title);
             sessionStorage.setItem("dropped-url", url);
             sessionStorage.setItem("dropped-author", author);
           }
 
-          setTitle(e.dataTransfer.getData("image-title"));
-          setUrl(e.dataTransfer.getData("image-url"));
-          setAuthor(e.dataTransfer.getData("image-author"));
+          // prevent replacing on results
+          const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
+          if (parent?.className.includes("results")) {
+            return;
+          }
+
+          setTitle(sessionStorage.getItem("image-title") as string);
+          setUrl(sessionStorage.getItem("image-url") as string);
+          setAuthor(sessionStorage.getItem("image-author") as string);
         }}
         className="collage-image"
         draggable

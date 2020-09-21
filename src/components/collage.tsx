@@ -9,9 +9,9 @@ import { Image, defaultImage } from "./image";
 import "./collage.css";
 
 export const Collage: React.FC = () => {
-  const [rows, setRows] = useState(5);
-  const [cols, setCols] = useState(5);
-  const [pad, setPad] = useState(7);
+  const [rows, setRows] = useState(4);
+  const [cols, setCols] = useState(4);
+  const [pad, setPad] = useState(9);
   const [showTitle, setShowTitle] = useState(false);
 
   let defaultImages = () => {

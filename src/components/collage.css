@@ -27,8 +27,13 @@ body {
 
 
 .collage-container {
-    color: #f1f2f2;
     background-color: #f1f2f2;
+}
+
+.collage-container h1 {
+  padding-left: 1rem;
+  padding-top: 10px;
+  color: #303032;
 }
 
 .collage-image {

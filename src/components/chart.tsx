@@ -97,11 +97,13 @@ export const Chart: React.FC = () => {
               </Form.Field>
               <Form.Field>
                 <Radio
-                  label="Top 100"
-                  value="top100"
-                  checked={chartType === ChartType.Top100}
+                  label="Top 50"
+                  value="top50"
+                  checked={chartType === ChartType.Top50}
                   onChange={(e) => {
-                    setChartType(ChartType.Top100);
+                    setChartType(ChartType.Top50);
+                    setRows(10);
+                    setCols(5);
                     e.preventDefault();
                   }}
                 />

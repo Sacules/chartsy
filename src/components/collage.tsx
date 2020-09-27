@@ -12,7 +12,8 @@ export const Collage: React.FC = () => {
   const [rows, setRows] = useState(4);
   const [cols, setCols] = useState(4);
   const [pad, setPad] = useState(9);
-  const [showTitle, setShowTitle] = useState(false);
+  const [showTitles, setShowTitles] = useState(false);
+  const [addTitle, setAddTitle] = useState(false);
 
   let defaultImages = () => {
     let imgs: Image[] = [];
@@ -28,14 +29,23 @@ export const Collage: React.FC = () => {
 
   const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
+  const title = () => {
+    if (!addTitle) {
+      return "";
+    }
+
+    return <h1 contentEditable>Title</h1>;
+  };
+
   return (
     <Grid padded>
       <Grid.Column width={pad}>
-        <div ref={divRef}>
-          <Grid centered vertical padded Align="top" className="collage-container" columns={cols}>
+        <div ref={divRef} className="collage-container">
+          {title()}
+          <Grid textAlign="left" centered vertical padded Align="top" columns={cols}>
             {images.map((img, i) => (
               <Grid.Column centered key={i}>
-                <Image img={img} showTitle={showTitle} />
+                <Image img={img} showTitle={showTitles} />
               </Grid.Column>
             ))}
           </Grid>
@@ -68,7 +78,11 @@ export const Collage: React.FC = () => {
           </Menu.Item>
 
           <Menu.Item>
-            <Button content="Show Titles" onClick={() => setShowTitle(!showTitle)} />
+            <Button content="Add title" onClick={() => setAddTitle(!addTitle)} />
+          </Menu.Item>
+
+          <Menu.Item>
+            <Button content="Show titles" onClick={() => setShowTitles(!showTitles)} />
           </Menu.Item>
 
           <Menu.Item>

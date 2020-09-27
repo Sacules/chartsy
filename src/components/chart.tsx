@@ -2,18 +2,24 @@
 // Needed to allow columns to be passed due to the bullshit type it has
 
 import React, { useState, useRef } from "react";
-import { Grid, Button, Menu } from "semantic-ui-react";
+import { Grid, Button, Menu, Form, Radio } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { Image, defaultImage } from "./image";
 import "./collage.css";
 
-export const Collage: React.FC = () => {
+enum ChartType {
+  Collage,
+  Top100,
+}
+
+export const Chart: React.FC = () => {
   const [rows, setRows] = useState(4);
   const [cols, setCols] = useState(4);
   const [pad, setPad] = useState(9);
   const [showTitles, setShowTitles] = useState(false);
   const [addTitle, setAddTitle] = useState(false);
+  const [chartType, setChartType] = useState(ChartType.Collage);
 
   let defaultImages = () => {
     let imgs: Image[] = [];
@@ -54,6 +60,35 @@ export const Collage: React.FC = () => {
 
       <Grid.Column width={3}>
         <Menu vertical text>
+          <Menu.Item>
+            <p>
+              <b>Type</b>
+            </p>
+            <Form>
+              <Form.Field>
+                <Radio
+                  label="Collage"
+                  value="collage"
+                  checked={chartType === ChartType.Collage}
+                  onChange={(e) => {
+                    setChartType(ChartType.Collage);
+                    e.preventDefault();
+                  }}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Radio
+                  label="Top 100"
+                  value="top100"
+                  checked={chartType === ChartType.Top100}
+                  onChange={(e) => {
+                    setChartType(ChartType.Top100);
+                    e.preventDefault();
+                  }}
+                />
+              </Form.Field>
+            </Form>
+          </Menu.Item>
           <Menu.Item>
             <p>
               <b>Rows</b>

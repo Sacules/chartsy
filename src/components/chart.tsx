@@ -10,8 +10,30 @@ import "./collage.css";
 
 enum ChartType {
   Collage,
+  Top50,
   Top100,
 }
+
+let defaultImages = (rows: number, cols: number) => {
+  let imgs: Image[] = [];
+  for (let i = 0; i < rows * cols; i++) {
+    imgs.push(defaultImage);
+  }
+
+  return imgs;
+};
+
+const collage = (images: Image[], cols: number, showTitles: boolean) => {
+  return (
+    <Grid textAlign="left" centered vertical padded Align="top" columns={cols}>
+      {images.map((img, i) => (
+        <Grid.Column centered key={i}>
+          <Image img={img} showTitle={showTitles} />
+        </Grid.Column>
+      ))}
+    </Grid>
+  );
+};
 
 export const Chart: React.FC = () => {
   const [rows, setRows] = useState(4);
@@ -21,16 +43,7 @@ export const Chart: React.FC = () => {
   const [addTitle, setAddTitle] = useState(false);
   const [chartType, setChartType] = useState(ChartType.Collage);
 
-  let defaultImages = () => {
-    let imgs: Image[] = [];
-    for (let i = 0; i < rows * cols; i++) {
-      imgs.push(defaultImage);
-    }
-
-    return imgs;
-  };
-
-  let images = defaultImages();
+  let images = defaultImages(rows, cols);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
@@ -43,22 +56,28 @@ export const Chart: React.FC = () => {
     return <h1 contentEditable>Title</h1>;
   };
 
+  const top50 = () => {
+    return collage(images, cols, showTitles);
+  };
+
+  const chart = () => {
+    if (chartType === ChartType.Collage) {
+      return collage(images, cols, showTitles);
+    }
+
+    return top50();
+  };
+
   return (
     <Grid padded>
       <Grid.Column width={pad}>
         <div ref={divRef} className="collage-container">
           {title()}
-          <Grid textAlign="left" centered vertical padded Align="top" columns={cols}>
-            {images.map((img, i) => (
-              <Grid.Column centered key={i}>
-                <Image img={img} showTitle={showTitles} />
-              </Grid.Column>
-            ))}
-          </Grid>
+          {chart()}
         </div>
       </Grid.Column>
 
-      <Grid.Column width={3}>
+      <Grid.Column width={16 - pad}>
         <Menu vertical text>
           <Menu.Item>
             <p>

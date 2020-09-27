@@ -3,7 +3,7 @@ import { Grid } from "semantic-ui-react";
 
 import { Image } from "./image";
 import { Search, SearchType } from "./search";
-import { Collage } from "./collage";
+import { Chart } from "./chart";
 import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { onResults } from "./results";
 
@@ -47,14 +47,14 @@ export const Home: React.FC = () => {
   return (
     <div className="home">
       <Grid padded>
-        <Grid.Column width={3}>
+        <Grid.Column className="search" width={3}>
           <Grid.Row>
             <Search setSearchType={setSearchType} setSearch={setSearch} />
           </Grid.Row>
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <Grid.Column width={13}>
-          <Collage />
+          <Chart />
         </Grid.Column>
       </Grid>
     </div>

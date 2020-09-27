@@ -48,7 +48,6 @@ p {
 }
 
 .search {
-    border: red dotted;
     display: block;
     position: absolute;
 }

@@ -37,14 +37,11 @@ const collage = (images: Image[], cols: number, showTitles: boolean) => {
 };
 
 export const Chart: React.FC = () => {
-  const [cols, setCols] = useState(4);
-  const [pad, setPad] = useState(9);
-  const [showTitles, setShowTitles] = useState(false);
-  const [addTitle, setAddTitle] = useState(false);
   const [chartType, setChartType] = useState(ChartType.Collage);
   const { state, dispatch } = useContext(ConfigContext);
+  const { rows, cols, pad, showTitles, addTitle } = state;
 
-  let images = defaultImages(state.rows, state.cols);
+  let images = defaultImages(rows, cols);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
@@ -115,31 +112,31 @@ export const Chart: React.FC = () => {
             <p>
               <b>Rows</b>
             </p>
-            <Button content="-" onClick={() => dispatch({ type: "rows", value: state.rows - 1 })} />
-            <Button content="+" onClick={() => dispatch({ type: "rows", value: state.rows + 1 })} />
+            <Button content="-" onClick={() => dispatch({ type: "rows", value: rows - 1 })} />
+            <Button content="+" onClick={() => dispatch({ type: "rows", value: rows + 1 })} />
           </Menu.Item>
           <Menu.Item>
             <p>
               <b>Columns</b>
             </p>
-            <Button content="-" onClick={() => dispatch({ type: "cols", value: state.cols - 1 })} />
-            <Button content="+" onClick={() => dispatch({ type: "cols", value: state.cols + 1 })} />
+            <Button content="-" onClick={() => dispatch({ type: "cols", value: cols - 1 })} />
+            <Button content="+" onClick={() => dispatch({ type: "cols", value: cols + 1 })} />
           </Menu.Item>
 
           <Menu.Item>
             <p>
               <b>Padding </b>
             </p>
-            <Button content="-" onClick={() => setPad(pad - 1)} />
-            <Button content="+" onClick={() => setPad(pad + 1)} />
+            <Button content="-" onClick={() => dispatch({ type: "pad", value: pad - 1 })} />
+            <Button content="+" onClick={() => dispatch({ type: "pad", value: pad + 1 })} />
           </Menu.Item>
 
           <Menu.Item>
-            <Button content="Add title" onClick={() => setAddTitle(!addTitle)} />
+            <Button content="Add title" onClick={() => dispatch({ type: "addTitle", value: !addTitle })} />
           </Menu.Item>
 
           <Menu.Item>
-            <Button content="Show titles" onClick={() => setShowTitles(!showTitles)} />
+            <Button content="Show titles" onClick={() => dispatch({ type: "showTitles", value: !showTitles })} />
           </Menu.Item>
 
           <Menu.Item>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Grid } from "semantic-ui-react";
 
 import { Image } from "./image";
@@ -6,11 +6,15 @@ import { Search, SearchType } from "./search";
 import { Chart } from "./chart";
 import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { onResults } from "./results";
+import { ConfigContext, configReducer, ConfigInitialState } from "./config";
 
 export const Home: React.FC = () => {
   const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
+  // TODO: move to the component / confg?
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
+
+  const [state, dispatch] = useReducer(configReducer, ConfigInitialState);
 
   useEffect(() => {
     const download = async () => {
@@ -54,7 +58,9 @@ export const Home: React.FC = () => {
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <Grid.Column width={13}>
-          <Chart />
+          <ConfigContext.Provider value={{ state, dispatch }}>
+            <Chart />
+          </ConfigContext.Provider>
         </Grid.Column>
       </Grid>
     </div>

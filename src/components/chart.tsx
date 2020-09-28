@@ -1,12 +1,13 @@
 // @ts-nocheck
 // Needed to allow columns to be passed due to the bullshit type it has
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Grid, Button, Menu, Form, Radio } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { Image, defaultImage } from "./image";
 import "./collage.css";
+import { ConfigContext } from "./config";
 
 enum ChartType {
   Collage,
@@ -36,14 +37,14 @@ const collage = (images: Image[], cols: number, showTitles: boolean) => {
 };
 
 export const Chart: React.FC = () => {
-  const [rows, setRows] = useState(4);
   const [cols, setCols] = useState(4);
   const [pad, setPad] = useState(9);
   const [showTitles, setShowTitles] = useState(false);
   const [addTitle, setAddTitle] = useState(false);
   const [chartType, setChartType] = useState(ChartType.Collage);
+  const { state, dispatch } = useContext(ConfigContext);
 
-  let images = defaultImages(rows, cols);
+  let images = defaultImages(state.rows, state.cols);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
@@ -102,8 +103,8 @@ export const Chart: React.FC = () => {
                   checked={chartType === ChartType.Top50}
                   onChange={(e) => {
                     setChartType(ChartType.Top50);
-                    setRows(10);
-                    setCols(5);
+                    dispatch({ type: "rows", value: 10 });
+                    dispatch({ type: "cols", value: 5 });
                     e.preventDefault();
                   }}
                 />
@@ -114,15 +115,15 @@ export const Chart: React.FC = () => {
             <p>
               <b>Rows</b>
             </p>
-            <Button content="-" onClick={() => setRows(rows - 1)} />
-            <Button content="+" onClick={() => setRows(rows + 1)} />
+            <Button content="-" onClick={() => dispatch({ type: "rows", value: state.rows - 1 })} />
+            <Button content="+" onClick={() => dispatch({ type: "rows", value: state.rows + 1 })} />
           </Menu.Item>
           <Menu.Item>
             <p>
               <b>Columns</b>
             </p>
-            <Button content="-" onClick={() => setCols(cols - 1)} />
-            <Button content="+" onClick={() => setCols(cols + 1)} />
+            <Button content="-" onClick={() => dispatch({ type: "cols", value: state.cols - 1 })} />
+            <Button content="+" onClick={() => dispatch({ type: "cols", value: state.cols + 1 })} />
           </Menu.Item>
 
           <Menu.Item>

@@ -17,7 +17,7 @@ let defaultImages = (rows: number, cols: number) => {
   return imgs;
 };
 
-const collage = (images: Image[], rows: number, cols: number, showTitles: boolean, addTitle: boolean) => {
+const collage = (images: Image[], rows: number, cols: number, pad: number, showTitles: boolean, addTitle: boolean) => {
   var matrix: Image[][] = [];
   var n = 0;
   for (let i = 0; i < rows; i++) {
@@ -47,7 +47,7 @@ const collage = (images: Image[], rows: number, cols: number, showTitles: boolea
       {matrix.map((row) => (
         <tr>
           {row.map((img) => (
-            <td>
+            <td className={`pad-${pad % 5}`}>
               <Image img={img} showTitle={showTitles} />
             </td>
           ))}
@@ -59,7 +59,7 @@ const collage = (images: Image[], rows: number, cols: number, showTitles: boolea
 
 export const Chart: React.FC = () => {
   const { state } = useContext(ConfigContext);
-  const { rows, cols, showTitles, addTitle, chartType } = state;
+  const { rows, cols, pad, showTitles, addTitle, chartType } = state;
 
   let images = defaultImages(rows, cols);
   const divRef = useRef<HTMLDivElement>(null);
@@ -67,12 +67,12 @@ export const Chart: React.FC = () => {
   const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
   const top50 = () => {
-    return collage(images, rows, cols, showTitles, addTitle);
+    return collage(images, rows, cols, pad, showTitles, addTitle);
   };
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, showTitles, addTitle);
+      return collage(images, rows, cols, pad, showTitles, addTitle);
     }
 
     return top50();

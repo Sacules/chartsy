@@ -57,6 +57,22 @@ table {
   margin: 3em auto;
 }
 
+.pad-1 {
+  padding: 0.1em;
+}
+.pad-2 {
+  padding: 0.2em;
+}
+.pad-3 {
+  padding: 0.3em;
+}
+.pad-4 {
+  padding: 0.4em;
+}
+.pad-5 {
+  padding: 0.5em;
+}
+
 .home {
     vertical-align: middle;
     width: 100%;

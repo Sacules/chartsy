@@ -18,7 +18,7 @@ export type Config = {
 export const ConfigInitialState = {
   rows: 4,
   cols: 5,
-  pad: 9,
+  pad: 0,
   showTitles: false,
   addTitle: false,
   chartType: ChartType.Collage,

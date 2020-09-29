@@ -6,8 +6,9 @@ import { Grid, Button, Menu, Form, Radio } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { Image, defaultImage } from "./image";
-import "./collage.css";
 import { ConfigContext } from "./config";
+
+import "./collage.css";
 
 enum ChartType {
   Collage,
@@ -26,7 +27,7 @@ let defaultImages = (rows: number, cols: number) => {
 
 const collage = (images: Image[], cols: number, showTitles: boolean) => {
   return (
-    <Grid textAlign="left" centered vertical padded Align="top" columns={cols}>
+    <Grid textAlign="left" centered vertical padded columns={cols}>
       {images.map((img, i) => (
         <Grid.Column centered key={i}>
           <Image img={img} showTitle={showTitles} />

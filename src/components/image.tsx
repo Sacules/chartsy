@@ -37,7 +37,7 @@ export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
   let [author, setAuthor] = useState(img.author);
 
   return (
-    <div>
+    <div className="image">
       <img
         onDragStart={(e) => {
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;

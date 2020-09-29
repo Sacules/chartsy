@@ -51,18 +51,18 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <Grid padded>
-        <Grid.Column className="search" width={3}>
+      <Grid>
+        <Grid.Column className="search" width={2}>
           <Grid.Row>
             <Search setSearchType={setSearchType} setSearch={setSearch} />
           </Grid.Row>
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <ConfigContext.Provider value={{ state, dispatch }}>
-          <Grid.Column width={10}>
+          <Grid.Column width={12}>
             <Chart />
           </Grid.Column>
-          <Grid.Column width={3}>
+          <Grid.Column width={1}>
             <ConfigMenu />
           </Grid.Column>
         </ConfigContext.Provider>

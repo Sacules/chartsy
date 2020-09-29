@@ -17,6 +17,7 @@ body {
 
 figcaption {
     text-align: center;
+    word-break: break-word;
     width: 100px;
     padding-top: 3px;
 }

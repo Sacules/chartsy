@@ -3,6 +3,7 @@ import { Grid } from "semantic-ui-react";
 
 import { Image } from "./image";
 import { Search, SearchType } from "./search";
+import { ConfigMenu } from "./menu";
 import { Chart } from "./chart";
 import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { onResults } from "./results";
@@ -57,11 +58,14 @@ export const Home: React.FC = () => {
           </Grid.Row>
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
-        <Grid.Column width={13}>
-          <ConfigContext.Provider value={{ state, dispatch }}>
+        <ConfigContext.Provider value={{ state, dispatch }}>
+          <Grid.Column width={10}>
             <Chart />
-          </ConfigContext.Provider>
-        </Grid.Column>
+          </Grid.Column>
+          <Grid.Column width={3}>
+            <ConfigMenu />
+          </Grid.Column>
+        </ConfigContext.Provider>
       </Grid>
     </div>
   );

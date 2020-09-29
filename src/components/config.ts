@@ -1,11 +1,18 @@
 import { createContext, Dispatch } from "react";
 
+export enum ChartType {
+  Collage,
+  Top50,
+  Top100,
+}
+
 export type Config = {
   rows: number;
   cols: number;
   pad: number;
   showTitles: boolean;
   addTitle: boolean;
+  chartType: ChartType;
 };
 
 export const ConfigInitialState = {
@@ -14,11 +21,12 @@ export const ConfigInitialState = {
   pad: 9,
   showTitles: false,
   addTitle: false,
+  chartType: ChartType.Collage,
 };
 
 export type ConfigAction = {
-  type: "rows" | "cols" | "pad" | "showTitles" | "addTitle";
-  value: number | boolean;
+  type: "rows" | "cols" | "pad" | "showTitles" | "addTitle" | "chart";
+  value: number | boolean | ChartType;
 };
 
 export const ConfigContext = createContext<{ state: Config; dispatch: Dispatch<ConfigAction> }>({
@@ -42,6 +50,9 @@ export const configReducer = (state: Config, action: ConfigAction) => {
 
     case "addTitle":
       return { ...state, addTitle: action.value as boolean };
+
+    case "chart":
+      return { ...state, chartType: action.value as ChartType };
 
     default:
       return ConfigInitialState;

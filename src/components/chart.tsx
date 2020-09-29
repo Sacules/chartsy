@@ -2,19 +2,13 @@
 // Needed to allow columns to be passed due to the bullshit type it has
 
 import React, { useState, useRef, useContext } from "react";
-import { Grid, Button, Menu, Form, Radio } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { Image, defaultImage } from "./image";
-import { ConfigContext } from "./config";
+import { ChartType, ConfigContext } from "./config";
 
 import "./collage.css";
-
-enum ChartType {
-  Collage,
-  Top50,
-  Top100,
-}
 
 let defaultImages = (rows: number, cols: number) => {
   let imgs: Image[] = [];
@@ -38,9 +32,8 @@ const collage = (images: Image[], cols: number, showTitles: boolean) => {
 };
 
 export const Chart: React.FC = () => {
-  const [chartType, setChartType] = useState(ChartType.Collage);
-  const { state, dispatch } = useContext(ConfigContext);
-  const { rows, cols, pad, showTitles, addTitle } = state;
+  const { state } = useContext(ConfigContext);
+  const { rows, cols, showTitles, addTitle, chartType } = state;
 
   let images = defaultImages(rows, cols);
   const divRef = useRef<HTMLDivElement>(null);
@@ -68,94 +61,9 @@ export const Chart: React.FC = () => {
   };
 
   return (
-    <Grid padded>
-      <Grid.Column width={pad}>
-        <div ref={divRef} className="collage-container">
-          {title()}
-          {chart()}
-        </div>
-      </Grid.Column>
-
-      <Grid.Column width={16 - pad}>
-        <Menu vertical text>
-          <Menu.Item>
-            <p>
-              <b>Type</b>
-            </p>
-            <Form>
-              <Form.Field>
-                <Radio
-                  label="Collage"
-                  value="collage"
-                  checked={chartType === ChartType.Collage}
-                  onChange={(e) => {
-                    setChartType(ChartType.Collage);
-                    e.preventDefault();
-                  }}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Radio
-                  label="Top 50"
-                  value="top50"
-                  checked={chartType === ChartType.Top50}
-                  onChange={(e) => {
-                    setChartType(ChartType.Top50);
-                    dispatch({ type: "rows", value: 10 });
-                    dispatch({ type: "cols", value: 5 });
-                    e.preventDefault();
-                  }}
-                />
-              </Form.Field>
-            </Form>
-          </Menu.Item>
-          <Menu.Item>
-            <p>
-              <b>Rows</b>
-            </p>
-            <Button content="-" onClick={() => dispatch({ type: "rows", value: rows - 1 })} />
-            <Button content="+" onClick={() => dispatch({ type: "rows", value: rows + 1 })} />
-          </Menu.Item>
-          <Menu.Item>
-            <p>
-              <b>Columns</b>
-            </p>
-            <Button content="-" onClick={() => dispatch({ type: "cols", value: cols - 1 })} />
-            <Button content="+" onClick={() => dispatch({ type: "cols", value: cols + 1 })} />
-          </Menu.Item>
-
-          <Menu.Item>
-            <p>
-              <b>Padding </b>
-            </p>
-            <Button content="-" onClick={() => dispatch({ type: "pad", value: pad - 1 })} />
-            <Button content="+" onClick={() => dispatch({ type: "pad", value: pad + 1 })} />
-          </Menu.Item>
-
-          <Menu.Item>
-            <Button content="Add title" onClick={() => dispatch({ type: "addTitle", value: !addTitle })} />
-          </Menu.Item>
-
-          <Menu.Item>
-            <Button content="Show titles" onClick={() => dispatch({ type: "showTitles", value: !showTitles })} />
-          </Menu.Item>
-
-          <Menu.Item>
-            <Button
-              loading={isLoading}
-              onClick={async () => {
-                let img = await takeScreenshot("png");
-                let link = document.createElement("a");
-                link.download = "topsters3.png";
-                link.href = img as string;
-                link.click();
-              }}
-            >
-              Save to PNG
-            </Button>
-          </Menu.Item>
-        </Menu>
-      </Grid.Column>
-    </Grid>
+    <div ref={divRef} className="collage-container">
+      {title()}
+      {chart()}
+    </div>
   );
 };

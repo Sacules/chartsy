@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, forwardRef, createRef } from "react";
 import { Grid } from "semantic-ui-react";
 
 import { Image } from "./image";
@@ -14,8 +14,13 @@ export const Home: React.FC = () => {
   // TODO: move to the component / confg?
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
-
   const [state, dispatch] = useReducer(configReducer, ConfigInitialState);
+
+  const tableRef = createRef<HTMLTableElement>();
+  // @ts-ignore
+  const MyMenu = forwardRef((_, ref) => <ConfigMenu tableRef={ref} />);
+  // @ts-ignore
+  const MyChart = forwardRef((_, ref) => <Chart tableRef={ref} />);
 
   useEffect(() => {
     const download = async () => {
@@ -60,10 +65,10 @@ export const Home: React.FC = () => {
         </Grid.Column>
         <ConfigContext.Provider value={{ state, dispatch }}>
           <Grid.Column width={12}>
-            <Chart />
+            <MyChart ref={tableRef} />
           </Grid.Column>
           <Grid.Column width={1}>
-            <ConfigMenu />
+            <MyMenu ref={tableRef} />
           </Grid.Column>
         </ConfigContext.Provider>
       </Grid>

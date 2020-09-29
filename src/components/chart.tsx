@@ -1,7 +1,6 @@
 // Needed to allow columns to be passed due to the bullshit type it has
 
-import React, { useRef, useContext } from "react";
-import { useScreenshot } from "use-screenshot-hook";
+import React, { useContext } from "react";
 
 import { Image, defaultImage } from "./image";
 import { ChartType, ConfigContext } from "./config";
@@ -17,7 +16,16 @@ let defaultImages = (rows: number, cols: number) => {
   return imgs;
 };
 
-const collage = (images: Image[], rows: number, cols: number, pad: number, showTitles: boolean, addTitle: boolean) => {
+const collage = (
+  images: Image[],
+  rows: number,
+  cols: number,
+  pad: number,
+  showTitles: boolean,
+  addTitle: boolean,
+  tableRef: React.RefObject<HTMLTableElement>
+) => {
+  // Needed to generate a table dynamically
   var matrix: Image[][] = [];
   var n = 0;
   for (let i = 0; i < rows; i++) {
@@ -35,14 +43,14 @@ const collage = (images: Image[], rows: number, cols: number, pad: number, showT
     }
 
     return (
-      <caption contentEditable>
-        <h1>Title</h1>
+      <caption>
+        <h1 contentEditable>Title</h1>
       </caption>
     );
   };
 
   return (
-    <table>
+    <table ref={tableRef}>
       {title()}
       {matrix.map((row) => (
         <tr>
@@ -57,30 +65,27 @@ const collage = (images: Image[], rows: number, cols: number, pad: number, showT
   );
 };
 
-export const Chart: React.FC = () => {
+interface Props {
+  tableRef: React.RefObject<HTMLTableElement>;
+}
+
+export const Chart: React.FC<Props> = ({ tableRef }) => {
   const { state } = useContext(ConfigContext);
   const { rows, cols, pad, showTitles, addTitle, chartType } = state;
 
   let images = defaultImages(rows, cols);
-  const divRef = useRef<HTMLDivElement>(null);
-
-  const { takeScreenshot, isLoading } = useScreenshot({ ref: divRef });
 
   const top50 = () => {
-    return collage(images, rows, cols, pad, showTitles, addTitle);
+    return collage(images, rows, cols, pad, showTitles, addTitle, tableRef);
   };
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, pad, showTitles, addTitle);
+      return collage(images, rows, cols, pad, showTitles, addTitle, tableRef);
     }
 
     return top50();
   };
 
-  return (
-    <div ref={divRef} className="collage-container">
-      {chart()}
-    </div>
-  );
+  return <div className="collage-container">{chart()}</div>;
 };

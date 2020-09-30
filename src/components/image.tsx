@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
-export type Image = {
-  title: string;
-  author: string;
-  url: string;
-};
+import { Image, ImagesContext } from "./images";
 
-export const defaultImage: Image = {
-  title: "",
-  author: "",
-  url: "https://i.imgur.com/w4toMiR.jpg",
-};
-
-interface ImageProps {
+interface Props {
+  pos?: number;
   showTitle: boolean;
   img: Image;
 }
@@ -31,10 +22,11 @@ const titleShow = (show: boolean, title: string, author: string | undefined) => 
   );
 };
 
-export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
+export const ImageCard: React.FC<Props> = ({ pos, img, showTitle }) => {
   let [title, setTitle] = useState(img.title);
   let [url, setUrl] = useState(img.url);
   let [author, setAuthor] = useState(img.author);
+  const { dispatchImages } = useContext(ImagesContext);
 
   return (
     <div className="image">
@@ -54,14 +46,28 @@ export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
         onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
         onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
         onDragOver={(e) => e.preventDefault()}
-        onDragEnd={(e) => {
+        onDragEnd={() => {
           if (sessionStorage.getItem("drag-source") === "results") {
             return;
           }
 
-          setTitle(sessionStorage.getItem("dropped-title") as string);
-          setUrl(sessionStorage.getItem("dropped-url") as string);
-          setAuthor(sessionStorage.getItem("dropped-author") as string);
+          // exchange images
+          const t = sessionStorage.getItem("dropped-title") as string;
+          const u = sessionStorage.getItem("dropped-url") as string;
+          const a = sessionStorage.getItem("dropped-author") as string;
+
+          setTitle(t);
+          setUrl(u);
+          setAuthor(a);
+
+          if (typeof pos === "undefined") {
+            return;
+          }
+
+          const img: Image = { author: a, title: t, url: u };
+          const i = pos as number;
+
+          dispatchImages({ type: "update", value: { pos: i, img: img } });
 
           sessionStorage.clear();
         }}
@@ -81,9 +87,23 @@ export const Image: React.FC<ImageProps> = ({ img, showTitle }) => {
             return;
           }
 
-          setTitle(sessionStorage.getItem("image-title") as string);
-          setUrl(sessionStorage.getItem("image-url") as string);
-          setAuthor(sessionStorage.getItem("image-author") as string);
+          const t = sessionStorage.getItem("image-title") as string;
+          const u = sessionStorage.getItem("image-url") as string;
+          const a = sessionStorage.getItem("image-author") as string;
+
+          // replace on destination
+          setTitle(t);
+          setUrl(u);
+          setAuthor(a);
+
+          if (typeof pos === "undefined") {
+            return;
+          }
+
+          const img: Image = { author: a, title: t, url: u };
+          const i = pos as number;
+
+          dispatchImages({ type: "update", value: { pos: i, img: img } });
         }}
         className="collage-image"
         draggable

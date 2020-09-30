@@ -1,20 +1,10 @@
-// Needed to allow columns to be passed due to the bullshit type it has
-
 import React, { useContext } from "react";
 
-import { Image, defaultImage } from "./image";
+import { Image, ImagesContext } from "./images";
+import { ImageCard } from "./image";
 import { ChartType, ConfigContext } from "./config";
 
 import "./collage.css";
-
-let defaultImages = (rows: number, cols: number) => {
-  let imgs: Image[] = [];
-  for (let i = 0; i < rows * cols; i++) {
-    imgs.push(defaultImage);
-  }
-
-  return imgs;
-};
 
 const collage = (
   images: Image[],
@@ -49,16 +39,22 @@ const collage = (
     );
   };
 
+  n = 0;
+
   return (
     <table ref={tableRef}>
       {title()}
       {matrix.map((row) => (
         <tr>
-          {row.map((img) => (
-            <td className={`pad-${pad % 5}`}>
-              <Image img={img} showTitle={showTitles} />
-            </td>
-          ))}
+          {row.map((img) => {
+            let cell = (
+              <td className={`pad-${pad % 5}`}>
+                <ImageCard pos={n} img={img} showTitle={showTitles} />
+              </td>
+            );
+            n++;
+            return cell;
+          })}
         </tr>
       ))}
     </table>
@@ -70,10 +66,9 @@ interface Props {
 }
 
 export const Chart: React.FC<Props> = ({ tableRef }) => {
-  const { state } = useContext(ConfigContext);
-  const { rows, cols, pad, showTitles, addTitle, chartType } = state;
-
-  let images = defaultImages(rows, cols);
+  const { config } = useContext(ConfigContext);
+  const { images } = useContext(ImagesContext);
+  const { rows, cols, pad, showTitles, addTitle, chartType } = config;
 
   const top50 = () => {
     return collage(images, rows, cols, pad, showTitles, addTitle, tableRef);

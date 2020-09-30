@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Image } from "./image";
+import { Image } from "./images";
+import { ImageCard } from "./image";
 import "./collage.css";
 import { Grid } from "semantic-ui-react";
 
@@ -29,7 +30,7 @@ export const SearchResults: React.FC<Props> = ({ images }) => {
     <Grid className="results" centered padded>
       {images.map((img) => (
         <Grid.Row>
-          <Image key={img.url} img={img} showTitle={true} />
+          <ImageCard key={img.url} img={img} showTitle={true} />
         </Grid.Row>
       ))}
     </Grid>

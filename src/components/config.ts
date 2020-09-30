@@ -29,32 +29,7 @@ export type ConfigAction = {
   value: number | boolean | ChartType;
 };
 
-export const ConfigContext = createContext<{ state: Config; dispatch: Dispatch<ConfigAction> }>({
-  state: ConfigInitialState,
-  dispatch: () => null,
+export const ConfigContext = createContext<{ config: Config; dispatchConfig: Dispatch<ConfigAction> }>({
+  config: ConfigInitialState,
+  dispatchConfig: () => null,
 });
-
-export const configReducer = (state: Config, action: ConfigAction) => {
-  switch (action.type) {
-    case "rows":
-      return { ...state, rows: action.value as number };
-
-    case "cols":
-      return { ...state, cols: action.value as number };
-
-    case "pad":
-      return { ...state, pad: action.value as number };
-
-    case "showTitles":
-      return { ...state, showTitles: action.value as boolean };
-
-    case "addTitle":
-      return { ...state, addTitle: action.value as boolean };
-
-    case "chart":
-      return { ...state, chartType: action.value as ChartType };
-
-    default:
-      return ConfigInitialState;
-  }
-};

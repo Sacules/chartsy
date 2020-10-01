@@ -3,38 +3,38 @@
 }
 
 html, body {
-    padding: 1em;
+  padding: 1em;
 }
 
 html {
-    margin: auto;
+  margin: auto;
 }
 
 body {
-    background-color: #f1f2f2;
+  background-color: #f1f2f2;
 }
 
 
 figcaption {
-    text-align: center;
-    word-break: break-word;
-    width: 100px;
-    padding-top: 3px;
+  text-align: center;
+  word-break: break-word;
+  width: 100px;
+  padding-top: 3px;
 }
 
 img {
-    width: 100px;
-    height: auto;
-    box-shadow: 0px 0px 5px rgba(0,0,0,.4);
-    opacity: 0.99;
+  width: 100px;
+  height: auto;
+  box-shadow: 0px 0px 5px rgba(0,0,0,.4);
+  opacity: 0.99;
 }
 
 img:hover{
-    box-shadow: 0px 0px 10px rgba(0,0,0,.4);
+  box-shadow: 0px 0px 10px rgba(0,0,0,.4);
 }
 
 p {
-    color: #303032;
+  color: #303032;
 }
 
 table, caption, tbody, tfoot, thead, tr, th, td {
@@ -76,29 +76,29 @@ table {
 }
 
 .home {
-    vertical-align: middle;
-    width: 100%;
+  vertical-align: middle;
+  width: 100%;
 }
 
 .search {
-    display: block;
-    position: absolute;
+  display: block;
+  position: absolute;
 }
 
 .results {
-    margin: auto;
-    max-height: 80vh;
-    overflow: auto;
+  margin: auto;
+  max-height: 100vh;
+  overflow: auto;
 }
 
 .collage-container {
-    background-color: #f1f2f2;
+  background-color: #f1f2f2;
 }
 
 .collage-image {
-    display: block;
+  display: block;
 }
 
 .image {
-    cursor: move;
+  cursor: move;
 }

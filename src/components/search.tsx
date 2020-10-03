@@ -21,7 +21,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
 
   return (
     <div>
-      <Button.Group>
+      <Button.Group fluid>
         <Button
           basic
           active={activeButton === "music"}
@@ -71,7 +71,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
       >
         <Input
           fluid
-          placeholder="Search for an album"
+          placeholder="Search..."
           value={val}
           onChange={(e) => {
             setVal(e.target.value);

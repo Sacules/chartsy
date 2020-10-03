@@ -10,7 +10,9 @@ export const configReducer = (state: Config, action: ConfigAction) => {
       return { ...state, cols: action.value as number };
 
     case "pad":
-      return { ...state, pad: action.value as number };
+      let pad = action.value as number;
+      pad = pad < 0 ? 0 : pad % 5;
+      return { ...state, pad: pad };
 
     case "showTitles":
       return { ...state, showTitles: action.value as boolean };

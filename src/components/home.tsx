@@ -59,14 +59,14 @@ export const Home: React.FC = () => {
   return (
     <div className="home">
       <Grid>
-        <Grid.Column className="search" width={2}>
+        <Grid.Column className="search" width={3}>
           <Grid.Row>
             <Search setSearchType={setSearchType} setSearch={setSearch} />
           </Grid.Row>
           <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
-          <Grid.Column width={12}>
+          <Grid.Column width={11}>
             <ImagesContext.Provider value={{ images, dispatchImages }}>
               <MyChart ref={tableRef} />
             </ImagesContext.Provider>

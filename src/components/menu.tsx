@@ -9,10 +9,10 @@ interface Props {
   tableRef: React.RefObject<HTMLTableElement>;
 }
 
-export const ConfigMenu: React.FC<Props> = ({ tableRef }) => {
+export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
   const { config, dispatchConfig } = useContext(ConfigContext);
   const { rows, cols, pad, chartType, showTitles, addTitle } = config;
-  const { takeScreenshot, isLoading } = useScreenshot({ ref: tableRef });
+  const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 
   return (
     <Menu vertical text>
@@ -83,7 +83,7 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef }) => {
           loading={isLoading}
           onClick={async () => {
             // Fix weird margin cropping the table
-            let ref = tableRef.current as HTMLTableElement;
+            let ref = chartRef.current as HTMLTableElement;
             const prevMargin = ref.style.margin;
             ref.style.margin = "0";
 

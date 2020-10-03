@@ -1,9 +1,11 @@
 import React, { useState, useContext } from "react";
 
 import { Image, ImagesContext } from "./images";
+import { SearchType } from "./search";
 
 interface Props {
   pos?: number;
+  searchType?: SearchType;
   showTitle: boolean;
   img: Image;
 }
@@ -22,14 +24,19 @@ const titleShow = (show: boolean, title: string, author: string | undefined) => 
   );
 };
 
-export const ImageCard: React.FC<Props> = ({ pos, img, showTitle }) => {
+export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
   let [title, setTitle] = useState(img.title);
   let [url, setUrl] = useState(img.url);
   let [author, setAuthor] = useState(img.author);
   const { dispatchImages } = useContext(ImagesContext);
 
+  let n = "";
+  if (searchType === SearchType.Movies || searchType === SearchType.Series) {
+    n = "film";
+  }
+
   return (
-    <div className="image">
+    <div>
       <img
         onDragStart={(e) => {
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
@@ -105,7 +112,7 @@ export const ImageCard: React.FC<Props> = ({ pos, img, showTitle }) => {
 
           dispatchImages({ type: "update", value: { pos: i, img: img } });
         }}
-        className="collage-image"
+        className={`collage-image ${n}`}
         draggable
         src={url}
         alt={author + " - " + title}

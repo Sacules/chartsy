@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
   // @ts-ignore
   const MyMenu = forwardRef((_, ref) => <ConfigMenu tableRef={ref} />);
   // @ts-ignore
-  const MyChart = forwardRef((_, ref) => <Chart tableRef={ref} />);
+  const MyChart = forwardRef((_, ref) => <Chart searchType={searchType} tableRef={ref} />);
 
   useEffect(() => {
     const download = async () => {

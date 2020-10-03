@@ -5,6 +5,7 @@ import { ImageCard } from "./image";
 import { ChartType, ConfigContext } from "./config";
 
 import "./collage.css";
+import { SearchType } from "./search";
 
 const collage = (
   images: Image[],
@@ -13,6 +14,7 @@ const collage = (
   pad: number,
   showTitles: boolean,
   addTitle: boolean,
+  searchType: SearchType,
   tableRef: React.RefObject<HTMLTableElement>
 ) => {
   // Needed to generate a table dynamically
@@ -48,8 +50,8 @@ const collage = (
         <tr>
           {row.map((img) => {
             let cell = (
-              <td className={`pad-${pad % 5}`}>
-                <ImageCard pos={n} img={img} showTitle={showTitles} />
+              <td className={`pad-${pad}`}>
+                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitles} />
               </td>
             );
             n++;
@@ -63,20 +65,21 @@ const collage = (
 
 interface Props {
   tableRef: React.RefObject<HTMLTableElement>;
+  searchType: SearchType;
 }
 
-export const Chart: React.FC<Props> = ({ tableRef }) => {
+export const Chart: React.FC<Props> = ({ searchType, tableRef }) => {
   const { config } = useContext(ConfigContext);
   const { images } = useContext(ImagesContext);
   const { rows, cols, pad, showTitles, addTitle, chartType } = config;
 
   const top50 = () => {
-    return collage(images, rows, cols, pad, showTitles, addTitle, tableRef);
+    return collage(images, rows, cols, pad, showTitles, addTitle, searchType, tableRef);
   };
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, pad, showTitles, addTitle, tableRef);
+      return collage(images, rows, cols, pad, showTitles, addTitle, searchType, tableRef);
     }
 
     return top50();

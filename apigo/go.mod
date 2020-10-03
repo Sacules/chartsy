@@ -1,4 +1,4 @@
-module gitlab.com/sacules/topsters
+module gitlab.com/sacules/chartsy
 
 go 1.15
 

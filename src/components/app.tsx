@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Home } from "./home";
+import "./styles.css";
 
 function App() {
   return (

@@ -25,9 +25,9 @@ const titleShow = (show: boolean, title: string, author: string | undefined) => 
 };
 
 export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
-  let [title, setTitle] = useState(img.title);
-  let [url, setUrl] = useState(img.url);
-  let [author, setAuthor] = useState(img.author);
+  const [title, setTitle] = useState(img.title);
+  const [url, setUrl] = useState(img.url);
+  const [author, setAuthor] = useState(img.author);
   const { dispatchImages } = useContext(ImagesContext);
 
   let n = "";

@@ -20,7 +20,7 @@ Then, you can start up with backend with
 ```console
 cd apigo
 go build
-LASTFM_KEY=<your key here> ./topsters
+LASTFM_KEY=<your key here> ./chartsy
 ```
 
 You'll need a last.fm account and an API key to be able to run the app.

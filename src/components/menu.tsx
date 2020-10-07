@@ -4,9 +4,10 @@ import { Button, Menu, Form, Radio } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { ChartType, ConfigContext } from "./config";
+import { TableRef } from "./chart";
 
 interface Props {
-  tableRef: React.RefObject<HTMLTableElement>;
+  tableRef: TableRef;
 }
 
 export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {

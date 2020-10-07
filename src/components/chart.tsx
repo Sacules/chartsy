@@ -75,7 +75,7 @@ const top50 = (
 ) => {
   let top10: Image[][] = [];
   let n = 0;
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     let row: Image[] = new Array(10);
     top10.push(row);
     for (let j = 0; j < 10; j++) {
@@ -111,7 +111,7 @@ const top50 = (
 
   let rest: Image[][] = [];
   n = last;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     let row: Image[] = new Array(10);
     rest.push(row);
     for (let j = 0; j < 10; j++) {

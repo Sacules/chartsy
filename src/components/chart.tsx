@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { MutableRefObject, useContext } from "react";
 
 import { Image, ImagesContext } from "./images";
 import { ImageCard } from "./image";
@@ -6,6 +6,8 @@ import { ChartType, ConfigContext } from "./config";
 
 import "./collage.css";
 import { SearchType } from "./search";
+
+export type TableRef = ((instance: HTMLTableElement) => void) | MutableRefObject<HTMLTableElement | null> | null;
 
 const collage = (
   images: Image[],
@@ -15,7 +17,7 @@ const collage = (
   showTitles: boolean,
   addTitle: boolean,
   searchType: SearchType,
-  tableRef: React.RefObject<HTMLTableElement>
+  tableRef: TableRef
 ) => {
   // Needed to generate a table dynamically
   var matrix: Image[][] = [];
@@ -64,7 +66,7 @@ const collage = (
 };
 
 interface Props {
-  tableRef: React.RefObject<HTMLTableElement>;
+  tableRef: TableRef;
   searchType: SearchType;
 }
 

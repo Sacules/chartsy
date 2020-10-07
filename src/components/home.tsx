@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer, forwardRef, createRef } from "react";
+import React, { useState, useEffect, useReducer, forwardRef, createRef, RefObject } from "react";
 import { Grid } from "semantic-ui-react";
 
 import { Image, defaultImages, ImagesContext } from "./images";
@@ -19,10 +19,8 @@ export const Home: React.FC = () => {
   const [images, dispatchImages] = useReducer(imagesReducer, defaultImages(10, 10));
 
   const tableRef = createRef<HTMLTableElement>();
-  // @ts-ignore
-  const MyMenu = forwardRef((_, ref) => <ConfigMenu tableRef={ref} />);
-  // @ts-ignore
-  const MyChart = forwardRef((_, ref) => <Chart searchType={searchType} tableRef={ref} />);
+  const MyMenu = forwardRef((_, ref) => <ConfigMenu tableRef={ref as RefObject<HTMLTableElement>} />);
+  const MyChart = forwardRef((_, ref) => <Chart searchType={searchType} tableRef={ref as RefObject<HTMLTableElement>} />);
 
   useEffect(() => {
     const download = async () => {

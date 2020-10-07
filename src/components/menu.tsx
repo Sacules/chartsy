@@ -33,19 +33,17 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
               }}
             />
           </Form.Field>
-          {/* <Form.Field> */}
-          {/*   <Radio */}
-          {/*     label="Top 50" */}
-          {/*     value="top50" */}
-          {/*     checked={chartType === ChartType.Top50} */}
-          {/*     onChange={(e) => { */}
-          {/*       dispatchConfig({ type: "chart", value: ChartType.Top50 }); */}
-          {/*       dispatchConfig({ type: "rows", value: 5 }); */}
-          {/*       dispatchConfig({ type: "cols", value: 10 }); */}
-          {/*       e.preventDefault(); */}
-          {/*     }} */}
-          {/*   /> */}
-          {/* </Form.Field> */}
+          <Form.Field>
+            <Radio
+              label="Top 50"
+              value="top50"
+              checked={chartType === ChartType.Top50}
+              onChange={(e) => {
+                dispatchConfig({ type: "chart", value: ChartType.Top50 });
+                e.preventDefault();
+              }}
+            />
+          </Form.Field>
         </Form>
       </Menu.Item>
       <Menu.Item className="count-container">

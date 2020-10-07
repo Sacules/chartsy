@@ -119,3 +119,11 @@ table {
 .count-container {
   max-width: 105px;
 }
+
+.top-10-top {
+  margin: 1em 0;
+}
+
+.top-10-bottom {
+  margin: 1em 0;
+}

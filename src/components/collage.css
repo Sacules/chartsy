@@ -110,3 +110,12 @@ table {
   width: 100px;
   height: 150px;
 }
+
+.count {
+  display: flex;
+  justify-content: space-between;
+}
+
+.count-container {
+  max-width: 105px;
+}

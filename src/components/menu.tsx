@@ -47,7 +47,7 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
           {/* </Form.Field> */}
         </Form>
       </Menu.Item>
-      <Menu.Item style={{ maxWidth: 105 }}>
+      <Menu.Item className="count-container">
         <p className="count">
           <b>Rows</b>
           <Label horizontal>{rows}</Label>
@@ -56,7 +56,7 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
         <Button content="-" onClick={() => dispatchConfig({ type: "rows", value: rows - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "rows", value: rows + 1 })} />
       </Menu.Item>
-      <Menu.Item style={{ maxWidth: 105 }}>
+      <Menu.Item className="count-container">
         <p className="count">
           <b>Columns</b>
           <Label horizontal>{cols}</Label>
@@ -65,7 +65,7 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
         <Button content="+" onClick={() => dispatchConfig({ type: "cols", value: cols + 1 })} />
       </Menu.Item>
 
-      <Menu.Item style={{ maxWidth: 105 }}>
+      <Menu.Item className="count-container">
         <p className="count">
           <b>Padding</b>
           <Label horizontal>{pad}</Label>

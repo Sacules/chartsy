@@ -36,6 +36,7 @@ img:hover{
 
 p {
   color: #303032;
+  line-height: 1rem;
 }
 
 table, caption, tbody, tfoot, thead, tr, th, td {

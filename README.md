@@ -9,7 +9,8 @@ Chartsy is a modern site for building charts of music, video games, movies, and 
 You need yarn and Go >= 1.15 installed (and optionally Python) installed, then you start up the frontend with
 
 ```console
-yarn run start
+yarn install
+yarn start
 ```
 
 This runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

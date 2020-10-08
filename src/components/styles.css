@@ -36,6 +36,7 @@ img:hover{
 
 p {
   color: #303032;
+  line-height: 1rem;
 }
 
 table, caption, tbody, tfoot, thead, tr, th, td {
@@ -109,4 +110,21 @@ table {
 .film {
   width: 100px;
   height: 150px;
+}
+
+.count {
+  display: flex;
+  justify-content: space-between;
+}
+
+.count-container {
+  max-width: 105px;
+}
+
+.top-10-top {
+  margin: 1em 0;
+}
+
+.top-10-bottom {
+  margin: 1em 0;
 }

@@ -64,14 +64,7 @@ const collage = (
   );
 };
 
-const top50 = (
-  images: Image[],
-  pad: number,
-  showTitles: boolean,
-  addTitle: boolean,
-  searchType: SearchType,
-  tableRef: TableRef
-) => {
+const top50 = (images: Image[], pad: number, showTitles: boolean, searchType: SearchType, tableRef: TableRef) => {
   let top10: Image[][] = [];
   let n = 0;
   for (let i = 0; i < 1; i++) {
@@ -89,7 +82,7 @@ const top50 = (
   const topcells = (
     <table className="top-10-top">
       <caption>
-        <h1 contentEditable>Top 10</h1>
+        <h3 contentEditable>Top 10</h3>
       </caption>
 
       {top10.map((row) => (
@@ -123,7 +116,7 @@ const top50 = (
   const bottomcells = (
     <table className="top-10-bottom">
       <caption>
-        <h1 contentEditable>Classics</h1>
+        <h3 contentEditable>Classics</h3>
       </caption>
 
       {rest.map((row) => (
@@ -169,7 +162,7 @@ export const Chart: React.FC<Props> = ({ searchType, tableRef }) => {
       return collage(images, rows, cols, pad, showTitles, addTitle, searchType, tableRef);
     }
 
-    return top50(images, pad, showTitles, addTitle, searchType, tableRef);
+    return top50(images, pad, showTitles, searchType, tableRef);
   };
 
   return <div className="collage-container">{chart()}</div>;

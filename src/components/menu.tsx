@@ -1,12 +1,13 @@
 // @ts-nocheck
 import React, { useContext } from "react";
-import { Button, Menu, Form, Radio } from "semantic-ui-react";
+import { Button, Menu, Form, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { ChartType, ConfigContext } from "./config";
+import { TableRef } from "./chart";
 
 interface Props {
-  tableRef: React.RefObject<HTMLTableElement>;
+  tableRef: TableRef;
 }
 
 export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
@@ -32,39 +33,41 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
               }}
             />
           </Form.Field>
-          {/* <Form.Field> */}
-          {/*   <Radio */}
-          {/*     label="Top 50" */}
-          {/*     value="top50" */}
-          {/*     checked={chartType === ChartType.Top50} */}
-          {/*     onChange={(e) => { */}
-          {/*       dispatchConfig({ type: "chart", value: ChartType.Top50 }); */}
-          {/*       dispatchConfig({ type: "rows", value: 5 }); */}
-          {/*       dispatchConfig({ type: "cols", value: 10 }); */}
-          {/*       e.preventDefault(); */}
-          {/*     }} */}
-          {/*   /> */}
-          {/* </Form.Field> */}
+          <Form.Field>
+            <Radio
+              label="Top 50"
+              value="top50"
+              checked={chartType === ChartType.Top50}
+              onChange={(e) => {
+                dispatchConfig({ type: "chart", value: ChartType.Top50 });
+                e.preventDefault();
+              }}
+            />
+          </Form.Field>
         </Form>
       </Menu.Item>
-      <Menu.Item>
-        <p>
+      <Menu.Item className="count-container">
+        <p className="count">
           <b>Rows</b>
+          <Label horizontal>{rows}</Label>
         </p>
+
         <Button content="-" onClick={() => dispatchConfig({ type: "rows", value: rows - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "rows", value: rows + 1 })} />
       </Menu.Item>
-      <Menu.Item>
-        <p>
+      <Menu.Item className="count-container">
+        <p className="count">
           <b>Columns</b>
+          <Label horizontal>{cols}</Label>
         </p>
         <Button content="-" onClick={() => dispatchConfig({ type: "cols", value: cols - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "cols", value: cols + 1 })} />
       </Menu.Item>
 
-      <Menu.Item>
-        <p>
-          <b>Padding </b>
+      <Menu.Item className="count-container">
+        <p className="count">
+          <b>Padding</b>
+          <Label horizontal>{pad}</Label>
         </p>
         <Button content="-" onClick={() => dispatchConfig({ type: "pad", value: pad - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "pad", value: pad + 1 })} />

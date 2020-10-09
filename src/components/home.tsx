@@ -19,11 +19,8 @@ export const Home: React.FC = () => {
     resultsImgs: Array<Image>(),
   });
   const tableRef = createRef<HTMLTableElement>();
-
-  // @ts-ignore
-  const MyMenu = forwardRef((_, ref) => <ConfigMenu tableRef={ref} />);
-  // @ts-ignore
-  const MyChart = forwardRef((_, ref) => <Chart searchType={search.searchType} tableRef={ref} />);
+  const MyMenu = forwardRef<HTMLTableElement>((_, ref) => <ConfigMenu tableRef={ref} />);
+  const MyChart = forwardRef<HTMLTableElement>((_, ref) => <Chart searchType={search.searchType} tableRef={ref} />);
 
   return (
     <div className="home">

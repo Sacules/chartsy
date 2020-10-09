@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input } from "semantic-ui-react";
+import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
+import { Image } from "./images";
 
 export enum SearchType {
   Art,
@@ -11,13 +13,49 @@ export enum SearchType {
 }
 
 interface Props {
-  setSearch: (search: string) => void;
-  setSearchType: (searchType: SearchType) => void;
+  setSearch: (searchVal: SearchVal) => void;
 }
 
-export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
-  const [val, setVal] = useState("");
+export const Search: React.FC<Props> = ({ setSearch }) => {
+  const [searchVal, setSearchVal] = React.useState({
+    search: "",
+    searchType: SearchType.Music,
+    resultsImgs: Array<Image>(),
+  });
   const [activeButton, setActiveButton] = useState("music");
+
+  useEffect(() => {
+    const download = async () => {
+      if (searchVal.search === "") {
+        return;
+      }
+
+      switch (searchVal.searchType) {
+        case SearchType.Games:
+          const albums = await getGame(searchVal.search);
+          setSearchVal({ ...searchVal, resultsImgs: albums });
+          break;
+
+        case SearchType.Movies:
+          const movies = await getMovie(searchVal.search);
+          setSearchVal({ ...searchVal, resultsImgs: movies });
+          break;
+
+        case SearchType.Series:
+          const series = await getSeries(searchVal.search);
+          setSearchVal({ ...searchVal, resultsImgs: series });
+          break;
+
+        default:
+          const games = await getAlbum(searchVal.search);
+          setSearchVal({ ...searchVal, resultsImgs: games });
+          break;
+      }
+    };
+
+    download();
+    setSearch(searchVal);
+  }, [searchVal, setSearch]);
 
   return (
     <div>
@@ -27,7 +65,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
           active={activeButton === "music"}
           icon="music"
           onClick={(e) => {
-            setSearchType(SearchType.Music);
+            setSearchVal({ ...searchVal, searchType: SearchType.Music });
             setActiveButton("music");
             e.preventDefault();
           }}
@@ -37,7 +75,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
           active={activeButton === "game"}
           icon="game"
           onClick={(e) => {
-            setSearchType(SearchType.Games);
+            setSearchVal({ ...searchVal, searchType: SearchType.Games });
             setActiveButton("game");
             e.preventDefault();
           }}
@@ -47,7 +85,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
           active={activeButton === "film"}
           icon="film"
           onClick={(e) => {
-            setSearchType(SearchType.Movies);
+            setSearchVal({ ...searchVal, searchType: SearchType.Movies });
             setActiveButton("film");
             e.preventDefault();
           }}
@@ -57,7 +95,7 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
           active={activeButton === "tv"}
           icon="tv"
           onClick={(e) => {
-            setSearchType(SearchType.Series);
+            setSearchVal({ ...searchVal, searchType: SearchType.Series });
             setActiveButton("tv");
             e.preventDefault();
           }}
@@ -65,16 +103,16 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
       </Button.Group>
       <form
         onSubmit={(e) => {
-          setSearch(val);
+          setSearchVal({ ...searchVal, search: searchVal.search });
           e.preventDefault();
         }}
       >
         <Input
           fluid
           placeholder="Search..."
-          value={val}
+          value={searchVal.search}
           onChange={(e) => {
-            setVal(e.target.value);
+            setSearchVal({ ...searchVal, search: e.target.value });
             e.preventDefault();
           }}
         />
@@ -82,3 +120,9 @@ export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
     </div>
   );
 };
+
+interface SearchVal {
+  search: string;
+  searchType: SearchType;
+  resultsImgs: Array<Image>;
+}

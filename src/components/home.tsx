@@ -13,23 +13,23 @@ import { configReducer, imagesReducer } from "./reducers";
 export const Home: React.FC = () => {
   const [config, dispatchConfig] = useReducer(configReducer, ConfigInitialState);
   const [images, dispatchImages] = useReducer(imagesReducer, defaultImages(10, 10));
-  const [search, setSearch] = useState({
-    search: "",
-    searchType: SearchType.Music,
-    resultsImgs: Array<Image>(),
-  });
+
+  const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
+  const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState(SearchType.Music);
+
   const tableRef = createRef<HTMLTableElement>();
   const MyMenu = forwardRef<HTMLTableElement>((_, ref) => <ConfigMenu tableRef={ref} />);
-  const MyChart = forwardRef<HTMLTableElement>((_, ref) => <Chart searchType={search.searchType} tableRef={ref} />);
+  const MyChart = forwardRef<HTMLTableElement>((_, ref) => <Chart searchType={searchType} tableRef={ref} />);
 
   return (
     <div className="home">
       <Grid>
         <Grid.Column className="search" width={3}>
           <Grid.Row>
-            <Search setSearch={setSearch} />
+            <Search getSearch={setSearch} getSearchType={setSearchType} getResultsImgs={setResultsImgs} />
           </Grid.Row>
-          <Grid.Row padded>{onResults(search.search, search.resultsImgs)}</Grid.Row>
+          <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
           <Grid.Column width={11}>

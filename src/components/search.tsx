@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input } from "semantic-ui-react";
-import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 import { Image } from "./images";
+import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 
 export enum SearchType {
   Art,
@@ -13,49 +13,60 @@ export enum SearchType {
 }
 
 interface Props {
-  setSearch: (searchVal: SearchVal) => void;
+  getSearch: (search: string) => void;
+  getSearchType: (searchType: SearchType) => void;  
+  getResultsImgs: (resultsImgs: Image[]) => void;
 }
 
-export const Search: React.FC<Props> = ({ setSearch }) => {
-  const [searchVal, setSearchVal] = React.useState({
-    search: "",
-    searchType: SearchType.Music,
-    resultsImgs: Array<Image>(),
-  });
+export const Search: React.FC<Props> = ({ getSearch, getSearchType, getResultsImgs }) => {
   const [activeButton, setActiveButton] = useState("music");
+  const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
+  const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState(SearchType.Music);
+
+  useEffect(() => {
+    getSearchType(searchType);
+  });
+
+  useEffect(() => {
+    getSearch(search);
+  });
+
+  useEffect(() => {
+    getResultsImgs(resultsImgs);
+  });
 
   useEffect(() => {
     const download = async () => {
-      if (searchVal.search === "") {
+      if (search === "") {
         return;
       }
 
-      switch (searchVal.searchType) {
+      switch (searchType) {
         case SearchType.Games:
-          const albums = await getGame(searchVal.search);
-          setSearchVal({ ...searchVal, resultsImgs: albums });
+          const albums = await getGame(search);
+          setResultsImgs(albums);
           break;
 
         case SearchType.Movies:
-          const movies = await getMovie(searchVal.search);
-          setSearchVal({ ...searchVal, resultsImgs: movies });
+          const movies = await getMovie(search);
+          setResultsImgs(movies);
           break;
 
         case SearchType.Series:
-          const series = await getSeries(searchVal.search);
-          setSearchVal({ ...searchVal, resultsImgs: series });
+          const series = await getSeries(search);
+          setResultsImgs(series);
           break;
 
         default:
-          const games = await getAlbum(searchVal.search);
-          setSearchVal({ ...searchVal, resultsImgs: games });
+          const games = await getAlbum(search);
+          setResultsImgs(games);
           break;
       }
     };
 
     download();
-    setSearch(searchVal);
-  }, [searchVal, setSearch]);
+  }, [search, searchType]);
 
   return (
     <div>
@@ -65,7 +76,7 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
           active={activeButton === "music"}
           icon="music"
           onClick={(e) => {
-            setSearchVal({ ...searchVal, searchType: SearchType.Music });
+            setSearchType(SearchType.Music);
             setActiveButton("music");
             e.preventDefault();
           }}
@@ -75,7 +86,7 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
           active={activeButton === "game"}
           icon="game"
           onClick={(e) => {
-            setSearchVal({ ...searchVal, searchType: SearchType.Games });
+            setSearchType(SearchType.Games);
             setActiveButton("game");
             e.preventDefault();
           }}
@@ -85,7 +96,7 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
           active={activeButton === "film"}
           icon="film"
           onClick={(e) => {
-            setSearchVal({ ...searchVal, searchType: SearchType.Movies });
+            setSearchType(SearchType.Movies);
             setActiveButton("film");
             e.preventDefault();
           }}
@@ -95,7 +106,7 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
           active={activeButton === "tv"}
           icon="tv"
           onClick={(e) => {
-            setSearchVal({ ...searchVal, searchType: SearchType.Series });
+            setSearchType(SearchType.Series);
             setActiveButton("tv");
             e.preventDefault();
           }}
@@ -103,16 +114,16 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
       </Button.Group>
       <form
         onSubmit={(e) => {
-          setSearchVal({ ...searchVal, search: searchVal.search });
+          setSearch(search);
           e.preventDefault();
         }}
       >
         <Input
           fluid
           placeholder="Search..."
-          value={searchVal.search}
+          value={search}
           onChange={(e) => {
-            setSearchVal({ ...searchVal, search: e.target.value });
+            setSearch(e.target.value);
             e.preventDefault();
           }}
         />
@@ -120,9 +131,3 @@ export const Search: React.FC<Props> = ({ setSearch }) => {
     </div>
   );
 };
-
-interface SearchVal {
-  search: string;
-  searchType: SearchType;
-  resultsImgs: Array<Image>;
-}

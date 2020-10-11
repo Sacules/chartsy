@@ -4,7 +4,6 @@ import { Image, ImagesContext } from "./images";
 import { ImageCard } from "./image";
 import { ChartType, ConfigContext } from "./config";
 
-import "./collage.css";
 import { SearchType } from "./search";
 
 export type TableRef = ((instance: HTMLTableElement) => void) | MutableRefObject<HTMLTableElement | null> | null;

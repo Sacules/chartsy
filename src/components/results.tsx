@@ -2,7 +2,6 @@ import React from "react";
 
 import { Image } from "./images";
 import { ImageCard } from "./image";
-import "./collage.css";
 import { Grid } from "semantic-ui-react";
 
 interface Props {

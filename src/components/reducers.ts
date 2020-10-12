@@ -23,6 +23,9 @@ export const configReducer = (state: Config, action: ConfigAction) => {
     case "chart":
       return { ...state, chartType: action.value as ChartType };
 
+    case "big":
+      return { ...state, imageBig: action.value as boolean };
+
     default:
       return ConfigInitialState;
   }

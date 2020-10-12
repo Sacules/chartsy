@@ -14,13 +14,14 @@ export enum SearchType {
 
 interface Props {
   getSearch: (search: string) => void;
-  getSearchType: (searchType: SearchType) => void;  
+  getSearchType: (searchType: SearchType) => void;
   getResultsImgs: (resultsImgs: Image[]) => void;
 }
 
 export const Search: React.FC<Props> = ({ getSearch, getSearchType, getResultsImgs }) => {
   const [activeButton, setActiveButton] = useState("music");
   const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
+  const [val, setVal] = useState("");
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
 
@@ -114,16 +115,16 @@ export const Search: React.FC<Props> = ({ getSearch, getSearchType, getResultsIm
       </Button.Group>
       <form
         onSubmit={(e) => {
-          setSearch(search);
+          setSearch(val);
           e.preventDefault();
         }}
       >
         <Input
           fluid
           placeholder="Search..."
-          value={search}
+          value={val}
           onChange={(e) => {
-            setSearch(e.target.value);
+            setVal(e.target.value);
             e.preventDefault();
           }}
         />

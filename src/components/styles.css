@@ -102,6 +102,11 @@ table {
   display: block;
 }
 
+.album-big {
+  width: 150px;
+  height: auto;
+}
+
 .album {
   width: 100px;
   height: auto;

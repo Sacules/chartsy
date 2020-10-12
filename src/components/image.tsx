@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 
 import { Image, ImagesContext } from "./images";
 import { SearchType } from "./search";
+import { ConfigContext } from "./config";
 
 interface Props {
   pos?: number;
@@ -29,10 +30,16 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
   const [url, setUrl] = useState(img.url);
   const [author, setAuthor] = useState(img.author);
   const { dispatchImages } = useContext(ImagesContext);
+  const { config } = useContext(ConfigContext);
+  const { imageBig } = config;
 
-  let n = "";
+  let imgclass = "";
   if (searchType === SearchType.Movies || searchType === SearchType.Series) {
-    n = "film";
+    imgclass = "film";
+  }
+
+  if (imageBig) {
+    imgclass += " album-big";
   }
 
   return (
@@ -112,7 +119,7 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
 
           dispatchImages({ type: "update", value: { pos: i, img: img } });
         }}
-        className={`collage-image ${n}`}
+        className={`collage-image ${imgclass}`}
         draggable
         src={url}
         alt={author + " - " + title}

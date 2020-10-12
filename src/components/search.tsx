@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Input } from "semantic-ui-react";
+import { Image } from "./images";
+import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 
 export enum SearchType {
   Art,
@@ -11,13 +13,61 @@ export enum SearchType {
 }
 
 interface Props {
-  setSearch: (search: string) => void;
-  setSearchType: (searchType: SearchType) => void;
+  getSearch: (search: string) => void;
+  getSearchType: (searchType: SearchType) => void;
+  getResultsImgs: (resultsImgs: Image[]) => void;
 }
 
-export const Search: React.FC<Props> = ({ setSearch, setSearchType }) => {
-  const [val, setVal] = useState("");
+export const Search: React.FC<Props> = ({ getSearch, getSearchType, getResultsImgs }) => {
   const [activeButton, setActiveButton] = useState("music");
+  const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
+  const [val, setVal] = useState("");
+  const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState(SearchType.Music);
+
+  useEffect(() => {
+    getSearchType(searchType);
+  });
+
+  useEffect(() => {
+    getSearch(search);
+  });
+
+  useEffect(() => {
+    getResultsImgs(resultsImgs);
+  });
+
+  useEffect(() => {
+    const download = async () => {
+      if (search === "") {
+        return;
+      }
+
+      switch (searchType) {
+        case SearchType.Games:
+          const albums = await getGame(search);
+          setResultsImgs(albums);
+          break;
+
+        case SearchType.Movies:
+          const movies = await getMovie(search);
+          setResultsImgs(movies);
+          break;
+
+        case SearchType.Series:
+          const series = await getSeries(search);
+          setResultsImgs(series);
+          break;
+
+        default:
+          const games = await getAlbum(search);
+          setResultsImgs(games);
+          break;
+      }
+    };
+
+    download();
+  }, [search, searchType]);
 
   return (
     <div>

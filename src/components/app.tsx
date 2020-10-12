@@ -5,7 +5,7 @@ import "./styles.css";
 function App() {
   return (
     <Fragment>
-      <div className="App">
+      <div className="App" data-test="app">
         <Home />
       </div>
     </Fragment>

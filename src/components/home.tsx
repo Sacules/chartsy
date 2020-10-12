@@ -55,7 +55,7 @@ export const Home: React.FC = () => {
   }, [search, setResultsImgs, searchType]);
 
   return (
-    <div className="home">
+    <div className="home" data-test="homeComponent">
       <Grid>
         <Grid.Column className="search" width={3}>
           <Grid.Row>

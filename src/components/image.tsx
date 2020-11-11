@@ -11,6 +11,23 @@ interface Props {
   img: Image;
 }
 
+enum droppedSessionKeys {
+  TITLE = "dropped-title",
+  URL = "dropped-title",
+  AUTHOR = "dropped-author",
+}
+
+enum imageSessionKeys {
+  TITLE = "image-title",
+  URL = "image-title",
+  AUTHOR = "image-author",
+}
+
+enum typeOfSource {
+  RESULTS = "results",
+  COLLEAGE = "collage",
+}
+
 const titleShow = (show: boolean, title: string, author: string | undefined) => {
   if (!show) return "";
 
@@ -33,6 +50,21 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
   const { config } = useContext(ConfigContext);
   const { imageBig } = config;
 
+  const setImage = (t: string, u: string, a: string) => {
+    setTitle(t);
+    setUrl(u);
+    setAuthor(a);
+
+    if (typeof pos === "undefined") {
+      return;
+    }
+
+    const img: Image = { author: a, title: t, url: u };
+    const i = pos as number;
+
+    dispatchImages({ type: "update", value: { pos: i, img: img } });
+  };
+
   let imgclass = "";
   if (searchType === SearchType.Movies || searchType === SearchType.Series) {
     imgclass = "film";
@@ -47,77 +79,56 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
       <img
         onDragStart={(e) => {
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
-          if (parent?.className.includes("results")) {
-            sessionStorage.setItem("drag-source", "results");
-          } else {
-            sessionStorage.setItem("drag-source", "collage");
-          }
-
-          sessionStorage.setItem("image-title", title);
-          sessionStorage.setItem("image-url", url);
-          sessionStorage.setItem("image-author", author);
+          sessionStorage.setItem(
+            "drag-source",
+            parent?.className.includes(typeOfSource.RESULTS) ? typeOfSource.RESULTS : typeOfSource.COLLEAGE
+          );
+          sessionStorage.setItem(imageSessionKeys.TITLE, title);
+          sessionStorage.setItem(imageSessionKeys.URL, url);
+          sessionStorage.setItem(imageSessionKeys.AUTHOR, author);
         }}
         onDragEnter={(e) => (e.currentTarget.style.opacity = ".5")}
         onDragLeave={(e) => (e.currentTarget.style.opacity = "")}
         onDragOver={(e) => e.preventDefault()}
         onDragEnd={() => {
-          if (sessionStorage.getItem("drag-source") === "results") {
+          if (sessionStorage.getItem("drag-source") === typeOfSource.RESULTS) {
             return;
           }
 
-          // exchange images
-          const t = sessionStorage.getItem("dropped-title") as string;
-          const u = sessionStorage.getItem("dropped-url") as string;
-          const a = sessionStorage.getItem("dropped-author") as string;
+          const t = sessionStorage.getItem(droppedSessionKeys.TITLE);
+          const u = sessionStorage.getItem(droppedSessionKeys.URL);
+          const a = sessionStorage.getItem(droppedSessionKeys.AUTHOR);
 
-          setTitle(t);
-          setUrl(u);
-          setAuthor(a);
-
-          if (typeof pos === "undefined") {
-            return;
+          if (t && u && a) {
+            // exchange images
+            setImage(t, u, a);
           }
-
-          const img: Image = { author: a, title: t, url: u };
-          const i = pos as number;
-
-          dispatchImages({ type: "update", value: { pos: i, img: img } });
-
           sessionStorage.clear();
         }}
         onDrop={(e) => {
           e.preventDefault();
           e.currentTarget.style.opacity = "";
 
-          if (sessionStorage.getItem("drag-source") === "collage") {
-            sessionStorage.setItem("dropped-title", title);
-            sessionStorage.setItem("dropped-url", url);
-            sessionStorage.setItem("dropped-author", author);
+          if (sessionStorage.getItem("drag-source") === typeOfSource.COLLEAGE) {
+            sessionStorage.setItem(droppedSessionKeys.TITLE, title);
+            sessionStorage.setItem(droppedSessionKeys.URL, url);
+            sessionStorage.setItem(droppedSessionKeys.AUTHOR, author);
           }
 
           // prevent replacing on results
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
-          if (parent?.className.includes("results")) {
+          if (parent?.className.includes(typeOfSource.RESULTS)) {
             return;
           }
 
-          const t = sessionStorage.getItem("image-title") as string;
-          const u = sessionStorage.getItem("image-url") as string;
-          const a = sessionStorage.getItem("image-author") as string;
+          const t = sessionStorage.getItem(imageSessionKeys.TITLE);
+          const u = sessionStorage.getItem(imageSessionKeys.URL);
+          const a = sessionStorage.getItem(imageSessionKeys.AUTHOR);
 
-          // replace on destination
-          setTitle(t);
-          setUrl(u);
-          setAuthor(a);
-
-          if (typeof pos === "undefined") {
-            return;
+          if (t && u && a) {
+            // replace on destination
+            setImage(t, u, a);
           }
-
-          const img: Image = { author: a, title: t, url: u };
-          const i = pos as number;
-
-          dispatchImages({ type: "update", value: { pos: i, img: img } });
         }}
         className={`collage-image ${imgclass}`}
         draggable

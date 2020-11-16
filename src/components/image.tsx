@@ -13,19 +13,19 @@ interface Props {
 
 enum droppedSessionKeys {
   TITLE = "dropped-title",
-  URL = "dropped-title",
+  URL = "dropped-url",
   AUTHOR = "dropped-author",
 }
 
 enum imageSessionKeys {
   TITLE = "image-title",
-  URL = "image-title",
+  URL = "image-url",
   AUTHOR = "image-author",
 }
 
 enum typeOfSource {
   RESULTS = "results",
-  COLLEAGE = "collage",
+  COLLAGE = "collage",
 }
 
 const titleShow = (show: boolean, title: string, author: string | undefined) => {
@@ -81,7 +81,7 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
           sessionStorage.setItem(
             "drag-source",
-            parent?.className.includes(typeOfSource.RESULTS) ? typeOfSource.RESULTS : typeOfSource.COLLEAGE
+            parent?.className.includes(typeOfSource.RESULTS) ? typeOfSource.RESULTS : typeOfSource.COLLAGE
           );
           sessionStorage.setItem(imageSessionKeys.TITLE, title);
           sessionStorage.setItem(imageSessionKeys.URL, url);
@@ -95,11 +95,11 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
             return;
           }
 
-          const t = sessionStorage.getItem(droppedSessionKeys.TITLE);
-          const u = sessionStorage.getItem(droppedSessionKeys.URL);
-          const a = sessionStorage.getItem(droppedSessionKeys.AUTHOR);
+          const t = sessionStorage.getItem(droppedSessionKeys.TITLE) || "";
+          const u = sessionStorage.getItem(droppedSessionKeys.URL) || "";
+          const a = sessionStorage.getItem(droppedSessionKeys.AUTHOR) || "";
 
-          if (t && u && a) {
+          if (u) {
             // exchange images
             setImage(t, u, a);
           }
@@ -109,7 +109,7 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
           e.preventDefault();
           e.currentTarget.style.opacity = "";
 
-          if (sessionStorage.getItem("drag-source") === typeOfSource.COLLEAGE) {
+          if (sessionStorage.getItem("drag-source") === typeOfSource.COLLAGE) {
             sessionStorage.setItem(droppedSessionKeys.TITLE, title);
             sessionStorage.setItem(droppedSessionKeys.URL, url);
             sessionStorage.setItem(droppedSessionKeys.AUTHOR, author);
@@ -121,12 +121,13 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
             return;
           }
 
-          const t = sessionStorage.getItem(imageSessionKeys.TITLE);
-          const u = sessionStorage.getItem(imageSessionKeys.URL);
-          const a = sessionStorage.getItem(imageSessionKeys.AUTHOR);
+          const t = sessionStorage.getItem(imageSessionKeys.TITLE) || "";
+          const u = sessionStorage.getItem(imageSessionKeys.URL) || "";
+          const a = sessionStorage.getItem(imageSessionKeys.AUTHOR) || "";
 
-          if (t && u && a) {
+          if (u) {
             // replace on destination
+
             setImage(t, u, a);
           }
         }}

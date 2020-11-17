@@ -20,6 +20,7 @@ figcaption {
   word-break: break-word;
   width: 100px;
   padding-top: 3px;
+  margin: auto;
 }
 
 img {

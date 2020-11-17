@@ -108,6 +108,10 @@ table {
   height: auto;
 }
 
+.album-big + figcaption {
+  width: 150px;
+}
+
 .album {
   width: 100px;
   height: auto;

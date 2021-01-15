@@ -18,9 +18,9 @@ export const Home: React.FC = () => {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
 
-  const tableRef = createRef<HTMLTableElement>();
-  const MyMenu = forwardRef<HTMLTableElement>((_, ref) => <ConfigMenu tableRef={ref} />);
-  const MyChart = forwardRef<HTMLTableElement>((_, ref) => <Chart searchType={searchType} tableRef={ref} />);
+  const collageRef = createRef<HTMLDivElement>();
+  const MyMenu = forwardRef<HTMLDivElement>((_, ref) => <ConfigMenu collageRef={ref} />);
+  const MyChart = forwardRef<HTMLDivElement>((_, ref) => <Chart searchType={searchType} collageRef={ref} />);
 
   return (
     <div className="home" data-test="homeComponent">
@@ -34,11 +34,11 @@ export const Home: React.FC = () => {
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
           <Grid.Column width={11}>
             <ImagesContext.Provider value={{ images, dispatchImages }}>
-              <MyChart ref={tableRef} />
+              <MyChart ref={collageRef} />
             </ImagesContext.Provider>
           </Grid.Column>
           <Grid.Column width={1}>
-            <MyMenu ref={tableRef} />
+            <MyMenu ref={collageRef} />
           </Grid.Column>
         </ConfigContext.Provider>
       </Grid>

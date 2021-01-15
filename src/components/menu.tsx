@@ -4,13 +4,13 @@ import { Button, Menu, Form, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { ChartType, ConfigContext } from "./config";
-import { TableRef } from "./chart";
+import { collageRef } from "./chart";
 
 interface Props {
-  tableRef: TableRef;
+  collageRef: collageRef;
 }
 
-export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
+export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
   const { config, dispatchConfig } = useContext(ConfigContext);
   const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });

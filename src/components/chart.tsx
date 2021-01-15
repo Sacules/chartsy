@@ -6,18 +6,16 @@ import { ChartType, ConfigContext } from "./config";
 
 import { SearchType } from "./search";
 
-export type TableRef = ((instance: HTMLTableElement) => void) | MutableRefObject<HTMLTableElement | null> | null;
+export type collageRef = ((instance: HTMLDivElement) => void) | MutableRefObject<HTMLDivElement | null> | null;
 
 const collage = (
   images: Image[],
   rows: number,
   cols: number,
   pad: number,
-  showTitlesAside: boolean,
   showTitlesBelow: boolean,
   addTitle: boolean,
-  searchType: SearchType,
-  tableRef: TableRef
+  searchType: SearchType
 ) => {
   // Needed to generate a table dynamically
   var matrix: Image[][] = [];
@@ -46,7 +44,7 @@ const collage = (
   n = 0;
 
   return (
-    <table ref={tableRef}>
+    <table>
       {title()}
       {matrix.map((row) => (
         <tr>
@@ -70,8 +68,7 @@ const top50 = (
   pad: number,
   showTitlesAside: boolean,
   showTitlesBelow: boolean,
-  searchType: SearchType,
-  tableRef: TableRef
+  searchType: SearchType
 ) => {
   let top10: Image[][] = [];
   let n = 0;
@@ -144,7 +141,7 @@ const top50 = (
   );
 
   return (
-    <table ref={tableRef}>
+    <table>
       <caption>
         <h1 contentEditable>Epic Top 50!</h1>
       </caption>
@@ -156,21 +153,21 @@ const top50 = (
 };
 
 interface Props {
-  tableRef: TableRef;
+  collageRef: collageRef;
   searchType: SearchType;
 }
 
-export const Chart: React.FC<Props> = ({ searchType, tableRef }) => {
+export const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   const { config } = useContext(ConfigContext);
   const { images } = useContext(ImagesContext);
   const { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType } = config;
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, pad, showTitlesAside, showTitlesBelow, addTitle, searchType, tableRef);
+      return collage(images, rows, cols, pad, showTitlesBelow, addTitle, searchType);
     }
 
-    return top50(images, pad, showTitlesAside, showTitlesBelow, searchType, tableRef);
+    return top50(images, pad, showTitlesAside, showTitlesBelow, searchType);
   };
 
   const titleList = () => {
@@ -197,7 +194,7 @@ export const Chart: React.FC<Props> = ({ searchType, tableRef }) => {
   };
 
   return (
-    <div className="collage-container">
+    <div className="collage-container" ref={collageRef}>
       {chart()}
       {titleList()}
     </div>

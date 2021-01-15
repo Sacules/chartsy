@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useContext } from "react";
 
-import { Image, ImagesContext } from "./images";
+import { Image, ImagesContext, defaultImage } from "./images";
 import { ImageCard } from "./image";
 import { ChartType, ConfigContext } from "./config";
 
@@ -13,7 +13,8 @@ const collage = (
   rows: number,
   cols: number,
   pad: number,
-  showTitles: boolean,
+  showTitlesAside: boolean,
+  showTitlesBelow: boolean,
   addTitle: boolean,
   searchType: SearchType,
   tableRef: TableRef
@@ -37,7 +38,7 @@ const collage = (
 
     return (
       <caption>
-        <h1 contentEditable>Title</h1>
+        <h1 contentEditable>[edit me]</h1>
       </caption>
     );
   };
@@ -52,7 +53,7 @@ const collage = (
           {row.map((img) => {
             let cell = (
               <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitles} />
+                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
               </td>
             );
             n++;
@@ -64,7 +65,14 @@ const collage = (
   );
 };
 
-const top50 = (images: Image[], pad: number, showTitles: boolean, searchType: SearchType, tableRef: TableRef) => {
+const top50 = (
+  images: Image[],
+  pad: number,
+  showTitlesAside: boolean,
+  showTitlesBelow: boolean,
+  searchType: SearchType,
+  tableRef: TableRef
+) => {
   let top10: Image[][] = [];
   let n = 0;
   for (let i = 0; i < 1; i++) {
@@ -90,7 +98,7 @@ const top50 = (images: Image[], pad: number, showTitles: boolean, searchType: Se
           {row.map((img) => {
             let cell = (
               <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitles} />
+                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
               </td>
             );
             n++;
@@ -124,7 +132,7 @@ const top50 = (images: Image[], pad: number, showTitles: boolean, searchType: Se
           {row.map((img) => {
             let cell = (
               <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitles} />
+                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
               </td>
             );
             n++;
@@ -155,15 +163,43 @@ interface Props {
 export const Chart: React.FC<Props> = ({ searchType, tableRef }) => {
   const { config } = useContext(ConfigContext);
   const { images } = useContext(ImagesContext);
-  const { rows, cols, pad, showTitles, addTitle, chartType } = config;
+  const { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType } = config;
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, pad, showTitles, addTitle, searchType, tableRef);
+      return collage(images, rows, cols, pad, showTitlesAside, showTitlesBelow, addTitle, searchType, tableRef);
     }
 
-    return top50(images, pad, showTitles, searchType, tableRef);
+    return top50(images, pad, showTitlesAside, showTitlesBelow, searchType, tableRef);
   };
 
-  return <div className="collage-container">{chart()}</div>;
+  const titleList = () => {
+    if (!showTitlesAside) {
+      return "";
+    }
+
+    return (
+      <ul className="titles">
+        {images.map((img) => {
+          if (img.url === defaultImage.url) {
+            return "";
+          }
+
+          return (
+            <li>
+              <b>{img.author}</b>
+              {img.title}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  };
+
+  return (
+    <div className="collage-container">
+      {chart()}
+      {titleList()}
+    </div>
+  );
 };

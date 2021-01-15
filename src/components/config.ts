@@ -10,7 +10,8 @@ export type Config = {
   rows: number;
   cols: number;
   pad: number;
-  showTitles: boolean;
+  showTitlesBelow: boolean;
+  showTitlesAside: boolean;
   addTitle: boolean;
   imageBig: boolean;
   chartType: ChartType;
@@ -20,14 +21,15 @@ export const ConfigInitialState = {
   rows: 4,
   cols: 5,
   pad: 0,
-  showTitles: false,
+  showTitlesBelow: false,
+  showTitlesAside: false,
   addTitle: false,
   imageBig: false,
   chartType: ChartType.Collage,
 };
 
 export type ConfigAction = {
-  type: "rows" | "cols" | "pad" | "showTitles" | "addTitle" | "chart" | "big";
+  type: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chart" | "big";
   value: number | boolean | ChartType;
 };
 

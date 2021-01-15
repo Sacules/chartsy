@@ -14,8 +14,11 @@ export const configReducer = (state: Config, action: ConfigAction) => {
       pad = pad < 0 ? 0 : pad % 5;
       return { ...state, pad: pad };
 
-    case "showTitles":
-      return { ...state, showTitles: action.value as boolean };
+    case "showTitlesBelow":
+      return { ...state, showTitlesBelow: action.value as boolean };
+
+    case "showTitlesAside":
+      return { ...state, showTitlesAside: action.value as boolean };
 
     case "addTitle":
       return { ...state, addTitle: action.value as boolean };

@@ -127,7 +127,6 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
 
           if (u) {
             // replace on destination
-
             setImage(t, u, a);
           }
         }}

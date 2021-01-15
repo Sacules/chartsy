@@ -12,7 +12,7 @@ interface Props {
 
 export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
   const { config, dispatchConfig } = useContext(ConfigContext);
-  const { rows, cols, pad, chartType, showTitles, addTitle, imageBig } = config;
+  const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 
   return (
@@ -82,7 +82,17 @@ export const ConfigMenu: React.FC<Props> = ({ tableRef: chartRef }) => {
       </Menu.Item>
 
       <Menu.Item>
-        <Button content="Show titles" onClick={() => dispatchConfig({ type: "showTitles", value: !showTitles })} />
+        <Button
+          content="Show titles below"
+          onClick={() => dispatchConfig({ type: "showTitlesBelow", value: !showTitlesBelow })}
+        />
+      </Menu.Item>
+
+      <Menu.Item>
+        <Button
+          content="Show titles aside"
+          onClick={() => dispatchConfig({ type: "showTitlesAside", value: !showTitlesAside })}
+        />
       </Menu.Item>
 
       <Menu.Item>

@@ -40,6 +40,8 @@ export const imagesReducer = (state: Image[], action: ImagesAction) => {
       const cell = action.value;
       state[cell.pos] = cell.img;
 
+      localStorage.setItem("images", JSON.stringify(state));
+
       return state;
 
     default:

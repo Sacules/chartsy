@@ -177,9 +177,20 @@ export const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
 
     return (
       <ul className="titles">
-        {images.map((img) => {
+        {images.map((img, i) => {
           if (img.url === defaultImage.url) {
             return "";
+          }
+
+          if (i === cols) {
+            return (
+              <li>
+                <br />
+                <b>{img.author}</b>
+                {img.title}
+                <br />
+              </li>
+            );
           }
 
           return (

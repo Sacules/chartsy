@@ -63,9 +63,10 @@ caption {
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  margin: 3em 2em;
+  margin: 3em 1em;
   background-color: #f1f2f2;
   float: left;
+  display: table-cell;
 }
 
 li {
@@ -76,8 +77,12 @@ li {
 ul {
   margin-top: 3em;
   margin-bottom: 3em;
-  padding: 0;
-  float: left;
+  padding-top: 3em;
+  padding-left: 0;
+  padding-right: 1em;
+  display: table-cell;
+  vertical-align: top;
+  white-space: nowrap;
 }
 
 .pad-1 {
@@ -113,10 +118,8 @@ ul {
 }
 
 .collage-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
+  display: table;
   background-color: #f1f2f2;
-  width: 50%;
 }
 
 .collage-image {

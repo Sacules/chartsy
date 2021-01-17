@@ -32,14 +32,14 @@ export const Home: React.FC = () => {
           <Grid.Row padded="true">{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
-          <Grid.Column width={11}>
-            <ImagesContext.Provider value={{ images, dispatchImages }}>
+          <ImagesContext.Provider value={{ images, dispatchImages }}>
+            <Grid.Column width={11}>
               <MyChart ref={collageRef} />
-            </ImagesContext.Provider>
-          </Grid.Column>
-          <Grid.Column width={1}>
-            <MyMenu ref={collageRef} />
-          </Grid.Column>
+            </Grid.Column>
+            <Grid.Column width={1}>
+              <MyMenu ref={collageRef} />
+            </Grid.Column>
+          </ImagesContext.Provider>
         </ConfigContext.Provider>
       </Grid>
     </div>

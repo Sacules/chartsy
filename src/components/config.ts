@@ -29,7 +29,7 @@ export const ConfigInitialState = {
 };
 
 export type ConfigAction = {
-  type: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chart" | "big";
+  type: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chart" | "big" | "reset";
   value: number | boolean | ChartType;
 };
 

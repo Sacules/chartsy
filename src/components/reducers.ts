@@ -29,6 +29,10 @@ export const configReducer = (state: Config, action: ConfigAction) => {
     case "big":
       return { ...state, imageBig: action.value as boolean };
 
+    case "reset":
+      localStorage.clear();
+      return { ...state, rows: 4, cols: 5, pad: 0, showTitlesBelow: false, showTitlesAside: false, addTitle: false };
+
     default:
       return ConfigInitialState;
   }
@@ -43,6 +47,9 @@ export const imagesReducer = (state: Image[], action: ImagesAction) => {
       localStorage.setItem("images", JSON.stringify(state));
 
       return state;
+
+    case "reset":
+      return defaultImages(10, 10);
 
     default:
       return defaultImages(10, 10);

@@ -5,6 +5,7 @@ import { useScreenshot } from "use-screenshot-hook";
 
 import { ChartType, ConfigContext } from "./config";
 import { collageRef } from "./chart";
+import { ImagesContext } from "./images";
 
 interface Props {
   collageRef: collageRef;
@@ -12,6 +13,7 @@ interface Props {
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
   const { config, dispatchConfig } = useContext(ConfigContext);
+  const { dispatchImages } = useContext(ImagesContext);
   const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 
@@ -97,13 +99,18 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
 
       <Menu.Item>
         <Button
+          content="Reset"
+          onClick={() => {
+            dispatchConfig({ type: "reset" });
+            dispatchImages({ type: "reset" });
+          }}
+        />
+      </Menu.Item>
+
+      <Menu.Item>
+        <Button
           loading={isLoading}
           onClick={async () => {
-            // Fix weird margin cropping the table
-            let ref = chartRef.current as HTMLTableElement;
-            const prevMargin = ref.style.margin;
-            ref.style.margin = "0";
-
             let img = await takeScreenshot("png");
             let link = document.createElement("a");
             link.download = "topsters3.png";

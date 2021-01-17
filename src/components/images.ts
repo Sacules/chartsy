@@ -36,7 +36,7 @@ type ImageCell = {
 };
 
 export type ImagesAction = {
-  type: "update";
+  type: "update" | "reset";
   value: ImageCell;
 };
 

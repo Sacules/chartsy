@@ -29,7 +29,7 @@ export const Home: React.FC = () => {
           <Grid.Row>
             <Search getSearch={setSearch} getSearchType={setSearchType} getResultsImgs={setResultsImgs} />
           </Grid.Row>
-          <Grid.Row padded>{onResults(search, resultsImgs)}</Grid.Row>
+          <Grid.Row padded="true">{onResults(search, resultsImgs)}</Grid.Row>
         </Grid.Column>
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
           <Grid.Column width={11}>

@@ -44,22 +44,26 @@ const collage = (
   n = 0;
 
   return (
-    <table>
-      {title()}
-      {matrix.map((row) => (
-        <tr>
-          {row.map((img) => {
-            let cell = (
-              <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
-              </td>
-            );
-            n++;
-            return cell;
-          })}
-        </tr>
-      ))}
-    </table>
+    <div>
+      <table>
+        {title()}
+        <tbody>
+          {matrix.map((row) => (
+            <tr key={n}>
+              {row.map((img) => {
+                let cell = (
+                  <td className={`pad-${pad}`} key={n}>
+                    <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
+                  </td>
+                );
+                n++;
+                return cell;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
@@ -182,13 +186,12 @@ export const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
             return "";
           }
 
-          if (i === cols) {
+          if (i % cols === 0) {
             return (
               <li>
                 <br />
                 <b>{img.author}</b>
                 {img.title}
-                <br />
               </li>
             );
           }

@@ -156,6 +156,11 @@ func (s *server) handleGetGames() http.HandlerFunc {
 	}
 }
 
+type imdbResponse struct {
+	Title string `json:"title"`
+	Url   string `json:"url"`
+}
+
 func (s *server) handleGetMovies() http.HandlerFunc {
 	type movie struct {
 		Title string `json:"title"`
@@ -218,13 +223,8 @@ func (s *server) handleGetMovies() http.HandlerFunc {
 }
 
 func (s *server) handleGetSeries() http.HandlerFunc {
-	type series struct {
-		Title string `json:"title"`
-		Url   string `json:"url"`
-	}
-
 	type response struct {
-		Series []series `json:"series"`
+		Series []imdbResponse `json:"series"`
 	}
 
 	apiUrl := "https://imdb-api.com/en/API/SearchSeries/"
@@ -241,6 +241,15 @@ func (s *server) handleGetSeries() http.HandlerFunc {
 			return
 		}
 		search := r.Form.Get("search")
+		search = strings.ToLower(search)
+
+		cachedResults := s.dbFind(search)
+		if len(cachedResults.Results) != 0 {
+			log.Info("using cache for", search)
+			resp := response{Series: cachedResults.Results}
+			render.JSON(w, r, &resp)
+			return
+		}
 
 		req, err := http.NewRequest("GET", apiUrl+"/"+apiKey+"/"+search, nil)
 		if err != nil {
@@ -248,7 +257,6 @@ func (s *server) handleGetSeries() http.HandlerFunc {
 			return
 		}
 		req.Header.Set("user-agent", userAgent)
-
 		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			internalError(w, err)
@@ -263,16 +271,20 @@ func (s *server) handleGetSeries() http.HandlerFunc {
 			return
 		}
 
-		apiResponse := response{Series: make([]series, 0, len(results.Results))}
+		apiResponse := response{Series: make([]imdbResponse, 0, len(results.Results))}
 		for _, show := range results.Results {
 			cover := show.Image
 			if strings.HasSuffix(cover, "nopicture.jpg") {
 				continue
 			}
 
-			series := series{Title: show.Title, Url: cover}
+			series := imdbResponse{Title: show.Title, Url: cover}
 			apiResponse.Series = append(apiResponse.Series, series)
 		}
+
+		cached := imdbCachedResult{Searchterm: search, Results: apiResponse.Series}
+		s.dbSave(&cached)
+		log.Info("caching:", search)
 
 		render.JSON(w, r, &apiResponse)
 	}

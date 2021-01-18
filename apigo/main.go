@@ -9,6 +9,7 @@ import (
 
 func run() error {
 	s := newServer()
+	defer s.imdbCache.Close()
 
 	s.routes()
 

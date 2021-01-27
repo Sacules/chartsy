@@ -113,11 +113,9 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
           onClick={async () => {
             let img = await takeScreenshot("png");
             let link = document.createElement("a");
-            link.download = "topsters3.png";
+            link.download = "chartsy.png";
             link.href = img as string;
             link.click();
-
-            ref.style.margin = prevMargin;
           }}
         >
           Save to PNG

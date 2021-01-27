@@ -70,6 +70,10 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
     imgclass = "film";
   }
 
+  if (searchType === SearchType.Games) {
+    imgclass = "game";
+  }
+
   if (imageBig) {
     imgclass += " album-big";
   }

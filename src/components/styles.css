@@ -145,6 +145,11 @@ ul {
   height: 150px;
 }
 
+.game {
+    height: 100px;
+    width: 150px;
+}
+
 .count {
   display: flex;
   justify-content: space-between;

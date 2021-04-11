@@ -1,5 +1,5 @@
-import { Image, ImagesAction, defaultImages } from "./images";
-import { Config, ConfigAction, ChartType, ConfigInitialState } from "./config";
+import { ConfigInitialState } from "../../common/config";
+import { Config, ConfigAction, ChartType } from "../../common/entities";
 
 export const configReducer = (state: Config, action: ConfigAction) => {
   switch (action.type) {
@@ -35,23 +35,5 @@ export const configReducer = (state: Config, action: ConfigAction) => {
 
     default:
       return ConfigInitialState;
-  }
-};
-
-export const imagesReducer = (state: Image[], action: ImagesAction) => {
-  switch (action.type) {
-    case "update":
-      const cell = action.value;
-      state[cell.pos] = cell.img;
-
-      localStorage.setItem("images", JSON.stringify(state));
-
-      return state;
-
-    case "reset":
-      return defaultImages(10, 10);
-
-    default:
-      return defaultImages(10, 10);
   }
 };

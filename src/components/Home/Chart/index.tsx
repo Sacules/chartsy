@@ -1,12 +1,11 @@
-import React, { MutableRefObject, useContext } from "react";
+import React, { useContext } from "react";
 
-import { Image, ImagesContext, defaultImage } from "./images";
-import { ImageCard } from "./image";
-import { ChartType, ConfigContext } from "./config";
+import { ChartType, Image } from "../../../common/entities";
+import { ImagesContext, defaultImage } from "../../../common/images";
+import ImageCard from "../Chart/ImageCard";
+import { ConfigContext } from "../../../common/config";
 
-import { SearchType } from "./search";
-
-export type collageRef = ((instance: HTMLDivElement) => void) | MutableRefObject<HTMLDivElement | null> | null;
+import { SearchType, CollageRef } from "../../../common/entities";
 
 const collage = (
   images: Image[],
@@ -157,11 +156,11 @@ const top50 = (
 };
 
 interface Props {
-  collageRef: collageRef;
+  collageRef: CollageRef;
   searchType: SearchType;
 }
 
-export const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
+const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   const { config } = useContext(ConfigContext);
   const { images } = useContext(ImagesContext);
   const { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType } = config;
@@ -214,3 +213,5 @@ export const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
     </div>
   );
 };
+
+export default Chart;

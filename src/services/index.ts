@@ -1,5 +1,6 @@
-import { Image } from "./images";
 import axios from "axios";
+
+import { Image } from "../common/entities";
 
 export const getAlbum = async (al: string) => {
   return axios.get("/api/albums?album=" + al.replace(" ", "+")).then((resp) => {

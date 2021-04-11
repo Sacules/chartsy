@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
-import { Home } from "./home";
-import "./styles.css";
+import Home from "./Home";
 
-function App() {
+import "./styles.css";
+import "normalize.css";
+
+const App: React.FC = () => {
   return (
     <Fragment>
       <div className="App" data-test="app">
@@ -10,6 +12,6 @@ function App() {
       </div>
     </Fragment>
   );
-}
+};
 
 export default App;

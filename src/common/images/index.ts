@@ -1,10 +1,6 @@
 import { Dispatch, createContext } from "react";
 
-export type Image = {
-  title: string;
-  author: string;
-  url: string;
-};
+import { Image, ImagesAction } from "../entities";
 
 export const defaultImage: Image = {
   title: "",
@@ -28,16 +24,6 @@ export const defaultImages = (rows: number, cols: number) => {
   }
 
   return imgs;
-};
-
-type ImageCell = {
-  img: Image;
-  pos: number;
-};
-
-export type ImagesAction = {
-  type: "update" | "reset";
-  value: ImageCell;
 };
 
 export const ImagesContext = createContext<{ images: Image[]; dispatchImages: Dispatch<ImagesAction> }>({

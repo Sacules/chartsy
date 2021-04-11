@@ -3,12 +3,12 @@ import React, { useContext } from "react";
 import { Button, Menu, Form, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
-import { ChartType, ConfigContext } from "./config";
-import { collageRef } from "./chart";
-import { ImagesContext } from "./images";
+import { ConfigContext } from "../../../common/config";
+import { ChartType, CollageRef } from "../../../common/entities";
+import { ImagesContext } from "../../../common/images";
 
 interface Props {
-  collageRef: collageRef;
+  collageRef: CollageRef;
 }
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {

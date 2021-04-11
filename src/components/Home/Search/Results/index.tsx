@@ -1,8 +1,8 @@
 import React from "react";
-
-import { Image } from "./images";
-import { ImageCard } from "./image";
 import { Grid } from "semantic-ui-react";
+
+import ImageCard from "../../Chart/ImageCard";
+import { Image } from "../../../../common/entities";
 
 interface Props {
   images: Image[];

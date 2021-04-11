@@ -1,16 +1,18 @@
 import React, { useReducer, useState, forwardRef, createRef } from "react";
 import { Grid } from "semantic-ui-react";
 
-import { defaultImages, ImagesContext } from "./images";
-import { Search, SearchType } from "./search";
-import { ConfigMenu } from "./menu";
-import { Chart } from "./chart";
-import { Image } from "./images";
-import { onResults } from "./results";
-import { ConfigContext, ConfigInitialState } from "./config";
-import { configReducer, imagesReducer } from "./reducers";
+import { Search } from "./Search";
+import { ConfigMenu } from "./Menu";
+import Chart from "./Chart";
+import { onResults } from "./Search/Results";
 
-export const Home: React.FC = () => {
+import { Image, SearchType } from "../../common/entities";
+import { defaultImages, ImagesContext } from "../../common/images";
+import { ConfigContext, ConfigInitialState } from "../../common/config";
+import { configReducer } from "../../reducers/config";
+import { imagesReducer } from "../../reducers/images";
+
+const Home: React.FC = () => {
   const [config, dispatchConfig] = useReducer(configReducer, ConfigInitialState);
   const [images, dispatchImages] = useReducer(imagesReducer, defaultImages(10, 10));
 
@@ -45,3 +47,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;

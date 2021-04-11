@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input } from "semantic-ui-react";
-import { Image } from "./images";
-import { getAlbum, getGame, getMovie, getSeries } from "./fetcher";
 
-export enum SearchType {
-  Art,
-  Books,
-  Games,
-  Music,
-  Movies,
-  Series,
-}
+import { Image } from "../../../common/entities";
+import { getAlbum, getGame, getMovie, getSeries } from "../../../services";
+import { SearchType } from "../../../common/entities";
 
 interface Props {
   getSearch: (search: string) => void;

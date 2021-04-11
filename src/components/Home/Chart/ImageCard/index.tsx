@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
 
-import { Image, ImagesContext } from "./images";
-import { SearchType } from "./search";
-import { ConfigContext } from "./config";
+import { ImagesContext } from "../../../../common/images";
+import { Image, SearchType } from "../../../../common/entities";
+import { ConfigContext } from "../../../../common/config";
 
 interface Props {
   pos?: number;
@@ -42,10 +42,11 @@ const titleShow = (show: boolean, title: string, author: string | undefined) => 
   );
 };
 
-export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
+const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
   const [title, setTitle] = useState(img.title);
   const [url, setUrl] = useState(img.url);
   const [author, setAuthor] = useState(img.author);
+
   const { dispatchImages } = useContext(ImagesContext);
   const { config } = useContext(ConfigContext);
   const { imageBig } = config;
@@ -143,3 +144,5 @@ export const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) 
     </div>
   );
 };
+
+export default ImageCard;

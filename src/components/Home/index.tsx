@@ -4,9 +4,8 @@ import { Grid } from "semantic-ui-react";
 import { Search } from "./Search";
 import { ConfigMenu } from "./Menu";
 import Chart from "./Chart";
-import { onResults } from "./Search/Results";
 
-import { Image, SearchType } from "../../common/entities";
+import { SearchType } from "../../common/entities";
 import { defaultImages, ImagesContext } from "../../common/images";
 import { ConfigContext, ConfigInitialState } from "../../common/config";
 import { configReducer } from "../../reducers/config";
@@ -15,9 +14,6 @@ import { imagesReducer } from "../../reducers/images";
 const Home: React.FC = () => {
   const [config, dispatchConfig] = useReducer(configReducer, ConfigInitialState);
   const [images, dispatchImages] = useReducer(imagesReducer, defaultImages(10, 10));
-
-  const [resultsImgs, setResultsImgs] = useState<Image[]>([]);
-  const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState(SearchType.Music);
 
   const collageRef = createRef<HTMLDivElement>();
@@ -28,10 +24,7 @@ const Home: React.FC = () => {
     <div className="home" data-test="homeComponent">
       <Grid>
         <Grid.Column className="search" width={3}>
-          <Grid.Row>
-            <Search getSearch={setSearch} getSearchType={setSearchType} getResultsImgs={setResultsImgs} />
-          </Grid.Row>
-          <Grid.Row padded="true">{onResults(search, resultsImgs)}</Grid.Row>
+          <Search searchType={searchType} setSearchType={setSearchType} />
         </Grid.Column>
         <ConfigContext.Provider value={{ config, dispatchConfig }}>
           <ImagesContext.Provider value={{ images, dispatchImages }}>

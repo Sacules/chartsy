@@ -1,4 +1,4 @@
-import { createContext, Dispatch } from "react";
+import { createContext, Dispatch, useContext } from "react";
 
 import { Config, ConfigAction, ChartType } from "../entities";
 
@@ -17,3 +17,12 @@ export const ConfigContext = createContext<{ config: Config; dispatchConfig: Dis
   config: ConfigInitialState,
   dispatchConfig: () => null,
 });
+
+export const useConfig = () => {
+  const context = useContext(ConfigContext);
+  if (context === undefined) {
+    throw new Error("useConfig must be used within a Config provider");
+  }
+
+  return context;
+};

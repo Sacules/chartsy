@@ -1,19 +1,19 @@
 // @ts-nocheck
-import React, { useContext } from "react";
+import React from "react";
 import { Button, Menu, Form, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
-import { ConfigContext } from "../../../common/config";
+import { useConfig } from "../../../common/config";
 import { ChartType, CollageRef } from "../../../common/entities";
-import { ImagesContext } from "../../../common/images";
+import { useImages } from "../../../common/images";
 
 interface Props {
   collageRef: CollageRef;
 }
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
-  const { config, dispatchConfig } = useContext(ConfigContext);
-  const { dispatchImages } = useContext(ImagesContext);
+  const { config, dispatchConfig } = useConfig();
+  const { dispatchImages } = useImages();
   const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 

@@ -1,4 +1,4 @@
-import { Dispatch, createContext } from "react";
+import { Dispatch, createContext, useContext } from "react";
 
 import { Image, ImagesAction } from "../entities";
 
@@ -30,3 +30,12 @@ export const ImagesContext = createContext<{ images: Image[]; dispatchImages: Di
   images: defaultImages(10, 10),
   dispatchImages: () => null,
 });
+
+export const useImages = () => {
+  const context = useContext(ImagesContext);
+  if (context === undefined) {
+    throw new Error("useConfig must be used within a Config provider");
+  }
+
+  return context;
+};

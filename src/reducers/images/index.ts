@@ -12,8 +12,6 @@ export const imagesReducer = (state: Image[], action: ImagesAction) => {
       return state;
 
     case "reset":
-      return defaultImages(10, 10);
-
     default:
       return defaultImages(10, 10);
   }

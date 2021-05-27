@@ -30,7 +30,7 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
               value="collage"
               checked={chartType === ChartType.Collage}
               onChange={(e) => {
-                dispatchConfig({ type: "chart", value: ChartType.Collage });
+                dispatchConfig({ type: "update", field: "chartType", value: ChartType.Collage });
                 e.preventDefault();
               }}
             />
@@ -41,7 +41,7 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
               value="top50"
               checked={chartType === ChartType.Top50}
               onChange={(e) => {
-                dispatchConfig({ type: "chart", value: ChartType.Top50 });
+                dispatchConfig({ type: "update", field: "chartType", value: ChartType.Top50 });
                 e.preventDefault();
               }}
             />
@@ -54,16 +54,16 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
           <Label horizontal>{rows}</Label>
         </p>
 
-        <Button content="-" onClick={() => dispatchConfig({ type: "rows", value: rows - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "rows", value: rows + 1 })} />
+        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows - 1 })} />
+        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows + 1 })} />
       </Menu.Item>
       <Menu.Item className="count-container">
         <p className="count">
           <b>Columns</b>
           <Label horizontal>{cols}</Label>
         </p>
-        <Button content="-" onClick={() => dispatchConfig({ type: "cols", value: cols - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "cols", value: cols + 1 })} />
+        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols - 1 })} />
+        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols + 1 })} />
       </Menu.Item>
 
       <Menu.Item className="count-container">
@@ -71,29 +71,35 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
           <b>Padding</b>
           <Label horizontal>{pad}</Label>
         </p>
-        <Button content="-" onClick={() => dispatchConfig({ type: "pad", value: pad - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "pad", value: pad + 1 })} />
+        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad - 1 })} />
+        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })} />
       </Menu.Item>
 
       <Menu.Item>
-        <Button content="Toggle size" onClick={() => dispatchConfig({ type: "big", value: !imageBig })} />
+        <Button
+          content="Toggle size"
+          onClick={() => dispatchConfig({ type: "update", field: "imageBig", value: !imageBig })}
+        />
       </Menu.Item>
 
       <Menu.Item>
-        <Button content="Add title" onClick={() => dispatchConfig({ type: "addTitle", value: !addTitle })} />
+        <Button
+          content="Add title"
+          onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
+        />
       </Menu.Item>
 
       <Menu.Item>
         <Button
           content="Show titles below"
-          onClick={() => dispatchConfig({ type: "showTitlesBelow", value: !showTitlesBelow })}
+          onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
         />
       </Menu.Item>
 
       <Menu.Item>
         <Button
           content="Show titles aside"
-          onClick={() => dispatchConfig({ type: "showTitlesAside", value: !showTitlesAside })}
+          onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
         />
       </Menu.Item>
 

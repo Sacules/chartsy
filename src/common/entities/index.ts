@@ -18,8 +18,9 @@ export type Config = {
 };
 
 export type ConfigAction = {
-  type: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chart" | "big" | "reset";
-  value: number | boolean | ChartType;
+  type: "update" | "reset";
+  field?: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chartType" | "imageBig";
+  value?: number | boolean | ChartType;
 };
 
 export type Image = {

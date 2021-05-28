@@ -13,7 +13,6 @@ const collage = (
   cols: number,
   pad: number,
   showTitlesBelow: boolean,
-  addTitle: boolean,
   searchType: SearchType
 ) => {
   // Needed to generate a table dynamically
@@ -28,41 +27,26 @@ const collage = (
     }
   }
 
-  const title = () => {
-    if (!addTitle) {
-      return "";
-    }
-
-    return (
-      <caption>
-        <h1 contentEditable>[edit me]</h1>
-      </caption>
-    );
-  };
-
   n = 0;
 
   return (
-    <div>
-      <table>
-        {title()}
-        <tbody>
-          {matrix.map((row) => (
-            <tr key={n}>
-              {row.map((img) => {
-                let cell = (
-                  <td className={`pad-${pad}`} key={n}>
-                    <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
-                  </td>
-                );
-                n++;
-                return cell;
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table>
+      <tbody>
+        {matrix.map((row) => (
+          <tr key={n}>
+            {row.map((img) => {
+              let cell = (
+                <td className={`pad-${pad}`} key={n}>
+                  <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
+                </td>
+              );
+              n++;
+              return cell;
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 
@@ -167,49 +151,37 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
-      return collage(images, rows, cols, pad, showTitlesBelow, addTitle, searchType);
+      return collage(images, rows, cols, pad, showTitlesBelow, searchType);
     }
 
     return top50(images, pad, showTitlesAside, showTitlesBelow, searchType);
   };
 
-  const titleList = () => {
-    if (!showTitlesAside) {
-      return "";
-    }
-
-    return (
-      <ul className="titles">
-        {images.map((img, i) => {
-          if (img.url === defaultImage.url) {
-            return "";
-          }
-
-          if (i % cols === 0) {
-            return (
-              <li>
-                <br />
-                <b>{img.author}</b>
-                {img.title}
-              </li>
-            );
-          }
-
-          return (
-            <li>
-              <b>{img.author}</b>
-              {img.title}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
-
   return (
-    <div className="collage-container" ref={collageRef}>
-      {chart()}
-      {titleList()}
+    <div className={`collage-container ${showTitlesAside && "collage-padded"}`} ref={collageRef}>
+      {addTitle && (
+        <caption>
+          <h1 contentEditable>[edit me]</h1>
+        </caption>
+      )}
+      <div>
+        {chart()}
+        {showTitlesAside && (
+          <ul className="titles">
+            {images.map((img, i) => (
+              <>
+                {img.url !== defaultImage.url && (
+                  <li>
+                    {i > 0 && i % cols === 0 && <br />}
+                    <b>{img.author}</b>
+                    {img.title}
+                  </li>
+                )}
+              </>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 };

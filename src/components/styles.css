@@ -1,3 +1,7 @@
+:root {
+    --background: #f1f2f2;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -11,7 +15,7 @@ html {
 }
 
 body {
-  background-color: #f1f2f2;
+  background-color: var(--background);
 }
 
 
@@ -53,18 +57,22 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 }
 
+td {
+  transition: all 0.5s ease;
+}
+
 caption {
   padding-bottom: 0.5em;
   color: #303032;
   text-align: left;
-  background-color: #f1f2f2;
+  background-color: var(--background);
+  white-space: nowrap;
 }
 
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  margin: 3em 1em;
-  background-color: #f1f2f2;
+  background-color: var(--background);
   float: left;
   display: table-cell;
 }
@@ -75,13 +83,8 @@ li {
 }
 
 ul {
-  margin-top: 3em;
-  margin-bottom: 3em;
-  padding-top: 3em;
-  padding-left: 0;
-  padding-right: 1em;
+  padding-left: 1rem;
   display: table-cell;
-  vertical-align: top;
   white-space: nowrap;
 }
 
@@ -118,8 +121,12 @@ ul {
 }
 
 .collage-container {
-  display: table;
-  background-color: #f1f2f2;
+  background-color: var(--background);
+  width: max-content;
+}
+
+.collage-padded {
+    padding: 1rem;
 }
 
 .collage-image {

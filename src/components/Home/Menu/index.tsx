@@ -20,7 +20,7 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
   return (
     <Menu vertical text>
       <Menu.Item>
-        <p>
+        <p className="collage-type">
           <b>Type</b>
         </p>
         <Form>
@@ -49,28 +49,34 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
         </Form>
       </Menu.Item>
       <Menu.Item className="count-container">
-        <p className="count">
-          <b>Rows</b>
+        <div className="count">
+          <p>
+            <b>Rows</b>
+          </p>
           <Label horizontal>{rows}</Label>
-        </p>
+        </div>
 
         <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows + 1 })} />
       </Menu.Item>
       <Menu.Item className="count-container">
-        <p className="count">
-          <b>Columns</b>
+        <div className="count">
+          <p>
+            <b>Columns</b>
+          </p>
           <Label horizontal>{cols}</Label>
-        </p>
+        </div>
         <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols + 1 })} />
       </Menu.Item>
 
       <Menu.Item className="count-container">
-        <p className="count">
-          <b>Padding</b>
+        <div className="count">
+          <p>
+            <b>Padding</b>
+          </p>
           <Label horizontal>{pad}</Label>
-        </p>
+        </div>
         <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad - 1 })} />
         <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })} />
       </Menu.Item>

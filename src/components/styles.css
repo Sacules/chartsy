@@ -42,6 +42,7 @@ img:hover{
 p {
   color: #303032;
   line-height: 1.2rem;
+  margin-bottom: 0;
 }
 
 b {
@@ -133,6 +134,10 @@ ul {
   display: block;
 }
 
+.collage-type{
+    margin-bottom: .5rem;
+}
+
 .album-big {
   width: 150px;
   height: auto;
@@ -160,6 +165,7 @@ ul {
 .count {
   display: flex;
   justify-content: space-between;
+  margin-bottom: .5rem;
 }
 
 .count-container {

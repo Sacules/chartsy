@@ -12,7 +12,7 @@ build:
     paths:
       - build/          # Save the build result as an artfact
 
-deploy:
+pages:
   image: alpine:latest
   stage: deploy
   variables:

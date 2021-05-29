@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { ChartType, Image } from "../../../common/entities";
-import { ImagesContext, defaultImage } from "../../../common/images";
+import { defaultImage, useImageGrid } from "../../../common/imagegrid";
 import ImageCard from "../Chart/ImageCard";
-import { ConfigContext } from "../../../common/config";
+import { useConfig } from "../../../common/config";
 
 import { SearchType, CollageRef } from "../../../common/entities";
 
@@ -145,9 +145,12 @@ interface Props {
 }
 
 const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
-  const { config } = useContext(ConfigContext);
-  const { images } = useContext(ImagesContext);
-  const { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType } = config;
+  const {
+    config: { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType },
+  } = useConfig();
+  const {
+    imageGrid: { images },
+  } = useImageGrid();
 
   const chart = () => {
     if (chartType === ChartType.Collage) {
@@ -171,7 +174,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
             {images.map((img, i) => (
               <>
                 {img.url !== defaultImage.url && (
-                  <li>
+                  <li key={`image-title-${i}`}>
                     {i > 0 && i % cols === 0 && <br />}
                     <b>{img.author}</b>
                     {img.title}

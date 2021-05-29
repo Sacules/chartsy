@@ -5,7 +5,7 @@ import { useScreenshot } from "use-screenshot-hook";
 
 import { useConfig } from "../../../common/config";
 import { ChartType, CollageRef } from "../../../common/entities";
-import { useImages } from "../../../common/images";
+import { useImageGrid } from "../../../common/imagegrid";
 
 interface Props {
   collageRef: CollageRef;
@@ -13,7 +13,7 @@ interface Props {
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
   const { config, dispatchConfig } = useConfig();
-  const { dispatchImages } = useImages();
+  const { dispatch: dispatchImages } = useImageGrid();
   const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 

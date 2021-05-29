@@ -124,6 +124,7 @@ ul {
 .collage-container {
   background-color: var(--background);
   width: max-content;
+  display: flex;
 }
 
 .collage-padded {

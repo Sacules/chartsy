@@ -40,6 +40,7 @@ const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
           const parent = e.currentTarget.parentNode?.parentNode?.parentElement;
           if (parent?.className.includes("results")) {
             dispatch({ type: "update", field: "draggedSource", value: "results" });
+            dispatch({ type: "update", field: "draggedTarget", value: "results" });
             dispatch({ type: "update", field: "draggedImage", value: img });
           } else {
             dispatch({ type: "update", field: "draggedSource", value: "collage" });

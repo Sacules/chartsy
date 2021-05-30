@@ -5,10 +5,16 @@ export const configReducer = (state: Config, action: ConfigAction) => {
   switch (action.type) {
     case "update":
       let val = action.value;
+
       if (action.field === "pad") {
         val = val as number;
         val = val < 0 ? 0 : val % 5;
       }
+
+      if ((action.field === "rows" || action.field === "cols") && val === 0) {
+        val = 1;
+      }
+
       return { ...state, [action.field as string]: val };
 
     case "reset":

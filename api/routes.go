@@ -18,12 +18,10 @@ const (
 func (s *server) routes() {
 	log.EnableDebug = true
 
-	s.router.Route("/api", func(r chi.Router) {
-		r.Get("/albums", s.handleGetMusic())
-		r.Get("/games", s.handleGetGames())
-		r.Get("/movies", s.handleGetMovies())
-		r.Get("/series", s.handleGetSeries())
-	})
+	s.router.Get("/albums", s.handleGetMusic())
+	s.router.Get("/games", s.handleGetGames())
+	s.router.Get("/movies", s.handleGetMovies())
+	s.router.Get("/series", s.handleGetSeries())
 
 	log.Info("installed the following routes:")
 	walkFunc := func(method, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {

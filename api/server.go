@@ -37,6 +37,8 @@ func setupRouter() *chi.Mux {
 		cors.Handler(cors.Options{
 			AllowedOrigins:   []string{"https://chartsy.net"},
 			AllowedMethods:   []string{"GET", "OPTIONS"},
+			AllowedHeaders:   []string{"X-PINGOTHER", "Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+			ExposedHeaders:   []string{"Link"},
 			AllowCredentials: false,
 			MaxAge:           300, // Maximum value not ignored by any of major browsers
 		}),

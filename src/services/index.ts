@@ -3,7 +3,7 @@ import axios from "axios";
 import { Image } from "../common/entities";
 
 export const getAlbum = async (al: string) => {
-  return axios.get("/api/albums?album=" + al.replace(" ", "+")).then((resp) => {
+  return axios.get("/api/albums?search=" + al.replace(" ", "+")).then((resp) => {
     return resp.data.albums;
   });
 };

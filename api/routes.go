@@ -58,7 +58,7 @@ func (s *server) handleGetMusic() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusBadRequest)
 			return
 		}
-		search := r.Form.Get("album")
+		search := r.Form.Get("search")
 
 		query := &url.Values{}
 		query.Set("method", "album.search")

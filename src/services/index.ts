@@ -2,14 +2,16 @@ import axios from "axios";
 
 import { Image } from "../common/entities";
 
+const APIURL = "http://api.chartsy.net";
+
 export const getAlbum = async (al: string) => {
-  return axios.get("/api/albums?search=" + al.replace(" ", "+")).then((resp) => {
+  return axios.get(APIURL + "/albums?search=" + al.replace(" ", "+")).then((resp) => {
     return resp.data.albums;
   });
 };
 
 export const getGame = async (game: string) => {
-  return axios.get("/api/games?search=" + game.replace(" ", "+")).then((resp) => {
+  return axios.get(APIURL + "/games?search=" + game.replace(" ", "+")).then((resp) => {
     let games: Image[] = [];
 
     for (const g of resp.data.games) {
@@ -21,7 +23,7 @@ export const getGame = async (game: string) => {
 };
 
 export const getMovie = async (movie: string) => {
-  return axios.get("/api/movies?search=" + movie.replace(" ", "+")).then((resp) => {
+  return axios.get(APIURL + "/movies?search=" + movie.replace(" ", "+")).then((resp) => {
     let movies: Image[] = [];
 
     for (const g of resp.data.movies) {
@@ -33,7 +35,7 @@ export const getMovie = async (movie: string) => {
 };
 
 export const getSeries = async (show: string) => {
-  return axios.get("/api/series?search=" + show.replace(" ", "+")).then((resp) => {
+  return axios.get(APIURL + "/series?search=" + show.replace(" ", "+")).then((resp) => {
     let series: Image[] = [];
 
     for (const g of resp.data.series) {

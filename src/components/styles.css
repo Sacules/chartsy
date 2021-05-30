@@ -121,6 +121,10 @@ ul {
   overflow: auto;
 }
 
+.collage-column {
+    padding-top: 3.7rem !important;
+}
+
 .collage-container {
   background-color: var(--background);
   width: max-content;

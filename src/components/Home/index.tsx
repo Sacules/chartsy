@@ -26,7 +26,7 @@ const Home: React.FC = () => {
             <Search searchType={searchType} setSearchType={setSearchType} />
           </Grid.Column>
           <ConfigContext.Provider value={{ config, dispatchConfig }}>
-            <Grid.Column width={11}>
+            <Grid.Column className="collage-column" width={11}>
               <MyChart ref={collageRef} />
             </Grid.Column>
             <Grid.Column width={1}>

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { Image } from "../common/entities";
 
-const APIURL = "http://api.chartsy.net";
+const APIURL = "https://api.chartsy.net";
 
 export const getAlbum = async (al: string) => {
   return axios.get(APIURL + "/albums?search=" + al.replace(" ", "+")).then((resp) => {

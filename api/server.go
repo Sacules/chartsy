@@ -6,7 +6,6 @@ import (
 	"github.com/asdine/storm"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
-	"github.com/go-chi/cors"
 	"gitlab.com/sacules/log"
 )
 
@@ -26,6 +25,13 @@ func newServer() *server {
 }
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization, cache-control")
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	s.router.ServeHTTP(w, r)
 }
 
@@ -35,14 +41,6 @@ func setupRouter() *chi.Mux {
 	r.Use(
 		middleware.Recoverer,
 		Logger,
-		cors.Handler(cors.Options{
-			AllowedOrigins:   []string{"https://chartsy.net"},
-			AllowedMethods:   []string{"GET", "OPTIONS"},
-			AllowedHeaders:   []string{"X-PINGOTHER", "Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-			ExposedHeaders:   []string{"Link"},
-			AllowCredentials: false,
-			MaxAge:           300, // Maximum value not ignored by any of major browsers
-		}),
 	)
 
 	return r

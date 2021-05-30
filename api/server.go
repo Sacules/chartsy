@@ -7,7 +7,6 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/cors"
-	"github.com/go-chi/render"
 	"gitlab.com/sacules/log"
 )
 
@@ -34,6 +33,8 @@ func setupRouter() *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Use(
+		middleware.Recoverer,
+		Logger,
 		cors.Handler(cors.Options{
 			AllowedOrigins:   []string{"https://chartsy.net"},
 			AllowedMethods:   []string{"GET", "OPTIONS"},
@@ -42,9 +43,6 @@ func setupRouter() *chi.Mux {
 			AllowCredentials: false,
 			MaxAge:           300, // Maximum value not ignored by any of major browsers
 		}),
-		render.SetContentType(render.ContentTypeJSON),
-		middleware.Recoverer,
-		Logger,
 	)
 
 	return r

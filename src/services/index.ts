@@ -7,7 +7,6 @@ const APIURL = "https://api.chartsy.net";
 const http = axios.create({
   baseURL: APIURL,
   headers: {
-    "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   },
 });

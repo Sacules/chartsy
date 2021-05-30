@@ -161,7 +161,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   };
 
   return (
-    <div className={`collage-container ${showTitlesAside && "collage-padded"}`} ref={collageRef}>
+    <div className={`collage-container${showTitlesAside ? " collage-padded" : ""}`} ref={collageRef}>
       {addTitle && (
         <caption>
           <h1 contentEditable>[edit me]</h1>

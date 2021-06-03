@@ -6,7 +6,7 @@ Chartsy is a modern site for building charts of music, video games, movies, and 
 
 ## Build
 
-You need yarn and Go >= 1.15 installed (and optionally Python) installed, then you start up the frontend with
+You need yarn and Go >= 1.15 installed installed, then you start up the frontend with
 
 ```console
 yarn install

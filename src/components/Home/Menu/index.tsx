@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from "react";
-import { Button, Menu, Form, Radio, Label } from "semantic-ui-react";
+import { Grid, Button, Form, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { useConfig } from "../../../common/config";
@@ -12,115 +12,166 @@ interface Props {
 }
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
-  const { config, dispatchConfig } = useConfig();
+  const {
+    config: { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
+    dispatchConfig,
+  } = useConfig();
   const { dispatch: dispatchImages } = useImageGrid();
-  const { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig } = config;
   const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 
   return (
-    <Menu vertical text>
-      <Menu.Item>
+    <div className="config">
+      <Form>
         <p className="collage-type">
           <b>Type</b>
         </p>
-        <Form>
-          <Form.Field>
-            <Radio
-              label="Collage"
-              value="collage"
-              checked={chartType === ChartType.Collage}
-              onChange={(e) => {
-                dispatchConfig({ type: "update", field: "chartType", value: ChartType.Collage });
-                e.preventDefault();
-              }}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Radio
-              label="Top 50"
-              value="top50"
-              checked={chartType === ChartType.Top50}
-              onChange={(e) => {
-                dispatchConfig({ type: "update", field: "chartType", value: ChartType.Top50 });
-                e.preventDefault();
-              }}
-            />
-          </Form.Field>
-        </Form>
-      </Menu.Item>
-      <Menu.Item className="count-container">
+        <Form.Field>
+          <Radio
+            label="Collage"
+            value="collage"
+            checked={chartType === ChartType.Collage}
+            onChange={(e) => {
+              dispatchConfig({ type: "update", field: "chartType", value: ChartType.Collage });
+              e.preventDefault();
+            }}
+          />
+        </Form.Field>
+        <Form.Field>
+          <Radio
+            label="Top 50"
+            value="top50"
+            checked={chartType === ChartType.Top50}
+            onChange={(e) => {
+              dispatchConfig({ type: "update", field: "chartType", value: ChartType.Top50 });
+              e.preventDefault();
+            }}
+          />
+        </Form.Field>
+      </Form>
+      <div className="count-container">
         <div className="count">
           <p>
             <b>Rows</b>
           </p>
-          <Label horizontal>{rows}</Label>
+          <Label className="count-label" horizontal>
+            {rows}
+          </Label>
         </div>
-
-        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows + 1 })} />
-      </Menu.Item>
-      <Menu.Item className="count-container">
+        <Grid columns="2">
+          <Grid.Column>
+            <Button
+              compact
+              content="-"
+              onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows - 1 })}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              compact
+              content="+"
+              onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows + 1 })}
+            />
+          </Grid.Column>
+        </Grid>
+      </div>
+      <div className="count-container">
         <div className="count">
           <p>
             <b>Columns</b>
           </p>
-          <Label horizontal>{cols}</Label>
+          <Label className="count-label" horizontal>
+            {cols}
+          </Label>
         </div>
-        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols + 1 })} />
-      </Menu.Item>
+        <Grid columns="2">
+          <Grid.Column>
+            <Button
+              compact
+              content="-"
+              onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols - 1 })}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              compact
+              content="+"
+              onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols + 1 })}
+            />
+          </Grid.Column>
+        </Grid>
+      </div>
 
-      <Menu.Item className="count-container">
+      <div className="count-container">
         <div className="count">
           <p>
             <b>Padding</b>
           </p>
-          <Label horizontal>{pad}</Label>
+          <Label className="count-label" horizontal>
+            {pad}
+          </Label>
         </div>
-        <Button content="-" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad - 1 })} />
-        <Button content="+" onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })} />
-      </Menu.Item>
+        <Grid columns="2">
+          <Grid.Column>
+            <Button
+              compact
+              content="-"
+              onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad - 1 })}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              compact
+              content="+"
+              onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })}
+            />
+          </Grid.Column>
+        </Grid>
+      </div>
 
-      <Menu.Item>
-        <Button
-          content="Toggle size"
+      <div className="config-radios">
+        <Radio
+          label="Show bigger"
+          checked={imageBig}
           onClick={() => dispatchConfig({ type: "update", field: "imageBig", value: !imageBig })}
+          toggle
         />
-      </Menu.Item>
-
-      <Menu.Item>
-        <Button
-          content="Add title"
+        <Radio
+          label="Add title"
+          checked={addTitle}
           onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
+          toggle
         />
-      </Menu.Item>
+      </div>
 
-      <Menu.Item>
-        <Button
-          content="Show titles below"
+      <div className="config-radios">
+        <Radio
+          label="Show titles below"
+          checked={showTitlesBelow}
           onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
+          toggle
         />
-      </Menu.Item>
-
-      <Menu.Item>
-        <Button
-          content="Show titles aside"
+        <Radio
+          label="Show titles aside"
+          checked={showTitlesAside}
           onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
+          toggle
         />
-      </Menu.Item>
+      </div>
 
-      <Menu.Item>
+      <div className="config-radios">
         <Button
+          compact
           content="Reset"
           onClick={() => {
             dispatchConfig({ type: "reset" });
             dispatchImages({ type: "reset" });
           }}
         />
-      </Menu.Item>
+      </div>
 
-      <Menu.Item>
+      <div className="config-radios">
         <Button
+          compact
           loading={isLoading}
           onClick={async () => {
             let img = await takeScreenshot("png");
@@ -132,7 +183,7 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
         >
           Save to PNG
         </Button>
-      </Menu.Item>
-    </Menu>
+      </div>
+    </div>
   );
 };

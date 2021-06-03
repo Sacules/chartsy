@@ -20,17 +20,19 @@ const Home: React.FC = () => {
 
   return (
     <div className="home" data-test="homeComponent">
-      <Grid>
+      <Grid columns={2}>
         <ImageGridProvider>
           <Grid.Column className="search" width={3}>
             <Search searchType={searchType} setSearchType={setSearchType} />
           </Grid.Column>
           <ConfigContext.Provider value={{ config, dispatchConfig }}>
-            <Grid.Column className="collage-column" width={11}>
-              <MyChart ref={collageRef} />
-            </Grid.Column>
-            <Grid.Column width={1}>
-              <MyMenu ref={collageRef} />
+            <Grid.Column width={13}>
+              <Grid.Row>
+                <MyMenu ref={collageRef} />
+              </Grid.Row>
+              <Grid.Row>
+                <MyChart ref={collageRef} />
+              </Grid.Row>
             </Grid.Column>
           </ConfigContext.Provider>
         </ImageGridProvider>

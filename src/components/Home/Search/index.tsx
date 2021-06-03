@@ -95,6 +95,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
           />
         </Button.Group>
         <form
+          className="search-bar"
           onSubmit={(e) => {
             setSearch(tmp);
             e.preventDefault();

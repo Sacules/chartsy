@@ -115,6 +115,10 @@ ul {
   position: absolute;
 }
 
+.search-bar {
+    margin-bottom: 1rem;
+}
+
 .results {
   margin: auto;
   max-height: 100vh;
@@ -122,7 +126,7 @@ ul {
 }
 
 .collage-column {
-    padding-top: 3.7rem !important;
+    padding-top: 8.2rem !important;
 }
 
 .collage-container {

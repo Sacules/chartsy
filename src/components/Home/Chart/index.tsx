@@ -50,13 +50,7 @@ const collage = (
   );
 };
 
-const top50 = (
-  images: Image[],
-  pad: number,
-  showTitlesAside: boolean,
-  showTitlesBelow: boolean,
-  searchType: SearchType
-) => {
+const top50 = (images: Image[], pad: number, showTitlesBelow: boolean, searchType: SearchType) => {
   let top10: Image[][] = [];
   let n = 0;
   for (let i = 0; i < 1; i++) {
@@ -129,10 +123,6 @@ const top50 = (
 
   return (
     <table>
-      <caption>
-        <h1 contentEditable>Epic Top 50!</h1>
-      </caption>
-
       <tr>{topcells}</tr>
       <tr className="top-10-bottom">{bottomcells}</tr>
     </table>
@@ -157,7 +147,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
       return collage(images, rows, cols, pad, showTitlesBelow, searchType);
     }
 
-    return top50(images, pad, showTitlesAside, showTitlesBelow, searchType);
+    return top50(images, pad, showTitlesBelow, searchType);
   };
 
   return (

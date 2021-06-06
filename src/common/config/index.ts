@@ -11,10 +11,11 @@ export const ConfigInitialState = {
   addTitle: false,
   imageBig: false,
   chartType: ChartType.Collage,
+  chartTitle: "",
 };
 
 export const ConfigContext = createContext<{ config: Config; dispatchConfig: Dispatch<ConfigAction> }>({
-  config: ConfigInitialState,
+  config: { ...ConfigInitialState },
   dispatchConfig: () => null,
 });
 

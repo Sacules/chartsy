@@ -15,12 +15,22 @@ export type Config = {
   addTitle: boolean;
   imageBig: boolean;
   chartType: ChartType;
+  chartTitle: string;
 };
 
 export type ConfigAction = {
   type: "update" | "reset";
-  field?: "rows" | "cols" | "pad" | "showTitlesBelow" | "showTitlesAside" | "addTitle" | "chartType" | "imageBig";
-  value?: number | boolean | ChartType;
+  field?:
+    | "rows"
+    | "cols"
+    | "pad"
+    | "showTitlesBelow"
+    | "showTitlesAside"
+    | "addTitle"
+    | "chartType"
+    | "imageBig"
+    | "chartTitle";
+  value?: string | number | boolean | ChartType;
 };
 
 export type Image = {

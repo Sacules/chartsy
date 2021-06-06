@@ -161,6 +161,13 @@ ul {
     margin-bottom: .5rem;
 }
 
+.collage-title {
+    border: none;
+    background-color: var(--background);
+    font-size: 2rem;
+    width: 100%;
+}
+
 .album-big {
   width: 150px;
   height: auto;

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { ChartType, Image } from "../../../common/entities";
+// Hooks
 import { defaultImage, useImageGrid } from "../../../common/imagegrid";
-import ImageCard from "../Chart/ImageCard";
 import { useConfig } from "../../../common/config";
 
+// Components
+import ImageCard from "../Chart/ImageCard";
+
+// Types
+import { ChartType, Image } from "../../../common/entities";
 import { SearchType, CollageRef } from "../../../common/entities";
 
 const collage = (
@@ -135,9 +139,13 @@ interface Props {
 }
 
 const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
+  const [title, setTitle] = useState("");
+
   const {
-    config: { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType },
+    config: { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType, chartTitle },
+    dispatchConfig,
   } = useConfig();
+
   const {
     imageGrid: { images },
   } = useImageGrid();
@@ -154,24 +162,33 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
     <div className={`collage-container${showTitlesAside ? " collage-padded" : ""}`} ref={collageRef}>
       {addTitle && (
         <caption>
-          <h1 contentEditable>[edit me]</h1>
+          <input
+            className="collage-title"
+            type="text"
+            placeholder="[edit me]"
+            value={title ? title : chartTitle}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={() => title && dispatchConfig({ type: "update", field: "chartTitle", value: title })}
+          />
         </caption>
       )}
       <div>
         {chart()}
         {showTitlesAside && (
           <ul className="titles">
-            {images.map((img, i) => (
-              <>
-                {img.url !== defaultImage.url && (
-                  <li key={`image-title-${i}`}>
-                    {i > 0 && i % cols === 0 && <br />}
-                    <b>{img.author}</b>
-                    {img.title}
-                  </li>
-                )}
-              </>
-            ))}
+            {images.map((img, i) => {
+              if (img.url === defaultImage.url) {
+                return undefined;
+              }
+
+              return (
+                <li key={`image-title-${i}`}>
+                  {i > 0 && i % cols === 0 && <br />}
+                  <b>{img.author}</b>
+                  {img.title}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

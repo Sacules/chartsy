@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React from "react";
-import { Grid, Button, Form, Radio, Label } from "semantic-ui-react";
+import { Grid, Button, Radio, Label } from "semantic-ui-react";
 import { useScreenshot } from "use-screenshot-hook";
 
 import { useConfig } from "../../../common/config";
@@ -21,11 +21,11 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
 
   return (
     <div className="config">
-      <Form>
+      <form>
         <p className="collage-type">
           <b>Type</b>
         </p>
-        <Form.Field>
+        <div className="count-container">
           <Radio
             label="Collage"
             value="collage"
@@ -35,8 +35,6 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
               e.preventDefault();
             }}
           />
-        </Form.Field>
-        <Form.Field>
           <Radio
             label="Top 50"
             value="top50"
@@ -46,8 +44,8 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
               e.preventDefault();
             }}
           />
-        </Form.Field>
-      </Form>
+        </div>
+      </form>
       <div className="count-container">
         <div className="count">
           <p>

@@ -142,7 +142,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   const [title, setTitle] = useState("");
 
   const {
-    config: { rows, cols, pad, showTitlesBelow, showTitlesAside, addTitle, chartType, chartTitle },
+    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, chartType, chartTitle },
     dispatchConfig,
   } = useConfig();
 
@@ -182,10 +182,12 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
               }
 
               return (
-                <li key={`image-title-${i}`}>
+                <li style={{ fontSize }} key={`image-title-${i}`}>
                   {i > 0 && i % cols === 0 && <br />}
-                  <b>{img.author}</b>
-                  {img.title}
+                  <p style={{ lineHeight: `${fontSize / 10}rem` }}>
+                    <b>{img.author}</b>
+                    {img.title}
+                  </p>
                 </li>
               );
             })}

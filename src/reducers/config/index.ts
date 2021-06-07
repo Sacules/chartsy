@@ -11,6 +11,11 @@ export const configReducer = (state: Config, action: ConfigAction) => {
         val = val < 0 ? 0 : val % 5;
       }
 
+      if (action.field === "fontSize") {
+        val = val as number;
+        val = Math.min(Math.max(val, 14), 32);
+      }
+
       if ((action.field === "rows" || action.field === "cols") && val === 0) {
         val = 1;
       }
@@ -24,6 +29,7 @@ export const configReducer = (state: Config, action: ConfigAction) => {
         rows: 4,
         cols: 5,
         pad: 0,
+        fontSize: 14,
         showTitlesBelow: false,
         showTitlesAside: false,
         addTitle: false,

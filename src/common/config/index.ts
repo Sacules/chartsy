@@ -6,6 +6,7 @@ export const ConfigInitialState = {
   rows: 4,
   cols: 5,
   pad: 0,
+  fontSize: 14,
   showTitlesBelow: false,
   showTitlesAside: false,
   addTitle: false,

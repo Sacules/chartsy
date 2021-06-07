@@ -13,7 +13,7 @@ interface Props {
 
 export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
   const {
-    config: { rows, cols, pad, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
+    config: { rows, cols, pad, fontSize, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
     dispatchConfig,
   } = useConfig();
   const { dispatch: dispatchImages } = useImageGrid();
@@ -123,6 +123,33 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
               compact
               content="+"
               onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })}
+            />
+          </Grid.Column>
+        </Grid>
+      </div>
+
+      <div className="count-container">
+        <div className="count">
+          <p>
+            <b>Font size</b>
+          </p>
+          <Label className="count-label" horizontal>
+            {fontSize}
+          </Label>
+        </div>
+        <Grid columns="2">
+          <Grid.Column>
+            <Button
+              compact
+              content="-"
+              onClick={() => dispatchConfig({ type: "update", field: "fontSize", value: fontSize - 1 })}
+            />
+          </Grid.Column>
+          <Grid.Column>
+            <Button
+              compact
+              content="+"
+              onClick={() => dispatchConfig({ type: "update", field: "fontSize", value: fontSize + 1 })}
             />
           </Grid.Column>
         </Grid>

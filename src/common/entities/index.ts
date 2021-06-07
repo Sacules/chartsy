@@ -10,6 +10,7 @@ export type Config = {
   rows: number;
   cols: number;
   pad: number;
+  fontSize: number;
   showTitlesBelow: boolean;
   showTitlesAside: boolean;
   addTitle: boolean;
@@ -24,6 +25,7 @@ export type ConfigAction = {
     | "rows"
     | "cols"
     | "pad"
+    | "fontSize"
     | "showTitlesBelow"
     | "showTitlesAside"
     | "addTitle"

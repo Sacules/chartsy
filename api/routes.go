@@ -111,6 +111,11 @@ func (s *server) handleGetGames() http.HandlerFunc {
 	}
 
 	apiUrl := "https://api.rawg.io/api/games"
+	apiKey, ok := os.LookupEnv("RAWG_KEY")
+	if !ok {
+		log.Warning("missing RAWG_KEY")
+		return nil
+	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
@@ -121,9 +126,9 @@ func (s *server) handleGetGames() http.HandlerFunc {
 
 		search := r.Form.Get("search")
 		query := &url.Values{}
-		query.Set("search", search) // need to properly escape the query
+		query.Set("search", search) // TODO: need to properly escape the query
 
-		req, err := http.NewRequest("GET", apiUrl+"?"+query.Encode(), nil)
+		req, err := http.NewRequest("GET", apiUrl+"?key="+apiKey+"&"+query.Encode(), nil)
 		if err != nil {
 			internalError(w, err)
 			return

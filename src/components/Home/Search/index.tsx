@@ -103,7 +103,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
         >
           <Input
             fluid
-            placeholder="Search..."
+            placeholder={`Search...${searchType === SearchType.Games ? " powered by RAWG.io" : ""}`}
             value={tmp}
             onChange={(e) => {
               setVal(e.target.value);

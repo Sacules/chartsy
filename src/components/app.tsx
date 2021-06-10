@@ -7,9 +7,7 @@ import "normalize.css";
 const App: React.FC = () => {
   return (
     <Fragment>
-      <div className="App" data-test="app">
-        <Home />
-      </div>
+      <Home />
     </Fragment>
   );
 };

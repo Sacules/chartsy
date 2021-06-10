@@ -1,26 +1,19 @@
-// @ts-nocheck
 import React from "react";
 import { Grid, Button, Radio, Label } from "semantic-ui-react";
-import { useScreenshot } from "use-screenshot-hook";
 
 import { useConfig } from "../../../common/config";
-import { ChartType, CollageRef } from "../../../common/entities";
+import { ChartType } from "../../../common/entities";
 import { useImageGrid } from "../../../common/imagegrid";
 
-interface Props {
-  collageRef: CollageRef;
-}
-
-export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
+export const ConfigMenu: React.FC = () => {
   const {
     config: { rows, cols, pad, fontSize, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
     dispatchConfig,
   } = useConfig();
   const { dispatch: dispatchImages } = useImageGrid();
-  const { takeScreenshot, isLoading } = useScreenshot({ ref: chartRef });
 
   return (
-    <div className="config">
+    <div id="config">
       <form>
         <p className="collage-type">
           <b>Type</b>
@@ -192,22 +185,6 @@ export const ConfigMenu: React.FC<Props> = ({ collageRef: chartRef }) => {
             dispatchImages({ type: "reset" });
           }}
         />
-      </div>
-
-      <div className="config-radios">
-        <Button
-          compact
-          loading={isLoading}
-          onClick={async () => {
-            let img = await takeScreenshot("png");
-            let link = document.createElement("a");
-            link.download = "chartsy.png";
-            link.href = img as string;
-            link.click();
-          }}
-        >
-          Save to PNG
-        </Button>
       </div>
     </div>
   );

@@ -1,5 +1,10 @@
 :root {
-    --background: #f1f2f2;
+    --color-background: #ffffff;
+    --color-primary: #ff5722;
+    --color-secondary: #212121;
+    --color-content: #BDBDBD;
+    --color-content-light: #eeeeee;
+    --color-content-dark: #757575;
 }
 
 * {
@@ -7,7 +12,7 @@
 }
 
 html, body {
-  padding: 1em;
+  padding: 1rem;
 }
 
 html {
@@ -15,9 +20,39 @@ html {
 }
 
 body {
-  background-color: var(--background);
+  background-color: var(--color-background);
+  overflow-x: scroll;
 }
 
+nav {
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    overflow: hidden;
+    background-color: var(--color-secondary);
+    z-index: 2;
+    box-shadow: 0 0 5px;
+}
+
+nav h3, nav button {
+    color: var(--color-background)
+}
+
+nav button {
+    background-color: unset;
+    border: none;
+    cursor: pointer;
+}
+
+nav button:hover {
+    color: var(--color-primary);
+}
 
 figcaption {
   text-align: center;
@@ -40,9 +75,13 @@ img:hover{
 }
 
 p {
-  color: #303032;
+  color: var(--color-secondary);
   line-height: 1.4rem;
-  margin-bottom: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 !important;
 }
 
 b {
@@ -66,14 +105,14 @@ caption {
   padding-bottom: 0.5em;
   color: #303032;
   text-align: left;
-  background-color: var(--background);
+  background-color: var(--color-background);
   white-space: nowrap;
 }
 
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  background-color: var(--background);
+  background-color: var(--color-background);
   float: left;
   display: table-cell;
 }
@@ -106,8 +145,10 @@ ul {
 }
 
 .home {
-  vertical-align: middle;
-  width: 100%;
+  margin-top: 3rem;
+  margin-right: 13rem;
+  overflow-x: scroll;
+  overflow-y: hidden
 }
 
 .search {
@@ -125,10 +166,21 @@ ul {
   overflow: auto;
 }
 
-.config {
-    margin-bottom: 1.2rem !important;
+#config {
     display: flex;
+    background-color: var(--color-content-light);
+    flex-direction: column;
     justify-content: space-between;
+    gap: 1rem;
+    width: 15rem;
+    padding: 1rem 2rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-top: 5rem;
+    height: 100%;
+    z-index: 1;
+    box-shadow: 0 0 5px;
 }
 
 .config-radios {
@@ -142,7 +194,7 @@ ul {
 }
 
 .collage-container {
-  background-color: var(--background);
+  background-color: var(--color-background);
   width: max-content;
   display: flex;
   flex-direction: column;
@@ -163,7 +215,7 @@ ul {
 
 .collage-title {
     border: none;
-    background-color: var(--background);
+    background-color: var(--color-background);
     font-size: 2rem;
     width: 100%;
 }

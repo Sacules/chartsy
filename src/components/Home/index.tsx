@@ -4,6 +4,7 @@ import { Grid } from "semantic-ui-react";
 import { Search } from "./Search";
 import { ConfigMenu } from "./Menu";
 import Chart from "./Chart";
+import Nav from "./Nav";
 
 import { SearchType } from "../../common/entities";
 import { ConfigContext, ConfigInitialState } from "../../common/config";
@@ -15,29 +16,25 @@ const Home: React.FC = () => {
   const [searchType, setSearchType] = useState(SearchType.Music);
 
   const collageRef = createRef<HTMLDivElement>();
-  const MyMenu = forwardRef<HTMLDivElement>((_, ref) => <ConfigMenu collageRef={ref} />);
   const MyChart = forwardRef<HTMLDivElement>((_, ref) => <Chart searchType={searchType} collageRef={ref} />);
 
   return (
-    <div className="home" data-test="homeComponent">
-      <Grid columns={2}>
-        <ImageGridProvider>
-          <Grid.Column className="search" width={3}>
-            <Search searchType={searchType} setSearchType={setSearchType} />
-          </Grid.Column>
-          <ConfigContext.Provider value={{ config, dispatchConfig }}>
-            <Grid.Column width={13}>
-              <Grid.Row>
-                <MyMenu ref={collageRef} />
-              </Grid.Row>
-              <Grid.Row>
-                <MyChart ref={collageRef} />
-              </Grid.Row>
+    <ConfigContext.Provider value={{ config, dispatchConfig }}>
+      <ImageGridProvider>
+        <Nav collageRef={collageRef} />
+        <ConfigMenu />
+        <div className="home" data-test="homeComponent">
+          <Grid columns={2}>
+            <Grid.Column className="search" width={3}>
+              <Search searchType={searchType} setSearchType={setSearchType} />
             </Grid.Column>
-          </ConfigContext.Provider>
-        </ImageGridProvider>
-      </Grid>
-    </div>
+            <Grid.Column width={13}>
+              <MyChart ref={collageRef} />
+            </Grid.Column>
+          </Grid>
+        </div>
+      </ImageGridProvider>
+    </ConfigContext.Provider>
   );
 };
 

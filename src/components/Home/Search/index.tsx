@@ -50,7 +50,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
   }, [search, searchType]);
 
   return (
-    <>
+    <div id="search">
       <Grid.Row>
         <Button.Group fluid>
           <Button
@@ -121,6 +121,6 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
           ))}
         </Grid>
       </Grid.Row>
-    </>
+    </div>
   );
 };

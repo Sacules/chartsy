@@ -1,10 +1,15 @@
 :root {
+    /* Colors */
     --color-background: #ffffff;
     --color-primary: #ff5722;
     --color-secondary: #212121;
     --color-content: #BDBDBD;
     --color-content-light: #eeeeee;
     --color-content-dark: #757575;
+
+    /* Components */
+    --search-width: 15rem;
+    --config-width: 15rem;
 }
 
 * {
@@ -21,7 +26,6 @@ html {
 
 body {
   background-color: var(--color-background);
-  overflow-x: scroll;
 }
 
 nav {
@@ -128,6 +132,15 @@ ul {
   white-space: nowrap;
 }
 
+#search {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 5rem;
+    padding-left: 2rem;
+    width: var(--search-width);
+}
+
 .pad-1 {
   padding: 0.1em;
 }
@@ -145,10 +158,10 @@ ul {
 }
 
 .home {
-  margin-top: 3rem;
+  margin-top: 5rem;
   margin-right: 13rem;
-  overflow-x: scroll;
-  overflow-y: hidden
+  margin-left: var(--search-width);
+  height: 100%;
 }
 
 .search {

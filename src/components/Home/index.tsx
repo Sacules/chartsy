@@ -1,5 +1,4 @@
 import React, { useReducer, useState, forwardRef, createRef } from "react";
-import { Grid } from "semantic-ui-react";
 
 import { Search } from "./Search";
 import { ConfigMenu } from "./Menu";
@@ -22,16 +21,10 @@ const Home: React.FC = () => {
     <ConfigContext.Provider value={{ config, dispatchConfig }}>
       <ImageGridProvider>
         <Nav collageRef={collageRef} />
+        <Search searchType={searchType} setSearchType={setSearchType} />
         <ConfigMenu />
         <div className="home" data-test="homeComponent">
-          <Grid columns={2}>
-            <Grid.Column className="search" width={3}>
-              <Search searchType={searchType} setSearchType={setSearchType} />
-            </Grid.Column>
-            <Grid.Column width={13}>
-              <MyChart ref={collageRef} />
-            </Grid.Column>
-          </Grid>
+          <MyChart ref={collageRef} />
         </div>
       </ImageGridProvider>
     </ConfigContext.Provider>

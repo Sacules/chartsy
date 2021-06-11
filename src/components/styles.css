@@ -26,6 +26,7 @@ html {
 
 body {
   background-color: var(--color-background);
+  overflow: auto;
 }
 
 nav {
@@ -141,6 +142,8 @@ ul {
     padding-top: 5rem;
     padding-left: 2rem;
     width: var(--search-width);
+    z-index: 1;
+    background-color: var(--color-background);
 }
 
 .pad-1 {

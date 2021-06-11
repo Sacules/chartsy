@@ -5,7 +5,7 @@ import useScreenshot from "use-screenshot-hook";
 import { useConfig } from "../../../common/config";
 
 // Components
-import { Dropdown, Header, Label } from "semantic-ui-react";
+import { Radio, Dropdown, Header, Label } from "semantic-ui-react";
 
 // Types
 import { CollageRef } from "../../../common/entities";
@@ -47,7 +47,7 @@ const Nav: React.FC<Props> = ({ collageRef }) => {
   return (
     <nav>
       <div className="nav-menu">
-        <Dropdown text="Edit" closeOnChange={false}>
+        <Dropdown text="Edit" closeOnBlur={false} closeOnChange={false}>
           <Dropdown.Menu>
             <Slider
               title="Rows"
@@ -79,11 +79,47 @@ const Nav: React.FC<Props> = ({ collageRef }) => {
             />
           </Dropdown.Menu>
         </Dropdown>
-        <Dropdown text="View">
-          <Dropdown.Menu></Dropdown.Menu>
+        <Dropdown text="View" closeOnBlur={false} closeOnChange={false}>
+          <Dropdown.Menu>
+            <div className="nav-menu-view">
+              <Radio
+                label="Show bigger"
+                checked={imageBig}
+                onClick={() => dispatchConfig({ type: "update", field: "imageBig", value: !imageBig })}
+                toggle
+              />
+              <Radio
+                label="Add title"
+                checked={addTitle}
+                onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
+                toggle
+              />
+              <Radio
+                label="Show titles below"
+                checked={showTitlesBelow}
+                onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
+                toggle
+              />
+              <Radio
+                label="Show titles aside"
+                checked={showTitlesAside}
+                onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
+                toggle
+              />
+            </div>
+          </Dropdown.Menu>
         </Dropdown>
-        <Dropdown text="Help">
-          <Dropdown.Menu></Dropdown.Menu>
+        <Dropdown text="About">
+          <Dropdown.Menu>
+            <a
+              className="nav-menu-item"
+              href="https://gitlab.com/sacules/chartsy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Dropdown.Item text="Collaborate" />
+            </a>
+          </Dropdown.Menu>
         </Dropdown>
       </div>
       <Header as="h4">

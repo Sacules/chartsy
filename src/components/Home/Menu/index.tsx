@@ -147,36 +147,6 @@ export const ConfigMenu: React.FC = () => {
       </div>
 
       <div className="config-radios">
-        <Radio
-          label="Show bigger"
-          checked={imageBig}
-          onClick={() => dispatchConfig({ type: "update", field: "imageBig", value: !imageBig })}
-          toggle
-        />
-        <Radio
-          label="Add title"
-          checked={addTitle}
-          onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
-          toggle
-        />
-      </div>
-
-      <div className="config-radios">
-        <Radio
-          label="Show titles below"
-          checked={showTitlesBelow}
-          onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
-          toggle
-        />
-        <Radio
-          label="Show titles aside"
-          checked={showTitlesAside}
-          onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
-          toggle
-        />
-      </div>
-
-      <div className="config-radios">
         <Button
           compact
           content="Reset"

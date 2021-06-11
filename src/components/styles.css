@@ -61,6 +61,10 @@ nav button:hover {
     color: var(--color-primary);
 }
 
+a {
+    color: var(--color-secondary);
+}
+
 figcaption {
   text-align: center;
   word-break: break-word;

@@ -117,7 +117,7 @@ const Nav: React.FC<Props> = ({ collageRef }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Dropdown.Item text="Collaborate" />
+              <Dropdown.Item text="Collaborate" icon="gitlab" />
             </a>
           </Dropdown.Menu>
         </Dropdown>

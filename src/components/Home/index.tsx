@@ -22,7 +22,6 @@ const Home: React.FC = () => {
       <ImageGridProvider>
         <Nav collageRef={collageRef} />
         <Search searchType={searchType} setSearchType={setSearchType} />
-        <ConfigMenu />
         <div className="home" data-test="homeComponent">
           <MyChart ref={collageRef} />
         </div>

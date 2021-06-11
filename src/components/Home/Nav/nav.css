@@ -1,0 +1,15 @@
+.nav-menu {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-menu-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    gap: .5rem;
+}
+
+.nav-menu-item > p {
+    min-width: 4rem;
+}

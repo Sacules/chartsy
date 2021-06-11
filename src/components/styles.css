@@ -34,14 +34,16 @@ nav {
     top: 0;
     left: 0;
     width: 100%;
-    height: 4rem;
     display: flex;
     justify-content: space-between;
     align-content: center;
-    overflow: hidden;
     background-color: var(--color-secondary);
     z-index: 2;
-    box-shadow: 0 0 5px;
+    box-shadow: 0 0 3px;
+}
+
+nav div.text, nav i {
+    color: var(--color-background);
 }
 
 nav h3, nav button {

@@ -1,7 +1,6 @@
 import React, { useReducer, useState, forwardRef, createRef } from "react";
 
 import { Search } from "./Search";
-import { ConfigMenu } from "./Menu";
 import Chart from "./Chart";
 import Nav from "./Nav";
 

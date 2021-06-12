@@ -17,6 +17,7 @@ export type Config = {
   imageBig: boolean;
   chartType: ChartType;
   chartTitle: string;
+  backgroundColor: string;
 };
 
 export type ConfigAction = {
@@ -31,7 +32,8 @@ export type ConfigAction = {
     | "addTitle"
     | "chartType"
     | "imageBig"
-    | "chartTitle";
+    | "chartTitle"
+    | "backgroundColor";
   value?: string | number | boolean | ChartType;
 };
 

@@ -13,6 +13,7 @@ export const ConfigInitialState = {
   imageBig: false,
   chartType: ChartType.Collage,
   chartTitle: "",
+  backgroundColor: "#ffffff",
 };
 
 export const ConfigContext = createContext<{ config: Config; dispatchConfig: Dispatch<ConfigAction> }>({

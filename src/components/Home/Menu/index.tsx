@@ -28,7 +28,7 @@ const Slider: React.FC<SliderProps> = ({ title, value, min, max, dispatch }) => 
 
 export const ConfigMenu: React.FC = () => {
   const {
-    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, imageBig },
+    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, imageBig, backgroundColor },
     dispatchConfig,
   } = useConfig();
 
@@ -62,6 +62,16 @@ export const ConfigMenu: React.FC = () => {
         max={32}
         dispatch={(e) => dispatchConfig({ type: "update", field: "fontSize", value: e.target.value })}
       />
+      <div className="config-color-picker">
+        <label htmlFor="color">Background color</label>
+        <input
+          type="color"
+          id="color"
+          name="color"
+          value={backgroundColor}
+          onChange={(e) => dispatchConfig({ type: "update", field: "backgroundColor", value: e.target.value })}
+        />
+      </div>
       <Radio
         label="Show bigger"
         checked={imageBig}

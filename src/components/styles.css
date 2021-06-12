@@ -115,14 +115,12 @@ caption {
   padding-bottom: 0.5em;
   color: #303032;
   text-align: left;
-  background-color: var(--color-background);
   white-space: nowrap;
 }
 
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  background-color: var(--color-background);
   float: left;
   display: table-cell;
 }
@@ -195,7 +193,7 @@ ul {
     flex-direction: column;
     justify-content: flex-start;
     gap: 1rem;
-    padding: 1rem 2rem;
+    padding: 1rem;
     padding-top: 5rem;
     height: 100%;
     z-index: 1;
@@ -213,7 +211,6 @@ ul {
 }
 
 .collage-container {
-  background-color: var(--color-background);
   width: min-content;
   display: flex;
   flex-direction: column;
@@ -234,7 +231,6 @@ ul {
 
 .collage-title {
     border: none;
-    background-color: var(--color-background);
     font-size: 2rem;
     width: 100%;
 }

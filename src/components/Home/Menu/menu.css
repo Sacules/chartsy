@@ -12,3 +12,9 @@
 .slider > input {
     width: 100%;
 }
+
+.config-color-picker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

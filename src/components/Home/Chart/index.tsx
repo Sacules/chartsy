@@ -142,7 +142,18 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   const [title, setTitle] = useState("");
 
   const {
-    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, chartType, chartTitle },
+    config: {
+      rows,
+      cols,
+      pad,
+      fontSize,
+      showTitlesBelow,
+      showTitlesAside,
+      addTitle,
+      chartType,
+      chartTitle,
+      backgroundColor,
+    },
     dispatchConfig,
   } = useConfig();
 
@@ -159,10 +170,15 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
   };
 
   return (
-    <div className={`collage-container${showTitlesAside ? " collage-padded" : ""}`} ref={collageRef}>
+    <div
+      style={{ backgroundColor }}
+      className={`collage-container${showTitlesAside ? " collage-padded" : ""}`}
+      ref={collageRef}
+    >
       {addTitle && (
         <caption>
           <input
+            style={{ backgroundColor }}
             className="collage-title"
             type="text"
             placeholder="[edit me]"

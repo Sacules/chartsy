@@ -1,161 +1,91 @@
 import React from "react";
-import { Grid, Button, Radio, Label } from "semantic-ui-react";
+import { Radio, Label } from "semantic-ui-react";
 
 import { useConfig } from "../../../common/config";
-import { ChartType } from "../../../common/entities";
-import { useImageGrid } from "../../../common/imagegrid";
+
+// Styles
+import "./menu.css";
+
+interface SliderProps {
+  title: string;
+  value: number;
+  min: number;
+  max: number;
+  dispatch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const Slider: React.FC<SliderProps> = ({ title, value, min, max, dispatch }) => {
+  return (
+    <div className="slider">
+      <div className="slider-info">
+        <p>{title}</p>
+        <Label horizontal>{value}</Label>
+      </div>
+      <input type="range" min={min} max={max} value={value} onChange={dispatch} />
+    </div>
+  );
+};
 
 export const ConfigMenu: React.FC = () => {
   const {
     config: { rows, cols, pad, fontSize, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
     dispatchConfig,
   } = useConfig();
-  const { dispatch: dispatchImages } = useImageGrid();
 
   return (
     <div id="config">
-      <form>
-        <p className="collage-type">
-          <b>Type</b>
-        </p>
-        <div className="count-container">
-          <Radio
-            label="Collage"
-            value="collage"
-            checked={chartType === ChartType.Collage}
-            onChange={(e) => {
-              dispatchConfig({ type: "update", field: "chartType", value: ChartType.Collage });
-              e.preventDefault();
-            }}
-          />
-          <Radio
-            label="Top 50"
-            value="top50"
-            checked={chartType === ChartType.Top50}
-            onChange={(e) => {
-              dispatchConfig({ type: "update", field: "chartType", value: ChartType.Top50 });
-              e.preventDefault();
-            }}
-          />
-        </div>
-      </form>
-      <div className="count-container">
-        <div className="count">
-          <p>
-            <b>Rows</b>
-          </p>
-          <Label className="count-label" horizontal>
-            {rows}
-          </Label>
-        </div>
-        <Grid columns="2">
-          <Grid.Column>
-            <Button
-              compact
-              content="-"
-              onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows - 1 })}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              compact
-              content="+"
-              onClick={() => dispatchConfig({ type: "update", field: "rows", value: rows + 1 })}
-            />
-          </Grid.Column>
-        </Grid>
-      </div>
-      <div className="count-container">
-        <div className="count">
-          <p>
-            <b>Columns</b>
-          </p>
-          <Label className="count-label" horizontal>
-            {cols}
-          </Label>
-        </div>
-        <Grid columns="2">
-          <Grid.Column>
-            <Button
-              compact
-              content="-"
-              onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols - 1 })}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              compact
-              content="+"
-              onClick={() => dispatchConfig({ type: "update", field: "cols", value: cols + 1 })}
-            />
-          </Grid.Column>
-        </Grid>
-      </div>
-
-      <div className="count-container">
-        <div className="count">
-          <p>
-            <b>Padding</b>
-          </p>
-          <Label className="count-label" horizontal>
-            {pad}
-          </Label>
-        </div>
-        <Grid columns="2">
-          <Grid.Column>
-            <Button
-              compact
-              content="-"
-              onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad - 1 })}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              compact
-              content="+"
-              onClick={() => dispatchConfig({ type: "update", field: "pad", value: pad + 1 })}
-            />
-          </Grid.Column>
-        </Grid>
-      </div>
-
-      <div className="count-container">
-        <div className="count">
-          <p>
-            <b>Font size</b>
-          </p>
-          <Label className="count-label" horizontal>
-            {fontSize}
-          </Label>
-        </div>
-        <Grid columns="2">
-          <Grid.Column>
-            <Button
-              compact
-              content="-"
-              onClick={() => dispatchConfig({ type: "update", field: "fontSize", value: fontSize - 1 })}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              compact
-              content="+"
-              onClick={() => dispatchConfig({ type: "update", field: "fontSize", value: fontSize + 1 })}
-            />
-          </Grid.Column>
-        </Grid>
-      </div>
-
-      <div className="config-radios">
-        <Button
-          compact
-          content="Reset"
-          onClick={() => {
-            dispatchConfig({ type: "reset" });
-            dispatchImages({ type: "reset" });
-          }}
-        />
-      </div>
+      <Slider
+        title="Rows"
+        value={rows}
+        min={1}
+        max={10}
+        dispatch={(e) => dispatchConfig({ type: "update", field: "rows", value: e.target.value })}
+      />
+      <Slider
+        title="Columns"
+        value={cols}
+        min={1}
+        max={10}
+        dispatch={(e) => dispatchConfig({ type: "update", field: "cols", value: e.target.value })}
+      />
+      <Slider
+        title="Padding"
+        value={pad}
+        min={0}
+        max={4}
+        dispatch={(e) => dispatchConfig({ type: "update", field: "pad", value: e.target.value })}
+      />
+      <Slider
+        title="Font size"
+        value={fontSize}
+        min={12}
+        max={32}
+        dispatch={(e) => dispatchConfig({ type: "update", field: "fontSize", value: e.target.value })}
+      />
+      <Radio
+        label="Show bigger"
+        checked={imageBig}
+        onClick={() => dispatchConfig({ type: "update", field: "imageBig", value: !imageBig })}
+        toggle
+      />
+      <Radio
+        label="Add title"
+        checked={addTitle}
+        onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
+        toggle
+      />
+      <Radio
+        label="Show titles below"
+        checked={showTitlesBelow}
+        onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
+        toggle
+      />
+      <Radio
+        label="Show titles aside"
+        checked={showTitlesAside}
+        onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
+        toggle
+      />
     </div>
   );
 };

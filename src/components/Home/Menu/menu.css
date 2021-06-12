@@ -1,0 +1,14 @@
+.slider {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.slider-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider > input {
+    width: 100%;
+}

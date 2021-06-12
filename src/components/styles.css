@@ -9,15 +9,10 @@
 
     /* Components */
     --search-width: 15rem;
-    --config-width: 15rem;
 }
 
 * {
   box-sizing: border-box;
-}
-
-html, body {
-  padding: 1rem;
 }
 
 html {
@@ -29,8 +24,12 @@ body {
   overflow: auto;
 }
 
+#root {
+    height: 100%;
+}
+
 nav {
-    padding: 1rem 2rem;
+    padding: 1rem 1rem;
     position: fixed;
     top: 0;
     left: 0;
@@ -144,7 +143,8 @@ ul {
     top: 0;
     left: 0;
     padding-top: 5rem;
-    padding-left: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     width: var(--search-width);
     z-index: 1;
     background-color: var(--color-background);
@@ -168,9 +168,10 @@ ul {
 
 .home {
   margin-top: 5rem;
-  margin-right: 13rem;
-  margin-left: var(--search-width);
+  margin-left: calc(var(--search-width) + 1rem);
   height: 100%;
+  overflow: scroll;
+  padding: .5rem;
 }
 
 .search {
@@ -194,11 +195,7 @@ ul {
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
-    width: 15rem;
     padding: 1rem 2rem;
-    position: fixed;
-    top: 0;
-    right: 0;
     padding-top: 5rem;
     height: 100%;
     z-index: 1;

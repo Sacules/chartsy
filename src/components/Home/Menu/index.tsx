@@ -28,7 +28,7 @@ const Slider: React.FC<SliderProps> = ({ title, value, min, max, dispatch }) => 
 
 export const ConfigMenu: React.FC = () => {
   const {
-    config: { rows, cols, pad, fontSize, chartType, showTitlesBelow, showTitlesAside, addTitle, imageBig },
+    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, imageBig },
     dispatchConfig,
   } = useConfig();
 

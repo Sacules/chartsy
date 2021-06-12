@@ -8,7 +8,7 @@ import { SearchType } from "../../common/entities";
 import { ConfigContext, ConfigInitialState } from "../../common/config";
 import { configReducer } from "../../reducers/config";
 import { ImageGridProvider } from "../../common/imagegrid";
-import { Sidebar, Segment, Menu } from "semantic-ui-react";
+import { Sidebar, Menu } from "semantic-ui-react";
 import { ConfigMenu } from "./Menu";
 
 const Home: React.FC = () => {

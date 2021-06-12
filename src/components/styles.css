@@ -193,7 +193,7 @@ ul {
     display: flex;
     background-color: var(--color-content-light);
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 1rem;
     padding: 1rem 2rem;
     padding-top: 5rem;

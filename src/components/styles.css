@@ -214,7 +214,7 @@ ul {
 
 .collage-container {
   background-color: var(--color-background);
-  width: max-content;
+  width: min-content;
   display: flex;
   flex-direction: column;
 }
@@ -237,6 +237,10 @@ ul {
     background-color: var(--color-background);
     font-size: 2rem;
     width: 100%;
+}
+
+.table-container {
+    width: max-content;
 }
 
 .album-big {

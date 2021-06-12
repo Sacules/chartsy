@@ -172,7 +172,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
           />
         </caption>
       )}
-      <div>
+      <div className="table-container">
         {chart()}
         {showTitlesAside && (
           <ul className="titles">

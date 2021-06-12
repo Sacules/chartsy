@@ -19,11 +19,12 @@ const Home: React.FC = () => {
 
   const collageRef = createRef<HTMLDivElement>();
   const MyChart = forwardRef<HTMLDivElement>((_, ref) => <Chart searchType={searchType} collageRef={ref} />);
+  const MyNav = forwardRef<HTMLDivElement>((_, ref) => <Nav collageRef={ref} setShowDrawer={setShowDrawer} />);
 
   return (
     <ConfigContext.Provider value={{ config, dispatchConfig }}>
       <ImageGridProvider>
-        <Nav collageRef={collageRef} setShowDrawer={setShowDrawer} />
+        <MyNav ref={collageRef} />
         <Sidebar.Pushable>
           <Sidebar as={Menu} animation="push" onHide={() => setShowDrawer(false)} vertical visible={showDrawer}>
             <ConfigMenu />

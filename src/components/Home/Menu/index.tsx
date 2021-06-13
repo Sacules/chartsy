@@ -58,7 +58,7 @@ export const ConfigMenu: React.FC = () => {
       <Slider
         title="Font size"
         value={fontSize}
-        min={12}
+        min={14}
         max={32}
         dispatch={(e) => dispatchConfig({ type: "update", field: "fontSize", value: e.target.value })}
       />

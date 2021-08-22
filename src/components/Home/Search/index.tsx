@@ -5,6 +5,7 @@ import ImageCard from "../Chart/ImageCard";
 import { Image } from "../../../common/entities";
 import { getAlbum, getGame, getMovie, getSeries } from "../../../services";
 import { SearchType } from "../../../common/entities";
+import { useImageGrid } from "../../../common/imagegrid";
 
 interface Props {
   searchType: SearchType;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
+  const { dispatch } = useImageGrid();
+
   const [activeButton, setActiveButton] = useState("music");
   const [results, setResults] = useState<Image[]>([]);
   const [tmp, setVal] = useState("");
@@ -47,7 +50,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
     };
 
     download();
-  }, [search, searchType]);
+  }, [search]);
 
   return (
     <div id="search">
@@ -58,6 +61,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
             active={activeButton === "music"}
             icon="music"
             onClick={(e) => {
+              dispatch({ type: "reset" });
               setSearchType(SearchType.Music);
               setActiveButton("music");
               e.preventDefault();
@@ -68,31 +72,32 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
             active={activeButton === "game"}
             icon="game"
             onClick={(e) => {
+              dispatch({ type: "reset" });
               setSearchType(SearchType.Games);
               setActiveButton("game");
               e.preventDefault();
             }}
           />
-          <Button
-            basic
-            active={activeButton === "film"}
-            icon="film"
-            onClick={(e) => {
-              setSearchType(SearchType.Movies);
-              setActiveButton("film");
-              e.preventDefault();
-            }}
-          />
-          <Button
-            basic
-            active={activeButton === "tv"}
-            icon="tv"
-            onClick={(e) => {
-              setSearchType(SearchType.Series);
-              setActiveButton("tv");
-              e.preventDefault();
-            }}
-          />
+          {/* <Button */}
+          {/*   basic */}
+          {/*   active={activeButton === "film"} */}
+          {/*   icon="film" */}
+          {/*   onClick={(e) => { */}
+          {/*     setSearchType(SearchType.Movies); */}
+          {/*     setActiveButton("film"); */}
+          {/*     e.preventDefault(); */}
+          {/*   }} */}
+          {/* /> */}
+          {/* <Button */}
+          {/*   basic */}
+          {/*   active={activeButton === "tv"} */}
+          {/*   icon="tv" */}
+          {/*   onClick={(e) => { */}
+          {/*     setSearchType(SearchType.Series); */}
+          {/*     setActiveButton("tv"); */}
+          {/*     e.preventDefault(); */}
+          {/*   }} */}
+          {/* /> */}
         </Button.Group>
         <form
           className="search-bar"

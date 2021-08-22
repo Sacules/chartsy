@@ -50,6 +50,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
     };
 
     download();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (

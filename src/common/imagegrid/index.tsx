@@ -1,6 +1,7 @@
-import React, { Dispatch, createContext, useContext, useReducer } from "react";
+import React, { Dispatch, createContext, useContext, useReducer, useEffect } from "react";
 
 import { Image } from "../entities";
+import { useTitles } from "../titles";
 
 export const defaultImage: Image = {
   title: "",
@@ -97,7 +98,16 @@ export const useImageGrid = () => {
 };
 
 export const ImageGridProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(ImageGridReducer, { ...ImageGridDefault });
+  const { titles, setTitles, lastUsed } = useTitles();
+
+  const [state, dispatch] = useReducer(ImageGridReducer, titles[lastUsed].imageGrid);
+
+  useEffect(() => {
+    const t = [...titles];
+    t[lastUsed].imageGrid = state;
+    setTitles(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
 
   return <ImageGridContext.Provider value={{ imageGrid: state, dispatch }}>{children}</ImageGridContext.Provider>;
 };

@@ -9,6 +9,7 @@ import { ImageGridProvider } from "../../common/imagegrid";
 import { ConfigProvider } from "../../common/config";
 import { Sidebar, Menu } from "semantic-ui-react";
 import { ConfigMenu } from "./Menu";
+import { TitlesProvider } from "../../common/titles";
 
 const Home: React.FC = () => {
   const [showDrawer, setShowDrawer] = useState(false);
@@ -19,23 +20,25 @@ const Home: React.FC = () => {
   const MyNav = forwardRef<HTMLDivElement>((_, ref) => <Nav collageRef={ref} setShowDrawer={setShowDrawer} />);
 
   return (
-    <ConfigProvider>
-      <ImageGridProvider>
-        <MyNav ref={collageRef} />
-        <Sidebar.Pushable>
-          <Sidebar as={Menu} animation="push" onHide={() => setShowDrawer(false)} vertical visible={showDrawer}>
-            <ConfigMenu />
-          </Sidebar>
+    <TitlesProvider>
+      <ConfigProvider>
+        <ImageGridProvider>
+          <MyNav ref={collageRef} />
+          <Sidebar.Pushable>
+            <Sidebar as={Menu} animation="push" onHide={() => setShowDrawer(false)} vertical visible={showDrawer}>
+              <ConfigMenu />
+            </Sidebar>
 
-          <Sidebar.Pusher>
-            <Search searchType={searchType} setSearchType={setSearchType} />
-            <div className="home" data-test="homeComponent">
-              <MyChart ref={collageRef} />
-            </div>
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-      </ImageGridProvider>
-    </ConfigProvider>
+            <Sidebar.Pusher>
+              <Search searchType={searchType} setSearchType={setSearchType} />
+              <div className="home" data-test="homeComponent">
+                <MyChart ref={collageRef} />
+              </div>
+            </Sidebar.Pusher>
+          </Sidebar.Pushable>
+        </ImageGridProvider>
+      </ConfigProvider>
+    </TitlesProvider>
   );
 };
 

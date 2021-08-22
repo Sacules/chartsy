@@ -121,7 +121,7 @@ export const Search: React.FC<Props> = ({ searchType, setSearchType }) => {
         <Grid className="results" centered padded>
           {results.map((img) => (
             <Grid.Row>
-              <ImageCard key={img.url} img={img} showTitle={true} />
+              <ImageCard onGrid={false} key={img.url} img={img} showTitle={true} />
             </Grid.Row>
           ))}
         </Grid>

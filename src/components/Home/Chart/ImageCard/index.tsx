@@ -9,16 +9,21 @@ interface Props {
   searchType?: SearchType;
   showTitle: boolean;
   img: Image;
+  onGrid: boolean;
 }
 
-const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
+const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle, onGrid }) => {
   const {
     imageGrid: { draggedSource, draggedTarget },
     dispatch,
   } = useImageGrid();
-  const {
+  let {
     config: { imageSize },
   } = useConfig();
+
+  if (!onGrid) {
+    imageSize = 100;
+  }
 
   let imgclass = "";
   if (searchType === SearchType.Movies || searchType === SearchType.Series) {

@@ -41,7 +41,7 @@ const collage = (
             {row.map((img) => {
               let cell = (
                 <td className={`pad-${pad}`} key={n}>
-                  <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
+                  <ImageCard onGrid searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
                 </td>
               );
               n++;
@@ -80,7 +80,7 @@ const top50 = (images: Image[], pad: number, showTitlesBelow: boolean, searchTyp
           {row.map((img) => {
             let cell = (
               <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
+                <ImageCard onGrid searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
               </td>
             );
             n++;
@@ -114,7 +114,7 @@ const top50 = (images: Image[], pad: number, showTitlesBelow: boolean, searchTyp
           {row.map((img) => {
             let cell = (
               <td className={`pad-${pad}`}>
-                <ImageCard searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
+                <ImageCard onGrid searchType={searchType} pos={n} img={img} showTitle={showTitlesBelow} />
               </td>
             );
             n++;

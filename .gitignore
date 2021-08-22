@@ -28,4 +28,5 @@ __pycache__
 .pyre/
 .pyre_configuration
 .watchmanconfig
+*.vim
 

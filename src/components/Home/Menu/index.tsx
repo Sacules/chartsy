@@ -29,7 +29,7 @@ const Slider: React.FC<SliderProps> = ({ title, value, min, max, dispatch }) => 
 export const ConfigMenu: React.FC = () => {
   const {
     config: { rows, cols, pad, fontSize, imageSize, showTitlesBelow, showTitlesAside, addTitle, backgroundColor },
-    dispatchConfig,
+    dispatch,
   } = useConfig();
 
   return (
@@ -39,35 +39,35 @@ export const ConfigMenu: React.FC = () => {
         value={rows}
         min={1}
         max={10}
-        dispatch={(e) => dispatchConfig({ type: "update", field: "rows", value: e.target.value })}
+        dispatch={(e) => dispatch({ type: "update", field: "rows", value: e.target.value })}
       />
       <Slider
         title="Columns"
         value={cols}
         min={1}
         max={10}
-        dispatch={(e) => dispatchConfig({ type: "update", field: "cols", value: e.target.value })}
+        dispatch={(e) => dispatch({ type: "update", field: "cols", value: e.target.value })}
       />
       <Slider
         title="Padding"
         value={pad}
         min={0}
         max={4}
-        dispatch={(e) => dispatchConfig({ type: "update", field: "pad", value: e.target.value })}
+        dispatch={(e) => dispatch({ type: "update", field: "pad", value: e.target.value })}
       />
       <Slider
         title="Font size"
         value={fontSize}
         min={14}
         max={32}
-        dispatch={(e) => dispatchConfig({ type: "update", field: "fontSize", value: e.target.value })}
+        dispatch={(e) => dispatch({ type: "update", field: "fontSize", value: e.target.value })}
       />
       <Slider
         title="Image size"
         value={imageSize}
         min={100}
         max={200}
-        dispatch={(e) => dispatchConfig({ type: "update", field: "imageSize", value: e.target.value })}
+        dispatch={(e) => dispatch({ type: "update", field: "imageSize", value: e.target.value })}
       />
       <div className="config-color-picker">
         <label htmlFor="color">Background color</label>
@@ -76,25 +76,25 @@ export const ConfigMenu: React.FC = () => {
           id="color"
           name="color"
           value={backgroundColor}
-          onChange={(e) => dispatchConfig({ type: "update", field: "backgroundColor", value: e.target.value })}
+          onChange={(e) => dispatch({ type: "update", field: "backgroundColor", value: e.target.value })}
         />
       </div>
       <Radio
         label="Add title"
         checked={addTitle}
-        onClick={() => dispatchConfig({ type: "update", field: "addTitle", value: !addTitle })}
+        onClick={() => dispatch({ type: "update", field: "addTitle", value: !addTitle })}
         toggle
       />
       <Radio
         label="Show titles below"
         checked={showTitlesBelow}
-        onClick={() => dispatchConfig({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
+        onClick={() => dispatch({ type: "update", field: "showTitlesBelow", value: !showTitlesBelow })}
         toggle
       />
       <Radio
         label="Show titles aside"
         checked={showTitlesAside}
-        onClick={() => dispatchConfig({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
+        onClick={() => dispatch({ type: "update", field: "showTitlesAside", value: !showTitlesAside })}
         toggle
       />
     </div>

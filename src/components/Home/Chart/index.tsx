@@ -154,7 +154,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
       chartTitle,
       backgroundColor,
     },
-    dispatchConfig,
+    dispatch,
   } = useConfig();
 
   const {
@@ -184,7 +184,7 @@ const Chart: React.FC<Props> = ({ searchType, collageRef }) => {
             placeholder="[edit me]"
             value={title ? title : chartTitle}
             onChange={(e) => setTitle(e.target.value)}
-            onBlur={() => title && dispatchConfig({ type: "update", field: "chartTitle", value: title })}
+            onBlur={() => title && dispatch({ type: "update", field: "chartTitle", value: title })}
           />
         </caption>
       )}

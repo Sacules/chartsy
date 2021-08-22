@@ -1,6 +1,7 @@
-import { createContext, Dispatch, useContext } from "react";
+import React, { createContext, Dispatch, useContext, useReducer } from "react";
 
 import { Config, ConfigAction, ChartType } from "../entities";
+import { configReducer } from "../../reducers/config";
 
 export const ConfigInitialState = {
   rows: 4,
@@ -16,9 +17,9 @@ export const ConfigInitialState = {
   backgroundColor: "#ffffff",
 };
 
-export const ConfigContext = createContext<{ config: Config; dispatchConfig: Dispatch<ConfigAction> }>({
+export const ConfigContext = createContext<{ config: Config; dispatch: Dispatch<ConfigAction> }>({
   config: { ...ConfigInitialState },
-  dispatchConfig: () => null,
+  dispatch: () => null,
 });
 
 export const useConfig = () => {
@@ -28,4 +29,10 @@ export const useConfig = () => {
   }
 
   return context;
+};
+
+export const ConfigProvider: React.FC = ({ children }) => {
+  const [state, dispatch] = useReducer(configReducer, { ...ConfigInitialState });
+
+  return <ConfigContext.Provider value={{ config: state, dispatch }}>{children}</ConfigContext.Provider>;
 };

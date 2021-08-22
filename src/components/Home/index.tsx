@@ -1,20 +1,17 @@
-import React, { useReducer, useState, forwardRef, createRef } from "react";
+import React, { useState, forwardRef, createRef } from "react";
 
 import { Search } from "./Search";
 import Chart from "./Chart";
 import Nav from "./Nav";
 
 import { SearchType } from "../../common/entities";
-import { ConfigContext, ConfigInitialState } from "../../common/config";
-import { configReducer } from "../../reducers/config";
 import { ImageGridProvider } from "../../common/imagegrid";
+import { ConfigProvider } from "../../common/config";
 import { Sidebar, Menu } from "semantic-ui-react";
 import { ConfigMenu } from "./Menu";
 
 const Home: React.FC = () => {
   const [showDrawer, setShowDrawer] = useState(false);
-
-  const [config, dispatchConfig] = useReducer(configReducer, ConfigInitialState);
   const [searchType, setSearchType] = useState(SearchType.Music);
 
   const collageRef = createRef<HTMLDivElement>();
@@ -22,7 +19,7 @@ const Home: React.FC = () => {
   const MyNav = forwardRef<HTMLDivElement>((_, ref) => <Nav collageRef={ref} setShowDrawer={setShowDrawer} />);
 
   return (
-    <ConfigContext.Provider value={{ config, dispatchConfig }}>
+    <ConfigProvider>
       <ImageGridProvider>
         <MyNav ref={collageRef} />
         <Sidebar.Pushable>
@@ -38,7 +35,7 @@ const Home: React.FC = () => {
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </ImageGridProvider>
-    </ConfigContext.Provider>
+    </ConfigProvider>
   );
 };
 

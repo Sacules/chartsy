@@ -11,6 +11,8 @@ type Title = {
 
 const TitlesDefault: Title[] = JSON.parse(localStorage.getItem("titles") as string) || [];
 
+const LastUsedDefault: number = JSON.parse(localStorage.getItem("lastUsed") as string) || 0;
+
 const TitlesContext = createContext<{
   titles: Title[];
   setTitles: Dispatch<SetStateAction<Title[]>>;
@@ -38,7 +40,7 @@ export const TitlesProvider: React.FC = ({ children }) => {
       ? [{ config: { ...ConfigInitialState }, imageGrid: { ...ImageGridDefault } }]
       : TitlesDefault
   );
-  const [lastUsed, setLastUsed] = useState(0);
+  const [lastUsed, setLastUsed] = useState(LastUsedDefault);
 
   useEffect(() => {
     localStorage.setItem("titles", JSON.stringify(titles));

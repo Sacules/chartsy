@@ -28,7 +28,7 @@ const Slider: React.FC<SliderProps> = ({ title, value, min, max, dispatch }) => 
 
 export const ConfigMenu: React.FC = () => {
   const {
-    config: { rows, cols, pad, fontSize, showTitlesBelow, showTitlesAside, addTitle, backgroundColor },
+    config: { rows, cols, pad, fontSize, imageSize, showTitlesBelow, showTitlesAside, addTitle, backgroundColor },
     dispatchConfig,
   } = useConfig();
 
@@ -61,6 +61,13 @@ export const ConfigMenu: React.FC = () => {
         min={14}
         max={32}
         dispatch={(e) => dispatchConfig({ type: "update", field: "fontSize", value: e.target.value })}
+      />
+      <Slider
+        title="Image size"
+        value={imageSize}
+        min={100}
+        max={200}
+        dispatch={(e) => dispatchConfig({ type: "update", field: "imageSize", value: e.target.value })}
       />
       <div className="config-color-picker">
         <label htmlFor="color">Background color</label>

@@ -10,7 +10,7 @@ export const ConfigInitialState = {
   showTitlesBelow: false,
   showTitlesAside: false,
   addTitle: false,
-  imageBig: false,
+  imageSize: 100,
   chartType: ChartType.Collage,
   chartTitle: "",
   backgroundColor: "#ffffff",

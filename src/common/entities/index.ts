@@ -14,7 +14,7 @@ export type Config = {
   showTitlesBelow: boolean;
   showTitlesAside: boolean;
   addTitle: boolean;
-  imageBig: boolean;
+  imageSize: number;
   chartType: ChartType;
   chartTitle: string;
   backgroundColor: string;
@@ -31,7 +31,7 @@ export type ConfigAction = {
     | "showTitlesAside"
     | "addTitle"
     | "chartType"
-    | "imageBig"
+    | "imageSize"
     | "chartTitle"
     | "backgroundColor";
   value?: string | number | boolean | ChartType;

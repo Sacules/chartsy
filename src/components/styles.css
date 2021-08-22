@@ -253,14 +253,14 @@ ul {
   height: auto;
 }
 
-.film {
+.image-film {
   width: 100px;
-  height: 150px;
+  height: 150px !important;
 }
 
-.game {
-   height: 100px;
-  width: 150px;
+.image-game {
+  height: 100px;
+  width: 150px !important;
 }
 
 .count {

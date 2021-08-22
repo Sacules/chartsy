@@ -17,20 +17,16 @@ const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
     dispatch,
   } = useImageGrid();
   const {
-    config: { imageBig },
+    config: { imageSize },
   } = useConfig();
 
   let imgclass = "";
   if (searchType === SearchType.Movies || searchType === SearchType.Series) {
-    imgclass = "film";
+    imgclass = "image-film";
   }
 
   if (searchType === SearchType.Games) {
-    imgclass = "game";
-  }
-
-  if (imageBig) {
-    imgclass += " album-big";
+    imgclass = "image-game";
   }
 
   return (
@@ -78,6 +74,7 @@ const ImageCard: React.FC<Props> = ({ pos, searchType, img, showTitle }) => {
           }
         }}
         draggable
+        style={{ width: `${imageSize}px`, height: "auto" }}
         className={`collage-image ${imgclass}`}
         src={img.url}
         alt={img.author + " - " + img.title}

@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 // Types
-import { Image } from "../../common/entities";
+import { Image } from "@entities";
 
 // Services
-import { getMusic } from "../../common/services";
+import { getMusic } from "@services";
 
 // Components
 import Select from "react-select";
@@ -62,7 +62,15 @@ export const Search: React.FC = () => {
       </div>
       <div className="flex overflow-scroll gap-4">
         {results.map((r) => (
-          <img src={r.url}></img>
+          <figure key={r.url} className="flex-shrink-0 w-24">
+            <img className="h-24 mb-2" src={r.url}></img>
+            <figcaption className="text-center">
+              <p className="text-sm">
+                <b>{r.title}</b> <br />
+                {r.author}
+              </p>
+            </figcaption>
+          </figure>
         ))}
       </div>
     </div>

@@ -1,8 +1,9 @@
 import Head from "next/head";
 
 // Components
-import { Search } from "../components/Search";
-import { Nav } from "../components/Nav";
+import { Search } from "@components/Search";
+import { Nav } from "@components/Nav";
+import { Chart } from "@components/Chart";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <div className="grid grid-rows-layout grid-cols-1 lg:grid-cols-layout">
         <Nav />
         <Search />
-        <span>Epic chart</span>
+        <Chart />
       </div>
     </>
   );

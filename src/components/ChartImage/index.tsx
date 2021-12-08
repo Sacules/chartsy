@@ -4,29 +4,21 @@ import React from "react";
 import { Image } from "@entities";
 
 interface Props {
-  pos?: number;
   showTitle: boolean;
   img: Image;
-  onGrid: boolean;
 }
 
-export const ChartImage: React.FC<Props> = ({
-  pos,
-  img,
-  showTitle,
-  onGrid,
-}) => {
+export const ChartImage: React.FC<Props> = ({ img, showTitle }) => {
   return (
-    <figure>
+    <figure className="w-24">
       <img
-        draggable
-        className=""
+        className="shadow-md"
         src={img.url}
         alt={img.author + " - " + img.title}
       />
       {showTitle && (
-        <figcaption>
-          <p>
+        <figcaption className="text-center">
+          <p className="text-sm">
             <b>{img.title}</b>
             <br />
             {img.author}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Select from "react-select";
 
 // Types
 import { Image } from "@entities";
@@ -7,7 +8,7 @@ import { Image } from "@entities";
 import { getMusic } from "@services";
 
 // Components
-import Select from "react-select";
+import { SearchImage } from "@components/SearchImage";
 
 const searchOptions = [
   { value: "music", label: "Music" },
@@ -62,15 +63,7 @@ export const Search: React.FC = () => {
       </div>
       <div className="flex overflow-scroll gap-4">
         {results.map((r) => (
-          <figure key={r.url} className="flex-shrink-0 w-24">
-            <img className="h-24 mb-2" src={r.url}></img>
-            <figcaption className="text-center">
-              <p className="text-sm">
-                <b>{r.title}</b> <br />
-                {r.author}
-              </p>
-            </figcaption>
-          </figure>
+          <SearchImage img={r} key={r.url} />
         ))}
       </div>
     </div>

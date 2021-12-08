@@ -10,19 +10,14 @@ interface CollageProps {
 }
 
 const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
+  images = images.slice(0, cols * rows);
   return (
     <ul className={`grid grid-rows-${rows} grid-cols-${cols} gap-${pad} w-max`}>
-      {images.map((img, i) => {
-        if (i >= cols * rows) {
-          return <></>;
-        }
-
-        return (
-          <li key={img.url}>
-            <ChartImage img={img} showTitle={false} />
-          </li>
-        );
-      })}
+      {images.map((img) => (
+        <li key={img.url}>
+          <ChartImage img={img} showTitle={false} />
+        </li>
+      ))}
     </ul>
   );
 };

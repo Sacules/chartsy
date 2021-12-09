@@ -25,7 +25,7 @@ const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
 export const Chart: React.FC = () => {
   const imgs = defaultImages(10, 10);
   return (
-    <div className="p-4 overflow-scroll">
+    <div className="p-4 overflow-scroll h-full">
       <Collage images={imgs} rows={3} cols={4} pad={2} />
     </div>
   );

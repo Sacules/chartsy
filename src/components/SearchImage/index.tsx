@@ -1,24 +1,16 @@
 // Types
-import { DragTypes, Image } from "@entities";
-import { useDrag } from "react-dnd";
+import { Image } from "@entities";
 
 interface Props {
   img: Image;
 }
 
 export const SearchImage: React.FC<Props> = ({ img }) => {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: DragTypes.IMAGE,
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-
   return (
-    <figure className={`flex-shrink-0 w-24 ${isDragging && "opacity-20"}`}>
-      <img ref={drag} className="h-24 mb-2" src={img.url}></img>
-      <figcaption className="text-center">
-        <p className="text-sm">
+    <figure className="flex-shrink-0 flex gap-4 items-center">
+      <img className="h-24 mb-2 w-24" src={img.url}></img>
+      <figcaption>
+        <p className="text-sm text-black">
           <b>{img.title}</b> <br />
           {img.author}
         </p>

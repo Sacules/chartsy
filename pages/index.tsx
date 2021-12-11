@@ -4,6 +4,7 @@ import Head from "next/head";
 // Components
 import { Nav } from "@components/Nav";
 import { Chart } from "@components/Chart";
+import { Search } from "@components/Search";
 
 export default function Home() {
   return (
@@ -12,8 +13,9 @@ export default function Home() {
         <title>Chartsy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="grid grid-rows-layout grid-cols-1 lg:grid-cols-layout">
+      <div className="min-h-screen">
         <Nav />
+        <Search />
         <Chart />
       </div>
     </>

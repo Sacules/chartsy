@@ -30,7 +30,7 @@ export const Search: React.FC = () => {
   };
 
   return (
-    <div className="relative max-w-screen max-h-screen">
+    <div className="absolute max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 pb-4 bg-gray-800/50">
       <form
         onSubmit={async (e) => {
           e.preventDefault();
@@ -38,7 +38,7 @@ export const Search: React.FC = () => {
         }}
       >
         <input
-          className="p-2 border border-gray-400 focus:border-gray-800 text-black"
+          className="p-2 border border-gray-400 focus:border-gray-800 text-black w-full"
           type="text"
           name="search"
           value={search}
@@ -49,11 +49,11 @@ export const Search: React.FC = () => {
         />
       </form>
       {results.length > 0 && (
-        <div className="absolute mt-2 z-10 flex flex-col gap-4 bg-gray-100 p-4 overflow-y-scroll">
+        <ul className="mt-2 flex flex-col gap-4 bg-white max-h-[75vh] p-4 overflow-y-scroll">
           {results.map((r) => (
             <SearchImage img={r} key={r.url} />
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

@@ -2,6 +2,7 @@ import React from "react";
 
 // Types
 import { Image } from "@entities";
+import { useChart } from "src/contexts/ChartContext";
 
 interface Props {
   pos: number;
@@ -10,10 +11,14 @@ interface Props {
 }
 
 export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
-  const showSearch = () => {};
+  const { dispatch } = useChart();
+
+  const toggleSearch = () => {
+    dispatch({ type: "update", field: "showSearch", value: true });
+  };
 
   return (
-    <figure className="w-24" onTouchEnd={showSearch} onClick={showSearch}>
+    <figure className="w-24" onTouchEnd={toggleSearch} onClick={toggleSearch}>
       <img
         className="transition-all shadow-md hover:outline-sky-400 outline outline-transparent"
         src={img.url}

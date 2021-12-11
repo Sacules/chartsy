@@ -5,6 +5,7 @@ import Head from "next/head";
 import { Nav } from "@components/Nav";
 import { Chart } from "@components/Chart";
 import { Search } from "@components/Search";
+import { ChartProvider } from "src/contexts/ChartContext";
 
 export default function Home() {
   return (
@@ -15,8 +16,10 @@ export default function Home() {
       </Head>
       <div className="min-h-screen">
         <Nav />
-        <Search />
-        <Chart />
+        <ChartProvider>
+          <Search />
+          <Chart />
+        </ChartProvider>
       </div>
     </>
   );

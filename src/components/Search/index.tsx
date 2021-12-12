@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 // Types
 import { Image } from "@entities";
 
+// Contexts
+import { useChart } from "@contexts/ChartContext";
+
 // Services
 import { getMusic } from "@services";
 
@@ -19,6 +22,7 @@ import { SearchImage } from "@components/SearchImage";
 export const Search: React.FC = () => {
   const [search, setSearch] = useState("");
   const [results, setResults] = useState<Image[]>([]);
+  const { dispatch } = useChart();
 
   const ref = useRef(null);
   const setFocus = () => ref.current && ref.current.focus();
@@ -33,6 +37,22 @@ export const Search: React.FC = () => {
   };
 
   useEffect(() => setFocus(), []);
+
+  useEffect(() => {
+    const handleClickOutside = (e: Event) => {
+      if (
+        ref.current &&
+        !ref.current.contains(e.target) &&
+        results.length === 0
+      ) {
+        dispatch({ type: "update", field: "showSearch", value: false });
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [results, dispatch]);
 
   return (
     <div className="absolute max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 pb-4 bg-gray-800/50">
@@ -54,13 +74,15 @@ export const Search: React.FC = () => {
           }}
         />
       </form>
-      {results.length > 0 && (
-        <ul className="mt-4 flex flex-col bg-white max-h-[75vh] p-4 gap-4 overflow-y-scroll">
-          {results.map((r) => (
-            <SearchImage img={r} key={r.url} />
-          ))}
-        </ul>
-      )}
+      <ul
+        className={`transition-[height] mt-4 flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
+          results.length > 0 ? "p-4 h-full" : "p-0 h-0"
+        }`}
+      >
+        {results.map((r) => (
+          <SearchImage img={r} key={r.url} />
+        ))}
+      </ul>
     </div>
   );
 };

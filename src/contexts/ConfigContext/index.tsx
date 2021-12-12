@@ -34,7 +34,7 @@ export type ConfigAction = {
 export const ConfigInitialState = {
   rows: 3,
   cols: 3,
-  pad: 0,
+  pad: 1,
   fontSize: 14,
   showTitlesBelow: false,
   showTitlesAside: false,

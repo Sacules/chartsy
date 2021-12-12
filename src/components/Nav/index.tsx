@@ -15,7 +15,7 @@ export const Nav: React.FC<Props> = ({ setShowConfig }) => {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-gray-700 text-white p-4">
+    <nav className="z-20 flex items-center justify-between bg-gray-700 text-white p-4">
       <button className="grid place-items-center" onClick={toggleConfig}>
         <Image
           className="filter invert"

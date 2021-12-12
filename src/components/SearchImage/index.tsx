@@ -21,6 +21,7 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
     TouchEventHandler<HTMLElement> = (
     e: MouseEvent<HTMLElement> & TouchEvent<HTMLElement>
   ) => {
+    e.preventDefault();
     e.stopPropagation();
     dispatch({ type: "update", field: "imageReplaced", value: img });
     dispatch({ type: "replace" });

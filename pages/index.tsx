@@ -5,7 +5,20 @@ import Head from "next/head";
 import { Nav } from "@components/Nav";
 import { Chart } from "@components/Chart";
 import { Search } from "@components/Search";
-import { ChartProvider } from "src/contexts/ChartContext";
+import { ChartProvider, useChart } from "src/contexts/ChartContext";
+
+const Main: React.FC = () => {
+  const {
+    chart: { showSearch },
+  } = useChart();
+
+  return (
+    <>
+      {showSearch && <Search />}
+      <Chart />
+    </>
+  );
+};
 
 export default function Home() {
   return (
@@ -14,13 +27,12 @@ export default function Home() {
         <title>Chartsy</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="min-h-screen">
+      <main className="min-h-screen">
         <Nav />
         <ChartProvider>
-          <Search />
-          <Chart />
+          <Main />
         </ChartProvider>
-      </div>
+      </main>
     </>
   );
 }

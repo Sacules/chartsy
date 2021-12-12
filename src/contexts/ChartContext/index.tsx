@@ -9,7 +9,7 @@ const ChartDefault: Chart = {
 };
 
 type ChartAction = {
-  type: "update";
+  type: string;
   field?: "showSearch";
   value?: boolean;
 };
@@ -18,6 +18,9 @@ const ChartReducer = (state: Chart, action: ChartAction): Chart => {
   switch (action.type) {
     case "update":
       return { ...state, [action.field as string]: action.value };
+    default:
+      console.log("wrong action type");
+      return state;
   }
 };
 
@@ -39,7 +42,7 @@ export const useChart = () => {
 };
 
 export const ChartProvider: React.FC = ({ children }) => {
-  const [state, dispatch] = useReducer(ChartReducer, ChartDefault);
+  const [state, dispatch] = useReducer(ChartReducer, { ...ChartDefault });
 
   return (
     <ChartContext.Provider value={{ chart: state, dispatch }}>

@@ -28,7 +28,7 @@ const Main: React.FC<Props> = ({ showConfig }) => {
     <>
       <CSSTransition
         in={showSearch}
-        timeout={{ enter: 300, exit: 0 }}
+        timeout={300}
         unmountOnExit
         classNames="search"
       >

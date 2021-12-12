@@ -75,8 +75,8 @@ export const Search: React.FC = () => {
         />
       </form>
       <ul
-        className={`transition-[height] mt-4 flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
-          results.length > 0 ? "p-4 h-full" : "p-0 h-0"
+        className={`transition-[height] transition-[opacity] duration-300 mt-4 flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
+          results.length > 0 ? "p-4 h-full opacity-100" : "p-0 h-0 opacity-0"
         }`}
       >
         {results.map((r) => (

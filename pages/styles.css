@@ -107,3 +107,12 @@ input:checked ~ .dot {
 .search-enter-active {
     opacity: 1;
 }
+
+.search-exit {
+    opacity: 1;
+}
+
+.search-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease;
+}

@@ -69,3 +69,9 @@
 .gap-8 {
     gap: 2rem;
 }
+
+/* Radio buttons */
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: rgb(56 189 248);
+}

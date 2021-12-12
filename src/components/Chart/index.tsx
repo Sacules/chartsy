@@ -13,9 +13,16 @@ interface CollageProps {
   rows: number;
   cols: number;
   pad: number;
+  showTitlesBelow: boolean;
 }
 
-const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
+const Collage: React.FC<CollageProps> = ({
+  images,
+  rows,
+  cols,
+  pad,
+  showTitlesBelow,
+}) => {
   images = [...images.slice(0, cols * rows)];
   return (
     <ul
@@ -23,7 +30,7 @@ const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
     >
       {images.map((img, i) => (
         <li key={`${i} - ${img.url}`}>
-          <ChartImage pos={i} img={img} showTitle={false} />
+          <ChartImage pos={i} img={img} showTitle={showTitlesBelow} />
         </li>
       ))}
     </ul>
@@ -35,12 +42,18 @@ export const Chart: React.FC = () => {
     chart: { images },
   } = useChart();
   const {
-    config: { rows, cols, pad },
+    config: { rows, cols, pad, showTitlesBelow },
   } = useConfig();
 
   return (
     <div className="p-4 overflow-scroll h-full">
-      <Collage images={images} rows={rows} cols={cols} pad={pad} />
+      <Collage
+        images={images}
+        rows={rows}
+        cols={cols}
+        pad={pad}
+        showTitlesBelow={showTitlesBelow}
+      />
     </div>
   );
 };

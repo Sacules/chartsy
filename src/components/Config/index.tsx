@@ -14,28 +14,46 @@ const Slider: React.FC<SliderProps> = ({
   min,
   max,
   dispatch,
-}) => {
-  return (
-    <div>
-      <div className="flex justify-between">
-        <p>{title}</p>
-        <p>{value}</p>
-      </div>
-      <input
-        className="w-full"
-        type="range"
-        min={min}
-        max={max}
-        value={value}
-        onChange={dispatch}
-      />
+}) => (
+  <div>
+    <div className="flex justify-between">
+      <p>{title}</p>
+      <p>{value}</p>
     </div>
-  );
-};
+    <input
+      className="w-full"
+      type="range"
+      min={min}
+      max={max}
+      value={value}
+      onChange={dispatch}
+    />
+  </div>
+);
+interface RadioProps {
+  title: string;
+  dispatch: () => void;
+}
+
+const Radio: React.FC<RadioProps> = ({ title, dispatch }) => (
+  <label className="flex items-center" htmlFor={title}>
+    <div className="relative cursor-pointer">
+      <input
+        id={title}
+        className="sr-only"
+        type="checkbox"
+        onClick={dispatch}
+      />
+      <div className="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+      <div className="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+    </div>
+    <p className="ml-4">{title}</p>
+  </label>
+);
 
 export const Config: React.FC = () => {
   const {
-    config: { rows, cols, pad },
+    config: { rows, cols, pad, showTitlesBelow },
     dispatch,
   } = useConfig();
   return (
@@ -65,6 +83,16 @@ export const Config: React.FC = () => {
         max={8}
         dispatch={(e) =>
           dispatch({ type: "update", field: "pad", value: e.target.value })
+        }
+      />
+      <Radio
+        title="Show titles below"
+        dispatch={() =>
+          dispatch({
+            type: "update",
+            field: "showTitlesBelow",
+            value: !showTitlesBelow,
+          })
         }
       />
     </div>

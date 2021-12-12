@@ -30,7 +30,7 @@ export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
         alt={img.author + " - " + img.title}
       />
       {showTitle && (
-        <figcaption className="text-center">
+        <figcaption className="mt-2 text-center">
           <p className="text-sm">
             <b>{img.title}</b>
             <br />

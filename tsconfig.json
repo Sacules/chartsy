@@ -21,6 +21,7 @@
     "baseUrl": ".",
     "paths": {
         "@components/*" : ["src/components/*"],
+        "@contexts/*" : ["src/contexts/*"],
         "@entities" : ["src/entities"],
         "@services" : ["src/services"]
     }

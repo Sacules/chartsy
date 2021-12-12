@@ -1,7 +1,7 @@
 import React from "react";
 
 // Hooks
-import { useChart } from "src/contexts/ChartContext";
+import { useChart } from "@contexts/ChartContext";
 
 // Types
 import { Image } from "@entities";

@@ -2,7 +2,7 @@
 import { Image } from "@entities";
 
 // Hooks
-import { useChart } from "src/contexts/ChartContext";
+import { useChart } from "@contexts/ChartContext";
 
 interface Props {
   img: Image;

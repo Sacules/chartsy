@@ -1,26 +1,34 @@
+import { defaultImage, defaultImages, Image } from "@entities";
 import { createContext, Dispatch, useContext, useReducer } from "react";
 
 type Chart = {
   showSearch: boolean;
+  images: Image[];
+  imageReplaced: Image;
+  positionReplaced: number;
 };
 
 const ChartDefault: Chart = {
   showSearch: false,
+  images: defaultImages(10, 10),
+  imageReplaced: defaultImage,
+  positionReplaced: 0,
 };
 
 type ChartAction = {
-  type: string;
-  field?: "showSearch";
-  value?: boolean;
+  type: "update" | "replace";
+  field?: "showSearch" | "imageReplaced" | "positionReplaced";
+  value?: boolean | number | Image;
 };
 
 const ChartReducer = (state: Chart, action: ChartAction): Chart => {
   switch (action.type) {
     case "update":
       return { ...state, [action.field as string]: action.value };
-    default:
-      console.log("wrong action type");
-      return state;
+    case "replace":
+      const images = [...state.images];
+      images[state.positionReplaced] = state.imageReplaced;
+      return { ...state, images };
   }
 };
 

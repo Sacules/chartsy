@@ -1,11 +1,15 @@
 import Head from "next/head";
-// import { isMobile } from "react-device-detect";
+
+// Hooks
+import { useChart } from "src/contexts/ChartContext";
+
+// Context
+import { ChartProvider } from "src/contexts/ChartContext";
 
 // Components
 import { Nav } from "@components/Nav";
 import { Chart } from "@components/Chart";
 import { Search } from "@components/Search";
-import { ChartProvider, useChart } from "src/contexts/ChartContext";
 
 const Main: React.FC = () => {
   const {

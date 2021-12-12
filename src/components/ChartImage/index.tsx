@@ -15,6 +15,7 @@ export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
 
   const toggleSearch = () => {
     dispatch({ type: "update", field: "showSearch", value: true });
+    dispatch({ type: "update", field: "positionReplaced", value: pos });
   };
 
   return (

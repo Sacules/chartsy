@@ -1,6 +1,7 @@
 // Types
 import { ChartImage } from "@components/ChartImage";
-import { defaultImages, Image } from "@entities";
+import { Image } from "@entities";
+import { useChart } from "src/contexts/ChartContext";
 
 interface CollageProps {
   images: Image[];
@@ -10,12 +11,12 @@ interface CollageProps {
 }
 
 const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
-  images = images.slice(0, cols * rows);
+  images = [...images.slice(0, cols * rows)];
   return (
     <ul className={`grid grid-rows-${rows} grid-cols-${cols} gap-${pad} w-max`}>
-      {images.map((img) => (
-        <li key={img.url}>
-          <ChartImage img={img} showTitle={false} />
+      {images.map((img, i) => (
+        <li key={`${i} - ${img.url}`}>
+          <ChartImage pos={i} img={img} showTitle={false} />
         </li>
       ))}
     </ul>
@@ -23,10 +24,12 @@ const Collage: React.FC<CollageProps> = ({ images, rows, cols, pad }) => {
 };
 
 export const Chart: React.FC = () => {
-  const imgs = defaultImages(10, 10);
+  const {
+    chart: { images },
+  } = useChart();
   return (
     <div className="p-4 overflow-scroll h-full">
-      <Collage images={imgs} rows={3} cols={4} pad={2} />
+      <Collage images={images} rows={3} cols={4} pad={2} />
     </div>
   );
 };

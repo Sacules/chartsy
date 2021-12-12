@@ -1,10 +1,12 @@
 import Head from "next/head";
+import { useState } from "react";
 
 // Hooks
 import { useChart } from "@contexts/ChartContext";
 
-// Context
+// Contexts
 import { ChartProvider } from "@contexts/ChartContext";
+import { ConfigProvider } from "@contexts/ConfigContext";
 
 // Components
 import { Nav } from "@components/Nav";
@@ -12,7 +14,11 @@ import { Chart } from "@components/Chart";
 import { Search } from "@components/Search";
 import { Config } from "@components/Config";
 
-const Main: React.FC = () => {
+interface Props {
+  showConfig: boolean;
+}
+
+const Main: React.FC<Props> = ({ showConfig }) => {
   const {
     chart: { showSearch },
   } = useChart();
@@ -20,12 +26,14 @@ const Main: React.FC = () => {
   return (
     <>
       {showSearch && <Search />}
+      {showConfig && <Config />}
       <Chart />
     </>
   );
 };
 
 export default function Home() {
+  const [showConfig, setShowConfig] = useState(false);
   return (
     <>
       <Head>
@@ -33,11 +41,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen">
-        <Config />
-        <Nav />
-        <ChartProvider>
-          <Main />
-        </ChartProvider>
+        <ConfigProvider>
+          <Nav setShowConfig={setShowConfig} />
+          <ChartProvider>
+            <Main showConfig={showConfig} />
+          </ChartProvider>
+        </ConfigProvider>
       </main>
     </>
   );

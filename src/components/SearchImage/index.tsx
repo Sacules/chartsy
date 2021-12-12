@@ -3,6 +3,12 @@ import { Image } from "@entities";
 
 // Hooks
 import { useChart } from "@contexts/ChartContext";
+import {
+  MouseEvent,
+  MouseEventHandler,
+  TouchEvent,
+  TouchEventHandler,
+} from "react";
 
 interface Props {
   img: Image;
@@ -11,8 +17,10 @@ interface Props {
 export const SearchImage: React.FC<Props> = ({ img }) => {
   const { dispatch } = useChart();
 
-  const handleReplace = (e: Event) => {
-    e.preventDefault();
+  const handleReplace: MouseEventHandler<HTMLElement> &
+    TouchEventHandler<HTMLElement> = (
+    e: MouseEvent<HTMLElement> & TouchEvent<HTMLElement>
+  ) => {
     e.stopPropagation();
     dispatch({ type: "update", field: "imageReplaced", value: img });
     dispatch({ type: "replace" });
@@ -26,7 +34,11 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
         onTouchEnd={handleReplace}
         onClick={handleReplace}
       >
-        <img className="h-24 w-24" src={img.url}></img>
+        <img
+          className="h-24 w-24"
+          src={img.url}
+          alt={`${img.author} - ${img.title}`}
+        ></img>
         <figcaption>
           <p className="text-sm text-black">
             <b>{img.title}</b> <br />

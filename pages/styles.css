@@ -75,3 +75,35 @@ input:checked ~ .dot {
   transform: translateX(100%);
   background-color: rgb(56 189 248);
 }
+
+/* Config transition */
+.config-enter {
+    max-height: 0px;
+    transition: max-height 500ms ease;
+    overflow: hidden;
+}
+
+.config-enter-active {
+    max-height: 20rem;
+    height: auto;
+}
+
+.config-exit {
+    max-height: 20rem;
+    transition: max-height 500ms ease;
+}
+
+.config-exit-active {
+    overflow: hidden;
+    max-height: 0px;
+}
+
+/* Search transition */
+.search-enter {
+    opacity: 0;
+    transition: opacity 300ms ease;
+}
+
+.search-enter-active {
+    opacity: 1;
+}

@@ -33,15 +33,17 @@ const Slider: React.FC<SliderProps> = ({
 interface RadioProps {
   title: string;
   dispatch: () => void;
+  checked: boolean;
 }
 
-const Radio: React.FC<RadioProps> = ({ title, dispatch }) => (
+const Radio: React.FC<RadioProps> = ({ title, dispatch, checked }) => (
   <label className="flex items-center" htmlFor={title}>
     <div className="relative cursor-pointer">
       <input
         id={title}
         className="sr-only"
         type="checkbox"
+        checked={checked}
         onClick={dispatch}
       />
       <div className="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
@@ -56,6 +58,7 @@ export const Config: React.FC = () => {
     config: { rows, cols, pad, showTitlesBelow },
     dispatch,
   } = useConfig();
+
   return (
     <div className="flex flex-col gap-2 bg-white shadow px-4 py-4">
       <Slider
@@ -87,6 +90,7 @@ export const Config: React.FC = () => {
       />
       <Radio
         title="Show titles below"
+        checked={showTitlesBelow}
         dispatch={() =>
           dispatch({
             type: "update",

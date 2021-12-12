@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
+import { CSSTransition } from "react-transition-group";
 
 // Hooks
 import { useChart } from "@contexts/ChartContext";
@@ -25,8 +26,22 @@ const Main: React.FC<Props> = ({ showConfig }) => {
 
   return (
     <>
-      {showSearch && <Search />}
-      {showConfig && <Config />}
+      <CSSTransition
+        in={showSearch}
+        timeout={{ enter: 300, exit: 0 }}
+        unmountOnExit
+        classNames="search"
+      >
+        <Search />
+      </CSSTransition>
+      <CSSTransition
+        in={showConfig}
+        timeout={500}
+        unmountOnExit
+        classNames="config"
+      >
+        <Config />
+      </CSSTransition>
       <Chart />
     </>
   );

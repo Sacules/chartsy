@@ -39,7 +39,7 @@ export const Config: React.FC = () => {
     dispatch,
   } = useConfig();
   return (
-    <div className="absolute inset-0 z-10 bg-white shadow px-4 pb-4 mt-20">
+    <div className="bg-white shadow px-4 py-4">
       <Slider
         title="Rows"
         value={rows}
@@ -61,7 +61,7 @@ export const Config: React.FC = () => {
       <Slider
         title="Padding"
         value={pad}
-        min={1}
+        min={0}
         max={8}
         dispatch={(e) =>
           dispatch({ type: "update", field: "pad", value: e.target.value })

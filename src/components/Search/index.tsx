@@ -64,7 +64,7 @@ export const Search: React.FC = () => {
       >
         <input
           ref={ref}
-          className="p-2 border border-gray-400 focus:border-gray-800 text-black w-full shadow"
+          className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
           type="text"
           name="search"
           value={search}

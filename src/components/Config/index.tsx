@@ -39,7 +39,7 @@ export const Config: React.FC = () => {
     dispatch,
   } = useConfig();
   return (
-    <div className="absolute inset-x-0 z-10 bg-white shadow p-4">
+    <div className="absolute inset-0 z-10 bg-white shadow px-4 pb-4 mt-20">
       <Slider
         title="Rows"
         value={rows}

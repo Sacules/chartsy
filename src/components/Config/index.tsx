@@ -57,7 +57,7 @@ export const Config: React.FC = () => {
     dispatch,
   } = useConfig();
   return (
-    <div className="bg-white shadow px-4 py-4">
+    <div className="flex flex-col gap-2 bg-white shadow px-4 py-4">
       <Slider
         title="Rows"
         value={rows}

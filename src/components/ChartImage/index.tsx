@@ -14,12 +14,11 @@ export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
   const { dispatch } = useChart();
 
   const toggleSearch = () => {
-    console.log("updating search status");
     dispatch({ type: "update", field: "showSearch", value: true });
   };
 
   return (
-    <figure className="w-24" onTouchEnd={toggleSearch}>
+    <figure className="w-24" onTouchEnd={toggleSearch} onClick={toggleSearch}>
       <img
         className="transition-all shadow-md hover:outline-sky-400 outline outline-transparent"
         src={img.url}

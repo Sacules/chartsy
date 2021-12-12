@@ -9,13 +9,13 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
   // const { onClick } = useChart();
 
   return (
-    <li className="hover:bg-gray-800">
+    <li className="hover:outline-sky-400 hover:outline">
       <figure
         className="flex-shrink-0 flex gap-4 items-center"
         // onTouchEnd={onClick}
         // onClick={onClick}
       >
-        <img className="h-24 mb-2 w-24" src={img.url}></img>
+        <img className="h-24 w-24" src={img.url}></img>
         <figcaption>
           <p className="text-sm text-black">
             <b>{img.title}</b> <br />

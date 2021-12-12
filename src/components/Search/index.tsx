@@ -55,7 +55,7 @@ export const Search: React.FC = () => {
         />
       </form>
       {results.length > 0 && (
-        <ul className="mt-4 flex flex-col bg-white max-h-[75vh] p-4 overflow-y-scroll">
+        <ul className="mt-4 flex flex-col bg-white max-h-[75vh] p-4 gap-4 overflow-y-scroll">
           {results.map((r) => (
             <SearchImage img={r} key={r.url} />
           ))}

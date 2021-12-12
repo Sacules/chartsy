@@ -1,9 +1,16 @@
+import { MutableRefObject } from "react";
+
 // Types
 export type Image = {
   title: string;
   author: string;
   url: string;
 };
+
+export type ChartRef =
+  | ((instance: HTMLUListElement) => void)
+  | MutableRefObject<HTMLUListElement | null>
+  | null;
 
 // Constants
 export const defaultImage: Image = {

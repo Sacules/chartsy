@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { forwardRef, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 // Hooks
@@ -42,13 +42,23 @@ const Main: React.FC<Props> = ({ showConfig }) => {
       >
         <Config />
       </CSSTransition>
-      <Chart />
     </>
   );
 };
 
 export default function Home() {
   const [showConfig, setShowConfig] = useState(false);
+
+  const ref = useRef(null);
+  const RefNav = forwardRef<HTMLUListElement>((_, ref) => (
+    <Nav setShowConfig={setShowConfig} chartRef={ref} />
+  ));
+  RefNav.displayName = "nav";
+  const RefChart = forwardRef<HTMLUListElement>((_, ref) => (
+    <Chart chartRef={ref} />
+  ));
+  RefChart.displayName = "chart";
+
   return (
     <>
       <Head>
@@ -56,10 +66,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen">
-        <Nav setShowConfig={setShowConfig} />
+        <RefNav ref={ref} />
         <ConfigProvider>
           <ChartProvider>
             <Main showConfig={showConfig} />
+            <RefChart ref={ref} />
           </ChartProvider>
         </ConfigProvider>
       </main>

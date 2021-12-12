@@ -2,7 +2,7 @@
 import { useChart } from "@contexts/ChartContext";
 
 // Types
-import { Image } from "@entities";
+import { ChartRef, Image } from "@entities";
 
 // Components
 import { ChartImage } from "@components/ChartImage";
@@ -14,6 +14,7 @@ interface CollageProps {
   cols: number;
   pad: number;
   showTitlesBelow: boolean;
+  chartRef: ChartRef;
 }
 
 const Collage: React.FC<CollageProps> = ({
@@ -22,11 +23,13 @@ const Collage: React.FC<CollageProps> = ({
   cols,
   pad,
   showTitlesBelow,
+  chartRef,
 }) => {
   images = [...images.slice(0, cols * rows)];
   return (
     <ul
-      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} w-max`}
+      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} w-max bg-white`}
+      ref={chartRef}
     >
       {images.map((img, i) => (
         <li key={`${i} - ${img.url}`}>
@@ -37,7 +40,11 @@ const Collage: React.FC<CollageProps> = ({
   );
 };
 
-export const Chart: React.FC = () => {
+interface Props {
+  chartRef: ChartRef;
+}
+
+export const Chart: React.FC<Props> = ({ chartRef }) => {
   const {
     chart: { images },
   } = useChart();
@@ -46,13 +53,14 @@ export const Chart: React.FC = () => {
   } = useConfig();
 
   return (
-    <div className="p-4 overflow-scroll h-full">
+    <div className="p-4 overflow-scroll h-full bg-white">
       <Collage
         images={images}
         rows={rows}
         cols={cols}
         pad={pad}
         showTitlesBelow={showTitlesBelow}
+        chartRef={chartRef}
       />
     </div>
   );

@@ -1,7 +1,11 @@
-// Types
-import { ChartImage } from "@components/ChartImage";
-import { Image } from "@entities";
+// Hooks
 import { useChart } from "src/contexts/ChartContext";
+
+// Types
+import { Image } from "@entities";
+
+// Components
+import { ChartImage } from "@components/ChartImage";
 
 interface CollageProps {
   images: Image[];

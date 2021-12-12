@@ -1,8 +1,10 @@
 import React from "react";
 
+// Hooks
+import { useChart } from "src/contexts/ChartContext";
+
 // Types
 import { Image } from "@entities";
-import { useChart } from "src/contexts/ChartContext";
 
 interface Props {
   pos: number;

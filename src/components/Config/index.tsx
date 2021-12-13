@@ -60,7 +60,7 @@ export const Config: React.FC = () => {
   } = useConfig();
 
   return (
-    <div className="flex flex-col gap-2 bg-white shadow px-4 py-4">
+    <aside className="z-10 flex flex-col gap-2 bg-white shadow px-4 py-4">
       <Slider
         title="Rows"
         value={rows}
@@ -99,6 +99,6 @@ export const Config: React.FC = () => {
           })
         }
       />
-    </div>
+    </aside>
   );
 };

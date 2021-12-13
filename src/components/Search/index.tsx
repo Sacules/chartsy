@@ -69,44 +69,46 @@ export const Search: React.FC<Props> = ({ results }) => {
   );
 
   return (
-    <div className="absolute max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 pb-4 bg-gray-800/50">
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await download();
-        }}
-      >
-        <input
-          ref={ref}
-          className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
-          type="text"
-          name="search"
-          value={search}
-          onChange={(e) => {
+    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/50">
+      <div className="md:max-w-[75vw] w-full">
+        <form
+          onSubmit={async (e) => {
             e.preventDefault();
-            setSearch(e.target.value);
+            await download();
           }}
-          onKeyDown={(e) => {
-            if (e.key !== "Escape") {
-              return;
-            }
+        >
+          <input
+            ref={ref}
+            className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
+            type="text"
+            name="search"
+            value={search}
+            onChange={(e) => {
+              e.preventDefault();
+              setSearch(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key !== "Escape") {
+                return;
+              }
 
-            dispatch({ type: "update", field: "showSearch", value: false });
-          }}
-        />
-      </form>
-      <ul
-        className={`transition-[height] transition-[opacity] duration-300 mt-4 \
+              dispatch({ type: "update", field: "showSearch", value: false });
+            }}
+          />
+        </form>
+        <ul
+          className={`transition-[height] transition-[opacity] duration-300 mt-4 \
             flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
               searchResults.length > 0
                 ? "p-4 h-full opacity-100"
                 : "p-0 h-0 opacity-0"
             }`}
-      >
-        {searchResults.map((r) => (
-          <SearchImage img={r} key={r.url} />
-        ))}
-      </ul>
+        >
+          {searchResults.map((r) => (
+            <SearchImage img={r} key={r.url} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

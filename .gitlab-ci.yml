@@ -12,7 +12,8 @@ cache:
 pages:
   script:
     - npm run build
-    - mv out public
+    - mv out/* public
+    - rm -rf out
   artifacts:
     paths:
       - public

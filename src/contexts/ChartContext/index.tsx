@@ -19,8 +19,8 @@ const ChartDefault: Chart = {
 
 type ChartAction = {
   type: "update" | "replace";
-  field?: "showSearch" | "searchResults" | "imageReplaced" | "positionReplaced";
-  value?: boolean | number | Image;
+  field?: "showSearch" | "results" | "imageReplaced" | "positionReplaced";
+  value?: boolean | number | Image | Image[];
 };
 
 const ChartReducer = (state: Chart, action: ChartAction): Chart => {

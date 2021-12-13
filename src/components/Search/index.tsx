@@ -59,8 +59,13 @@ export const Search: React.FC<Props> = ({ results }) => {
   }, [searchResults, dispatch]);
 
   useEffect(
-    () => dispatch({ type: "update", field: "results", value: searchResults }),
-    [searchResults]
+    () =>
+      dispatch({
+        type: "update",
+        field: "results",
+        value: searchResults,
+      }),
+    [searchResults, dispatch]
   );
 
   return (
@@ -80,6 +85,13 @@ export const Search: React.FC<Props> = ({ results }) => {
           onChange={(e) => {
             e.preventDefault();
             setSearch(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key !== "Escape") {
+              return;
+            }
+
+            dispatch({ type: "update", field: "showSearch", value: false });
           }}
         />
       </form>

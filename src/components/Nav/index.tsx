@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import useScreenshot from "use-screenshot-hook";
 
@@ -25,10 +24,10 @@ export const Nav: React.FC<Props> = ({ chartRef, setShowConfig }) => {
   return (
     <nav className="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white p-4">
       <button className="grid place-items-center" onClick={toggleConfig}>
-        <Image
+        <img
           className="filter invert"
           alt="Settings"
-          src={Settings}
+          src="/settings.svg"
           width={30}
           height={30}
         />
@@ -43,10 +42,10 @@ export const Nav: React.FC<Props> = ({ chartRef, setShowConfig }) => {
           link.click();
         }}
       >
-        <Image
+        <img
           className="filter invert"
           alt="Save"
-          src={Save}
+          src="/save.svg"
           width={30}
           height={30}
         />

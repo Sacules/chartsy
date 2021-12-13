@@ -19,9 +19,13 @@ import { SearchImage } from "@components/SearchImage";
 //   { value: "movies", label: "Movies" },
 // ];
 
-export const Search: React.FC = () => {
+interface Props {
+  results: Image[];
+}
+
+export const Search: React.FC<Props> = ({ results }) => {
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState<Image[]>([]);
+  const [searchResults, setSearchResults] = useState<Image[]>([...results]);
   const { dispatch } = useChart();
 
   const ref = useRef(null);
@@ -33,7 +37,7 @@ export const Search: React.FC = () => {
     }
 
     const music = await getMusic(search);
-    setResults(music);
+    setSearchResults(music);
   };
 
   useEffect(() => setFocus(), []);
@@ -43,7 +47,7 @@ export const Search: React.FC = () => {
       if (
         ref.current &&
         !ref.current.contains(e.target) &&
-        results.length === 0
+        searchResults.length === 0
       ) {
         dispatch({ type: "update", field: "showSearch", value: false });
       }
@@ -52,7 +56,12 @@ export const Search: React.FC = () => {
     document.addEventListener("click", handleClickOutside);
 
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [results, dispatch]);
+  }, [searchResults, dispatch]);
+
+  useEffect(
+    () => dispatch({ type: "update", field: "results", value: searchResults }),
+    [searchResults]
+  );
 
   return (
     <div className="absolute max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 pb-4 bg-gray-800/50">
@@ -75,11 +84,14 @@ export const Search: React.FC = () => {
         />
       </form>
       <ul
-        className={`transition-[height] transition-[opacity] duration-300 mt-4 flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
-          results.length > 0 ? "p-4 h-full opacity-100" : "p-0 h-0 opacity-0"
-        }`}
+        className={`transition-[height] transition-[opacity] duration-300 mt-4 \
+            flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
+              searchResults.length > 0
+                ? "p-4 h-full opacity-100"
+                : "p-0 h-0 opacity-0"
+            }`}
       >
-        {results.map((r) => (
+        {searchResults.map((r) => (
           <SearchImage img={r} key={r.url} />
         ))}
       </ul>

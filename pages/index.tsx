@@ -21,7 +21,7 @@ interface Props {
 
 const Main: React.FC<Props> = ({ showConfig }) => {
   const {
-    chart: { showSearch },
+    chart: { showSearch, results },
   } = useChart();
 
   return (
@@ -32,7 +32,7 @@ const Main: React.FC<Props> = ({ showConfig }) => {
         unmountOnExit
         classNames="search"
       >
-        <Search />
+        <Search results={results} />
       </CSSTransition>
       <CSSTransition
         in={showConfig}

@@ -3,6 +3,7 @@ import { createContext, Dispatch, useContext, useReducer } from "react";
 
 type Chart = {
   showSearch: boolean;
+  results: Image[];
   images: Image[];
   imageReplaced: Image;
   positionReplaced: number;
@@ -10,6 +11,7 @@ type Chart = {
 
 const ChartDefault: Chart = {
   showSearch: false,
+  results: [],
   images: defaultImages(10, 10),
   imageReplaced: defaultImage,
   positionReplaced: 0,
@@ -17,7 +19,7 @@ const ChartDefault: Chart = {
 
 type ChartAction = {
   type: "update" | "replace";
-  field?: "showSearch" | "imageReplaced" | "positionReplaced";
+  field?: "showSearch" | "searchResults" | "imageReplaced" | "positionReplaced";
   value?: boolean | number | Image;
 };
 

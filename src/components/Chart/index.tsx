@@ -28,7 +28,7 @@ const Collage: React.FC<CollageProps> = ({
   images = [...images.slice(0, cols * rows)];
   return (
     <ul
-      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} w-max bg-white`}
+      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} p-${pad} w-max bg-white`}
       ref={chartRef}
     >
       {images.map((img, i) => (

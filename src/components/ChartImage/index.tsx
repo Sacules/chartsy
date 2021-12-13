@@ -25,7 +25,7 @@ export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
   return (
     <figure className="w-24" onTouchEnd={toggleSearch} onClick={toggleSearch}>
       <img
-        className="transition-all shadow-md hover:outline-sky-400 outline outline-transparent"
+        className="transition-all duration-75 shadow-md hover:border-sky-400 hover:border-4 border border-0"
         src={img.url}
         alt={img.author + " - " + img.title}
       />

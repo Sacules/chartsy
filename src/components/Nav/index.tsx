@@ -22,7 +22,7 @@ export const Nav: React.FC<Props> = ({ chartRef, setShowConfig }) => {
   };
 
   return (
-    <nav className="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white p-4">
+    <nav className="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white p-4 min-w-max">
       <button className="grid place-items-center" onClick={toggleConfig}>
         <img
           className="filter invert"

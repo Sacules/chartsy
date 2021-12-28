@@ -5,6 +5,17 @@ import { Image } from "@entities";
 import { useChart } from "@contexts/ChartContext";
 import { MouseEvent, MouseEventHandler } from "react";
 
+let clickTimeout = null;
+
+function clearClickTimeout() {
+  if (!clickTimeout) {
+    return;
+  }
+
+  clearTimeout(clickTimeout);
+  clickTimeout = null;
+}
+
 interface Props {
   img: Image;
 }
@@ -17,9 +28,14 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch({ type: "update", field: "imageReplaced", value: img });
-    dispatch({ type: "replace" });
-    dispatch({ type: "update", field: "showSearch", value: false });
+
+    // prevent replacing images when the user was just scrolling through the results list
+    clearClickTimeout();
+    clickTimeout = setTimeout(() => {
+      dispatch({ type: "update", field: "imageReplaced", value: img });
+      dispatch({ type: "replace" });
+      dispatch({ type: "update", field: "showSearch", value: false });
+    }, 200);
   };
 
   return (
@@ -27,6 +43,7 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
       <figure
         className="flex-shrink-0 flex gap-4 items-center"
         onClick={handleReplace}
+        onDragEnd={() => clearClickTimeout()}
       >
         <img
           className="h-24 w-24"

@@ -11,6 +11,7 @@ import { getMusic } from "@services";
 
 // Components
 import { SearchImage } from "@components/SearchImage";
+import Loader from "react-loader-spinner";
 
 // const searchOptions = [
 //   { value: "music", label: "Music" },
@@ -24,6 +25,7 @@ interface Props {
 }
 
 export const Search: React.FC<Props> = ({ results }) => {
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<Image[]>([...results]);
   const { dispatch } = useChart();
@@ -36,7 +38,9 @@ export const Search: React.FC<Props> = ({ results }) => {
       return;
     }
 
+    setLoading(true);
     const music = await getMusic(search);
+    setLoading(false);
     setSearchResults(music);
   };
 
@@ -96,18 +100,25 @@ export const Search: React.FC<Props> = ({ results }) => {
             }}
           />
         </form>
-        <ul
-          className={`transition-[height] transition-[opacity] duration-300 mt-4 \
+        {loading && (
+          <div className="grid place-items-center mt-4">
+            <Loader type="Oval" color="cyan" height={50} width={50} />
+          </div>
+        )}
+        {!loading && (
+          <ul
+            className={`transition-[height] transition-[opacity] duration-300 mt-4 \
             flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
               searchResults.length > 0
                 ? "p-4 h-full opacity-100"
                 : "p-0 h-0 opacity-0"
             }`}
-        >
-          {searchResults.map((r) => (
-            <SearchImage img={r} key={r.url} />
-          ))}
-        </ul>
+          >
+            {searchResults.map((r) => (
+              <SearchImage img={r} key={r.url} />
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

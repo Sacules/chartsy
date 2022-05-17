@@ -47,12 +47,7 @@ const Main: React.FC<Props> = ({ showConfig }) => {
       >
         <Search results={results} />
       </CSSTransition>
-      <CSSTransition
-        in={showConfig}
-        timeout={500}
-        unmountOnExit
-        classNames="config"
-      >
+      <CSSTransition in={showConfig} timeout={500} classNames="config">
         <Config />
       </CSSTransition>
     </>

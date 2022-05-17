@@ -115,37 +115,45 @@ input:checked ~ .dot {
 }
 
 /* Config transition */
-.config-enter {
-    max-height: 0px;
-    transition: max-height 500ms ease;
-    overflow: hidden;
+@media (max-width: 768px) {
+    .config-enter {
+        max-height: 0px;
+        transition: max-height 300ms linear;
+    }
+
+    .config-enter-active {
+        max-height: 20rem;
+    }
+
+    .config-enter-done {
+        max-height: max-content;
+    }
+
+    .config-exit {
+        max-height: 20rem;
+        transition: max-height 300ms ease-in;
+    }
+
+    .config-exit-active {
+        max-height: 0px;
+        overflow: hidden;
+    }
 }
 
-.config-enter-active {
-    max-height: 20rem;
-    height: auto;
-}
-
-.config-exit {
-    max-height: 20rem;
-    transition: max-height 500ms ease;
-}
-
-.config-exit-active {
-    overflow: hidden;
-    max-height: 0px;
-}
-
-@media screen(md) {
+@media (min-width: 768px) {
     .config-enter {
         max-width: 0px;
-        transition: max-width 500ms ease;
+        transition: max-width 500ms linear;
         overflow: hidden;
     }
 
     .config-enter-active {
         max-width: 20rem;
-        width: auto;
+        overflow: hidden;
+    }
+
+    .config-enter-done {
+        max-width: max-content;
     }
 
     .config-exit {

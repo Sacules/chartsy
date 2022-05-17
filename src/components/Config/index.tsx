@@ -60,45 +60,47 @@ export const Config: React.FC = () => {
   } = useConfig();
 
   return (
-    <aside className="z-10 flex flex-col gap-2 bg-white shadow px-4 py-4 min-w-max">
-      <Slider
-        title="Rows"
-        value={rows}
-        min={1}
-        max={10}
-        dispatch={(e) =>
-          dispatch({ type: "update", field: "rows", value: e.target.value })
-        }
-      />
-      <Slider
-        title="Columns"
-        value={cols}
-        min={1}
-        max={10}
-        dispatch={(e) =>
-          dispatch({ type: "update", field: "cols", value: e.target.value })
-        }
-      />
-      <Slider
-        title="Padding"
-        value={pad}
-        min={0}
-        max={8}
-        dispatch={(e) =>
-          dispatch({ type: "update", field: "pad", value: e.target.value })
-        }
-      />
-      <Radio
-        title="Show titles below"
-        checked={showTitlesBelow}
-        dispatch={() =>
-          dispatch({
-            type: "update",
-            field: "showTitlesBelow",
-            value: !showTitlesBelow,
-          })
-        }
-      />
+    <aside className="z-10 shadow overflow-hidden max-h-0 md:max-w-0 md:max-h-full">
+      <div className="p-4 bg-white flex flex-col gap-2 min-h-max md:min-w-max">
+        <Slider
+          title="Rows"
+          value={rows}
+          min={1}
+          max={10}
+          dispatch={(e) =>
+            dispatch({ type: "update", field: "rows", value: e.target.value })
+          }
+        />
+        <Slider
+          title="Columns"
+          value={cols}
+          min={1}
+          max={10}
+          dispatch={(e) =>
+            dispatch({ type: "update", field: "cols", value: e.target.value })
+          }
+        />
+        <Slider
+          title="Padding"
+          value={pad}
+          min={0}
+          max={8}
+          dispatch={(e) =>
+            dispatch({ type: "update", field: "pad", value: e.target.value })
+          }
+        />
+        <Radio
+          title="Show titles below"
+          checked={showTitlesBelow}
+          dispatch={() =>
+            dispatch({
+              type: "update",
+              field: "showTitlesBelow",
+              value: !showTitlesBelow,
+            })
+          }
+        />
+      </div>
     </aside>
   );
 };

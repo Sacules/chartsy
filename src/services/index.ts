@@ -1,18 +1,10 @@
-import axios from "axios";
-
-import { Image } from "../entities";
+import useFetch from "react-fetch-hook";
 
 const APIURL = "https://api.chartsy.net";
 
-const http = axios.create({
-  baseURL: APIURL,
-  headers: {
-    "Access-Control-Allow-Origin": "*",
-  },
-});
-
-export const getMusic = async (search: string) => {
-  return http.get("/albums?search=" + search.replace(" ", "+")).then((resp) => {
-    return resp.data.albums;
+export const getMusic = async (search: string) =>
+  useFetch(APIURL + "/albums?search=" + search.replace(" ", "+"), {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
   });
-};

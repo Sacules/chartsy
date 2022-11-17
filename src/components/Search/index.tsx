@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 // Types
 import { Image } from "@entities";
@@ -11,7 +11,6 @@ import { getMusic } from "@services";
 
 // Components
 import { SearchImage } from "@components/SearchImage";
-import Loader from "react-loader-spinner";
 
 // const searchOptions = [
 //   { value: "music", label: "Music" },
@@ -30,37 +29,16 @@ export const Search: React.FC<Props> = ({ results }) => {
   const [searchResults, setSearchResults] = useState<Image[]>([...results]);
   const { dispatch } = useChart();
 
-  const ref = useRef(null);
-  const setFocus = () => ref.current && ref.current.focus();
-
   const download = async () => {
     if (search === "") {
       return;
     }
 
     setLoading(true);
-    const music = await getMusic(search);
+    const { data } = await getMusic(search);
     setLoading(false);
-    setSearchResults(music);
+    setSearchResults(data as Image[]);
   };
-
-  useEffect(() => setFocus(), []);
-
-  useEffect(() => {
-    const handleClickOutside = (e: Event) => {
-      if (
-        ref.current &&
-        !ref.current.contains(e.target) &&
-        searchResults.length === 0
-      ) {
-        dispatch({ type: "update", field: "showSearch", value: false });
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [searchResults, dispatch]);
 
   useEffect(
     () =>
@@ -82,7 +60,6 @@ export const Search: React.FC<Props> = ({ results }) => {
           }}
         >
           <input
-            ref={ref}
             className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
             type="text"
             name="search"
@@ -101,9 +78,7 @@ export const Search: React.FC<Props> = ({ results }) => {
           />
         </form>
         {loading && (
-          <div className="grid place-items-center mt-4">
-            <Loader type="Oval" color="cyan" height={50} width={50} />
-          </div>
+          <div className="grid place-items-center mt-4">Loading...</div>
         )}
         {!loading && (
           <ul

@@ -1,34 +1,28 @@
 {
+  "name": "chartsy2",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@types/react-select": "^5.0.1",
-    "@types/react-transition-group": "^4.4.4",
-    "axios": "^0.24.0",
-    "next": "latest",
-    "react": "^17.0.2",
-    "react-device-detect": "^2.1.2",
-    "react-dnd": "^14.0.4",
-    "react-dnd-html5-backend": "^14.0.2",
-    "react-dnd-touch-backend": "^14.1.1",
-    "react-dom": "^17.0.2",
-    "react-loader-spinner": "^4.0.0",
-    "react-select": "^5.2.1",
-    "react-transition-group": "^4.4.2",
-    "use-screenshot-hook": "^1.0.2"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-fetch-hook": "^1.9.5",
+    "react-loader-spinner": "^5.3.4",
+    "use-screenshot-hook": "github:Sacules/use-screenshot"
   },
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "autoprefixer": "^10.4.0",
-    "eslint": "^7.32.0",
-    "eslint-config-next": "12.0.7",
-    "postcss": "^8.4.4",
-    "tailwindcss": "^3.0.1",
-    "typescript": "^4.5.2"
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@vitejs/plugin-react": "^2.2.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.19",
+    "tailwindcss": "^3.2.4",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3"
   }
 }

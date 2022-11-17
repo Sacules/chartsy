@@ -7,13 +7,12 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-    - .next/cache/
 
 pages:
   script:
     - npm run build
-    - mv out/* public
-    - rm -rf out
+    - mv dist/* public
+    - rm -rf dist
   artifacts:
     paths:
       - public

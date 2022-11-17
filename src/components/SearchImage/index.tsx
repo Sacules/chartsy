@@ -5,7 +5,7 @@ import { Image } from "@entities";
 import { useChart } from "@contexts/ChartContext";
 import { MouseEvent, MouseEventHandler } from "react";
 
-let clickTimeout = null;
+let clickTimeout: number | undefined | null = null;
 
 function clearClickTimeout() {
   if (!clickTimeout) {

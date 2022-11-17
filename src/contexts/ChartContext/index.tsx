@@ -1,5 +1,11 @@
 import { defaultImage, defaultImages, Image } from "@entities";
-import { createContext, Dispatch, useContext, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+  useReducer,
+} from "react";
 
 type Chart = {
   showSearch: boolean;
@@ -51,7 +57,9 @@ export const useChart = () => {
   return ctx;
 };
 
-export const ChartProvider: React.FC = ({ children }) => {
+export const ChartProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(ChartReducer, { ...ChartDefault });
 
   return (

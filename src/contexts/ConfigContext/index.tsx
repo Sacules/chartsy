@@ -1,4 +1,10 @@
-import { createContext, Dispatch, useContext, useReducer } from "react";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useContext,
+  useReducer,
+} from "react";
 
 type Config = {
   rows: number;
@@ -91,7 +97,9 @@ export const useConfig = () => {
   return context;
 };
 
-export const ConfigProvider: React.FC = ({ children }) => {
+export const ConfigProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(configReducer, {
     ...ConfigInitialState,
   });

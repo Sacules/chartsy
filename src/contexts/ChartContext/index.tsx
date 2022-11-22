@@ -11,31 +11,49 @@ type Chart = {
   showSearch: boolean;
   results: Image[];
   images: Image[];
-  imageReplaced: Image;
-  positionReplaced: number;
+
+  // Drag and drop
+  positionSource: number;
+
+  // Drop or search
+  imageTarget: Image;
+  positionTarget: number;
 };
 
 const ChartDefault: Chart = {
   showSearch: false,
   results: [],
   images: defaultImages(10, 10),
-  imageReplaced: defaultImage,
-  positionReplaced: 0,
+  positionSource: 0,
+  imageTarget: defaultImage,
+  positionTarget: 0,
 };
 
 type ChartAction = {
-  type: "update" | "replace";
-  field?: "showSearch" | "results" | "imageReplaced" | "positionReplaced";
+  type: "update" | "replace" | "swap";
+  field?:
+    | "showSearch"
+    | "results"
+    | "imageTarget"
+    | "positionSource"
+    | "positionTarget";
   value?: boolean | number | Image | Image[];
 };
 
 const ChartReducer = (state: Chart, action: ChartAction): Chart => {
+  const images = [...state.images];
+
   switch (action.type) {
     case "update":
       return { ...state, [action.field as string]: action.value };
     case "replace":
-      const images = [...state.images];
-      images[state.positionReplaced] = state.imageReplaced;
+      images[state.positionTarget] = state.imageTarget;
+      return { ...state, images };
+    case "swap":
+      const temp = images[state.positionTarget];
+      images[state.positionTarget] = images[state.positionSource];
+      images[state.positionSource] = temp;
+
       return { ...state, images };
   }
 };

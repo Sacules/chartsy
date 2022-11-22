@@ -35,9 +35,10 @@ export const Search: React.FC<Props> = ({ results }) => {
     }
 
     setLoading(true);
-    const { data } = await getMusic(search);
+    const resp = await getMusic(search);
+    const { albums } = await resp.json();
     setLoading(false);
-    setSearchResults(data as Image[]);
+    setSearchResults(albums as Image[]);
   };
 
   useEffect(
@@ -60,6 +61,7 @@ export const Search: React.FC<Props> = ({ results }) => {
           }}
         >
           <input
+            autoFocus
             className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
             type="text"
             name="search"

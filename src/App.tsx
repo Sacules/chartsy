@@ -11,6 +11,7 @@ import { Nav } from "@components/Nav";
 import { Chart } from "@components/Chart";
 import { Search } from "@components/Search";
 import { Config } from "@components/Config";
+import { useMountTransition } from "./hooks/transition";
 
 interface Props {
   showConfig: boolean;
@@ -20,10 +21,19 @@ const Main: React.FC<Props> = ({ showConfig }) => {
   const {
     chart: { showSearch, results },
   } = useChart();
+  const hasTransitionedIn = useMountTransition(showSearch, 300);
 
   return (
     <>
-      <Search results={results} />
+      {(hasTransitionedIn || showSearch) && (
+        <div
+          className={`transition ease-in duration-150 ${
+            hasTransitionedIn && showSearch ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Search results={results} />
+        </div>
+      )}
       <Config />
     </>
   );

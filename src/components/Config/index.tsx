@@ -53,14 +53,22 @@ const Radio: React.FC<RadioProps> = ({ title, dispatch, checked }) => (
   </label>
 );
 
-export const Config: React.FC = () => {
+interface Props {
+  show: boolean;
+}
+
+export const Config: React.FC<Props> = ({ show }) => {
   const {
     config: { rows, cols, pad, showTitlesBelow },
     dispatch,
   } = useConfig();
 
   return (
-    <aside className="z-10 shadow overflow-hidden max-h-0 md:max-w-0 md:max-h-full">
+    <aside
+      className={`z-10 shadow overflow-hidden md:max-w-0 md:max-h-full transition-all duration-300 ${
+        show ? "max-h-screen" : "max-h-0"
+      }`}
+    >
       <div className="p-4 bg-white flex flex-col gap-2 min-h-max md:min-w-max">
         <Slider
           title="Rows"

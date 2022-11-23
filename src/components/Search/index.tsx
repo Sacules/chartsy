@@ -20,6 +20,7 @@ import { SearchImage } from "@components/SearchImage";
 // ];
 
 interface Props {
+  // Needed to preserve results between mounts
   results: Image[];
 }
 

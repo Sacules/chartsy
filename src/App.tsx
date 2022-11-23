@@ -27,14 +27,14 @@ const Main: React.FC<Props> = ({ showConfig }) => {
     <>
       {(hasTransitionedIn || showSearch) && (
         <div
-          className={`transition ease-in duration-150 ${
+          className={`transition ease-in duration-75 ${
             hasTransitionedIn && showSearch ? "opacity-100" : "opacity-0"
           }`}
         >
           <Search results={results} />
         </div>
       )}
-      <Config />
+      <Config show={showConfig} />
     </>
   );
 };

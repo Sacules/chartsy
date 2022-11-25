@@ -53,9 +53,10 @@ export const Search: React.FC<Props> = ({ results }) => {
   );
 
   return (
-    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/50">
+    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/75">
       <div className="md:max-w-[75vw] w-full">
         <form
+          className="p-2 flex items-center bg-white border border-gray-400 shadow gap-2"
           onSubmit={async (e) => {
             e.preventDefault();
             await download();
@@ -63,7 +64,7 @@ export const Search: React.FC<Props> = ({ results }) => {
         >
           <input
             autoFocus
-            className="p-2 border border-gray-400 focus-visible:outline-sky-400 text-black w-full shadow"
+            className="focus-visible:outline-none text-black w-full bg-transparent"
             type="text"
             name="search"
             value={search}
@@ -79,24 +80,22 @@ export const Search: React.FC<Props> = ({ results }) => {
               dispatch({ type: "update", field: "showSearch", value: false });
             }}
           />
+          {loading && (
+            <div className="animate-spin border-4 border-t-cyan-600 rounded-full w-6 h-6 bg-transparent"></div>
+          )}
         </form>
-        {loading && (
-          <div className="grid place-items-center mt-4">Loading...</div>
-        )}
-        {!loading && (
-          <ul
-            className={`transition-[height] transition-[opacity] duration-300 mt-4 \
+        <ul
+          className={`transition-[height] transition-[opacity] duration-300 mt-4 \
             flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
               searchResults.length > 0
                 ? "p-4 h-full opacity-100"
                 : "p-0 h-0 opacity-0"
             }`}
-          >
-            {searchResults.map((r) => (
-              <SearchImage img={r} key={r.url} />
-            ))}
-          </ul>
-        )}
+        >
+          {searchResults.map((r) => (
+            <SearchImage img={r} key={r.url} />
+          ))}
+        </ul>
       </div>
     </div>
   );

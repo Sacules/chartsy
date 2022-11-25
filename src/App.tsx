@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 // Hooks
 import { useChart, ChartProvider } from "@contexts/ChartContext";
@@ -43,22 +43,14 @@ function App() {
   const [showConfig, setShowConfig] = useState(false);
 
   const ref = useRef(null);
-  const RefNav = forwardRef<HTMLUListElement>((_, ref) => (
-    <Nav setShowConfig={setShowConfig} chartRef={ref} />
-  ));
-  RefNav.displayName = "nav";
-  const RefChart = forwardRef<HTMLUListElement>((_, ref) => (
-    <Chart chartRef={ref} />
-  ));
-  RefChart.displayName = "chart";
 
   return (
     <main className="min-h-screen md:flex bg-slate-50">
-      <RefNav ref={ref} />
+      <Nav setShowConfig={setShowConfig} chartRef={ref} />
       <ConfigProvider>
         <ChartProvider>
           <Main showConfig={showConfig} />
-          <RefChart ref={ref} />
+          <Chart chartRef={ref} />
         </ChartProvider>
       </ConfigProvider>
     </main>

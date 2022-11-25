@@ -7,10 +7,7 @@ export type Image = {
   url: string;
 };
 
-export type ChartRef =
-  | ((instance: HTMLUListElement) => void)
-  | MutableRefObject<HTMLUListElement | null>
-  | null;
+export type ChartRef = MutableRefObject<HTMLUListElement | null>;
 
 // Constants
 export const defaultImage: Image = {

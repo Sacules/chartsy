@@ -4,22 +4,17 @@ import useScreenshot from "use-screenshot-hook";
 // Types
 import { ChartRef } from "@entities";
 
-// Icons
-import Settings from "./settings.svg";
-import Save from "./save.svg";
-
 interface Props {
   chartRef: ChartRef;
   setShowConfig: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Nav: React.FC<Props> = ({ chartRef, setShowConfig }) => {
-  // @ts-ignore
-  const { takeScreenshot } = useScreenshot({ ref: chartRef });
+  const { takeScreenshot, isLoading } = useScreenshot({
+    ref: chartRef,
+  });
 
-  const toggleConfig = () => {
-    setShowConfig((show) => !show);
-  };
+  const toggleConfig = () => setShowConfig((show) => !show);
 
   return (
     <nav className="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white p-4 min-w-max">
@@ -42,13 +37,17 @@ export const Nav: React.FC<Props> = ({ chartRef, setShowConfig }) => {
           link.click();
         }}
       >
-        <img
-          className="filter invert"
-          alt="Save"
-          src="/save.svg"
-          width={30}
-          height={30}
-        />
+        {isLoading ? (
+          <div className="animate-spin border-4 border-t-cyan-600 rounded-full w-6 h-6"></div>
+        ) : (
+          <img
+            className="filter invert"
+            alt="Save"
+            src="/save.svg"
+            width={30}
+            height={30}
+          />
+        )}
       </button>
     </nav>
   );

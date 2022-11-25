@@ -54,7 +54,7 @@ export const ChartImage: React.FC<Props> = ({ pos, img, showTitle }) => {
         onClick={toggleSearch}
         ref={ref}
         role="img"
-        tabIndex={0}
+        tabIndex={pos}
         className={`hover:outline-cyan-600 hover:outline transition-all duration-75 shadow-md ${
           isDragging ? "opacity-50 outline-green-500" : ""
         } ${isDropTarget ? "outline outline-red-600" : ""}`}

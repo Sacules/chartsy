@@ -53,7 +53,7 @@ function App() {
   RefChart.displayName = "chart";
 
   return (
-    <main className="min-h-screen md:flex">
+    <main className="min-h-screen md:flex bg-slate-50">
       <RefNav ref={ref} />
       <ConfigProvider>
         <ChartProvider>

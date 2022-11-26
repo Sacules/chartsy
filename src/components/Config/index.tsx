@@ -6,9 +6,10 @@ import {
   useNumberFormatter,
   useSlider,
   useSliderThumb,
+  useSwitch,
   VisuallyHidden,
 } from "react-aria";
-import { useSliderState } from "react-stately";
+import { useSliderState, useToggleState } from "react-stately";
 
 interface SliderProps {
   title: string;
@@ -30,8 +31,8 @@ const Thumb = ({ state, trackRef, index }: any) => {
     <div
       {...thumbProps}
       className={`w-5 h-5 bg-slate-600 top-1/2 rounded-full ${
-        isFocusVisible ? "bg-orange-500" : ""
-      }`}
+        isDragging ? "bg-slate-500" : ""
+      } ${isFocusVisible ? "bg-orange-500" : ""}`}
     >
       <VisuallyHidden>
         <input ref={inputRef} {...mergeProps(inputProps, focusProps)} />
@@ -80,26 +81,48 @@ const Slider: React.FC<SliderProps> = ({
 };
 interface RadioProps {
   title: string;
-  dispatch: () => void;
-  checked: boolean;
+  isSelected: boolean;
+  onChange: (isSelected: boolean) => void;
 }
 
-const Radio: React.FC<RadioProps> = ({ title, dispatch, checked }) => (
-  <label className="flex items-center" htmlFor={title}>
-    <div className="relative cursor-pointer">
-      <input
-        id={title}
-        className="sr-only"
-        type="checkbox"
-        checked={checked}
-        onChange={dispatch}
-      />
-      <div className="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-      <div className="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
-    </div>
-    <p className="ml-4">{title}</p>
-  </label>
-);
+const Switch: React.FC<RadioProps> = ({ title, onChange, isSelected }) => {
+  const state = useToggleState({ isSelected, onChange });
+  const ref = useRef(null);
+  const { inputProps } = useSwitch({ children: title }, state, ref);
+  const { isFocusVisible, focusProps } = useFocusRing();
+
+  return (
+    <label className="flex items-center">
+      <VisuallyHidden>
+        <input {...inputProps} {...focusProps} ref={ref} />
+      </VisuallyHidden>
+      <svg
+        width={40}
+        height={24}
+        aria-hidden="true"
+        className={`mr-2 ${
+          state.isSelected ? "fill-slate-600" : "fill-slate-400"
+        }`}
+      >
+        <rect x={4} y={4} width={32} height={16} rx={8} />
+        <circle cx={state.isSelected ? 28 : 12} cy={12} r={5} fill="white" />
+        {isFocusVisible && (
+          <rect
+            x={1}
+            y={1}
+            width={38}
+            height={22}
+            rx={11}
+            fill="none"
+            stroke="orange"
+            strokeWidth={2}
+          />
+        )}
+      </svg>
+      {title}
+    </label>
+  );
+};
 
 interface Props {
   show: boolean;
@@ -145,14 +168,14 @@ export const Config: React.FC<Props> = ({ show }) => {
             dispatch({ type: "update", field: "pad", value })
           }
         />
-        <Radio
+        <Switch
           title="Show titles below"
-          checked={showTitlesBelow}
-          dispatch={() =>
+          isSelected={showTitlesBelow}
+          onChange={(isSelected) =>
             dispatch({
               type: "update",
               field: "showTitlesBelow",
-              value: !showTitlesBelow,
+              value: isSelected,
             })
           }
         />

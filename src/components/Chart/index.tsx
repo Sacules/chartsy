@@ -53,7 +53,7 @@ export const Chart: React.FC<Props> = ({ chartRef }) => {
   } = useConfig();
 
   return (
-    <div className="p-4 overflow-x-auto overflow-y-auto bg-slate-50">
+    <div className="p-4 overflow-x-auto overflow-y-auto bg-slate-50 flex justify-center md:block">
       <Collage
         images={images}
         rows={rows}

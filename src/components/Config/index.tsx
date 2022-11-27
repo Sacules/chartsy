@@ -64,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   return (
-    <div {...groupProps} className="h-8 flex flex-col gap-2">
+    <div {...groupProps} className="h-8 flex flex-col gap-4">
       <div className="flex justify-between">
         <label {...labelProps}>{title}</label>
         <output {...outputProps}>{value}</output>
@@ -72,7 +72,7 @@ const Slider: React.FC<SliderProps> = ({
       <div
         {...trackProps}
         ref={trackRef}
-        className="before:content-[attr(x)] before:block before:absolute before:bg-slate-600 before:h-1 before:w-full before:top-1/2 before:-translate-y-1/2"
+        className="before:content-[attr(x)] before:block before:absolute before:bg-slate-600 md:before:h-1 before:h-2 before:w-full before:top-1/2 before:-translate-y-1/2"
       >
         <Thumb index={0} state={state} trackRef={trackRef} />
       </div>

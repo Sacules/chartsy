@@ -64,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({
   );
 
   return (
-    <div {...groupProps} className="h-8 flex flex-col gap-4">
+    <div {...groupProps} className="flex flex-col gap-4">
       <div className="flex justify-between">
         <label {...labelProps}>{title}</label>
         <output {...outputProps}>{value}</output>
@@ -164,7 +164,7 @@ export const Config: React.FC<Props> = ({ show }) => {
           : "max-h-0 md:max-w-0 md:max-h-full"
       }`}
     >
-      <div className="px-6 py-4 bg-white flex flex-col gap-6 min-h-max md:min-w-max md:h-full">
+      <div className="px-6 py-4 bg-white flex flex-col gap-8 min-h-max md:min-w-max md:h-full">
         <Slider
           title="Rows"
           value={rows}

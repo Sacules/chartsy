@@ -53,8 +53,8 @@ export const Search: React.FC<Props> = ({ results }) => {
   );
 
   return (
-    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-20 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/75">
-      <div className="md:max-w-[75vw] w-full">
+    <div className="absolute max-w-screen max-h-screen h-full inset-0 z-20 bg-gray-900/75">
+      <div className="md:w-1/2 md:mx-auto  px-4 py-6 md:py-24 h-full grid grid-cols-[1fr_max-content] grid-rows-[max-content_1fr] gap-y-4">
         <form
           className="p-2 flex items-center bg-white border border-gray-400 shadow gap-2"
           onSubmit={async (e) => {
@@ -84,9 +84,17 @@ export const Search: React.FC<Props> = ({ results }) => {
             <div className="animate-spin border-4 border-t-cyan-600 rounded-full w-6 h-6 bg-transparent"></div>
           )}
         </form>
+        <button
+          className="text-slate-100 bg-slate-600 px-2"
+          onClick={() =>
+            dispatch({ type: "update", field: "showSearch", value: false })
+          }
+        >
+          Close
+        </button>
         <ul
-          className={`transition-[height] transition-[opacity] duration-300 mt-4 \
-            flex flex-col bg-white max-h-[75vh] gap-4 overflow-y-scroll ${
+          className={`col-span-2 transition-[height] transition-[opacity] duration-300 \
+            flex flex-col bg-white gap-4 overflow-y-scroll ${
               searchResults.length > 0
                 ? "p-4 h-full opacity-100"
                 : "p-0 h-0 opacity-0"

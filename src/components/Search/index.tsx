@@ -53,7 +53,7 @@ export const Search: React.FC<Props> = ({ results }) => {
   );
 
   return (
-    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-10 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/75">
+    <div className="absolute grid place-items-center max-w-screen max-h-screen h-full inset-0 z-20 px-4 pt-20 md:pt-4 pb-4 bg-gray-800/75">
       <div className="md:max-w-[75vw] w-full">
         <form
           className="p-2 flex items-center bg-white border border-gray-400 shadow gap-2"

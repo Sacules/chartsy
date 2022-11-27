@@ -48,7 +48,7 @@ export const ConfigInitialState = {
   imageSize: 100,
   // chartType: ChartType.Collage,
   chartTitle: "",
-  backgroundColor: "#ffffff",
+  backgroundColor: "rgb(248, 250, 252)",
 };
 
 export const configReducer = (state: Config, action: ConfigAction) => {

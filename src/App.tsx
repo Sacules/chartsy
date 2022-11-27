@@ -45,7 +45,7 @@ function App() {
   const ref = useRef(null);
 
   return (
-    <main className="min-h-screen md:flex bg-slate-50">
+    <main className="min-h-screen flex flex-col md:flex-row bg-slate-50">
       <Nav setShowConfig={setShowConfig} chartRef={ref} />
       <ConfigProvider>
         <ChartProvider>

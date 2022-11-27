@@ -124,6 +124,28 @@ const Switch: React.FC<RadioProps> = ({ title, onChange, isSelected }) => {
   );
 };
 
+interface ColorPickerProps {
+  title: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultColor: string;
+}
+
+const ColorPicker: React.FC<ColorPickerProps> = ({
+  title,
+  onChange,
+  defaultColor,
+}) => (
+  <div className="flex items-center gap-2">
+    <input
+      type="color"
+      name={title}
+      defaultValue={defaultColor}
+      onChange={onChange}
+    />
+    <label htmlFor={title}>{title}</label>
+  </div>
+);
+
 interface Props {
   show: boolean;
 }
@@ -136,11 +158,13 @@ export const Config: React.FC<Props> = ({ show }) => {
 
   return (
     <aside
-      className={`z-10 border-b border border-slate-200 overflow-hidden md:max-w-0 md:max-h-full transition-all duration-300 ${
-        show ? "max-h-screen" : "max-h-0"
+      className={`z-10 border-b border border-slate-200 overflow-hidden transition-all duration-300 ${
+        show
+          ? "max-h-screen md:max-w-screen"
+          : "max-h-0 md:max-w-0 md:max-h-full"
       }`}
     >
-      <div className="p-4 bg-white flex flex-col gap-6 min-h-max md:min-w-max">
+      <div className="p-4 bg-white flex flex-col gap-6 min-h-max md:min-w-max md:h-full">
         <Slider
           title="Rows"
           value={rows}
@@ -176,6 +200,17 @@ export const Config: React.FC<Props> = ({ show }) => {
               type: "update",
               field: "showTitlesBelow",
               value: isSelected,
+            })
+          }
+        />
+        <ColorPicker
+          title="Background color"
+          defaultColor="#FFFFFF"
+          onChange={(e) =>
+            dispatch({
+              type: "update",
+              field: "backgroundColor",
+              value: e.target.value,
             })
           }
         />

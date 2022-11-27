@@ -49,11 +49,14 @@ export const Chart: React.FC<Props> = ({ chartRef }) => {
     chart: { images },
   } = useChart();
   const {
-    config: { rows, cols, pad, showTitlesBelow },
+    config: { rows, cols, pad, showTitlesBelow, backgroundColor },
   } = useConfig();
 
   return (
-    <div className="p-4 overflow-x-auto overflow-y-auto bg-slate-50 flex justify-center md:block">
+    <div
+      className="p-4 overflow-x-auto overflow-y-auto flex justify-center items-start md:block grow"
+      style={{ backgroundColor }}
+    >
       <Collage
         images={images}
         rows={rows}

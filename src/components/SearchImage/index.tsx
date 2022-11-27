@@ -31,7 +31,7 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
 
     // prevent replacing images when the user was just scrolling through the results list
     clearClickTimeout();
-    clickTimeout = setTimeout(() => {
+    clickTimeout = window.setTimeout(() => {
       dispatch({ type: "update", field: "imageTarget", value: img });
       dispatch({ type: "replace" });
       dispatch({ type: "update", field: "showSearch", value: false });

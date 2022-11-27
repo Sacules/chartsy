@@ -12,7 +12,10 @@ export const useMountTransition = (
     if (isMounted && !hasTransitionedIn) {
       setHasTransitionedIn(true);
     } else if (!isMounted && hasTransitionedIn) {
-      timeoutId = setTimeout(() => setHasTransitionedIn(false), unmountDelay);
+      timeoutId = window.setTimeout(
+        () => setHasTransitionedIn(false),
+        unmountDelay
+      );
     }
 
     return () => {

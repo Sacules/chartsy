@@ -25,10 +25,15 @@ const Collage: React.FC<CollageProps> = ({
   showTitlesBelow,
   chartRef,
 }) => {
+  const {
+    config: { backgroundColor },
+  } = useConfig();
+
   images = [...images.slice(0, cols * rows)];
   return (
     <ul
-      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} p-${pad} w-max bg-transparent`}
+      style={{ backgroundColor }}
+      className={`transition-all grid grid-rows-${rows} grid-cols-${cols} gap-${pad} p-${pad} w-max`}
       ref={chartRef}
     >
       {images.map((img, i) => (
@@ -49,14 +54,11 @@ export const Chart: React.FC<Props> = ({ chartRef }) => {
     chart: { images },
   } = useChart();
   const {
-    config: { rows, cols, pad, showTitlesBelow, backgroundColor },
+    config: { rows, cols, pad, showTitlesBelow },
   } = useConfig();
 
   return (
-    <div
-      className="p-4 overflow-x-auto overflow-y-auto flex justify-center items-start md:block grow"
-      style={{ backgroundColor }}
-    >
+    <div className="p-4 overflow-x-auto overflow-y-auto flex justify-center items-start md:block grow">
       <Collage
         images={images}
         rows={rows}

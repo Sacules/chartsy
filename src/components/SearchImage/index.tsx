@@ -39,7 +39,7 @@ export const SearchImage: React.FC<Props> = ({ img }) => {
   };
 
   return (
-    <li className="hover:outline-sky-400 hover:outline">
+    <li className="hover:bg-slate-100 py-4">
       <figure
         className="flex-shrink-0 flex gap-4 items-center"
         onClick={handleReplace}

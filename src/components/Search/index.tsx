@@ -93,12 +93,12 @@ export const Search: React.FC<Props> = ({ results }) => {
           Close
         </button>
         <ul
-          className={`col-span-2 transition-[height] transition-[opacity] duration-300 \
-            flex flex-col bg-white gap-4 overflow-y-scroll ${
-              searchResults.length > 0
-                ? "p-4 h-full opacity-100"
-                : "p-0 h-0 opacity-0"
-            }`}
+          className={`divide-y divide-slate-200 col-span-2 transition-[height] transition-[opacity] duration-300 \
+              flex flex-col bg-white p-4 overflow-y-scroll ${
+                searchResults.length > 0
+                  ? "h-full opacity-100"
+                  : "h-0 opacity-0"
+              }`}
         >
           {searchResults.map((r) => (
             <SearchImage img={r} key={r.url} />

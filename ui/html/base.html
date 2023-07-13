@@ -13,12 +13,15 @@
     <meta name="theme-color" content="#ffffff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+	<link rel="stylesheet" href="/static/css/index.css" />
+
 	<script src="/static/js/htmx.min.js"></script>
+	<script src="https://unpkg.com/hyperscript.org@0.9.9"></script>
 	<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
   </head>
-  <body>
+  <body class="min-h-screen grid grid-cols-1 grid-rows-[min-content_1fr] bg-slate-50">
 	  {{ template "sidenav" . }}
-	  <main>
+	  <main class="grid place-items-center">
 		  {{ template "main" . }}
 	  </main>
   </body>

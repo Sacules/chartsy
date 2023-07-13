@@ -1,0 +1,7 @@
+.config {
+	grid-template-rows: 0fr;
+}
+
+.config-open {
+	grid-template-rows: 1fr !important;
+}

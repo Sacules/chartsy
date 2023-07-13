@@ -1,22 +1,36 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
-
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
+	"os"
 )
 
+type application struct {
+	infoLog *log.Logger
+	errorLog *log.Logger
+}
+
 func main()  {
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	addr := flag.String("addr", ":4000", "HTTP network address")
+	flag.Parse()
 
-	r := chi.NewRouter()
-	r.Use(middleware.Logger, middleware.Recoverer)
+	infoLog := log.New(os.Stdout, "\033[1;32mINFO\033[0m\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stderr, "\033[1;31mERROR\033[0m\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	r.Handle("/static/*", http.StripPrefix("/static", fileServer))
-	r.Get("/", home)
+	app := &application{
+		infoLog,
+		errorLog,
+	}
 
-	log.Println("starting server on :4000")
-	log.Fatal(http.ListenAndServe(":4000", r))
+
+	srv := &http.Server{
+		Addr: *addr,
+		ErrorLog: errorLog,
+		Handler: app.routes(),
+	}
+
+	infoLog.Printf("starting server on %s\n", *addr)
+	errorLog.Fatal(srv.ListenAndServe())
 }

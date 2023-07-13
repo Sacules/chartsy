@@ -5,3 +5,7 @@
 .config-open {
 	grid-template-rows: 1fr !important;
 }
+
+.ghost-album {
+	outline: 5px solid blue;
+}

@@ -1,7 +1,7 @@
 {{ define "sidenav" }}
 <aside>
 	<div
-		class="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white px-6 py-4 min-w-max"
+		class="z-10 shadow flex md:flex-col items-center justify-between bg-gray-700 text-white px-6 py-4 w-full md:w-max md:h-full"
 	>
 		<button
 			_="on click toggle .config-open on .config then set @aria-expanded to 'true' on me"
@@ -27,9 +27,11 @@
 			>
 		</button>
 	</div>
-	<div class="bg-white grid transition-all config" aria-hidden="true">
+	<div class="grid transition-all config" aria-hidden="true">
 		<div class="overflow-hidden">
+			<div class="p-4 bg-slate-100">
 		Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.
+			</div>
 		</div>
 	</div>
 </aside>

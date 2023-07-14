@@ -1,17 +1,22 @@
 {{ define "flyout" }}
 <div
 	_="on openFlyout set @aria-expanded to 'true' then transition #underlay's opacity to 75% over 200ms end
-	   on closeFlyout transition #underlay's opacity to 0 over 200ms then set @aria-expanded to 'false'"
+	   on closeFlyout transition #underlay's opacity to 0 over 200ms then set @aria-expanded to 'false' end"
 	class="hidden aria-expanded:grid fixed inset-0 flyout z-50"
 	aria-expanded="false"
 >
-	<div id="underlay" class="absolute inset-0 -z-10 bg-slate-900 opacity-75"></div>
+	<div
+		_="on click send closeFlyout to .flyout end"
+		id="underlay"
+		class="absolute inset-0 -z-10 bg-slate-900 opacity-75"
+	>
+	</div>
 	<div
 		_="on openFlyout transition transform to 'translateX(0)' over 200ms end
 		   on closeFlyout transition transform to 'translateX(100%)' over 200ms end"
-		class="p-8 bg-slate-100 justify-self-end w-full max-w-[calc(100%_-_40px)] md:max-w-md ml-10 md:ml-0 translate-x-full flyout"
+		class="bg-slate-100 justify-self-end w-full max-w-[calc(100%_-_40px)] md:max-w-md ml-10 md:ml-0 translate-x-full flyout"
 	>
-		<div class="flex justify-between text-2xl">
+		<div class="p-6 md:p-8 flex justify-between text-2xl">
 			<h2 class="font-semibold">Settings</h2>
 			<button
 				_="on click set @aria-pressed to 'true' then send closeFlyout to .flyout"
@@ -21,6 +26,7 @@
 				⨯
 			</button>
 		</div>
+		<hr class="border-slate-300">
 	</div>
 </div>
 {{ end }}

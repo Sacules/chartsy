@@ -21,11 +21,12 @@
 	<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   </head>
-  <body class="min-h-screen grid grid-cols-1 grid-rows-[min-content_1fr] md:grid-cols-[min-content_1fr] md:grid-rows-1 bg-slate-50 gap-4">
+  <body class="min-h-screen grid grid-cols-1 grid-rows-[min-content_1fr] md:grid-cols-[min-content_1fr] md:grid-rows-1 bg-slate-50 text-slate-900 gap-4">
 	  {{ template "sidenav" . }}
 	  <main class="grid place-items-center">
 		  {{ template "main" . }}
 	  </main>
+	  {{ template "flyout" . }}
   </body>
 </html>
 {{ end }}

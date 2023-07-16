@@ -9,11 +9,12 @@ import (
 type ImagesTextPlacement string
 
 const (
-	ImagesTextHide   ImagesTextPlacement = "hide"
-	ImagesTextInline ImagesTextPlacement = "inline"
-	ImagesTextLeft   ImagesTextPlacement = "left"
-	ImagesTextRight  ImagesTextPlacement = "right"
-	ImagesTextBelow  ImagesTextPlacement = "below"
+	ImagesTextHide    ImagesTextPlacement = "hide"
+	ImagesTextInline  ImagesTextPlacement = "inline"
+	ImagesTextLeft    ImagesTextPlacement = "left"
+	ImagesTextRight   ImagesTextPlacement = "right"
+	ImagesTextBelow   ImagesTextPlacement = "below"
+	ImagesTextOverlay ImagesTextPlacement = "overlay"
 )
 
 type ImageShape string
@@ -63,7 +64,7 @@ func (m *ChartModel) Insert() (int, error) {
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		id, created, updated, title, column_count, row_count, spacing, margin, image_shape, image_height, bg_color, text_color, images_text_placement
+		id, created, updated, title, column_count, row_count, spacing, margins, image_shape, image_height, bg_color, text_color, images_text_placement
 		FROM charts
 		WHERE id = ?`
 

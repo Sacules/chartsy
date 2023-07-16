@@ -29,22 +29,7 @@
 			</button>
 		</div>
 		<hr class="border-slate-300">
-		<div class="p-6 md:p-8 grid grid-cols-1 grid-flow-row justify-start gap-8 overflow-y-scroll">
-			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
-			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
-			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
-			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
-			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
-			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
-			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
-			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
-			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
-			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
-			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
-			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
-			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
-			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
-			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
+		<div class="p-6 md:p-8 grid grid-cols-1 grid-flow-row auto-rows-max justify-start gap-8 overflow-y-scroll">
 			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
 			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
 			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}

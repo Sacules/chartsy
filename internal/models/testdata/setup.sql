@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS charts (
 	image_height		  TINYINT(8) UNSIGNED DEFAULT 96 NOT NULL,
 	bg_color			  CHAR(7) DEFAULT "#ffffff" NOT NULL,
 	text_color			  CHAR(7) DEFAULT "#000000" NOT NULL,
-	images_text_placement ENUM('hide', 'inline', 'left', 'right', 'below') DEFAULT 'hide' NOT NULL
+	images_text_placement ENUM('hide', 'inline', 'left', 'right', 'below', 'overlay') DEFAULT 'hide' NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS images (

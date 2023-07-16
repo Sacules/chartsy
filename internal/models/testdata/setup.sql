@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS chart_settings (
 	row_count TINYINT(8) UNSIGNED NOT NULL,
 	spacing TINYINT(8) UNSIGNED NOT NULL,
 	margin TINYINT(8) UNSIGNED NOT NULL,
-	image_width TINYINT(8) UNSIGNED NOT NULL,
+	image_shape ENUM('square', 'portrait') NOT NULL,
 	image_height TINYINT(8) UNSIGNED NOT NULL,
 	bg_color CHAR(7) NOT NULL,
 	text_color CHAR(7) NOT NULL,

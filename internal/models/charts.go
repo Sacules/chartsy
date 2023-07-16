@@ -16,14 +16,21 @@ const (
 	ImagesTextBelow  ImagesTextPlacement = "below"
 )
 
+type ImageShape string
+
+const (
+	ImageShapeSquare   = "square"
+	ImageShapePortrait = "portrait"
+)
+
 type ChartSetting struct {
 	Title       string
 	ColumnCount uint8
 	RowCount    uint8
 	Spacing     uint8
 	Margin      uint8
-	ImageWidth  uint8
 	ImageHeight uint8
+	ImageShape  ImageShape
 	BgColor     color.RGBA
 	TextColor   color.RGBA
 

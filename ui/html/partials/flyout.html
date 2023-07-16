@@ -11,11 +11,12 @@
 		class="absolute inset-0 -z-10 bg-slate-900 opacity-75"
 	>
 	</div>
-	<div
+	<form
+		hx-patch="/chart/config"
 		_="on openFlyout transition transform to 'translateX(0)' over 200ms end
 		   on closeFlyout transition transform to 'translateX(100%)' over 200ms end"
-		class="bg-slate-100 justify-self-end w-full max-w-[calc(100%_-_40px)] md:max-w-md \
-			   ml-10 md:ml-0 translate-x-full flyout grid grid-cols-1 grid-rows-[auto_auto_1fr]"
+		class="bg-slate-100 justify-self-end w-full max-h-screen max-w-[calc(100%_-_40px)] md:max-w-md \
+			   ml-10 md:ml-0 translate-x-full flyout grid grid-cols-1 grid-rows-[auto_auto_1fr_auto_auto]"
 	>
 		<div class="p-6 md:p-8 flex justify-between text-2xl">
 			<h2 class="font-semibold">Settings</h2>
@@ -28,34 +29,44 @@
 			</button>
 		</div>
 		<hr class="border-slate-300">
-		<form
-			hx-patch="/chart/config"
-			class="grid grid-cols-1 grid-rows-[1fr_auto_auto] justify-between"
-		>
-			<div class="p-6 md:p-8 flex flex-col justify-start gap-8">
-				{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
-				{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
-				{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
-				{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
-				{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
-			</div>
-			<hr class="border-slate-300">
-			<div role="group" class="p-6 md:p-8 flex justify-start gap-4">
-				<button
-					type="submit"
-					class="font-bold rounded px-6 py-4 bg-sky-600 text-sky-50"
-				>
-					Confirmar
-				</button>
-				<button
-					_="on click set @aria-pressed to 'true' then send closeFlyout to .flyout"
-					type="reset"
-					class="font-bold rounded px-6 py-4 bg-slate-600 text-slate-50"
-				>
-					Cancelar
-				</button>
-			</div>
-		</form>
-	</div>
+		<div class="p-6 md:p-8 grid grid-cols-1 grid-flow-row justify-start gap-8 overflow-y-scroll">
+			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
+			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
+			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
+			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
+			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
+			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
+			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
+			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
+			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
+			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
+			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
+			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
+			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
+			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
+			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
+			{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
+			{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
+			{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
+			{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
+			{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
+		</div>
+		<hr class="border-slate-300">
+		<div role="group" class="p-6 md:p-8 flex justify-start gap-4">
+			<button
+				type="submit"
+				class="font-bold rounded px-6 py-4 bg-sky-600 text-sky-50"
+			>
+				Confirmar
+			</button>
+			<button
+				_="on click set @aria-pressed to 'true' then send closeFlyout to .flyout"
+				type="reset"
+				class="font-bold rounded px-6 py-4 bg-slate-600 text-slate-50"
+			>
+				Cancelar
+			</button>
+		</div>
+	</form>
 </div>
 {{ end }}

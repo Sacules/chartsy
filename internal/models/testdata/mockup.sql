@@ -43,5 +43,5 @@ INSERT INTO charts_images (chart_id, image_url)
 		"https://lastfm.freetls.fastly.net/i/u/174s/dc0bb5f042ff176493dac2223156f779.png"
 	);
 
-INSERT INTO chart_settings (chart_id, title, column_count, row_count, spacing, margin, image_width, image_height, bg_color, text_color, images_text_placement)
-	VALUES (1, "[b][color=red]Welcome to the internet[/color][/b]", 3, 2, 2, 4, 100, 100, "#069420", "#420690", "inline");
+INSERT INTO chart_settings (chart_id, title, column_count, row_count, spacing, margin, image_shape, image_height, bg_color, text_color, images_text_placement)
+	VALUES (1, "[b][color=red]Welcome to the internet[/color][/b]", 3, 2, 2, 4, "square", 100, "#069420", "#420690", "inline");

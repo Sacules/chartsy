@@ -50,36 +50,73 @@ CREATE TABLE IF NOT EXISTS chart_settings (
 -- Triggers
 DELIMITER #
 
+CREATE PROCEDURE default_chart_images(IN chart_id INTEGER)
+	BEGIN
+		DECLARE i INT DEFAULT 0;
+		DECLARE n INT DEFAULT 0;
+
+		SELECT cs.row_count * cs.column_count
+			INTO n
+			FROM chart_settings cs
+			WHERE cs.chart_id = chart_id;
+
+		WHILE (i < n) DO
+			INSERT INTO charts_images (
+				chart_id,
+				image_url,
+				image_position
+			)
+			VALUES (
+				chart_id,
+				"https://i.imgur.com/w4toMiR.jpg",
+				i
+			);
+
+			SET i = i + 1;
+		END WHILE;
+	END#
+
+
 CREATE TRIGGER default_chart_settings
-AFTER INSERT ON charts
-FOR EACH ROW
-BEGIN
-	INSERT INTO chart_settings (
-		chart_id,
-		title,
-		column_count,
-		row_count,
-		spacing,
-		margin,
-		image_shape,
-		image_height,
-		bg_color,
-		text_color,
-		images_text_placement
-	)
-	VALUES (
-		NEW.id,
-		"Untitled chart",
-		3,
-		3,
-		2,
-		4,
-		"square",
-		100,
-		"#069420",
-		"#420690",
-		"hide"
-	);
-END#
+	AFTER INSERT ON charts
+	FOR EACH ROW
+	BEGIN
+		INSERT INTO chart_settings (
+			chart_id,
+			title,
+			column_count,
+			row_count,
+			spacing,
+			margin,
+			image_shape,
+			image_height,
+			bg_color,
+			text_color,
+			images_text_placement
+		)
+		VALUES (
+			NEW.id,
+			"Untitled chart",
+			3,
+			3,
+			2,
+			4,
+			"square",
+			100,
+			"#069420",
+			"#420690",
+			"hide"
+		);
+
+		CALL default_chart_images(NEW.id);
+	END#
 
 DELIMITER ;
+
+-- Default values
+INSERT INTO images (url, title, caption)
+	VALUES (
+		"https://i.imgur.com/w4toMiR.jpg",
+		"",
+		""
+	);

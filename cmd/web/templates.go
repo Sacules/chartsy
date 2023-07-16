@@ -8,7 +8,7 @@ type templateData struct {
 	Chart *models.Chart
 }
 
-type Slider struct {
+type InputSlider struct {
 	ID           string
 	Label        string
 	Name         string
@@ -17,13 +17,27 @@ type Slider struct {
 	Max          uint8
 }
 
-func chartSlider(id, label, name string, defaultValue, min, max uint8) *Slider {
-	return &Slider{
+func newInputSlider(id, label, name string, defaultValue, min, max uint8) *InputSlider {
+	return &InputSlider{
 		ID:           id,
 		Label:        label,
 		Name:         name,
 		DefaultValue: defaultValue,
 		Min:          min,
 		Max:          max,
+	}
+}
+
+type InputText struct {
+	Label        string
+	Name         string
+	DefaultValue string
+}
+
+func newInputText(label, name, defaultValue string) *InputText {
+	return &InputText{
+		Label:        label,
+		Name:         name,
+		DefaultValue: defaultValue,
 	}
 }

@@ -9,7 +9,8 @@ import (
 )
 
 var functions = template.FuncMap{
-	"chartSlider": chartSlider,
+	"newInputText":   newInputText,
+	"newInputSlider": newInputSlider,
 }
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -29,7 +30,8 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/pages/home.html",
 		"./ui/html/partials/sidenav.html",
 		"./ui/html/partials/flyout.html",
-		"./ui/html/partials/slider.html",
+		"./ui/html/partials/input/slider.html",
+		"./ui/html/partials/input/text.html",
 	}
 
 	ts, err := template.New("master").Funcs(functions).ParseFiles(files...)

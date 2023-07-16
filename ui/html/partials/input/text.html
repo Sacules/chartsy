@@ -1,0 +1,14 @@
+{{ define "input/text" }}
+<label class="flex flex-col gap-4">
+	<strong>{{ .Label }}</strong>
+	<input
+		type="text"
+		name="{{ .Name }}"
+		value="{{ .DefaultValue }}"
+		maxlength="128"
+		autocomplete="off"
+		class="rounded bg-slate-50 border-slate-500 focus:shadow-none hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition"
+	>
+</label>
+{{ end }}
+

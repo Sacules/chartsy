@@ -1,0 +1,23 @@
+{{ template "slider" }}
+<div role="group" class="flex flex-col gap-4">
+	<div class="flex justify-between">
+		<label><strong>{{ .Label }}</strong></label>
+		<output for="{{ .Id }}">{{ .DefaultValue }}</output>
+	</div>
+	<tc-range-slider
+		_="on change(detail) put the detail.value into the previous <output/>"
+		id="{{ .Id }}"
+		type="range"
+		name="{{ .Name }}"
+		min="{{ .Min }}"
+		max="{{ .Max }}"
+		value="{{ .DefaultValue }}"
+		step="1"
+		slider-width="100%"
+		slider-height="0.7rem"
+		pointer-width="1.25rem"
+		pointer-height="1.25rem"
+	>
+	</tc-range-slider>
+</div>
+{{ end }}

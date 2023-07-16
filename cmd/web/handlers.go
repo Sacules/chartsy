@@ -11,6 +11,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/pages/home.html",
 		"./ui/html/partials/sidenav.html",
 		"./ui/html/partials/flyout.html",
+		"./ui/html/partials/slider.html",
 	}
 
 	ts, err := template.ParseFiles(files...)

@@ -8,11 +8,11 @@ import (
 )
 
 type application struct {
-	infoLog *log.Logger
+	infoLog  *log.Logger
 	errorLog *log.Logger
 }
 
-func main()  {
+func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	flag.Parse()
 
@@ -24,11 +24,10 @@ func main()  {
 		errorLog,
 	}
 
-
 	srv := &http.Server{
-		Addr: *addr,
+		Addr:     *addr,
 		ErrorLog: errorLog,
-		Handler: app.routes(),
+		Handler:  app.routes(),
 	}
 
 	infoLog.Printf("starting server on %s\n", *addr)

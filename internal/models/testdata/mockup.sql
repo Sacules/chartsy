@@ -2,6 +2,11 @@ USE chartsy;
 
 INSERT INTO images (url, title, caption)
 	VALUES (
+		DEFAULT,
+		DEFAULT,
+		DEFAULT
+	),
+	(
 		"https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png",
 		"Deftones",
 		"Deftones"
@@ -12,8 +17,5 @@ INSERT INTO images (url, title, caption)
 		"Deftones"
 	);
 
-INSERT INTO charts (updated, created) VALUES (
-	UTC_TIMESTAMP(),
-	UTC_TIMESTAMP()
-);
+INSERT INTO charts (title) VALUES (DEFAULT);
 

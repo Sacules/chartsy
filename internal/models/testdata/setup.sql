@@ -1,4 +1,4 @@
-DROP DATABASE chartsy;
+DROP DATABASE IF EXISTS chartsy;
 
 CREATE DATABASE IF NOT EXISTS chartsy
 	CHARACTER SET utf8mb4
@@ -45,3 +45,40 @@ CREATE TABLE IF NOT EXISTS chart_settings (
 		REFERENCES charts(id)
 		ON DELETE CASCADE
 );
+
+-- Triggers
+DELIMITER #
+
+CREATE TRIGGER default_chart_settings
+AFTER INSERT ON charts
+FOR EACH ROW
+BEGIN
+	INSERT INTO chart_settings (
+		chart_id,
+		title,
+		column_count,
+		row_count,
+		spacing,
+		margin,
+		image_shape,
+		image_height,
+		bg_color,
+		text_color,
+		images_text_placement
+	)
+	VALUES (
+		NEW.id,
+		"Untitled chart",
+		3,
+		3,
+		2,
+		4,
+		"square",
+		100,
+		"#069420",
+		"#420690",
+		"hide"
+	);
+END#
+
+DELIMITER ;

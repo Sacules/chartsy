@@ -23,27 +23,22 @@ const (
 	ImageShapePortrait = "portrait"
 )
 
-type ChartSetting struct {
-	Title       string
-	ColumnCount uint8
-	RowCount    uint8
-	Spacing     uint8
-	Margin      uint8
-	ImageHeight uint8
-	ImageShape  ImageShape
-	BgColor     color.RGBA
-	TextColor   color.RGBA
-
-	ImagesTextPlacement ImagesTextPlacement
-}
-
 type Chart struct {
 	ID      int
-	Images  []Image
-	Setting ChartSetting
-
 	Created time.Time
 	Updated time.Time
+
+	Images              []Image
+	Title               string
+	ColumnCount         uint8
+	RowCount            uint8
+	Spacing             uint8
+	Margin              uint8
+	ImageHeight         uint8
+	ImageShape          ImageShape
+	BgColor             color.RGBA
+	TextColor           color.RGBA
+	ImagesTextPlacement ImagesTextPlacement
 }
 
 type ChartModel struct {
@@ -51,10 +46,7 @@ type ChartModel struct {
 }
 
 func (m *ChartModel) Insert() (int, error) {
-	query := `INSERT INTO charts (updated, created) VALUES (
-		UTC_TIMESTAMP(),
-		UTC_TIMESTAMP()
-	)`
+	query := `INSERT INTO charts (title) VALUES (DEFAULT)`
 
 	result, err := m.DB.Exec(query)
 	if err != nil {

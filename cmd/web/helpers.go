@@ -6,7 +6,7 @@ import (
 	"runtime/debug"
 )
 
-func (app *application) serveError(w http.ResponseWriter, err error) {
+func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	app.errorLog.Output(2, trace)
 

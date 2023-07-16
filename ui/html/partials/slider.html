@@ -2,11 +2,11 @@
 <div role="group" class="flex flex-col gap-4">
 	<div class="flex justify-between">
 		<label><strong>{{ .Label }}</strong></label>
-		<output for="{{ .Id }}">{{ .DefaultValue }}</output>
+		<output for="{{ .ID }}">{{ .DefaultValue }}</output>
 	</div>
 	<tc-range-slider
 		_="on change(detail) put the detail.value into the previous <output/>"
-		id="{{ .Id }}"
+		id="{{ .ID }}"
 		type="range"
 		name="{{ .Name }}"
 		min="{{ .Min }}"

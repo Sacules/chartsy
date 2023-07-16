@@ -32,13 +32,12 @@
 			hx-patch="/chart/config"
 			class="grid grid-cols-1 grid-rows-[1fr_auto_auto] justify-between"
 		>
-			<div class="p-6 md:p-8">
-				{{ with .ChartConfig }}
-					{{ template "slider" .Column }}
-					{{ template "slider" .Row }}
-					{{ template "slider" .Spacing }}
-					{{ template "slider" .Margins }}
-				{{ end }}
+			<div class="p-6 md:p-8 flex flex-col justify-start gap-8">
+				{{ template "slider" chartSlider "column-count" "Columns" "columns" .Chart.ColumnCount 1 10 }}
+				{{ template "slider" chartSlider "row-count" "Rows" "rows" .Chart.RowCount 1 10 }}
+				{{ template "slider" chartSlider "spacing" "Spacing" "spacing" .Chart.Spacing 0 10 }}
+				{{ template "slider" chartSlider "margins" "Margins" "margins" .Chart.Margins 0 10 }}
+				{{ template "slider" chartSlider "image-height" "Image height" "img-height" .Chart.ImageHeight 48 255 }}
 			</div>
 			<hr class="border-slate-300">
 			<div role="group" class="p-6 md:p-8 flex justify-start gap-4">

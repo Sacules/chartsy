@@ -50,8 +50,23 @@ type ChartModel struct {
 	DB *sql.DB
 }
 
-func (m *ChartModel) Insert(title string, category string) (int, error) {
-	return 0, nil
+func (m *ChartModel) Insert() (int, error) {
+	query := `INSERT INTO charts (updated, created) VALUES (
+		UTC_TIMESTAMP(),
+		UTC_TIMESTAMP()
+	)`
+
+	result, err := m.DB.Exec(query)
+	if err != nil {
+		return 0, err
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
 }
 
 func (m *ChartModel) Get(id int) (*Chart, error) {

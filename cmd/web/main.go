@@ -8,6 +8,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	"gitlab.com/sacules/chartsy/internal/models"
 )
 
 func openDB(dsn string) (*sql.DB, error) {
@@ -26,6 +27,8 @@ func openDB(dsn string) (*sql.DB, error) {
 type application struct {
 	infoLog  *log.Logger
 	errorLog *log.Logger
+
+	charts *models.ChartModel
 }
 
 func main() {
@@ -44,8 +47,9 @@ func main() {
 	defer db.Close()
 
 	app := &application{
-		infoLog,
-		errorLog,
+		infoLog:  infoLog,
+		errorLog: errorLog,
+		charts:   &models.ChartModel{DB: db},
 	}
 
 	srv := &http.Server{

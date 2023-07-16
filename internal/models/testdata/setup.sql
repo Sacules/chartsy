@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS charts_images (
 	id SERIAL PRIMARY KEY,
 	chart_id INTEGER NOT NULL,
 	image_url VARCHAR(128) NOT NULL,
+	image_position TINYINT(8) UNSIGNED NOT NULL,
 	FOREIGN KEY (chart_id)
 		REFERENCES charts(id)
 		ON DELETE CASCADE,

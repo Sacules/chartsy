@@ -13,17 +13,17 @@ CREATE TABLE IF NOT EXISTS charts (
 	title				  VARCHAR(128) DEFAULT 'Untitled chart' NOT NULL,
 	column_count		  TINYINT(8) UNSIGNED DEFAULT 3 NOT NULL,
 	row_count			  TINYINT(8) UNSIGNED DEFAULT 3 NOT NULL,
-	spacing				  TINYINT(8) UNSIGNED DEFAULT 2 NOT NULL,
+	spacing				  TINYINT(8) UNSIGNED DEFAULT 4 NOT NULL,
 	padding				  TINYINT(8) UNSIGNED DEFAULT 8 NOT NULL,
 	image_shape			  ENUM('square', 'portrait') DEFAULT 'square' NOT NULL,
-	image_height		  TINYINT(8) UNSIGNED DEFAULT 96 NOT NULL,
+	image_height		  TINYINT(8) UNSIGNED DEFAULT 150 NOT NULL,
 	bg_color			  CHAR(7) DEFAULT "#475569" NOT NULL,
 	text_color			  CHAR(7) DEFAULT "#f8fafc" NOT NULL,
 	images_text_placement ENUM('hide', 'inline', 'left', 'right', 'below', 'overlay') DEFAULT 'hide' NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS images (
-	url		VARCHAR(128) DEFAULT 'https://i.imgur.com/w4toMiR.jpg' NOT NULL PRIMARY KEY,
+	url		VARCHAR(255) DEFAULT 'https://i.imgur.com/w4toMiR.jpg' NOT NULL PRIMARY KEY,
 	title	VARCHAR(255) DEFAULT '' NOT NULL,
 	caption VARCHAR(255) DEFAULT '' NOT NULL
 );
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS images (
 CREATE TABLE IF NOT EXISTS charts_images (
 	id			   SERIAL PRIMARY KEY,
 	chart_id	   INTEGER NOT NULL,
-	image_url	   VARCHAR(128) NOT NULL,
+	image_url	   VARCHAR(255) NOT NULL,
 	image_position TINYINT(8) UNSIGNED NOT NULL,
 	FOREIGN KEY (chart_id)
 		REFERENCES charts(id)

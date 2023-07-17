@@ -10,6 +10,7 @@ type templateData struct {
 
 type InputSlider struct {
 	ID           string
+	Class        string
 	Label        string
 	Name         string
 	DefaultValue uint8
@@ -17,9 +18,10 @@ type InputSlider struct {
 	Max          uint8
 }
 
-func newInputSlider(id, label, name string, defaultValue, min, max uint8) *InputSlider {
+func newInputSlider(id, class, label, name string, defaultValue, min, max uint8) *InputSlider {
 	return &InputSlider{
 		ID:           id,
+		Class:        class,
 		Label:        label,
 		Name:         name,
 		DefaultValue: defaultValue,
@@ -29,13 +31,15 @@ func newInputSlider(id, label, name string, defaultValue, min, max uint8) *Input
 }
 
 type InputText struct {
+	Class        string
 	Label        string
 	Name         string
 	DefaultValue string
 }
 
-func newInputText(label, name, defaultValue string) *InputText {
+func newInputText(class, label, name, defaultValue string) *InputText {
 	return &InputText{
+		Class:        class,
 		Label:        label,
 		Name:         name,
 		DefaultValue: defaultValue,

@@ -11,8 +11,8 @@
 	-->
 	<input id="{{ .ID }}-hidden" type="hidden" name="{{ .Name }}" value="{{ .DefaultValue }}">
 	<tc-range-slider
-		_="on change(detail) put the detail.value into the previous <output/> end
-		   on change(detail) set #{{ .ID }}-hidden.value to detail.value"
+		_="on change(detail) put the detail.value into the previous <output/>
+		   then set #{{ .ID }}-hidden.value to detail.value"
 		id="{{ .ID }}"
 		type="range"
 		name="{{ .Name }}"

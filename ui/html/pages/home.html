@@ -7,12 +7,14 @@
 		<h1 style="color: {{ .TextColor }};">{{ .Title }}</h1>
 		<ul class="grid grid-cols-{{ .ColumnCount }} grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
 			{{ $textPlacement := .ImagesTextPlacement }}
+			{{ $imageHeight := .ImageHeight }}
 			{{ range .Images }}
 				<li>
-					<figure class="w-24">
+					<figure class="w-auto">
 						<img
 							class="hover:outline-cyan-600 hover:outline hover:outline-4 transition-all duration-75 shadow-md"
 							src="{{ .URL }}"
+							style="height: {{ $imageHeight }}px;"
 						>
 						{{ if eq $textPlacement "inline" }}
 							<figcaption class="text-center text-sm" style="color: {{ .TextColor }};">

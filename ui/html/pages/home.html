@@ -7,8 +7,8 @@
 		<h1 style="color: {{ .TextColor }};">{{ .Title }}</h1>
 		<ul class="grid grid-cols-{{ .ColumnCount }} grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
 			{{ $textPlacement := .ImagesTextPlacement }}
-			{{ $imageHeight := .ImageHeight }}
-			{{ $imageShape := .ImageShape }}
+			{{ $imagesHeight := .ImagesHeight }}
+			{{ $imagesShape := .ImagesShape }}
 			{{ $textColor := .TextColor }}
 
 			{{ range .Images }}
@@ -27,11 +27,11 @@
 							</figcaption>
 						{{ end }}
 						<img
-							class='{{- if eq $imageShape "portrait" -}} aspect-[4/5] {{- else -}} aspect-square {{- end }} \
+							class='{{- if eq $imagesShape "portrait" -}} aspect-[4/5] {{- else -}} aspect-square {{- end }} \
 								object-center object-cover transition-all \
 								duration-75 shadow-md'
 								src="{{ .URL }}"
-							style="height: {{ $imageHeight }}px;"
+							style="height: {{ $imagesHeight }}px;"
 						>
 						{{ if eq $textPlacement "inline" }}
 							<figcaption class="text-center text-sm mt-2 leading-snug" style="color: {{ $textColor }};">

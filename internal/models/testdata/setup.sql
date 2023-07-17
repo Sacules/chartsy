@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS charts (
 	row_count			  TINYINT(8) UNSIGNED DEFAULT 3 NOT NULL,
 	spacing				  TINYINT(8) UNSIGNED DEFAULT 4 NOT NULL,
 	padding				  TINYINT(8) UNSIGNED DEFAULT 8 NOT NULL,
-	image_shape			  ENUM('square', 'portrait') DEFAULT 'square' NOT NULL,
-	image_height		  TINYINT(8) UNSIGNED DEFAULT 150 NOT NULL,
+	images_shape		  ENUM('square', 'portrait') DEFAULT 'square' NOT NULL,
+	images_height		  TINYINT(8) UNSIGNED DEFAULT 150 NOT NULL,
 	bg_color			  CHAR(7) DEFAULT "#475569" NOT NULL,
 	text_color			  CHAR(7) DEFAULT "#f8fafc" NOT NULL,
 	images_text_placement ENUM('hide', 'inline', 'left', 'right', 'below', 'overlay') DEFAULT 'hide' NOT NULL

@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"github.com/Masterminds/sprig"
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
@@ -34,7 +35,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/partials/input/text.html",
 	}
 
-	ts, err := template.New("master").Funcs(functions).ParseFiles(files...)
+	ts, err := template.New("master").Funcs(functions).Funcs(sprig.FuncMap()).ParseFiles(files...)
 	if err != nil {
 		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)

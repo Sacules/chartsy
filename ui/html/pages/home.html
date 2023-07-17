@@ -5,12 +5,14 @@
 		style="background-color: {{ .BgColor }};"
 	>
 		<h1 style="color: {{ .TextColor }};">{{ .Title }}</h1>
-		<ul class="grid grid-cols-{{ .ColumnCount }} grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
+		<ul class="grid grid-cols-[repeat({{ .ColumnCount }},max-content)] grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
 			{{ $textPlacement := .ImagesTextPlacement }}
 			{{ $imagesHeight := .ImagesHeight }}
-			{{ $imagesShape := .ImagesShape }}
 			{{ $textColor := .TextColor }}
-
+			
+			{{ $imagesShape := eq .ImagesShape "portrait" | ternary "aspect-[4/5]" "aspect-square" }}
+			{{ $imagesRoundedCorners := .ImagesRoundedCorners | ternary "rounded" "" }}
+			
 			{{ range .Images }}
 				<li>
 					<figure class="outline-cyan-600 hover:outline hover:outline-4 relative">
@@ -27,10 +29,8 @@
 							</figcaption>
 						{{ end }}
 						<img
-							class='{{- if eq $imagesShape "portrait" -}} aspect-[4/5] {{- else -}} aspect-square {{- end }} \
-								object-center object-cover transition-all \
-								duration-75 shadow-md'
-								src="{{ .URL }}"
+							class='{{ $imagesShape }} {{ $imagesRoundedCorners }} object-center object-cover transition-all duration-75 shadow-md'
+							src="{{ .URL }}"
 							style="height: {{ $imagesHeight }}px;"
 						>
 						{{ if eq $textPlacement "inline" }}

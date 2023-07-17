@@ -125,3 +125,14 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 func (m *ChartModel) Latest() ([]*Chart, error) {
 	return nil, nil
 }
+
+func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsHeight uint8) error {
+	query := `UPDATE charts
+		SET title = ?, column_count = ?, row_count = ?,
+			spacing = ?, padding = ?, images_height = ?
+		WHERE id = ?`
+
+	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsHeight, id)
+
+	return err
+}

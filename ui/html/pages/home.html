@@ -1,23 +1,40 @@
 {{ define "main" }}
 {{ with .Chart }}
 	<div
-		class="shadow-lg grid place-items-center gap-4 p-{{ .Padding }}"
-		style="background-color: #475569;"
+		class="rounded shadow-lg grid place-items-center gap-4 p-{{ .Padding }}"
+		style="background-color: {{ .BgColor }};"
 	>
 		<h1 style="color: {{ .TextColor }};">{{ .Title }}</h1>
 		<ul class="grid grid-cols-{{ .ColumnCount }} grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
 			{{ $textPlacement := .ImagesTextPlacement }}
 			{{ $imageHeight := .ImageHeight }}
+			{{ $imageShape := .ImageShape }}
+			{{ $textColor := .TextColor }}
+
 			{{ range .Images }}
 				<li>
-					<figure class="w-auto">
+					<figure class="outline-cyan-600 hover:outline hover:outline-4 relative">
+						{{ if eq $textPlacement "overlay" }}
+							<figcaption
+								class="z-10 absolute inset-0 text-left text-sm leading-tight bg-gradient-to-t from-slate-800/80 grid"
+								style="color: {{ $textColor }};"
+							>
+								<div class="justify-self-start self-end p-2">
+									<strong>{{ .Title }}</strong>
+									<br>
+									{{ .Caption }}
+								</div>
+							</figcaption>
+						{{ end }}
 						<img
-							class="hover:outline-cyan-600 hover:outline hover:outline-4 transition-all duration-75 shadow-md"
-							src="{{ .URL }}"
+							class='{{- if eq $imageShape "portrait" -}} aspect-[4/5] {{- else -}} aspect-square {{- end }} \
+								object-center object-cover transition-all \
+								duration-75 shadow-md'
+								src="{{ .URL }}"
 							style="height: {{ $imageHeight }}px;"
 						>
 						{{ if eq $textPlacement "inline" }}
-							<figcaption class="text-center text-sm" style="color: {{ .TextColor }};">
+							<figcaption class="text-center text-sm mt-2 leading-snug" style="color: {{ $textColor }};">
 								<strong>{{ .Title }}</strong>
 								<br>
 								{{ .Caption }}

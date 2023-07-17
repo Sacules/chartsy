@@ -2,10 +2,10 @@
 {{ with .Chart }}
 	<div
 		id="chart"
-		class="rounded shadow-lg grid place-items-center gap-4 p-{{ .Padding }}"
-		style="background-color: {{ .BgColor }};"
+		class="rounded shadow-lg grid place-items-center gap-4"
+		style="background-color: {{ .BgColor }}; padding: {{ .Padding }}rem;"
 	>
-		<h1 style="color: {{ .TextColor }};">{{ .Title }}</h1>
+		<h1 style="color: {{ .TextColor }};">{{ bbcode .Title | html }}</h1>
 		<ul class="grid grid-cols-[repeat({{ .ColumnCount }},max-content)] grid-rows-{{ .RowCount }} sortable gap-{{ .Spacing }}">
 			{{ $textPlacement := .ImagesTextPlacement }}
 			{{ $imagesHeight := .ImagesHeight }}

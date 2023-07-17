@@ -2,17 +2,28 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
 
 	"github.com/Masterminds/sprig"
+	"github.com/frustra/bbcode"
+
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
 var functions = template.FuncMap{
 	"newInputText":   newInputText,
 	"newInputSlider": newInputSlider,
+	"html": func(val any) template.HTML {
+		return template.HTML(fmt.Sprint(val))
+	},
+	"bbcode": func(val any) string {
+		c := bbcode.NewCompiler(true, true)
+
+		return c.Compile(fmt.Sprint(val))
+	},
 }
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {

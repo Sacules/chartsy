@@ -8,6 +8,7 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 

@@ -42,7 +42,7 @@ type Chart struct {
 	ColumnCount         uint8
 	RowCount            uint8
 	Spacing             uint8
-	Margins             uint8
+	Padding             uint8
 	ImageHeight         uint8
 	ImageShape          ImageShape
 	BgColor             string
@@ -72,7 +72,7 @@ func (m *ChartModel) Insert() (int, error) {
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		id, created, updated, title, column_count, row_count, spacing, margins, image_shape, image_height, bg_color, text_color, images_text_placement
+		id, created, updated, title, column_count, row_count, spacing, padding, image_shape, image_height, bg_color, text_color, images_text_placement
 		FROM charts
 		WHERE id = ?`
 
@@ -80,7 +80,7 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 
 	c := &Chart{}
 
-	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Margins, &c.ImageShape, &c.ImageHeight, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
+	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImageShape, &c.ImageHeight, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord

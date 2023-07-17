@@ -1,5 +1,5 @@
 {{ define "input/text" }}
-<label class="flex flex-col gap-4">
+<label class="flex flex-col gap-2">
 	<strong>{{ .Label }}</strong>
 	<input
 		type="text"
@@ -7,8 +7,9 @@
 		value="{{ .DefaultValue }}"
 		maxlength="128"
 		autocomplete="off"
-		class="rounded bg-slate-50 border-slate-500 focus:shadow-none hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition"
+		class="rounded bg-slate-50 border-2 border-slate-500 focus:shadow-none hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition"
 	>
+	<span class="italic text-sm">Works with BBCode and emojis! 🔥</span>
 </label>
 {{ end }}
 

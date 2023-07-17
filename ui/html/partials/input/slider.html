@@ -4,8 +4,15 @@
 		<label><strong>{{ .Label }}</strong></label>
 		<output for="{{ .ID }}">{{ .DefaultValue }}</output>
 	</div>
+	<!--
+		Since the slider is a web component, there's no way to access it from
+		outside of the Shadow DOM (at least the author doesn't expose anything).
+		A simple solution is just using a hidden input.
+	-->
+	<input id="{{ .ID }}-hidden" type="hidden" name="{{ .Name }}" value="{{ .DefaultValue }}">
 	<tc-range-slider
-		_="on change(detail) put the detail.value into the previous <output/>"
+		_="on change(detail) put the detail.value into the previous <output/> end
+		   on change(detail) set #{{ .ID }}-hidden.value to detail.value"
 		id="{{ .ID }}"
 		type="range"
 		name="{{ .Name }}"

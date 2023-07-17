@@ -6,6 +6,14 @@ import (
 	"time"
 )
 
+// Image represents the core of a chart, whether
+// it is an Album, or a Movie, a Game, etc.
+type Image struct {
+	Title   string
+	Caption string
+	URL     string
+}
+
 type ImagesTextPlacement string
 
 const (
@@ -80,6 +88,34 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 
 		return nil, err
 	}
+
+	query = `SELECT imgs.url, imgs.title, imgs.caption
+		FROM images imgs
+		INNER JOIN charts_images ci
+		ON ci.chart_id = ? AND imgs.url = ci.image_url
+		ORDER BY ci.image_position ASC`
+
+	rows, err := m.DB.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	images := []Image{}
+
+	for rows.Next() {
+		img := Image{}
+
+		err = rows.Scan(&img.URL, &img.Title, &img.Caption)
+		if err != nil {
+			return nil, err
+		}
+
+		images = append(images, img)
+	}
+
+	c.Images = images
 
 	return c, nil
 }

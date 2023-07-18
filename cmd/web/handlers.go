@@ -78,10 +78,10 @@ func (app *application) chartsSettings(w http.ResponseWriter, r *http.Request) {
 	columns, _ := strconv.Atoi(r.PostForm.Get("columns"))
 	rows, _ := strconv.Atoi(r.PostForm.Get("rows"))
 	spacing, _ := strconv.Atoi(r.PostForm.Get("spacing"))
-	margins, _ := strconv.Atoi(r.PostForm.Get("padding"))
+	padding, _ := strconv.Atoi(r.PostForm.Get("padding"))
 	imgsHeight, _ := strconv.Atoi(r.PostForm.Get("imgs-height"))
 
-	err = app.charts.Update(id, title, uint8(columns), uint8(rows), uint8(spacing), uint8(margins), uint8(imgsHeight))
+	err = app.charts.Update(id, title, uint8(columns), uint8(rows), uint8(spacing), uint8(padding), uint8(imgsHeight))
 	if err != nil {
 		app.serverError(w, err)
 		return

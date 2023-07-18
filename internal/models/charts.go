@@ -95,9 +95,10 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 		FROM images imgs
 		INNER JOIN charts_images ci
 		ON ci.chart_id = ? AND imgs.url = ci.image_url
-		ORDER BY ci.image_position ASC`
+		ORDER BY ci.image_position ASC
+		LIMIT ?`
 
-	rows, err := m.DB.Query(query, id)
+	rows, err := m.DB.Query(query, id, c.RowCount*c.ColumnCount)
 	if err != nil {
 		return nil, err
 	}

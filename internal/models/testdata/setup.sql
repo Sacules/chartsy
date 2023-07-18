@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS images (
 CREATE TABLE IF NOT EXISTS charts_images (
 	id			   SERIAL PRIMARY KEY,
 	chart_id	   INTEGER NOT NULL,
-	image_url	   VARCHAR(255) NOT NULL,
+	image_url	   VARCHAR(255) DEFAULT 'https://i.imgur.com/w4toMiR.jpg' NOT NULL,
 	image_position TINYINT(8) UNSIGNED NOT NULL,
 	FOREIGN KEY (chart_id)
 		REFERENCES charts(id)
@@ -44,25 +44,24 @@ CREATE TABLE IF NOT EXISTS charts_images (
 -- Triggers
 DELIMITER #
 
-CREATE PROCEDURE default_chart_images(IN chart_id INTEGER)
+CREATE TRIGGER default_chart_settings
+	AFTER INSERT ON charts
+	FOR EACH ROW
 	BEGIN
+		DECLARE total_imgs INT;
 		DECLARE i INT DEFAULT 0;
-		DECLARE n INT DEFAULT 0;
 
-		SELECT charts.row_count * charts.column_count
-			INTO n
-			FROM charts
-			WHERE charts.id = chart_id;
+		SET total_imgs = NEW.row_count * NEW.column_count;
 
-		WHILE (i < n) DO
+		WHILE i < total_imgs DO
 			INSERT INTO charts_images (
 				chart_id,
 				image_url,
 				image_position
 			)
 			VALUES (
-				chart_id,
-				"https://i.imgur.com/w4toMiR.jpg",
+				NEW.id,
+				DEFAULT,
 				i
 			);
 
@@ -70,12 +69,46 @@ CREATE PROCEDURE default_chart_images(IN chart_id INTEGER)
 		END WHILE;
 	END#
 
-
-CREATE TRIGGER default_chart_settings
-	AFTER INSERT ON charts
+CREATE TRIGGER update_chart_settings
+	AFTER UPDATE ON charts
 	FOR EACH ROW
-	BEGIN
-		CALL default_chart_images(NEW.id);
+	sp: BEGIN
+		DECLARE prev_total_imgs INT; -- The previous setting
+		DECLARE curr_total_imgs INT; -- The previous setting
+		DECLARE generated_total_imgs INT; -- How many we have actually *generated*
+		DECLARE i INT; -- Some dumb counter
+
+		SET prev_total_imgs = OLD.row_count * OLD.column_count;
+		SET curr_total_imgs = NEW.row_count * NEW.column_count;
+
+		IF prev_total_imgs >= curr_total_imgs THEN
+			LEAVE sp;
+		END IF;
+
+		SELECT COUNT(ci.image_url)
+			INTO generated_total_imgs
+			FROM charts_images ci
+			WHERE ci.chart_id = NEW.id;
+
+		IF curr_total_imgs <= generated_total_imgs THEN
+			LEAVE sp;
+		END IF;
+
+		SET i = generated_total_imgs;
+		WHILE i < curr_total_imgs DO
+			INSERT INTO charts_images (
+				chart_id,
+				image_url,
+				image_position
+			)
+			VALUES (
+				NEW.id,
+				DEFAULT,
+				i
+			);
+
+			SET i = i + 1;
+		END WHILE;
 	END#
 
 DELIMITER ;

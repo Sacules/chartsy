@@ -8,12 +8,12 @@ import (
 )
 
 func (app *application) routes() *chi.Mux {
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
+	fileServer := http.FileServer(http.Dir("./public"))
 
 	r := chi.NewRouter()
 	r.Use(middleware.Recoverer)
 
-	r.Handle("/static/*", http.StripPrefix("/static", fileServer))
+	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 	r.Get("/", app.home)
 	r.Route("/charts", func(r chi.Router) {
 		r.Patch("/settings", app.chartsSettings)

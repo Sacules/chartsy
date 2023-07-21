@@ -1,0 +1,14 @@
+{
+  "name": "chartsy",
+  "version": "1.0.0",
+  "description": "A modern chart generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucas Leonardo",
+  "license": "ISC",
+  "dependencies": {
+    "esbuild": "0.18.15"
+  }
+}

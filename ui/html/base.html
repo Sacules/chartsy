@@ -1,6 +1,6 @@
 {{ define "base" }}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="overflow-hidden">
   <head>
     <title>Chartsy</title>
     <meta charset="UTF-8" />
@@ -29,12 +29,63 @@
 		end
 	</script>
   </head>
-  <body class="w-full h-full min-h-screen grid grid-cols-1 grid-rows-[min-content_1fr] md:grid-cols-[min-content_1fr] md:grid-rows-1 bg-slate-50 text-slate-900">
-	  {{ template "sidenav" . }}
-	  <main class="h-full w-full overflow-scroll grid place-items-center p-8">
+  <body
+	class="w-full h-screen fixed overflow-auto bg-slate-50 text-slate-900 grid grid-cols-1 grid-rows-[3.5rem_1fr_auto_3.5rem]"
+  >
+	  <header class="px-6 flex justify-between items-center bg-slate-800">
+		<button type="button">
+			<img class="filter invert" src="/static/img/hamburger.svg">
+		</button>
+		<div class="text-slate-50 text-2xl before:-mt-2 before:block">My epic chart</div>
+		<button type="button">
+			<svg class="filter invert" width="1.25rem" height="1.25rem" version="1.1" xmlns="http://www.w3.org/2000/svg"
+				 viewBox="0 0 362.621 362.621">
+				<path style="fill:#000001;" d="M288.753,121.491c33.495,0,60.746-27.251,60.746-60.746S322.248,0,288.753,0
+					s-60.745,27.25-60.745,60.746c0,6.307,0.968,12.393,2.76,18.117l-126.099,76.937c-9.707-8.322-22.301-13.366-36.059-13.366
+					c-30.596,0-55.487,24.891-55.487,55.487s24.892,55.487,55.487,55.487c10.889,0,21.047-3.165,29.626-8.606l101.722,58.194
+					c-0.584,3.058-0.902,6.209-0.902,9.435c0,27.676,22.516,50.192,50.191,50.192s50.191-22.516,50.191-50.192
+					s-22.516-50.191-50.191-50.191c-13.637,0-26.014,5.474-35.069,14.331l-95.542-54.658c3.498-7.265,5.46-15.403,5.46-23.991
+					c0-5.99-0.966-11.757-2.73-17.166l125.184-76.379C257.488,114.959,272.368,121.491,288.753,121.491z"
+				/>
+			</svg>
+		</button>
+	  </header>
+	  <main class="overflow-scroll grid place-items-center p-8">
 		  {{ template "main" . }}
 	  </main>
-	  {{ template "flyout" . }}
+	  {{ with .Chart }}
+		  <div class="bg-slate-700 text-slate-50 px-6 py-4 flex flex-col gap-2">
+			{{ template "input/text" newInputText "settings" "Title" "title" .Title }}
+			{{ template "input/slider" newInputSlider "column-count" "settings" "Columns" "columns" .ColumnCount 1 10 }}
+			{{ template "input/slider" newInputSlider "row-count" "settings" "Rows" "rows" .RowCount 1 10 }}
+		  </div>
+	  {{ end }}
+	  <footer class="px-6 flex justify-between items-center bg-slate-800 text-slate-50/75">
+		  <div class="h-8 w-8">
+			<svg class="fill-slate-50/75 stroke-slate-50/75 stroke-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+				<path fill-rule="evenodd" clip-rule="evenodd" d="M7.93417 2C7.95604 2 7.97799 2 8 2L16.0658 2C16.9523 1.99995 17.7161 1.99991 18.3278 2.08215C18.9833 2.17028 19.6117 2.36902 20.1213 2.87868C20.631 3.38835 20.8297 4.0167 20.9179 4.67221C21.0001 5.28388 21.0001 6.0477 21 6.9342L21 7.95C21 8.50229 20.5523 8.95 20 8.95C19.4477 8.95 19 8.50229 19 7.95V7.00001C19 6.02893 18.9979 5.40122 18.9357 4.93871C18.8774 4.50497 18.7832 4.36902 18.7071 4.2929C18.631 4.21677 18.495 4.12263 18.0613 4.06431C17.5988 4.00213 16.9711 4 16 4H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V4H8C7.02893 4 6.40122 4.00213 5.93871 4.06431C5.50497 4.12263 5.36902 4.21677 5.2929 4.2929C5.21677 4.36902 5.12263 4.50497 5.06431 4.93871C5.00213 5.40122 5 6.02893 5 7.00001V7.95C5 8.50229 4.55229 8.95 4 8.95C3.44772 8.95 3 8.50229 3 7.95V7.00001C3 6.97799 3 6.95604 3 6.93418C2.99995 6.04769 2.99991 5.28387 3.08215 4.67221C3.17028 4.0167 3.36902 3.38835 3.87868 2.87868C4.38835 2.36902 5.0167 2.17028 5.67221 2.08215C6.28387 1.99991 7.04769 1.99995 7.93417 2Z" />
+				<path d="M7 21H17" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+		  </div>
+		  <div class="h-8 w-8">
+			<svg class="fill-slate-50" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				<path d="M0 0h7v7h-7v-7zM9 0v7h7v-7h-7zM0 16h7v-7h-7v7zM9 16h7v-7h-7v7z" />
+			</svg>
+		  </div>
+		  <div class="h-8 w-8">
+			<svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+				<path d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18" fill="none" stroke="currentColor" stroke-linejoin="round"/>
+				<circle cx="8" cy="9" r="2" stroke="currentColor" stroke-linejoin="round"/>
+			</svg>
+		  </div>
+		  <div class="h-8 w-8">
+			<svg fill="none" stroke="currentColor" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+				<g id="b894e32b-0437-45ab-b8bf-9f0c4e8f57cd" data-name="Layer 3">
+				<path d="M32.23,14.89c-2.1-.56-4.93,1.8-6.34.3-1.71-1.82,2.27-5.53,1.86-8.92-.33-2.78-3.51-4.08-6.66-4.1A18.5,18.5,0,0,0,7.74,7.59c-6.64,6.59-8.07,16-1.37,22.48,6.21,6,16.61,4.23,22.67-1.4a17.73,17.73,0,0,0,4.22-6.54C34.34,19.23,34.44,15.49,32.23,14.89ZM9.4,10.57a2.23,2.23,0,0,1,2.87,1.21,2.22,2.22,0,0,1-1.81,2.53A2.22,2.22,0,0,1,7.59,13.1,2.23,2.23,0,0,1,9.4,10.57ZM5.07,20.82a2.22,2.22,0,0,1,1.82-2.53A2.22,2.22,0,0,1,9.75,19.5,2.23,2.23,0,0,1,7.94,22,2.24,2.24,0,0,1,5.07,20.82Zm7,8.33a2.22,2.22,0,0,1-2.87-1.21A2.23,2.23,0,0,1,11,25.41a2.23,2.23,0,0,1,2.87,1.21A2.22,2.22,0,0,1,12,29.15ZM15,8.26a2.23,2.23,0,0,1,1.81-2.53,2.24,2.24,0,0,1,2.87,1.21,2.22,2.22,0,0,1-1.82,2.53A2.21,2.21,0,0,1,15,8.26Zm5.82,22.19a2.22,2.22,0,0,1-2.87-1.21,2.23,2.23,0,0,1,1.81-2.53,2.24,2.24,0,0,1,2.87,1.21A2.22,2.22,0,0,1,20.78,30.45Zm5-10.46a3.2,3.2,0,0,1-1.69,1.76,3.53,3.53,0,0,1-1.4.3,2.78,2.78,0,0,1-2.56-1.5,2.49,2.49,0,0,1-.07-2,3.2,3.2,0,0,1,1.69-1.76,3,3,0,0,1,4,1.2A2.54,2.54,0,0,1,25.79,20Z"/>
+				</g>
+			</svg>
+		  </div>
+	  </footer>
   </body>
 </html>
 {{ end }}

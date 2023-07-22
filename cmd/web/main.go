@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/Sacules/lrserver"
+	"github.com/fsnotify/fsnotify"
 	_ "github.com/go-sql-driver/mysql"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -35,6 +37,7 @@ type application struct {
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	dsn := flag.String("dsn", "web:secret@/chartsy?parseTime=true", "MySQL data source name")
+	env := flag.String("env", "dev", "Whether this is a 'dev' or 'prod' environment")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "\033[1;32mINFO\033[0m\t", log.Ldate|log.Ltime)
@@ -46,6 +49,50 @@ func main() {
 	}
 
 	defer db.Close()
+
+	// TODO: add some logic later
+	if *env == "prod" {
+		infoLog.Println("prod mode")
+	}
+
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	defer watcher.Close()
+
+	watcher.Add("ui/html")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	watcher.Add("ui/html/pages")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	watcher.Add("ui/html/partials")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	lr := lrserver.New(lrserver.DefaultName, lrserver.DefaultPort)
+	lr.SetStatusLog(infoLog)
+	lr.SetErrorLog(errorLog)
+
+	go lr.ListenAndServe()
+
+	go func() {
+		for {
+			select {
+			case event := <-watcher.Events:
+				lr.Reload(event.Name)
+			case err := <-watcher.Errors:
+				errorLog.Println(err)
+			}
+		}
+	}()
 
 	app := &application{
 		infoLog:  infoLog,

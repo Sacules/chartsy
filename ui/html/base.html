@@ -21,7 +21,7 @@
   <body
 	class="w-full h-full fixed overflow-auto bg-slate-50 text-slate-900 grid grid-cols-1 grid-rows-[3.5rem_1fr_auto]"
   >
-	  <header class="px-4 flex justify-between items-center bg-gradient-to-b from-slate-950 to-slate-800 text-slate-50">
+	  <header class="px-4 flex justify-between items-center bg-slate-900 text-slate-50 border-b border-slate-700">
 		<button type="button" class="h-6 w-6">
 			<svg id="Layer_1" version="1.1" fill="currentColor" viewBox="0 0 32 32" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M4,10h24c1.104,0,2-0.896,2-2s-0.896-2-2-2H4C2.896,6,2,6.896,2,8S2.896,10,4,10z M28,14H4c-1.104,0-2,0.896-2,2  s0.896,2,2,2h24c1.104,0,2-0.896,2-2S29.104,14,28,14z M28,22H4c-1.104,0-2,0.896-2,2s0.896,2,2,2h24c1.104,0,2-0.896,2-2  S29.104,22,28,22z"/></svg>
 		</button>
@@ -41,19 +41,18 @@
 	  <main class="overflow-scroll grid place-items-center p-8 bg-slate-950">
 		  {{ template "main" . }}
 	  </main>
-	  <footer class="relative pt-2 px-4 bg-gradient-to-t from-slate-950 to-slate-800">
+	  <footer class="relative pt-2 bg-slate-900 border-t border-slate-700">
 		  {{ with .Chart }}
-			  <button class="bg-slate-950 text-slate-50 rounded-full h-6 w-6 absolute top-0 right-2 -translate-y-1/2">
+			  <button class="text-slate-100 rounded-full h-6 w-6 absolute top-0 right-2 -translate-y-1/2">
 				<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 				  <path fill="currentColor" d="M10,0 C15.5228475,0 20,4.4771525 20,10 C20,15.5228475 15.5228475,20 10,20 C4.4771525,20 0,15.5228475 0,10 C0,4.4771525 4.4771525,0 10,0 Z M6.58558122,7.63613812 C6.31846398,7.37072496 5.8867628,7.3721064 5.62134964,7.63922364 C5.35593648,7.90634088 5.35731792,8.33804207 5.62443516,8.60345522 L5.62443516,8.60345522 L9.51942697,12.4735988 C9.78350334,12.7359904 10.2092302,12.7380608 10.4758462,12.47825 L10.4758462,12.47825 L14.4473588,8.60810648 C14.7170449,8.3453039 14.7226251,7.91363658 14.4598225,7.64395051 C14.1970199,7.37426445 13.7653526,7.36868429 13.4956665,7.63148686 L13.4956665,7.63148686 L10.0046519,11.0333966 Z"/>
 				</svg>
 			  </button>
-			  <div class="text-slate-50 pt-2 pb-4 flex flex-col gap-2">
+			  <div class="px-4 text-slate-50 pb-4 flex flex-col gap-2 border-b border-slate-700">
 				{{ template "input/text" newInputText "settings" "Title" "title" .Title }}
 			  </div>
-			  <hr class="border-0 border-b border-b-slate-50">
 		  {{ end }}
-		  <div class="flex justify-around items-center text-slate-400 h-20">
+		  <div class="px-4 flex justify-around items-center text-slate-400 h-20">
 			  <div class="text-slate-50 grid place-items-center gap-1">
 				<svg class="h-6 w-6 " fill="currentColor" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 					<path class="stroke-0" fill-rule="evenodd" clip-rule="evenodd" d="M7.93417 2C7.95604 2 7.97799 2 8 2L16.0658 2C16.9523 1.99995 17.7161 1.99991 18.3278 2.08215C18.9833 2.17028 19.6117 2.36902 20.1213 2.87868C20.631 3.38835 20.8297 4.0167 20.9179 4.67221C21.0001 5.28388 21.0001 6.0477 21 6.9342L21 7.95C21 8.50229 20.5523 8.95 20 8.95C19.4477 8.95 19 8.50229 19 7.95V7.00001C19 6.02893 18.9979 5.40122 18.9357 4.93871C18.8774 4.50497 18.7832 4.36902 18.7071 4.2929C18.631 4.21677 18.495 4.12263 18.0613 4.06431C17.5988 4.00213 16.9711 4 16 4H13V21C13 21.5523 12.5523 22 12 22C11.4477 22 11 21.5523 11 21V4H8C7.02893 4 6.40122 4.00213 5.93871 4.06431C5.50497 4.12263 5.36902 4.21677 5.2929 4.2929C5.21677 4.36902 5.12263 4.50497 5.06431 4.93871C5.00213 5.40122 5 6.02893 5 7.00001V7.95C5 8.50229 4.55229 8.95 4 8.95C3.44772 8.95 3 8.50229 3 7.95V7.00001C3 6.97799 3 6.95604 3 6.93418C2.99995 6.04769 2.99991 5.28387 3.08215 4.67221C3.17028 4.0167 3.36902 3.38835 3.87868 2.87868C4.38835 2.36902 5.0167 2.17028 5.67221 2.08215C6.28387 1.99991 7.04769 1.99995 7.93417 2Z" />
@@ -87,7 +86,7 @@
 					</g>
 				</svg>
 				<div class="text-center font-bold text-xs">
-					Images
+					Colors
 				</div>
 			  </div>
 		  </div>

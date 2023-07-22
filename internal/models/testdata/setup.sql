@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS charts (
 	images_shape		   ENUM('square', 'portrait') DEFAULT 'square' NOT NULL,
 	images_height		   TINYINT(8) UNSIGNED DEFAULT 150 NOT NULL,
 	images_rounded_corners BOOLEAN DEFAULT false NOT NULL,
-	bg_color			   CHAR(7) DEFAULT "#475569" NOT NULL,
-	text_color			   CHAR(7) DEFAULT "#f8fafc" NOT NULL,
+	bg_color			   CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
+	text_color			   CHAR(7) DEFAULT "#020617" NOT NULL, -- dark:slate-950
 	images_text_placement  ENUM('hide', 'inline', 'left', 'right', 'below', 'overlay') DEFAULT 'hide' NOT NULL
 );
 

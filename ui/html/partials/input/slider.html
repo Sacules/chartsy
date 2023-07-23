@@ -1,37 +1,37 @@
 {{ define "input/slider" }}
-<div role="group" class="flex flex-col gap-4">
-	<div class="flex justify-between">
-		<label><strong>{{ .Label }}</strong></label>
-		<output for="{{ .ID }}">{{ .DefaultValue }}</output>
-	</div>
-	<!--
+  <div role="group" class="flex flex-col gap-4">
+    <div class="flex justify-between">
+      <label><strong>{{ .Label }}</strong></label>
+      <output for="{{ .ID }}">{{ .DefaultValue }}</output>
+    </div>
+    <!--
 		Since the slider is a web component, there's no way to access it from
 		outside of the Shadow DOM (at least the author doesn't expose anything).
 		A simple solution is just using a hidden input.
 	-->
-	<input
-		id="{{ .ID }}-hidden"
-		type="hidden"
-		name="{{ .Name }}"
-		value="{{ .DefaultValue }}"
-		class="{{ .Class }}"
-	>
-	<tc-range-slider
-		_="on change(detail) put the detail.value into the previous <output/>
+    <input
+      id="{{ .ID }}-hidden"
+      type="hidden"
+      name="{{ .Name }}"
+      value="{{ .DefaultValue }}"
+      class="{{ .Class }}"
+    />
+    <tc-range-slider
+      _="on change(detail) put the detail.value into the previous <output/>
 		   then set #{{ .ID }}-hidden.value to detail.value
 		   then trigger input on #{{ .ID }}-hidden"
-		id="{{ .ID }}"
-		type="range"
-		name="{{ .Name }}"
-		min="{{ .Min }}"
-		max="{{ .Max }}"
-		value="{{ .DefaultValue }}"
-		step="1"
-		slider-width="100%"
-		slider-height="0.7rem"
-		pointer-width="1.25rem"
-		pointer-height="1.25rem"
-	>
-	</tc-range-slider>
-</div>
+      id="{{ .ID }}"
+      type="range"
+      name="{{ .Name }}"
+      min="{{ .Min }}"
+      max="{{ .Max }}"
+      value="{{ .DefaultValue }}"
+      step="1"
+      slider-width="100%"
+      slider-height="0.7rem"
+      pointer-width="1.25rem"
+      pointer-height="1.25rem"
+    >
+    </tc-range-slider>
+  </div>
 {{ end }}

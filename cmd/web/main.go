@@ -62,6 +62,7 @@ func main() {
 
 	defer watcher.Close()
 
+	// TODO: Automate this to auto detect all templates
 	watcher.Add("ui/html")
 	if err != nil {
 		errorLog.Fatal(err)
@@ -73,6 +74,16 @@ func main() {
 	}
 
 	watcher.Add("ui/html/partials")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	watcher.Add("ui/html/partials/input")
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	watcher.Add("ui/html/partials/icon")
 	if err != nil {
 		errorLog.Fatal(err)
 	}

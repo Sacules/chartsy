@@ -40,9 +40,11 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	files := []string{
 		"./ui/html/base.html",
+		"./ui/html/head.html",
 		"./ui/html/pages/home.html",
 		"./ui/html/partials/sidenav.html",
 		"./ui/html/partials/flyout.html",
+		"./ui/html/partials/icon.html",
 		"./ui/html/partials/input/slider.html",
 		"./ui/html/partials/input/text.html",
 	}

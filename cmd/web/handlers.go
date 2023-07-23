@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/CloudyKit/jet/v6"
 	"github.com/Masterminds/sprig"
 	"github.com/frustra/bbcode"
 
@@ -38,29 +39,19 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	files := []string{
-		"./ui/html/base.html",
-		"./ui/html/head.html",
-		"./ui/html/pages/home.html",
-		"./ui/html/partials/sidenav.html",
-		"./ui/html/partials/flyout.html",
-		"./ui/html/partials/icon.html",
-		"./ui/html/partials/input/slider.html",
-		"./ui/html/partials/input/text.html",
-	}
-
-	ts, err := template.New("master").Funcs(functions).Funcs(sprig.FuncMap()).ParseFiles(files...)
+	ts, err := app.templateSet.GetTemplate("base.jet.html")
+	// ts, err := template.New("master").Funcs(functions).Funcs(sprig.FuncMap()).ParseFiles(files...)
 	if err != nil {
 		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	data := &templateData{
-		Chart: c,
-	}
+	//data := &templateData{
+	//Chart: c,
+	//}
 
-	err = ts.ExecuteTemplate(w, "base", data)
+	err = ts.Execute(w, jet.VarMap{}, c)
 	if err != nil {
 		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal server error", http.StatusInternalServerError)

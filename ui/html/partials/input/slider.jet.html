@@ -1,8 +1,8 @@
-{{ define "input/slider" }}
+{{ block inputSlider(id, name, label, defaultValue, class, min, max) }}
   <div role="group" class="flex flex-col gap-4">
     <div class="flex justify-between">
-      <label><strong>{{ .Label }}</strong></label>
-      <output for="{{ .ID }}">{{ .DefaultValue }}</output>
+      <label><strong>{{ label }}</strong></label>
+      <output for="{{ id }}">{{ defaultValue }}</output>
     </div>
     <!--
 		Since the slider is a web component, there's no way to access it from
@@ -10,22 +10,22 @@
 		A simple solution is just using a hidden input.
 	-->
     <input
-      id="{{ .ID }}-hidden"
+      id="{{ id }}-hidden"
       type="hidden"
-      name="{{ .Name }}"
-      value="{{ .DefaultValue }}"
-      class="{{ .Class }}"
+      name="{{ name }}"
+      value="{{ defaultValue }}"
+      class="{{ class }}"
     />
     <tc-range-slider
       _="on change(detail) put the detail.value into the previous <output/>
-		   then set #{{ .ID }}-hidden.value to detail.value
-		   then trigger input on #{{ .ID }}-hidden"
-      id="{{ .ID }}"
+		   then set #{{ id }}-hidden.value to detail.value
+		   then trigger input on #{{ id }}-hidden"
+      id="{{ id }}"
       type="range"
-      name="{{ .Name }}"
-      min="{{ .Min }}"
-      max="{{ .Max }}"
-      value="{{ .DefaultValue }}"
+      name="{{ name }}"
+      min="{{ min }}"
+      max="{{ max }}"
+      value="{{ defaultValue }}"
       step="1"
       slider-width="100%"
       slider-height="0.7rem"

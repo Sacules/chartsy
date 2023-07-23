@@ -3,11 +3,15 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"reflect"
 
+	"github.com/CloudyKit/jet/v6"
 	"github.com/Sacules/lrserver"
+	"github.com/frustra/bbcode"
 	"github.com/fsnotify/fsnotify"
 	_ "github.com/go-sql-driver/mysql"
 
@@ -28,8 +32,9 @@ func openDB(dsn string) (*sql.DB, error) {
 }
 
 type application struct {
-	infoLog  *log.Logger
-	errorLog *log.Logger
+	infoLog     *log.Logger
+	errorLog    *log.Logger
+	templateSet *jet.Set
 
 	charts *models.ChartModel
 }
@@ -105,10 +110,17 @@ func main() {
 		}
 	}()
 
+	set := jet.NewSet(jet.NewOSFileSystemLoader("./ui/html"), jet.InDevelopmentMode())
+	set.AddGlobalFunc("bbcode", func(a jet.Arguments) reflect.Value {
+		c := bbcode.NewCompiler(true, true)
+		return reflect.ValueOf(c.Compile(fmt.Sprint(a.Get(0))))
+	})
+
 	app := &application{
-		infoLog:  infoLog,
-		errorLog: errorLog,
-		charts:   &models.ChartModel{DB: db},
+		infoLog:     infoLog,
+		errorLog:    errorLog,
+		charts:      &models.ChartModel{DB: db},
+		templateSet: set,
 	}
 
 	srv := &http.Server{

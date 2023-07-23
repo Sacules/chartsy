@@ -45,19 +45,35 @@
         {{ template "main" . }}
       </main>
       <aside
-        class="px-4 py-2 hidden md:block row-start-2 col-start-3 border-l border-slate-700"
+        class="pt-2 pb-4 hidden md:flex row-start-2 col-start-3 border-l border-slate-700 flex-col gap-4 overflow-y-scroll"
       >
-        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
-        enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
-        exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit
-        nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-        minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure
-        elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor
-        Lorem duis laboris cupidatat officia voluptate. Culpa proident
-        adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod.
-        Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
-        Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
-        et culpa duis.
+        {{ with .Chart }}
+          <div class="flex flex-col gap-4 px-4">
+            <strong class="text-xl">Text</strong>
+            {{ template "input/text" newInputText "settings" "Title" "title" .Title }}
+          </div>
+          <hr class="border-slate-700" />
+          <div class="flex flex-col gap-4 px-4">
+            <strong class="text-xl">Layout</strong>
+            {{ template "input/slider" newInputSlider "column-count" "settings" "Columns" "columns" .ColumnCount 1 10 }}
+            {{ template "input/slider" newInputSlider "row-count" "settings" "Rows" "rows" .RowCount 1 10 }}
+            {{ template "input/slider" newInputSlider "spacing" "settings" "Spacing" "spacing" .Spacing 0 10 }}
+            {{ template "input/slider" newInputSlider "padding" "settings" "Padding" "padding" .Padding 0 5 }}
+          </div>
+          <hr class="border-slate-700" />
+          <div class="flex flex-col gap-4 px-4">
+            <strong class="text-xl">Text</strong>
+            {{ template "input/text" newInputText "settings" "Title" "title" .Title }}
+          </div>
+          <hr class="border-slate-700" />
+          <div class="flex flex-col gap-4 px-4">
+            <strong class="text-xl">Layout</strong>
+            {{ template "input/slider" newInputSlider "column-count" "settings" "Columns" "columns" .ColumnCount 1 10 }}
+            {{ template "input/slider" newInputSlider "row-count" "settings" "Rows" "rows" .RowCount 1 10 }}
+            {{ template "input/slider" newInputSlider "spacing" "settings" "Spacing" "spacing" .Spacing 0 10 }}
+            {{ template "input/slider" newInputSlider "padding" "settings" "Padding" "padding" .Padding 0 5 }}
+          </div>
+        {{ end }}
       </aside>
       <footer class="relative pt-2 border-t border-slate-700 md:hidden">
         {{ with .Chart }}

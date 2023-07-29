@@ -4,10 +4,10 @@
 	   def spacingAndPadding(n) return `calc(${n}rem / 2)` end
 	   set :settingsNames to ['columns', 'rows', 'spacing', 'padding']
 	   set :settings to {
-	       columns: { name: 'grid-template-columns', val: rowsAndCols({{ .ColumnCount }}), elemId: 'images' },
-	       rows: { name: 'grid-template-rows', val: rowsAndCols({{ .RowCount }}), elemId: 'images' },
-		   spacing: { name: 'gap', val: spacingAndPadding({{ .Spacing }}), elemId: 'images' },
-		   padding: { name: 'padding', val: spacingAndPadding({{ .Padding }}), elemId: 'chart' }
+	       columns: { name: 'grid-template-columns', val: rowsAndCols({{ .ColumnCount }}), targetId: 'images' },
+	       rows: { name: 'grid-template-rows', val: rowsAndCols({{ .RowCount }}), targetId: 'images' },
+		   spacing: { name: 'gap', val: spacingAndPadding({{ .Spacing }}), targetId: 'images' },
+		   padding: { name: 'padding', val: spacingAndPadding({{ .Padding }}), targetId: 'chart' }
 	   }
 	   set :settingsFuncs to {
 	       columns: \n -> rowsAndCols(n),
@@ -20,7 +20,7 @@
 		       set set to :settings[s]
 		       set style to set.name
 			   set val to set.val
-			   set id to set.elemId
+			   set id to set.targetId
 			   set #{id}.style[style] to val
            end
 	   end

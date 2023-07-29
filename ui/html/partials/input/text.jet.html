@@ -1,6 +1,6 @@
 {{ block inputText(name, label, defaultValue, class, caption="") }}
   <label class="flex flex-col gap-2">
-    <strong>{{ label }}</strong>
+    <strong class="md:text-sm">{{ label }}</strong>
     <input
       type="text"
       name="{{ name }}"
@@ -8,7 +8,7 @@
       maxlength="128"
       autocomplete="off"
       class="{{ class }} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
-			hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition"
+			hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm"
     />
     <span class="italic text-sm">{{ caption }}</span>
   </label>

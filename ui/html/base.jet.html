@@ -79,13 +79,12 @@
           {{ yield iconClose() }}
         </button>
         <div
-          class="px-4 text-slate-50 pb-4 flex flex-col gap-2 border-b border-slate-700"
+          class="px-4 text-slate-50 pb-4 flex overflow-y-auto gap-8 border-b border-slate-700"
         >
-          {{ yield inputText(name="title", label="Title", defaultValue=.Title,
-            class="settings", caption="Works with BBCode and emojis! 🔥")
-          }}
           {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
           {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
+          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=1, max=10) }}
+          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=1, max=10) }}
         </div>
         <div class="px-4 flex justify-around items-center text-slate-400 h-20">
           <div class="text-slate-50 grid place-items-center gap-1">

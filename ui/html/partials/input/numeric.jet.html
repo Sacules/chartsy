@@ -12,6 +12,7 @@
 			  decrement val
 			  set #{{ id }}.value to val
 			  set (the next <output/>).value to val
+			  send chartUpdate(setting:'{{ name }}',value:val) to #chart
 			  if val <= {{ min }}
 				  add @disabled
 			  else if val < {{ max }}
@@ -32,6 +33,7 @@
 			  increment val
 			  set #{{ id }}.value to val
 			  set (the previous <output/>).value to val
+			  send chartUpdate(setting:'{{ name }}',value:val) to #chart
 			  if val >= {{ max }}
 				  add @disabled
 			  else if val > {{ min }}

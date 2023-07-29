@@ -51,51 +51,9 @@ CREATE TRIGGER default_chart_settings
 		DECLARE total_imgs INT;
 		DECLARE i INT DEFAULT 0;
 
-		SET total_imgs = NEW.row_count * NEW.column_count;
+		SET total_imgs = 100; -- 10 cols * 10 rows, reasonable limit
 
 		WHILE i < total_imgs DO
-			INSERT INTO charts_images (
-				chart_id,
-				image_url,
-				image_position
-			)
-			VALUES (
-				NEW.id,
-				DEFAULT,
-				i
-			);
-
-			SET i = i + 1;
-		END WHILE;
-	END#
-
-CREATE TRIGGER update_chart_settings
-	AFTER UPDATE ON charts
-	FOR EACH ROW
-	sp: BEGIN
-		DECLARE prev_total_imgs INT; -- The previous setting
-		DECLARE curr_total_imgs INT; -- The previous setting
-		DECLARE generated_total_imgs INT; -- How many we have actually *generated*
-		DECLARE i INT; -- Some dumb counter
-
-		SET prev_total_imgs = OLD.row_count * OLD.column_count;
-		SET curr_total_imgs = NEW.row_count * NEW.column_count;
-
-		IF prev_total_imgs >= curr_total_imgs THEN
-			LEAVE sp;
-		END IF;
-
-		SELECT COUNT(ci.image_url)
-			INTO generated_total_imgs
-			FROM charts_images ci
-			WHERE ci.chart_id = NEW.id;
-
-		IF curr_total_imgs <= generated_total_imgs THEN
-			LEAVE sp;
-		END IF;
-
-		SET i = generated_total_imgs;
-		WHILE i < curr_total_imgs DO
 			INSERT INTO charts_images (
 				chart_id,
 				image_url,

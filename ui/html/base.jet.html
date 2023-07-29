@@ -65,8 +65,8 @@
           <strong class="mb-2">Layout</strong>
           {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
           {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=1, max=10) }}
+          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
+          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
         </div>
       </aside>
       <footer class="relative pt-2 border-t border-slate-700 md:hidden">

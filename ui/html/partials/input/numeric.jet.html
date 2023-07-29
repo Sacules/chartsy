@@ -1,0 +1,54 @@
+{{ block inputNumeric(id, name, label, defaultValue, class, min, max) }}
+  <div
+    role="group"
+    class="flex flex-col md:flex-row md:justify-between items-center"
+  >
+    <label for="{{ id }}"><strong>{{ label }}</strong></label>
+    <div class="flex items-center gap-4">
+      <button
+        _="on click
+		      get the (value of #{{ id }}) as an Int
+			  set val to it
+			  decrement val
+			  set #{{ id }}.value to val
+			  set (the next <output/>).value to val
+			  if val is {{ min }}
+				  add @disabled
+			  else if val is less than {{ max }}
+			      remove @disabled from the next <button/>
+			  end"
+        type="button"
+        class="rounded-full border border-slate-600 w-8 h-8"
+      >
+        -
+      </button>
+      <output for="{{ id }}">
+        {{ defaultValue }}
+      </output>
+      <button
+        _="on click
+		      get the (value of #{{ id }}) as an Int
+			  set val to it
+			  increment val
+			  set #{{ id }}.value to val
+			  set (the previous <output/>).value to val
+			  if val is {{ max }}
+				  add @disabled
+			  else if val is greater than {{ min }}
+			      remove @disabled from the previous <button/>
+			  end"
+        type="button"
+        class="rounded-full border border-slate-600 w-8 h-8"
+      >
+        +
+      </button>
+    </div>
+    <input
+      _="on input alert('hola')"
+      id="{{ id }}"
+      name="{{ name }}"
+      type="hidden"
+      value="{{ defaultValue }}"
+    />
+  </div>
+{{ end }}

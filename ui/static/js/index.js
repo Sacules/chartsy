@@ -1,28 +1,29 @@
-//import Alpine from 'alpinejs';
-import Sortable from 'sortablejs';
+import Sortable from "sortablejs";
+import "toolcool-range-slider";
+
 //import html2canvas from 'html2canvas';
-import 'toolcool-range-slider';
+//import Alpine from 'alpinejs';
 //var panzoom = require('panzoom')
 
- 
-window.htmx = require('htmx.org');
-//window.Alpine = Alpine;
- 
-htmx.onLoad(function(content) {
-    var sortables = content.querySelectorAll(".sortable");
+window.htmx = require("htmx.org");
 
-    for (var i = 0; i < sortables.length; i++) {
-      var sortable = sortables[i];
+htmx.onLoad(function (content) {
+  var sortables = content.querySelectorAll(".sortable");
 
-      new Sortable(sortable, {
-          animation: 300,
-          ghostClass: 'ghost-album',
-		  invertSwap: true
-      });
-    }
+  for (var i = 0; i < sortables.length; i++) {
+    var sortable = sortables[i];
+
+    new Sortable(sortable, {
+      animation: 300,
+      ghostClass: "ghost-album",
+      invertSwap: true,
+    });
+  }
 });
 
 /*
+window.Alpine = Alpine;
+
 var element = document.getElementById('scene')
 panzoom(element)
 

@@ -1,9 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,400;0,700;1,400&family=Sofia+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,400;0,700;1,400&family=Sofia+Sans:ital,wght@0,400;0,700;1,400&display=swap");
 
 html {
-	font-family: 'Sofia Sans', sans-serif !important;
+  font-family: "Sofia Sans", sans-serif !important;
 }
 
 .ghost-album {
-	outline: 2px solid blue;
+  outline: 2px solid blue;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #475569;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+}
+
+*::-webkit-scrollbar-corner {
+  background: #475569;
 }

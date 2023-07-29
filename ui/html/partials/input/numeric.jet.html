@@ -12,13 +12,13 @@
 			  decrement val
 			  set #{{ id }}.value to val
 			  set (the next <output/>).value to val
-			  if val is {{ min }}
+			  if val <= {{ min }}
 				  add @disabled
-			  else if val is less than {{ max }}
+			  else if val < {{ max }}
 			      remove @disabled from the next <button/>
 			  end"
         type="button"
-        class="rounded-full border-2 border-slate-300 w-8 h-8 disabled:border-slate-600 disabled:cursor-not-allowed"
+        class="rounded-full border-2 border-slate-300 w-8 h-8 font-bold disabled:border-slate-600 disabled:cursor-not-allowed"
       >
         -
       </button>
@@ -32,13 +32,13 @@
 			  increment val
 			  set #{{ id }}.value to val
 			  set (the previous <output/>).value to val
-			  if val is {{ max }}
+			  if val >= {{ max }}
 				  add @disabled
-			  else if val is greater than {{ min }}
+			  else if val > {{ min }}
 			      remove @disabled from the previous <button/>
 			  end"
         type="button"
-        class="rounded-full border-2 border-slate-300 w-8 h-8 disabled:border-slate-600 disabled:cursor-not-allowed"
+        class="rounded-full border-2 border-slate-300 w-8 h-8 font-bold disabled:border-slate-600 disabled:cursor-not-allowed"
       >
         +
       </button>

@@ -1,7 +1,7 @@
 {{ block inputNumeric(id, name, label, defaultValue, class, min, max) }}
   <div
     role="group"
-    class="flex flex-col md:flex-row md:justify-between items-center"
+    class="flex flex-col gap-1 md:flex-row md:justify-between items-center"
   >
     <label for="{{ id }}"><strong>{{ label }}</strong></label>
     <div class="flex items-center gap-4">
@@ -18,11 +18,11 @@
 			      remove @disabled from the next <button/>
 			  end"
         type="button"
-        class="rounded-full border border-slate-600 w-8 h-8"
+        class="rounded-full border-2 border-slate-300 w-8 h-8 disabled:border-slate-600 disabled:cursor-not-allowed"
       >
         -
       </button>
-      <output for="{{ id }}">
+      <output for="{{ id }}" class="w-4 text-center">
         {{ defaultValue }}
       </output>
       <button
@@ -38,7 +38,7 @@
 			      remove @disabled from the previous <button/>
 			  end"
         type="button"
-        class="rounded-full border border-slate-600 w-8 h-8"
+        class="rounded-full border-2 border-slate-300 w-8 h-8 disabled:border-slate-600 disabled:cursor-not-allowed"
       >
         +
       </button>

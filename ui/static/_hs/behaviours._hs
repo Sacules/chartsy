@@ -13,3 +13,7 @@ behavior ToggleSettingMenu(menuId)
 	end
 end
 
+behavior UpdateChartTitle
+	on input(target)
+		send update(val:target.value) to #chart-title
+end

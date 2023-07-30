@@ -2,8 +2,6 @@ import Sortable from "sortablejs";
 import yabbcode from "ya-bbcode";
 import htmx from "htmx.org";
 
-import "./button";
-
 const parser = new yabbcode();
 
 export function bbcode(s: string) {

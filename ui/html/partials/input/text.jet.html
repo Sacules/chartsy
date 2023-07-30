@@ -1,7 +1,8 @@
-{{ block inputText(name, label, defaultValue, class, caption="") }}
+{{ block inputText(name, label, defaultValue, class, caption="", behavior) }}
   <label class="flex w-full flex-col gap-2">
     <strong class="md:text-sm">{{ label }}</strong>
     <input
+      {{ if behavior }}_="install {{ behavior }}"{{ end }}
       type="text"
       name="{{ name }}"
       value="{{ defaultValue }}"

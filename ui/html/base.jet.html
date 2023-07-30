@@ -71,43 +71,74 @@
       </aside>
       <footer class="relative pt-2 border-t border-slate-700 md:hidden">
         <button
-          class="text-slate-100 rounded-full h-6 w-6 absolute top-0 right-2 -translate-y-1/2"
+          id="settings-close"
+          class="aria-hidden:hidden text-slate-100 rounded-full h-6 w-6 absolute top-0 right-2 -translate-y-1/2"
+          aria-hidden="true"
         >
           {{ yield iconClose() }}
         </button>
         <div
-          class="px-4 text-slate-50 pb-4 flex overflow-y-auto gap-8 border-b border-slate-700"
+          id="settings-text"
+          class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
+        >
+          {{ yield inputText(name="title", label="Title", defaultValue=.Title,
+            class="settings", caption="Works with BBCode and emojis! 🔥")
+          }}
+        </div>
+        <div
+          id="settings-layout"
+          class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
         >
           {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
           {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=1, max=10) }}
+          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
+          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
         </div>
-        <div class="px-4 flex justify-around items-center text-slate-400 h-20">
-          <div class="text-slate-50 grid place-items-center gap-1">
+        <div class="px-4 flex justify-around items-center text-slate-400 h-16">
+          <button
+            _="install ToggleSettingMenu(menuId: #settings-text)"
+            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
+            aria-pressed="false"
+          >
             <div class="h-6 w-6">
               {{ yield iconText() }}
             </div>
-            <div class="text-center font-bold text-xs text-slate-200">Text</div>
-          </div>
-          <div class="grid place-items-center gap-1">
+            <div
+              class="text-center font-bold text-xs aria-pressed:text-slate-200"
+            >
+              Text
+            </div>
+          </button>
+          <button
+            _="install ToggleSettingMenu(menuId: #settings-layout)"
+            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
+            aria-pressed="false"
+          >
             <div class="h-6 w-6">
               {{ yield iconLayout() }}
             </div>
             <div class="text-center font-bold text-xs">Layout</div>
-          </div>
-          <div class="grid place-items-center gap-1">
+          </button>
+          <button
+            _="install ToggleSettingMenu(menuId: #settings-images)"
+            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
+            aria-pressed="false"
+          >
             <div class="h-6 w-6">
               {{ yield iconImages() }}
             </div>
             <div class="text-center font-bold text-xs">Images</div>
-          </div>
-          <div class="grid place-items-center gap-1">
+          </button>
+          <button
+            _="install ToggleSettingMenu(menuId: #settings-colors)"
+            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
+            aria-pressed="false"
+          >
             <div class="h-6 w-6">
               {{ yield iconColors() }}
             </div>
             <div class="text-center font-bold text-xs">Colors</div>
-          </div>
+          </button>
         </div>
       </footer>
     </body>

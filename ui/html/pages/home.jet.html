@@ -4,10 +4,10 @@
 	   def spacingAndPadding(n) return `calc(${n}rem / 2)` end
 	   set :settingsNames to ['columns', 'rows', 'spacing', 'padding']
 	   set :settings to {
-	       columns: { name: 'grid-template-columns', val: rowsAndCols({{ .ColumnCount }}), targetId: 'images' },
-	       rows: { name: 'grid-template-rows', val: rowsAndCols({{ .RowCount }}), targetId: 'images' },
-		   spacing: { name: 'gap', val: spacingAndPadding({{ .Spacing }}), targetId: 'images' },
-		   padding: { name: 'padding', val: spacingAndPadding({{ .Padding }}), targetId: 'chart' }
+	       columns: { name: 'grid-template-columns', rawVal: {{ .ColumnCount }}, val: rowsAndCols({{ .ColumnCount }}), targetId: 'images' },
+	       rows: { name: 'grid-template-rows', rawVal: {{ .RowCount }}, val: rowsAndCols({{ .RowCount }}), targetId: 'images' },
+		   spacing: { name: 'gap', rawVal: {{ .Spacing }}, val: spacingAndPadding({{ .Spacing }}), targetId: 'images' },
+		   padding: { name: 'padding', rawVal: {{ .Padding }}, val: spacingAndPadding({{ .Padding }}), targetId: 'chart' }
 	   }
 	   set :settingsFuncs to {
 	       columns: \n -> rowsAndCols(n),
@@ -23,6 +23,16 @@
 			   set id to set.targetId
 			   set #{id}.style[style] to val
            end
+
+		   set images to the children of #images
+		   set totalImgs to :settings.columns.rawVal * :settings.rows.rawVal
+		   for img in images index i
+		       if i >= totalImgs
+			       hide img
+			   else
+			       show img
+			   end
+		   end
 	   end
 	   init
 	       updateChart()
@@ -30,10 +40,11 @@
 	   on chartUpdate(setting, value)
 	      set f to :settingsFuncs[setting]
 	      set :settings[setting].val to f(value)
+	      set :settings[setting].rawVal to value
 	      updateChart()"
     id="chart"
     class="shadow-lg grid place-items-center gap-4"
-    style="background-color: {{ .BgColor }}; padding: {{ .Padding }}rem;"
+    style="background-color: {{ .BgColor }};"
   >
     <h1 style="color: {{ .TextColor }};">{{ bbcode(.Title) | html }}</h1>
     <ul id="images" class="grid sortable">

@@ -3,13 +3,12 @@ behavior ToggleSettingMenu(menuId)
 		if @aria-pressed is 'false'
 			set <button.setting-button/>'s @aria-pressed to 'false'
 			set @aria-pressed to 'true'
+
 			set <div.setting-menu/>'s @aria-expanded to 'false'
 			set menuId's @aria-expanded to 'true'
-			set #settings-close's @aria-hidden to 'false'
 		else
 			set @aria-pressed to 'false'
 			set menuId's @aria-expanded to 'false'
-			set #settings-close's @aria-hidden to 'true'
 		end
 	end
 end

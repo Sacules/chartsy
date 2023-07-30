@@ -70,13 +70,6 @@
         </div>
       </aside>
       <footer class="relative pt-2 border-t border-slate-700 md:hidden">
-        <button
-          id="settings-close"
-          class="aria-hidden:hidden text-slate-100 rounded-full h-6 w-6 absolute top-0 right-2 -translate-y-1/2"
-          aria-hidden="true"
-        >
-          {{ yield iconClose() }}
-        </button>
         <div
           id="settings-text"
           class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
@@ -117,7 +110,11 @@
             <div class="h-6 w-6">
               {{ yield iconLayout() }}
             </div>
-            <div class="text-center font-bold text-xs">Layout</div>
+            <div
+              class="text-center font-bold text-xs aria-pressed:text-slate-200"
+            >
+              Layout
+            </div>
           </button>
           <button
             _="install ToggleSettingMenu(menuId: #settings-images)"
@@ -127,7 +124,11 @@
             <div class="h-6 w-6">
               {{ yield iconImages() }}
             </div>
-            <div class="text-center font-bold text-xs">Images</div>
+            <div
+              class="text-center font-bold text-xs aria-pressed:text-slate-200"
+            >
+              Images
+            </div>
           </button>
           <button
             _="install ToggleSettingMenu(menuId: #settings-colors)"
@@ -137,7 +138,11 @@
             <div class="h-6 w-6">
               {{ yield iconColors() }}
             </div>
-            <div class="text-center font-bold text-xs">Colors</div>
+            <div
+              class="text-center font-bold text-xs aria-pressed:text-slate-200"
+            >
+              Colors
+            </div>
           </button>
         </div>
       </footer>

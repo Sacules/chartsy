@@ -13,7 +13,7 @@
     "alpinejs": "^3.12.3",
     "autoprefixer": "^10.4.14",
     "esbuild": "0.18.15",
-    "html2canvas": "^1.4.1",
+    "html-to-image": "^1.11.11",
     "htmx.org": "^1.9.3",
     "panzoom": "^9.4.3",
     "postcss": "^8.4.27",

@@ -25,7 +25,11 @@
           <button type="button" class="h-6 w-6 hidden md:block">
             {{ yield iconUser() }}
           </button>
-          <button type="button" class="h-6 w-6">
+          <button
+            _="on click call downloadChart()"
+            type="button"
+            class="h-6 w-6"
+          >
             {{ yield iconShare() }}
           </button>
           <div class="hidden md:block">100%</div>

@@ -11,16 +11,19 @@
   "dependencies": {
     "@types/sortablejs": "^1.15.1",
     "alpinejs": "^3.12.3",
+    "autoprefixer": "^10.4.14",
     "esbuild": "0.18.15",
     "html2canvas": "^1.4.1",
     "htmx.org": "^1.9.3",
-    "lit": "^2.7.6",
     "panzoom": "^9.4.3",
+    "postcss": "^8.4.27",
     "sortablejs": "^1.15.0",
+    "tailwindcss": "^3.3.3",
     "toolcool-range-slider": "^4.0.28",
     "ya-bbcode": "^4.0.0"
   },
   "devDependencies": {
+    "@tailwindcss/forms": "^0.5.4",
     "prettier": "^3.0.0",
     "prettier-plugin-go-template": "^0.0.15",
     "typescript": "^5.1.6"

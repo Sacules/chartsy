@@ -1,9 +1,9 @@
 {{ import "./head" }}
-{{ import "./pages/home" }}
-{{ import "./partials/icon" }}
-{{ import "./partials/input/text" }}
-{{ import "./partials/input/slider" }}
-{{ import "./partials/input/numeric" }}
+{{ import "./header" }}
+{{ import "./right-panel" }}
+{{ import "./chart" }}
+{{ import "./left-panel" }}
+{{ import "./footer" }}
 
 {{ block base() }}
   <!doctype html>
@@ -14,142 +14,15 @@
     <body
       class="w-full h-full fixed overflow-auto bg-slate-900 text-slate-50 grid grid-cols-1 grid-rows-[3.5rem_1fr_auto] md:grid-rows-[3rem_1fr] md:grid-cols-[16rem_1fr_16rem]"
     >
-      <header
-        class="px-4 grid griw-rows-1 grid-cols-[auto_1fr_auto] md:grid-cols-3 items-center text-slate-50 border-b border-slate-700 md:col-span-full md:row-start-1 md:row-span-1"
-      >
-        <button type="button" class="h-6 w-6">
-          {{ yield iconBurger() }}
-        </button>
-        <div class="text-xl md:text-base text-center">My epic chart</div>
-        <div class="flex justify-self-end gap-6 items-center">
-          <button type="button" class="h-6 w-6 hidden md:block">
-            {{ yield iconUser() }}
-          </button>
-          <button
-            _="on click call downloadChart()"
-            type="button"
-            class="h-6 w-6"
-          >
-            {{ yield iconShare() }}
-          </button>
-          <div class="hidden md:block">100%</div>
-        </div>
-      </header>
-      <aside
-        class="px-4 py-2 hidden md:block row-start-2 col-start-1 col-end-2 border-r border-slate-700"
-      >
-        Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit
-        enim labore culpa sint ad nisi Lorem pariatur mollit ex esse
-        exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit
-        nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor
-        minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure
-        elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor
-        Lorem duis laboris cupidatat officia voluptate. Culpa proident
-        adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod.
-        Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim.
-        Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa
-        et culpa duis.
-      </aside>
+      {{ yield header() }}
+      {{ yield leftPanel() }}
       <main
         class="overflow-auto grid place-items-center p-8 bg-slate-950 md:col-start-2 md:col-end-3"
       >
-        {{ yield main() }}
+        {{ yield chart() }}
       </main>
-      <aside
-        class="pt-2 pb-4 hidden md:flex row-start-2 col-start-3 border-l border-slate-700 flex-col gap-4 overflow-y-auto"
-      >
-        <div class="flex flex-col gap-4 px-4">
-          <strong class="mb-2">Text</strong>
-          {{ yield inputText(name="title", label="Title", defaultValue=.Title,
-            class="settings", caption="Works with BBCode and emojis! 🔥", behavior="UpdateChartTitle")
-          }}
-        </div>
-        <hr class="border-slate-700" />
-        <div class="flex flex-col gap-4 px-4">
-          <strong class="mb-2">Layout</strong>
-          {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
-          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
-        </div>
-      </aside>
-      <footer class="relative pt-2 border-t border-slate-700 md:hidden">
-        <div
-          id="settings-text"
-          class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
-        >
-          {{ yield inputText(name="title", label="Title", defaultValue=.Title,
-            class="settings", caption="Works with BBCode and emojis! 🔥", behavior="UpdateChartTitle")
-          }}
-        </div>
-        <div
-          id="settings-layout"
-          class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
-        >
-          {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
-          {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
-          {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
-        </div>
-        <div class="px-4 flex justify-around items-center text-slate-400 h-16">
-          <button
-            _="install ToggleSettingMenu(menuId: #settings-text)"
-            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
-            aria-pressed="false"
-          >
-            <div class="h-6 w-6">
-              {{ yield iconText() }}
-            </div>
-            <div
-              class="text-center font-bold text-xs aria-pressed:text-slate-200"
-            >
-              Text
-            </div>
-          </button>
-          <button
-            _="install ToggleSettingMenu(menuId: #settings-layout)"
-            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
-            aria-pressed="false"
-          >
-            <div class="h-6 w-6">
-              {{ yield iconLayout() }}
-            </div>
-            <div
-              class="text-center font-bold text-xs aria-pressed:text-slate-200"
-            >
-              Layout
-            </div>
-          </button>
-          <button
-            _="install ToggleSettingMenu(menuId: #settings-images)"
-            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
-            aria-pressed="false"
-          >
-            <div class="h-6 w-6">
-              {{ yield iconImages() }}
-            </div>
-            <div
-              class="text-center font-bold text-xs aria-pressed:text-slate-200"
-            >
-              Images
-            </div>
-          </button>
-          <button
-            _="install ToggleSettingMenu(menuId: #settings-colors)"
-            class="aria-pressed:text-slate-50 setting-button grid place-items-center gap-1"
-            aria-pressed="false"
-          >
-            <div class="h-6 w-6">
-              {{ yield iconColors() }}
-            </div>
-            <div
-              class="text-center font-bold text-xs aria-pressed:text-slate-200"
-            >
-              Colors
-            </div>
-          </button>
-        </div>
-      </footer>
+      {{ yield rightPanel() . }}
+      {{ yield footer() . }}
     </body>
   </html>
 {{ end }}

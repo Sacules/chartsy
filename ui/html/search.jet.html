@@ -6,7 +6,7 @@
     hx-target="#search-results"
     hx-trigger="input from:.search delay:300ms"
   >
-    {{ yield inputSearch(name="search", placeholder="Pink Floyd", class="search") }}
+    {{ yield inputSearch(name="search", placeholder="e.g. In Absentia", class="search") }}
   </form>
-  <ul id="search-results" class="mt-4 flex flex-col gap-2 overflow-y-auto"></ul>
+  <ul id="search-results" class="mt-4 flex flex-col overflow-y-auto"></ul>
 {{ end }}

@@ -1,0 +1,19 @@
+{{ block image(url, title, caption) }}
+  <figure
+    class="h-28 px-2 flex gap-4 items-center group hover:bg-slate-200 transition"
+  >
+    <img
+      class="w-24 object-center object-cover transition-all duration-75 shadow-md"
+      role="img"
+      src="{{ url }}"
+    />
+    <figcaption
+      class="max-w-[10rem] max-h-[5rem] text-sm mt-2 leading-snug break-words \
+			 text-ellipsis overflow-hidden transition-all filter group-hover:invert"
+    >
+      <strong>{{ title }}</strong>
+      <br />
+      {{ caption }}
+    </figcaption>
+  </figure>
+{{ end }}

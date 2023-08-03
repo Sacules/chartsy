@@ -1,0 +1,12 @@
+{{ import "./components/input/search.jet.html" }}
+
+{{ block search() }}
+  <form
+    hx-post="/search"
+    hx-target="#search-results"
+    hx-trigger="input from:.search delay:300ms"
+  >
+    {{ yield inputSearch(name="search", placeholder="Pink Floyd", class="search") }}
+  </form>
+  <ul id="search-results" class="mt-4 flex flex-col gap-2 overflow-y-auto"></ul>
+{{ end }}

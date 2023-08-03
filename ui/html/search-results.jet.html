@@ -1,0 +1,9 @@
+{{ import "./components/image.jet.html" }}
+
+{{ block searchResults() }}
+  {{ range . }}
+    <li>
+      {{ yield image(url=.Url, title=.Author, caption=.Title) }}
+    </li>
+  {{ end }}
+{{ end }}

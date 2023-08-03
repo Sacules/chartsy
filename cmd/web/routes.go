@@ -14,7 +14,9 @@ func (app *application) routes() *chi.Mux {
 	r.Use(middleware.Recoverer)
 
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
-	r.Get("/", app.home)
+
+	r.Get("/", app.index)
+	r.Post("/search", app.search)
 	r.Route("/charts", func(r chi.Router) {
 		r.Patch("/settings", app.chartsSettings)
 	})

@@ -39,7 +39,7 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 	}
 
 	vars := make(jet.VarMap)
-	vars.Set("env", "dev")
+	vars.Set("env", app.env)
 
 	var buf bytes.Buffer
 	err = ts.Execute(&buf, vars, c)

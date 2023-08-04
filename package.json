@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prebuild": "tsc --noEmit",
     "build": "run-p build:*",
-    "build:js": "esbuild ui/static/ts/index.ts --bundle --outfile=public/js/index.js",
+    "build:js": "esbuild ui/static/ts/index.ts --bundle --minify --outfile=public/js/index.js",
     "build:css": "tailwindcss --output public/css/index.css",
     "build:images": "rsync -v --recursive ui/static/img public/",
     "build:_hs": "rsync -v --recursive ui/static/_hs public/"

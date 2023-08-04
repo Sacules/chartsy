@@ -3,15 +3,12 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"reflect"
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/Sacules/lrserver"
-	"github.com/frustra/bbcode"
 	"github.com/fsnotify/fsnotify"
 	_ "github.com/go-sql-driver/mysql"
 
@@ -56,65 +53,54 @@ func main() {
 	defer db.Close()
 
 	// TODO: add some logic later
-	if *env == "prod" {
-		infoLog.Println("prod mode")
-	}
-
-	watcher, err := fsnotify.NewWatcher()
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	defer watcher.Close()
-
-	// TODO: Automate this to auto detect all templates
-	watcher.Add("ui/html")
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	watcher.Add("ui/html/pages")
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	watcher.Add("ui/html/partials")
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	watcher.Add("ui/html/partials/input")
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	watcher.Add("ui/html/partials/icon")
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	lr := lrserver.New(lrserver.DefaultName, lrserver.DefaultPort)
-	lr.SetStatusLog(infoLog)
-	lr.SetErrorLog(errorLog)
-
-	go lr.ListenAndServe()
-
-	go func() {
-		for {
-			select {
-			case event := <-watcher.Events:
-				lr.Reload(event.Name)
-			case err := <-watcher.Errors:
-				errorLog.Println(err)
-			}
+	if *env == "dev" {
+		watcher, err := fsnotify.NewWatcher()
+		if err != nil {
+			errorLog.Fatal(err)
 		}
-	}()
+
+		defer watcher.Close()
+
+		// TODO: Automate this to auto detect all templates
+		watcher.Add("ui/html")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
+		watcher.Add("ui/html/partials")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
+		watcher.Add("ui/html/partials/input")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
+		watcher.Add("ui/html/partials/icon")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
+		lr := lrserver.New(lrserver.DefaultName, lrserver.DefaultPort)
+		lr.SetStatusLog(infoLog)
+		lr.SetErrorLog(errorLog)
+
+		go lr.ListenAndServe()
+
+		go func() {
+			for {
+				select {
+				case event := <-watcher.Events:
+					lr.Reload(event.Name)
+				case err := <-watcher.Errors:
+					errorLog.Println(err)
+				}
+			}
+		}()
+	}
 
 	set := jet.NewSet(jet.NewOSFileSystemLoader("./ui/html"), jet.InDevelopmentMode())
-	set.AddGlobalFunc("bbcode", func(a jet.Arguments) reflect.Value {
-		c := bbcode.NewCompiler(true, true)
-		return reflect.ValueOf(c.Compile(fmt.Sprint(a.Get(0))))
-	})
 
 	app := &application{
 		infoLog:     infoLog,

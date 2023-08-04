@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "tsc --noEmit",
-    "build": "run-p build:*",
+    "build": "run-p build:compile build:css build:images build:_hs",
+	"build:compile": "run-s build:ts build:js ",
+    "build:ts": "tsc --noEmit",
     "build:js": "esbuild ui/static/ts/index.ts --bundle --minify --outfile=public/js/index.js",
-    "build:css": "tailwindcss --output public/css/index.css",
+    "build:css": "tailwindcss --input ui/static/css/index.css --output public/css/index.css",
     "build:images": "rsync -v --recursive ui/static/img public/",
     "build:_hs": "rsync -v --recursive ui/static/_hs public/"
   },

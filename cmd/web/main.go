@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -10,14 +11,26 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/Sacules/lrserver"
 	"github.com/fsnotify/fsnotify"
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/mattn/go-sqlite3"
 
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
-func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
+func openDB(filename string) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", filename)
 	if err != nil {
+		return nil, err
+	}
+
+	setup, err := ioutil.ReadFile("setup.sql")
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+
+	_, err = db.Exec(string(setup))
+	if err != nil {
+		db.Close()
 		return nil, err
 	}
 
@@ -38,7 +51,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "web:secret@/chartsy?parseTime=true", "MySQL data source name")
+	dsn := flag.String("dsn", "chartsy.db", "SQLite3 db name")
 	env := flag.String("env", "dev", "Whether this is a 'dev' or 'prod' environment")
 	flag.Parse()
 

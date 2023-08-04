@@ -20,5 +20,6 @@ require (
 	github.com/go-chi/httprate v0.7.4 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
+	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 )

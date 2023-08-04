@@ -1,10 +1,8 @@
-USE chartsy;
-
 INSERT INTO images (title, caption, url)
 	VALUES (
-		DEFAULT,
-		DEFAULT,
-		DEFAULT
+		'',
+		'',
+		'https://i.imgur.com/w4toMiR.jpg'
 	),
 	(
 		"Deftones",
@@ -53,43 +51,43 @@ INSERT INTO images (title, caption, url)
 	);
 
 
-INSERT INTO charts (title) VALUES (DEFAULT);
+INSERT INTO charts (title) VALUES ("Untitled chart");
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 1;
+	WHERE rowid = 1;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/dc0bb5f042ff176493dac2223156f779.png"
-	WHERE id = 2;
+	WHERE rowid = 2;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/41c63c47ec36125a215b899e1543eab7.png"
-	WHERE id = 3;
+	WHERE rowid = 3;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 4;
+	WHERE rowid = 4;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 5;
+	WHERE rowid = 5;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 6;
+	WHERE rowid = 6;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 7;
+	WHERE rowid = 7;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 8;
+	WHERE rowid = 8;
 
 UPDATE charts_images
 	SET image_url = "https://lastfm.freetls.fastly.net/i/u/174s/b2021a88c4e80cc289e00c352252774a.png"
-	WHERE id = 9;
+	WHERE rowid = 9;
 
 		
 		

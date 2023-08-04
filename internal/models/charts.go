@@ -57,7 +57,7 @@ type ChartModel struct {
 }
 
 func (m *ChartModel) Insert() (int, error) {
-	query := `INSERT INTO charts (title) VALUES (DEFAULT)`
+	query := `INSERT INTO charts (title) VALUES ('Untitled chart')`
 
 	result, err := m.DB.Exec(query)
 	if err != nil {
@@ -74,9 +74,9 @@ func (m *ChartModel) Insert() (int, error) {
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		id, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_height, images_rounded_corners, bg_color, text_color, images_text_placement
+		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_height, images_rounded_corners, bg_color, text_color, images_text_placement
 		FROM charts
-		WHERE id = ?`
+		WHERE rowid = ?`
 
 	row := m.DB.QueryRow(query, id)
 
@@ -130,7 +130,7 @@ func (m *ChartModel) Update(id int, title string, columns, rows, spacing, paddin
 	query := `UPDATE charts
 		SET title = ?, column_count = ?, row_count = ?,
 			spacing = ?, padding = ?, images_height = ?
-		WHERE id = ?`
+		WHERE rowid = ?`
 
 	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsHeight, id)
 

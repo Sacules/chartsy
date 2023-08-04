@@ -8,7 +8,6 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/CloudyKit/jet/v6"
 	"github.com/go-chi/render"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -23,6 +22,7 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 	c, err := app.charts.Get(1)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
+			app.infoLog.Println(err)
 			app.notFound(w)
 		} else {
 			app.serverError(w, err)
@@ -31,22 +31,20 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ts, err := app.templateSet.GetTemplate("base.jet.html")
+	ts, err := app.templateSet.GetTemplate("base")
 	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		app.serverError(w, err)
 		return
 	}
 
-	//data := &templateData{
-	//Chart: c,
-	//}
-
-	err = ts.Execute(w, jet.VarMap{}, c)
+	var buf bytes.Buffer
+	err = ts.Execute(&buf, nil, c)
 	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
+		app.serverError(w, err)
+		return
 	}
+
+	render.HTML(w, r, buf.String())
 }
 
 func (app *application) chartsSettings(w http.ResponseWriter, r *http.Request) {
@@ -160,14 +158,13 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		records = append(records, record)
 	}
 
-	ts, err := app.templateSet.GetTemplate("search-results.jet.html")
+	ts, err := app.templateSet.GetTemplate("search-results")
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	var buf bytes.Buffer
-
 	err = ts.Execute(&buf, nil, records)
 	if err != nil {
 		app.serverError(w, err)

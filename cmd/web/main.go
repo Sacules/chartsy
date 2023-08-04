@@ -42,8 +42,10 @@ func openDB(filename string) (*sql.DB, error) {
 }
 
 type application struct {
-	infoLog     *log.Logger
-	errorLog    *log.Logger
+	infoLog  *log.Logger
+	errorLog *log.Logger
+	env      string
+
 	templateSet *jet.Set
 
 	charts *models.ChartModel
@@ -119,6 +121,7 @@ func main() {
 		infoLog:     infoLog,
 		errorLog:    errorLog,
 		charts:      &models.ChartModel{DB: db},
+		env:         *env,
 		templateSet: set,
 	}
 

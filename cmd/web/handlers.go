@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/CloudyKit/jet/v6"
 	"github.com/go-chi/render"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -37,8 +38,11 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	vars := make(jet.VarMap)
+	vars.Set("env", "dev")
+
 	var buf bytes.Buffer
-	err = ts.Execute(&buf, nil, c)
+	err = ts.Execute(&buf, vars, c)
 	if err != nil {
 		app.serverError(w, err)
 		return

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"net/http"
 	"net/url"
@@ -165,9 +166,13 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.Execute(w, nil, records)
+	var buf bytes.Buffer
+
+	err = ts.Execute(&buf, nil, records)
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
+
+	render.HTML(w, r, buf.String())
 }

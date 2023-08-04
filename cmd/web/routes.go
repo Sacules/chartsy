@@ -13,7 +13,7 @@ func (app *application) routes() *chi.Mux {
 	fileServer := http.FileServer(http.Dir("./public"))
 
 	r := chi.NewRouter()
-	r.Use(middleware.Recoverer)
+	r.Use(middleware.Recoverer, middleware.RedirectSlashes)
 
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 

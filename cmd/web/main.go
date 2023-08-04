@@ -122,15 +122,12 @@ func main() {
 		templateSet: set,
 	}
 
-	/*
-		srv := &http.Server{
-			Addr:     *addr,
-			ErrorLog: errorLog,
-			Handler:  app.routes(),
-		}
-	*/
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errorLog,
+		Handler:  app.routes(),
+	}
 
 	infoLog.Printf("starting server on %s\n", *addr)
-	errorLog.Fatal(http.ListenAndServe(*addr, app.routes()))
-	//errorLog.Fatal(srv.ListenAndServe())
+	errorLog.Fatal(srv.ListenAndServe())
 }

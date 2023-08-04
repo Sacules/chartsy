@@ -2,9 +2,11 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/httprate"
 )
 
 func (app *application) routes() *chi.Mux {
@@ -16,7 +18,12 @@ func (app *application) routes() *chi.Mux {
 	r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 
 	r.Get("/", app.index)
-	r.Post("/search", app.search)
+	r.Route("/search", func(r chi.Router) {
+		// Rate limit the last.fm API by now
+		r.Use(httprate.LimitAll(3, 1*time.Second))
+
+		r.Post("/", app.search)
+	})
 	r.Route("/charts", func(r chi.Router) {
 		r.Patch("/settings", app.chartsSettings)
 	})

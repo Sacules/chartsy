@@ -10,20 +10,28 @@ export function markdown(s: string) {
 	);
 }
 
-export function downloadChart() {
-	const chart = document.getElementById("chart") as HTMLDivElement;
-	htmlToImage.toPng(chart).then(function(dataUrl) {
-		const link = document.createElement("a");
-		// Some older browsers may not fully support downloading
-		if (typeof link.download !== "string") {
-			window.open(dataUrl);
-			return;
-		}
+const downloadend = new Event("downloadend");
 
-		link.href = dataUrl;
-		link.download = "chartsy.png";
-		link.click();
-	});
+export async function downloadChart() {
+	const button = document.getElementById(
+		"download-button",
+	) as HTMLButtonElement;
+	const chart = document.getElementById("chart") as HTMLDivElement;
+	const dataUrl = await htmlToImage.toPng(chart);
+	const link = document.createElement("a");
+
+	// Some older browsers may not fully support downloading
+	if (typeof link.download !== "string") {
+		window.open(dataUrl);
+		button.dispatchEvent(downloadend);
+		return "ok";
+	}
+	link.href = dataUrl;
+	link.download = "chartsy.png";
+	link.click();
+
+	button.dispatchEvent(downloadend);
+	return "ok";
 }
 
 (window as any).markdown = markdown;

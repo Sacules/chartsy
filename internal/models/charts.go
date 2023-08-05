@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"os"
 	"time"
 )
 
@@ -68,6 +69,18 @@ func (m *ChartModel) Insert() (int, error) {
 	if err != nil {
 		return 0, err
 	}
+
+	content, err := os.ReadFile("newchart.sql")
+	if err != nil {
+		return 0, err
+	}
+
+	ids := make([]int64, 100)
+	for i := 0; i < len(ids); i++ {
+		ids[i] = id
+	}
+
+	m.DB.Exec(string(content), ids)
 
 	return int(id), nil
 }

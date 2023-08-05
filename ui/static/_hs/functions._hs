@@ -1,0 +1,67 @@
+
+-- Chart
+def rowsAndCols(n) return `repeat(${n}, max-content)` end
+
+def spacingAndPadding(n) return `calc(${n}rem / 2)` end
+
+def updateChart(settingsNames, settings)
+	for s in settingsNames
+		set st to settings[s]
+		set style to st.name
+		set val to st.val
+		set id to st.targetId
+		set #{id}.style[style] to val
+	end
+
+	set images to the children of #images
+	set totalImgs to settings.columns.rawVal * settings.rows.rawVal
+	for img in images index i
+		if i >= totalImgs
+			hide img
+		else
+			show img
+		end
+	end
+end
+
+def settingsNames()
+	return ['columns', 'rows', 'spacing', 'padding']
+end
+
+def settingsChart(cols, rows, spacing, padding)
+	return {
+	   columns: {
+	       name: 'grid-template-columns',
+		   rawVal: cols,
+		   val: rowsAndCols(cols),
+		   targetId: 'images'
+	   },
+	   rows: {
+		   name: 'grid-template-rows',
+		   rawVal: rows,
+		   val: rowsAndCols(rows),
+		   targetId: 'images'
+	   },
+	   spacing: {
+	       name: 'gap',
+		   rawVal: spacing,
+		   val: spacingAndPadding(spacing),
+		   targetId: 'images'
+	   },
+	   padding: {
+	       name: 'padding',
+		   rawVal: padding,
+		   val: spacingAndPadding(padding),
+		   targetId: 'chart'
+	   }
+	}
+end
+
+def settingsFuncs()
+	return {
+       columns: \n -> rowsAndCols(n),
+       rows: \n -> rowsAndCols(n),
+	   spacing: \n -> spacingAndPadding(n),
+	   padding: \n -> spacingAndPadding(n)
+   }
+end

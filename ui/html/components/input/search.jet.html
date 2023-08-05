@@ -1,6 +1,8 @@
-{{ block inputSearch(name, class="", placeholder="") }}
+{{ block inputSearch(id, label="", name, class="", placeholder="") }}
   <label class="flex w-full flex-col gap-2">
+    <strong>{{ label }}</strong>
     <input
+      id="{{ id }}"
       type="search"
       name="{{ name }}"
       maxlength="64"

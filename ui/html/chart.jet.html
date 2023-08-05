@@ -34,6 +34,10 @@
       {{ range .Images }}
         <li>
           <figure
+            _="on click
+			   toggle between .hidden and .block on <footer/>
+			   toggle between .hidden and .grid on #search-mobile
+			   set searchMobile to #search-mobile-input then searchMobile.focus()"
             class="outline-cyan-600 hover:outline hover:outline-4 relative"
           >
             {{ if textPlacement == "overlay" }}

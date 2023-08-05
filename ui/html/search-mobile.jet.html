@@ -1,0 +1,19 @@
+{{ block searchMobile() }}
+  <div id="search-mobile" class="hidden md:hidden max-h-[75dvh]">
+    <ul
+      _="on htmx:afterSettle show me"
+      id="search-results-mobile"
+      class="pt-4 border-y border-slate-700 flex flex-col overflow-y-auto"
+      style="display: none;"
+    ></ul>
+    <form
+      _="on submit(event) event.preventDefault()"
+      hx-post="/search"
+      hx-target="#search-results-mobile"
+      hx-trigger="input from:.search-mobile delay:300ms"
+      class="pt-2 pb-4 px-4"
+    >
+      {{ yield inputSearch(id="search-mobile-input", label="Search", name="search", placeholder="e.g. In Absentia", class="search-mobile") }}
+    </form>
+  </div>
+{{ end }}

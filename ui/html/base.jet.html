@@ -4,6 +4,7 @@
 {{ import "./chart" }}
 {{ import "./left-panel" }}
 {{ import "./footer" }}
+{{ import "./search-mobile" }}
 
 {{ block base() }}
   <!doctype html>
@@ -25,6 +26,7 @@
       </main>
       {{ yield rightPanel() . }}
       {{ yield footer() . }}
+      {{ yield searchMobile() }}
     </body>
   </html>
 {{ end }}

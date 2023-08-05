@@ -1,0 +1,18 @@
+{{ block inputRadio(id, name, value, label, class="", behavior="") }}
+  <div>
+    <input
+      id="{{ id }}"
+      type="radio"
+      name="{{ name }}"
+      value="{{ value }}"
+      class="hidden peer"
+    />
+    <label
+      for="{{ id }}"
+      class="{{ class }} peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 \
+			 grid place-items-center h-8 border border-slate-700 hover:cursor-pointer select-none"
+    >
+      {{ label }}
+    </label>
+  </div>
+{{ end }}

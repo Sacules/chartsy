@@ -2,6 +2,7 @@
 
 {{ block search() }}
   <form
+    _="on submit(event) event.preventDefault()"
     hx-post="/search"
     hx-target="#search-results"
     hx-trigger="input from:.search delay:300ms"

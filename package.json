@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "run-p build:compile build:css build:images build:_hs",
-	"build:compile": "run-s build:ts build:js ",
+    "build:compile": "run-s build:ts build:js ",
     "build:ts": "tsc --noEmit",
     "build:js": "esbuild ui/static/ts/index.ts --bundle --minify --outfile=public/js/index.js",
     "build:css": "tailwindcss --input ui/static/css/index.css --output public/css/index.css",
@@ -16,18 +16,21 @@
   "author": "Lucas Leonardo",
   "license": "ISC",
   "dependencies": {
+    "@types/dompurify": "^3.0.2",
+    "@types/marked": "^5.0.1",
     "@types/sortablejs": "^1.15.1",
     "alpinejs": "^3.12.3",
     "autoprefixer": "^10.4.14",
+    "dompurify": "^3.0.5",
     "esbuild": "0.18.15",
     "html-to-image": "^1.11.11",
     "htmx.org": "^1.9.3",
+    "marked": "^6.0.0",
     "panzoom": "^9.4.3",
     "postcss": "^8.4.27",
     "sortablejs": "^1.15.0",
     "tailwindcss": "^3.3.3",
-    "toolcool-range-slider": "^4.0.28",
-    "ya-bbcode": "^4.0.0"
+    "toolcool-range-slider": "^4.0.28"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.4",

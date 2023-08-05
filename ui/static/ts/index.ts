@@ -1,12 +1,13 @@
 import * as htmlToImage from "html-to-image";
 import Sortable from "sortablejs";
-import yabbcode from "ya-bbcode";
 import htmx from "htmx.org";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
 
-const parser = new yabbcode();
-
-export function bbcode(s: string) {
-	return parser.parse(s);
+export function markdown(s: string) {
+	return DOMPurify.sanitize(
+		marked.parse(s, { headerIds: false, mangle: false }),
+	);
 }
 
 export function downloadChart() {
@@ -25,7 +26,7 @@ export function downloadChart() {
 	});
 }
 
-(window as any).bbcode = bbcode;
+(window as any).markdown = markdown;
 (window as any).downloadChart = downloadChart;
 
 htmx.onLoad(function(content) {

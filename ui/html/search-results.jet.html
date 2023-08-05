@@ -2,7 +2,15 @@
 
 {{ block searchResults() }}
   {{ range . }}
-    <li class="search-result">
+    <li
+      _="on dragstart
+	         call event.dataTransfer.setData('text/plain', '{{ .Url }}')
+			 set $draggingFromResults to true
+		 on dragend
+		     set $draggingFromResults to false"
+      class="search-result"
+      draggable
+    >
       {{ yield image(url=.Url, title=.Author, caption=.Title, behavior="ReplaceImage") }}
     </li>
   {{ end }}

@@ -54,9 +54,23 @@
               </figcaption>
             {{ end }}
             <img
+              _="on dragover
+					 if not $draggingFromResults
+					     exit
+					 end
+				     halt the event
+					 set the target's style.outline to '1px solid red'
+				 on dragleave or drop
+					 set the target's style.outline to ''
+				 on drop
+					 if not $draggingFromResults
+					     exit
+					 end
+				     get the event.dataTransfer.getData('text/plain')
+				     then put it into me.src"
               id="chart-img-{{ i }}"
               class="{{ imagesShape }} {{ imagesRoundedCorners }} object-center object-cover \
-					 transition-all duration-75 shadow-md chart-img"
+					 transition-all duration-75 shadow-md"
               role="img"
               src="{{ .URL }}"
               style="height: {{ imagesHeight }}px;"

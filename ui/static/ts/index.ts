@@ -38,17 +38,13 @@ export async function downloadChart() {
 (window as any).downloadChart = downloadChart;
 
 htmx.onLoad(function(content) {
-	var sortables = content.querySelectorAll(".sortable");
+	var chart = content.querySelector("#images");
 
-	for (var i = 0; i < sortables.length; i++) {
-		var sortable = sortables[i];
-
-		new Sortable(sortable as HTMLElement, {
-			animation: 300,
-			ghostClass: "ghost-album",
-			invertSwap: true,
-		});
-	}
+	new Sortable(chart as HTMLElement, {
+		animation: 300,
+		ghostClass: "ghost-album",
+		invertSwap: true,
+	});
 });
 
 /*

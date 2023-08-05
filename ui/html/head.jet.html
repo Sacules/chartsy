@@ -31,9 +31,17 @@
   <link rel="stylesheet" href="/public/css/index.css" />
   <script defer src="/public/js/index.js"></script>
 
-  <script type="text/hyperscript" src="/public/_hs/behaviours._hs"></script>
-  <script type="text/hyperscript" src="/public/_hs/functions._hs"></script>
-  <script defer src="https://unpkg.com/hyperscript.org@0.9.11"></script>
+  <script
+    defer
+    type="text/hyperscript"
+    src="/public/_hs/behaviours._hs"
+  ></script>
+  <script
+    defer
+    type="text/hyperscript"
+    src="/public/_hs/functions._hs"
+  ></script>
+  <script defer src="/public/js/_hyperscript.min.js"></script>
 
   {{ if env == "dev" }}
     <script src="http://192.168.0.81:35729/livereload.js"></script>

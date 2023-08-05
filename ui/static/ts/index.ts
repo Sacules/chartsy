@@ -1,4 +1,4 @@
-import * as htmlToImage from "html-to-image";
+import { toPng } from "html-to-image";
 import Sortable from "sortablejs";
 import htmx from "htmx.org";
 import { marked } from "marked";
@@ -17,7 +17,7 @@ export async function downloadChart() {
 		"download-button",
 	) as HTMLButtonElement;
 	const chart = document.getElementById("chart") as HTMLDivElement;
-	const dataUrl = await htmlToImage.toPng(chart);
+	const dataUrl = await toPng(chart);
 	const link = document.createElement("a");
 
 	// Some older browsers may not fully support downloading

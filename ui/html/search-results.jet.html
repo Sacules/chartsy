@@ -2,8 +2,8 @@
 
 {{ block searchResults() }}
   {{ range . }}
-    <li>
-      {{ yield image(url=.Url, title=.Author, caption=.Title) }}
+    <li class="search-result">
+      {{ yield image(url=.Url, title=.Author, caption=.Title, behavior="ReplaceImage") }}
     </li>
   {{ end }}
 {{ end }}

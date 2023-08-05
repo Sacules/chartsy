@@ -17,3 +17,14 @@ behavior UpdateChartTitle
 	on input(target)
 		send update(val:target.value) to #chart-title
 end
+
+behavior ReplaceImage
+	on click
+	    set img to <img/> in me
+		set targetSrc to img.src
+		set targetId to `chart-img-${$imgIndex}`
+		log "targetId", targetId
+		set #{targetId}'s src to targetSrc
+	    toggle between .hidden and .block on <footer/>
+	    toggle between .hidden and .grid on #search-mobile
+end

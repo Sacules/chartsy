@@ -1,5 +1,6 @@
-{{ block image(url, title, caption) }}
+{{ block image(url, title, caption, behavior="") }}
   <figure
+    {{ if behavior }}_="install {{ behavior }}"{{ end }}
     class="h-28 px-2 flex gap-4 items-center group hover:bg-slate-200 transition duration-150"
   >
     <img

@@ -3,13 +3,14 @@
 {{ block searchResults() }}
   {{ range . }}
     <li
-      _="on dragstart
-	         call event.dataTransfer.setData('text/plain', '{{ .Url }}')
+      _="install ReplaceImage
+		 on dragstart
+		     call event.dataTransfer.setData('text/plain', { url: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` } as JSON)
 			 set $draggingFromResults to true
 		 on dragend
 		     set $draggingFromResults to false"
       class="search-result"
-      draggable
+      draggable="true"
     >
       {{ yield image(url=.Url, title=.Author, caption=.Title, behavior="ReplaceImage") }}
     </li>

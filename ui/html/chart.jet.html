@@ -11,7 +11,24 @@
 	 	  set f to :settingsFuncs[setting]
 	 	  set :settings[setting].val to f(value)
 	 	  set :settings[setting].rawVal to value
-	 	  updateChart(:settingsNames, :settings)"
+	 	  updateChart(:settingsNames, :settings)
+	   end
+	   on chartTextPlacement(value)
+	       if value is 'hide'
+		       add [@aria-hidden=true] to <figcaption/>
+		   end
+	       if value is 'inline'
+		       add [@aria-hidden=true] to <figcaption.overlay/>
+		       toggle [@aria-hidden=false] on <figcaption.inlined/>
+		   end
+	       if value is 'overlay'
+		       toggle [@aria-hidden=false] on <figcaption.overlay/>
+		       add [@aria-hidden=true] to <figcaption.inlined/>
+		   end
+	       if value is 'left' or value is 'below' or value is 'right'
+		       log value
+		   end
+	   end"
     id="chart"
     class="shadow-lg grid place-items-center gap-4"
     style="background-color: {{ .BgColor }}; display: none;"
@@ -45,27 +62,19 @@
 					 remove @data-was-dragging from me
 				     exit
 				 end
-				 wait 100ms
 			     toggle between .hidden and .block on <footer/>
 			     toggle between .hidden and .grid on #search-mobile
 			     set $imgIndex to {{ i }}
-			     set searchMobile to #search-mobile-input then searchMobile.focus()"
+			     set searchMobile to #search-mobile-input then searchMobile.focus()
+			 end"
+          class="aria-hidden:hidden chart-element"
+          aria-hidden="false"
         >
           <figure
+            _=""
             class="outline-cyan-600 hover:outline hover:outline-4 relative"
+            style="width: {{ imagesHeight }}px;"
           >
-            {{ if textPlacement == "overlay" }}
-              <figcaption
-                class="z-10 absolute inset-0 text-left text-sm leading-tight bg-gradient-to-t from-slate-800/80 grid"
-                style="color: {{ textColor }};"
-              >
-                <div class="justify-self-start self-end p-2">
-                  <strong>{{ .Title }}</strong>
-                  <br />
-                  {{ .Caption }}
-                </div>
-              </figcaption>
-            {{ end }}
             <img
               _="on dragover
 					 if not $draggingFromResults
@@ -80,24 +89,42 @@
 					     exit
 					 end
 				     get the event.dataTransfer.getData('text/plain')
-				     then put it into me.src"
+					 then set result to it as an Object
+				     put result.url into me.src
+					 put result.title into the next <.inlined .title/>
+					 put result.title into the next <.overlay .title/>
+					 put result.caption into the next <.inlined .caption/>
+					 put result.caption into the next <.overlay .caption/>"
               id="chart-img-{{ i }}"
               class="{{ imagesShape }} {{ imagesRoundedCorners }} object-center object-cover \
 					 transition-all duration-75 shadow-md"
               role="img"
               src="{{ .URL }}"
-              style="height: {{ imagesHeight }}px;"
             />
-            {{ if textPlacement == "inline" }}
-              <figcaption
-                class="text-center text-sm mt-2 leading-snug"
-                style="color: {{ textColor }};"
-              >
-                <strong>{{ .Title }}</strong>
+            <figcaption
+              class="aria-hidden:hidden z-10 absolute inset-0 text-left text-sm leading-tight \
+					 bg-gradient-to-t from-slate-800/80 grid overlay text-slate-50"
+              aria-hidden="true"
+            >
+              <div class="justify-self-start self-end p-2">
+                <strong class="title">{{ .Title }}</strong>
                 <br />
+                <span class="caption">
+                  {{ .Caption }}
+                </span>
+              </div>
+            </figcaption>
+            <figcaption
+              class="aria-hidden:hidden text-sm mt-2 grid place-items-center leading-tight inlined"
+              style="color: {{ textColor }};"
+              aria-hidden="true"
+            >
+              <strong class="title text-center">{{ .Title }}</strong>
+              <br />
+              <span class="caption text-center">
                 {{ .Caption }}
-              </figcaption>
-            {{ end }}
+              </span>
+            </figcaption>
           </figure>
         </li>
       {{ end }}

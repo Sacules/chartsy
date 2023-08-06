@@ -1,11 +1,13 @@
 {{ block inputRadio(id, name, value, label, class="", behavior="") }}
   <div>
     <input
+      {{ if behavior }}_="install {{ behavior }}"{{ end }}
       id="{{ id }}"
       type="radio"
       name="{{ name }}"
       value="{{ value }}"
       class="hidden peer"
+      autocomplete="off"
     />
     <label
       for="{{ id }}"

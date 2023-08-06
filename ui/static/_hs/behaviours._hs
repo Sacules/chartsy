@@ -16,6 +16,7 @@ end
 behavior UpdateChartTitle
 	on input(target)
 		send update(val:target.value) to #chart-title
+	end
 end
 
 behavior ReplaceImage
@@ -27,4 +28,11 @@ behavior ReplaceImage
 		set #{targetId}'s src to targetSrc
 	    toggle between .hidden and .block on <footer/>
 	    toggle between .hidden and .grid on #search-mobile
+	end
+end
+
+behavior UpdateChartTextPlacement
+	on change(target)
+		send chartTextPlacement(value:target.value) to #chart
+	end
 end

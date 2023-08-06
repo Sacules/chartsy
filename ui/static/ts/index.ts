@@ -39,6 +39,9 @@ export async function downloadChart() {
 
 htmx.onLoad(function(content) {
 	var chart = content.querySelector("#images");
+	if (!chart) {
+		return;
+	}
 
 	new Sortable(chart as HTMLElement, {
 		animation: 300,

@@ -21,65 +21,72 @@
     </div>
     <div
       id="settings-images"
-      class="setting-menu hidden aria-expanded:grid grid-flow-row grid-cols-3 grid-rows-2 px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
+      class="setting-menu hidden aria-expanded:grid px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
     >
-      {{ yield inputRadio(
-        id="text-placement-hide",
-        name="text-placement",
-        label="Hide",
-        value="hide",
-        defaultValue=.ImagesTextPlacement,
-        class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement" )
-      }}
-      {{ yield inputRadio(
-        id="text-placement-inline",
-        name="text-placement",
-        label="Inline",
-        value="inline",
-        defaultValue=.ImagesTextPlacement,
-        class="border-b-0",
-        behavior="UpdateChartTextPlacement"
-        )
-      }}
-      {{ yield inputRadio(
-        id="text-placement-overlay",
-        name="text-placement",
-        label="Overlay",
-        value="overlay",
-        defaultValue=.ImagesTextPlacement,
-        class="rounded-tr border-b-0",
-        behavior="UpdateChartTextPlacement"
-        )
-      }}
-      {{ yield inputRadio(
-        id="text-placement-left",
-        name="text-placement",
-        label="Left",
-        value="left",
-        defaultValue=.ImagesTextPlacement,
-        class="rounded-bl",
-        behavior="UpdateChartTextPlacement"
-        )
-      }}
-      {{ yield inputRadio(
-        id="text-placement-below",
-        name="text-placement",
-        label="Below",
-        value="below",
-        defaultValue=.ImagesTextPlacement,
-        behavior="UpdateChartTextPlacement"
-        )
-      }}
-      {{ yield inputRadio(
-        id="text-placement-right",
-        name="text-placement",
-        label="Right",
-        value="right",
-        defaultValue=.ImagesTextPlacement,
-        class="rounded-br",
-        behavior="UpdateChartTextPlacement"
-        )
-      }}
+      <fieldset role="group">
+        <legend class="mb-2">
+          <strong>Titles placement</strong>
+        </legend>
+        <div class="grid grid-flow-row grid-cols-3 grid-rows-2">
+          {{ yield inputRadio(
+            id="text-placement-hide",
+            name="text-placement",
+            label="Hide",
+            value="hide",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement" )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-inline",
+            name="text-placement",
+            label="Inline",
+            value="inline",
+            defaultValue=.ImagesTextPlacement,
+            class="border-b-0",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-overlay",
+            name="text-placement",
+            label="Overlay",
+            value="overlay",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-tr border-b-0",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-left",
+            name="text-placement",
+            label="Left",
+            value="left",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-bl",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-below",
+            name="text-placement",
+            label="Below",
+            value="below",
+            defaultValue=.ImagesTextPlacement,
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-right",
+            name="text-placement",
+            label="Right",
+            value="right",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-br",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+        </div>
+      </fieldset>
     </div>
     <div class="px-4 flex justify-around items-center text-slate-400 h-16">
       <button

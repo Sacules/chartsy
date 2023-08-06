@@ -19,6 +19,68 @@
       {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
       {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
     </div>
+    <div
+      id="settings-images"
+      class="setting-menu hidden aria-expanded:grid grid-flow-row grid-cols-3 grid-rows-2 px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
+    >
+      {{ yield inputRadio(
+        id="text-placement-hide",
+        name="text-placement",
+        label="Hide",
+        value="hide",
+        defaultValue=.ImagesTextPlacement,
+        class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement" )
+      }}
+      {{ yield inputRadio(
+        id="text-placement-inline",
+        name="text-placement",
+        label="Inline",
+        value="inline",
+        defaultValue=.ImagesTextPlacement,
+        class="border-b-0",
+        behavior="UpdateChartTextPlacement"
+        )
+      }}
+      {{ yield inputRadio(
+        id="text-placement-overlay",
+        name="text-placement",
+        label="Overlay",
+        value="overlay",
+        defaultValue=.ImagesTextPlacement,
+        class="rounded-tr border-b-0",
+        behavior="UpdateChartTextPlacement"
+        )
+      }}
+      {{ yield inputRadio(
+        id="text-placement-left",
+        name="text-placement",
+        label="Left",
+        value="left",
+        defaultValue=.ImagesTextPlacement,
+        class="rounded-bl",
+        behavior="UpdateChartTextPlacement"
+        )
+      }}
+      {{ yield inputRadio(
+        id="text-placement-below",
+        name="text-placement",
+        label="Below",
+        value="below",
+        defaultValue=.ImagesTextPlacement,
+        behavior="UpdateChartTextPlacement"
+        )
+      }}
+      {{ yield inputRadio(
+        id="text-placement-right",
+        name="text-placement",
+        label="Right",
+        value="right",
+        defaultValue=.ImagesTextPlacement,
+        class="rounded-br",
+        behavior="UpdateChartTextPlacement"
+        )
+      }}
+    </div>
     <div class="px-4 flex justify-around items-center text-slate-400 h-16">
       <button
         _="install ToggleSettingMenu(menuId: #settings-text)"

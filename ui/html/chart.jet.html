@@ -62,6 +62,7 @@
 					 remove @data-was-dragging from me
 				     exit
 				 end
+				 wait 150ms
 			     toggle between .hidden and .block on <footer/>
 			     toggle between .hidden and .grid on #search-mobile
 			     set $imgIndex to {{ i }}
@@ -94,7 +95,14 @@
 					 put result.title into the next <.inlined .title/>
 					 put result.title into the next <.overlay .title/>
 					 put result.caption into the next <.inlined .caption/>
-					 put result.caption into the next <.overlay .caption/>"
+					 put result.caption into the next <.overlay .caption/>
+			     on replace(data)
+				     set d to data as Object
+				     put d.url into me.src
+					 put d.title into the next <.inlined .title/>
+					 put d.title into the next <.overlay .title/>
+					 put d.caption into the next <.inlined .caption/>
+					 put d.caption into the next <.overlay .caption/>"
               id="chart-img-{{ i }}"
               class="{{ imagesShape }} {{ imagesRoundedCorners }} object-center object-cover \
 					 transition-all duration-75 shadow-md"

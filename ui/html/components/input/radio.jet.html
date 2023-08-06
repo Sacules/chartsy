@@ -1,18 +1,19 @@
-{{ block inputRadio(id, name, value, label, class="", behavior="") }}
-  <div>
+{{ block inputRadio(id, name, value, defaultValue, label, class="", behavior="") }}
+  <div class="h-8 relative hover:cursor-pointer">
     <input
       {{ if behavior }}_="install {{ behavior }}"{{ end }}
       id="{{ id }}"
       type="radio"
       name="{{ name }}"
       value="{{ value }}"
-      class="hidden peer"
+      {{ if value == defaultValue }}checked{{ end }}
+      class="opacity-0 absolute w-full h-full peer"
       autocomplete="off"
     />
     <label
       for="{{ id }}"
       class="{{ class }} peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 \
-			 grid place-items-center h-8 border border-slate-700 hover:cursor-pointer select-none"
+			 grid place-items-center border border-slate-700 select-none h-full"
     >
       {{ label }}
     </label>

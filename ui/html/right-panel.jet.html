@@ -25,15 +25,66 @@
       <strong>Images</strong>
       <fieldset role="group">
         <legend class="mb-2">
-          <strong>Text placement</strong>
+          <strong>Titles placement</strong>
         </legend>
         <div class="grid grid-flow-row grid-cols-3 grid-rows-2">
-          {{ yield inputRadio(id="text-placement-hide", name="text-placement", label="Hide", value="hide", class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement") }}
-          {{ yield inputRadio(id="text-placement-inline", name="text-placement", label="Inline", value="inline", class="border-b-0", behavior="UpdateChartTextPlacement") }}
-          {{ yield inputRadio(id="text-placement-overlay", name="text-placement", label="Overlay", value="overlay", class="rounded-tr border-b-0", behavior="UpdateChartTextPlacement") }}
-          {{ yield inputRadio(id="text-placement-left", name="text-placement", label="Left", value="left", class="rounded-bl", behavior="UpdateChartTextPlacement") }}
-          {{ yield inputRadio(id="text-placement-below", name="text-placement", label="Below", value="below", behavior="UpdateChartTextPlacement") }}
-          {{ yield inputRadio(id="text-placement-right", name="text-placement", label="Right", value="right", class="rounded-br", behavior="UpdateChartTextPlacement") }}
+          {{ yield inputRadio(
+            id="text-placement-hide",
+            name="text-placement",
+            label="Hide",
+            value="hide",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement" )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-inline",
+            name="text-placement",
+            label="Inline",
+            value="inline",
+            defaultValue=.ImagesTextPlacement,
+            class="border-b-0",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-overlay",
+            name="text-placement",
+            label="Overlay",
+            value="overlay",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-tr border-b-0",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-left",
+            name="text-placement",
+            label="Left",
+            value="left",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-bl",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-below",
+            name="text-placement",
+            label="Below",
+            value="below",
+            defaultValue=.ImagesTextPlacement,
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
+          {{ yield inputRadio(
+            id="text-placement-right",
+            name="text-placement",
+            label="Right",
+            value="right",
+            defaultValue=.ImagesTextPlacement,
+            class="rounded-br",
+            behavior="UpdateChartTextPlacement"
+            )
+          }}
         </div>
       </fieldset>
     </div>

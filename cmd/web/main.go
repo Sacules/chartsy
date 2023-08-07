@@ -92,12 +92,7 @@ func main() {
 			errorLog.Fatal(err)
 		}
 
-		err = watcher.Add("ui/static/ts")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
-
-		err = watcher.Add("ui/static/ts/components")
+		err = watcher.Add("public/js")
 		if err != nil {
 			errorLog.Fatal(err)
 		}

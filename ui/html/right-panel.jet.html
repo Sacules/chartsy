@@ -15,6 +15,17 @@
     <hr class="border-slate-700" />
     <fieldset class="flex flex-col gap-4 px-4" role="group">
       <strong>Layout</strong>
+      <input-numeric
+        id="column-count"
+        name="columns"
+        value="{{ .ColumnCount }}"
+        class="settings"
+        min="1"
+        max="10"
+      >
+        <p slot="label">Columns</p>
+      </input-numeric>
+      <hr />
       {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
       {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
       {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}

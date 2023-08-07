@@ -1,6 +1,9 @@
 module.exports = {
+  syntax: "postcss-lit",
   plugins: {
-    tailwindcss: {},
+    tailwindcss: {
+      config: "./tailwind.config.js",
+    },
     autoprefixer: {},
   },
-}
+};

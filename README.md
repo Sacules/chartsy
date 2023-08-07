@@ -8,9 +8,9 @@ Chartsy is a modern web app for building music charts. It's built with Go, HTMX,
 
 You'll need:
 
-- Go >= v1.20
-- npm >= v9
-- sqlite >= v3
+- Go >= 1.20
+- npm >= 9
+- sqlite >= 3
 
 ```console
 # Frontend only stuff

@@ -12,13 +12,23 @@ def updateChart(settingsNames, settings)
 		set #{id}.style[style] to val
 	end
 
+	set total to settings.columns.rawVal * settings.rows.rawVal
+
 	set images to the children of #images
-	set totalImgs to settings.columns.rawVal * settings.rows.rawVal
 	for img in images index i
-		if i >= totalImgs
+		if i >= total
 			set img's @aria-hidden to true
 		else
 			set img's @aria-hidden to false
+		end
+	end
+
+	set texts to the children of #text
+	for txt in texts index i
+		if i >= total
+			set txt's @aria-hidden to true
+		else
+			set txt's @aria-hidden to false
 		end
 	end
 end

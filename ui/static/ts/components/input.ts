@@ -10,6 +10,8 @@ export class InputNumeric extends BaseElement {
   @property() value = 1;
   @property() min = 1;
   @property() max = 10;
+  @property() targetId = "";
+  @property() targetEvent = "";
 
   @query("#minus-button") minusButton!: HTMLButtonElement;
   @query("#plus-button") plusButton!: HTMLButtonElement;
@@ -37,9 +39,20 @@ export class InputNumeric extends BaseElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has("value")) {
-      console.log(this.value);
+    if (!changedProperties.has("value")) {
+      return;
     }
+
+    const target = document.getElementById(this.targetId);
+    if (!target) {
+      console.error("couldn't find target with id:", this.targetId);
+      return;
+    }
+
+    const e = new CustomEvent(this.targetEvent, {
+      detail: { setting: this.name, value: this.value },
+    });
+    target.dispatchEvent(e);
   }
 
   override render() {
@@ -78,6 +91,33 @@ export class InputNumeric extends BaseElement {
           type="hidden"
           value="${this.value}"
         />
+      </div>
+    `;
+  }
+}
+
+@customElement("input-radio")
+export class InputRadio extends BaseElement {
+  @property() name = "";
+  @property() class = "";
+  @property() value = "";
+
+  override render() {
+    const c = `hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 \
+		       grid place-items-center border border-slate-700 select-none h-full ${this.class}`;
+    return html`
+      <div class="h-8 relative hover:cursor-pointer">
+        <input
+          id="${this.id}"
+          type="radio"
+          name="${this.name}"
+          value="${this.value}"
+          class="opacity-0 absolute w-full h-full peer"
+          autocomplete="off"
+        />
+        <label for="${this.id}" class="${c}">
+          <slot></slot>
+        </label>
       </div>
     `;
   }

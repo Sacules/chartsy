@@ -23,6 +23,13 @@ export class SettingsImages extends BaseElement {
 
   static formAssociated = true;
 
+  handleChange(value: string) {
+    const chart = document.getElementById("chart")!;
+    const update = new CustomEvent("chartTextPlacement", { detail: { value } });
+
+    chart.dispatchEvent(update);
+  }
+
   override render() {
     const radioClass =
       "hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full";
@@ -46,6 +53,7 @@ export class SettingsImages extends BaseElement {
                     value="${s.value}"
                     class="opacity-0 absolute w-full h-full peer"
                     autocomplete="off"
+                    @change="${() => this.handleChange(s.value)}"
                   />
                   <label
                     for="text-placement-${s}"

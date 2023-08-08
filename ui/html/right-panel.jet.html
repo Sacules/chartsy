@@ -65,62 +65,6 @@
       </input-numeric>
     </fieldset>
     <hr class="border-slate-700" />
-    <div class="flex flex-col gap-4 px-4">
-      <strong>Images</strong>
-      <fieldset role="group">
-        <legend class="mb-2">
-          <strong>Titles placement</strong>
-        </legend>
-        <div class="grid grid-flow-row grid-cols-3 grid-rows-2">
-          <input-radio
-            id="text-placement-hide"
-            name="text-placement"
-            value="hide"
-            class="rounded-tl border-b-0"
-          >
-            Hide
-          </input-radio>
-          <input-radio
-            id="text-placement-inline"
-            name="text-placement"
-            value="inline"
-            class="border-b-0"
-          >
-            Inline
-          </input-radio>
-          <input-radio
-            id="text-placement-overlay"
-            name="text-placement"
-            value="overlay"
-            class="rounded-tr border-b-0"
-          >
-            Overlay
-          </input-radio>
-          <input-radio
-            id="text-placement-left"
-            name="text-placement"
-            value="left"
-            class="rounded-bl"
-          >
-            Left
-          </input-radio>
-          <input-radio
-            id="text-placement-below"
-            name="text-placement"
-            value="below"
-          >
-            Below
-          </input-radio>
-          <input-radio
-            id="text-placement-right"
-            name="text-placement"
-            value="right"
-            class="rounded-br"
-          >
-            Right
-          </input-radio>
-        </div>
-      </fieldset>
-    </div>
+    <settings-images></settings-images>
   </aside>
 {{ end }}

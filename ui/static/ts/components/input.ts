@@ -95,30 +95,3 @@ export class InputNumeric extends BaseElement {
     `;
   }
 }
-
-@customElement("input-radio")
-export class InputRadio extends BaseElement {
-  @property() name = "";
-  @property() class = "";
-  @property() value = "";
-
-  override render() {
-    const c = `hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 \
-		       grid place-items-center border border-slate-700 select-none h-full ${this.class}`;
-    return html`
-      <div class="h-8 relative hover:cursor-pointer">
-        <input
-          id="${this.id}"
-          type="radio"
-          name="${this.name}"
-          value="${this.value}"
-          class="opacity-0 absolute w-full h-full peer"
-          autocomplete="off"
-        />
-        <label for="${this.id}" class="${c}">
-          <slot></slot>
-        </label>
-      </div>
-    `;
-  }
-}

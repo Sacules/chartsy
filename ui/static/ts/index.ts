@@ -6,6 +6,7 @@ import DOMPurify from "dompurify";
 
 // Components
 import "./components/input";
+import "./components/settings/images";
 
 export function markdown(s: string) {
   return DOMPurify.sanitize(

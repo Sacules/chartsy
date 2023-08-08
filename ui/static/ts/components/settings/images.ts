@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { map } from "lit/directives/map.js";
-import { customElement, query, property, state } from "lit/decorators.js";
+import { customElement, query, state } from "lit/decorators.js";
 import { BaseElement } from "../base";
 
 @customElement("settings-images")

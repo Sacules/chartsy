@@ -95,3 +95,62 @@ export class InputNumeric extends BaseElement {
     `;
   }
 }
+
+@customElement("input-text")
+export class InputText extends BaseElement {
+  @property() name = "";
+  @property() class = "";
+  @property() value = "";
+  @property() caption = "";
+  @property() placeholder = "";
+  @property() targetId = "";
+  @property() targetEvent = "";
+
+  handleInput(e: Event) {
+    this.value = (e.target as HTMLInputElement).value;
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>) {
+    if (!changedProperties.has("value")) {
+      return;
+    }
+
+    const target = document.getElementById(this.targetId);
+    if (!target) {
+      console.error("couldn't find target with id:", this.targetId);
+      return;
+    }
+
+    const e = new CustomEvent(this.targetEvent, {
+      detail: { val: this.value },
+    });
+    target.dispatchEvent(e);
+  }
+
+  override render() {
+    const c = `${this.class} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm`;
+
+    return html`
+      <div class="flex flex-col gap-2">
+        <label for="input-text" class="w-full">
+          <strong class="md:text-sm">
+            <slot></slot>
+          </strong>
+        </label>
+        <input
+          id="input-text"
+          type="text"
+          name="${this.name}"
+          value="${this.value}"
+          maxlength="128"
+          autocomplete="off"
+          placeholder="${this.placeholder}"
+          class="${c}"
+          @input="${this.handleInput}"
+        />
+        <span class="italic text-sm">${this.caption}</span>
+      </div>
+    `;
+  }
+}

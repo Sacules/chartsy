@@ -5,45 +5,44 @@ import { BaseElement } from "../base";
 
 @customElement("settings-images")
 export class SettingsImages extends BaseElement {
-  @query("form") form!: HTMLFormElement;
+	@query("form") form!: HTMLFormElement;
 
-  @state() settings = [
-    {
-      label: "Hide",
-      value: "hide",
-      class: "rounded-tl border-b-0",
-      default: true,
-    },
-    { label: "Inline", value: "inline", class: "border-b-0" },
-    { label: "Overlay", value: "overlay", class: "rounded-tr border-b-0" },
-    { label: "Left", value: "left", class: "rounded-bl" },
-    { label: "Below", value: "below" },
-    { label: "Right", value: "right", class: "rounded-br" },
-  ];
+	@state() settings = [
+		{
+			label: "Hide",
+			value: "hide",
+			class: "rounded-tl border-b-0",
+			default: true,
+		},
+		{ label: "Inline", value: "inline", class: "border-b-0" },
+		{ label: "Overlay", value: "overlay", class: "rounded-tr border-b-0" },
+		{ label: "Left", value: "left", class: "rounded-bl" },
+		{ label: "Below", value: "below" },
+		{ label: "Right", value: "right", class: "rounded-br" },
+	];
 
-  static formAssociated = true;
+	static formAssociated = true;
 
-  handleChange(value: string) {
-    const chart = document.getElementById("chart")!;
-    const update = new CustomEvent("chartTextPlacement", { detail: { value } });
+	handleChange(value: string) {
+		const chart = document.getElementById("chart")!;
+		const update = new CustomEvent("chartTextPlacement", { detail: { value } });
 
-    chart.dispatchEvent(update);
-  }
+		chart.dispatchEvent(update);
+	}
 
-  override render() {
-    const radioClass =
-      "hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full";
-    return html`
-      <form class="flex flex-col gap-4 px-4">
-        <strong>Images</strong>
+	override render() {
+		const radioClass =
+			"hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full";
+		return html`
+      <form>
         <fieldset role="group">
           <legend class="mb-2">
             <strong>Titles placement</strong>
           </legend>
           <div class="grid grid-flow-row grid-cols-3 grid-rows-2">
             ${map(
-              this.settings,
-              (s) => html`
+			this.settings,
+			(s) => html`
                 <div class="h-8 relative hover:cursor-pointer">
                   <input
                     id="text-placement-${s.value}"
@@ -63,10 +62,10 @@ export class SettingsImages extends BaseElement {
                   </label>
                 </div>
               `,
-            )}
+		)}
           </div>
         </fieldset>
       </form>
     `;
-  }
+	}
 }

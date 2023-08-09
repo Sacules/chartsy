@@ -6,87 +6,75 @@
       id="settings-text"
       class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
     >
-      {{ yield inputText(name="title", label="Title", defaultValue=.Title,
-        class="settings", caption="Works with Markdown and emojis! 🔥", behavior="UpdateChartTitle")
-      }}
+      <input-text
+        name="title"
+        value="{{ .Title }}"
+        class="settings w-full"
+        caption="Works with Markdown and emojis! 🔥"
+        targetId="chart-title"
+        targetEvent="update"
+      >
+        Name
+      </input-text>
     </div>
     <div
       id="settings-layout"
       class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
     >
-      {{ yield inputNumeric(id="column-count", name="columns", label="Columns", defaultValue=.ColumnCount, class="settings", min=1, max=10) }}
-      {{ yield inputNumeric(id="row-count", name="rows", label="Rows", defaultValue=.RowCount, class="settings", min=1, max=10) }}
-      {{ yield inputNumeric(id="spacing", name="spacing", label="Spacing", defaultValue=.Spacing, class="settings", min=0, max=5) }}
-      {{ yield inputNumeric(id="padding", name="padding", label="Padding", defaultValue=.Padding, class="settings", min=0, max=10) }}
+      <input-numeric
+        id="column-count"
+        name="columns"
+        value="{{ .ColumnCount }}"
+        class="settings"
+        min="1"
+        max="10"
+        targetId="chart"
+        targetEvent="chartUpdate"
+      >
+        Columns
+      </input-numeric>
+      <input-numeric
+        id="row-count"
+        name="rows"
+        value="{{ .RowCount }}"
+        class="settings"
+        min="1"
+        max="10"
+        targetId="chart"
+        targetEvent="chartUpdate"
+      >
+        Rows
+      </input-numeric>
+      <input-numeric
+        id="spacing"
+        name="spacing"
+        value="{{ .Spacing }}"
+        class="settings"
+        min="0"
+        max="5"
+        targetId="chart"
+        targetEvent="chartUpdate"
+      >
+        Spacing
+      </input-numeric>
+      <input-numeric
+        id="padding"
+        name="padding"
+        value="{{ .Padding }}"
+        class="settings"
+        min="0"
+        max="5"
+        targetId="chart"
+        targetEvent="chartUpdate"
+      >
+        Padding
+      </input-numeric>
     </div>
     <div
       id="settings-images"
       class="setting-menu hidden aria-expanded:grid px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
     >
-      <fieldset role="group">
-        <legend class="mb-2">
-          <strong>Titles placement</strong>
-        </legend>
-        <div class="grid grid-flow-row grid-cols-3 grid-rows-2">
-          {{ yield inputRadio(
-            id="text-placement-hide",
-            name="text-placement",
-            label="Hide",
-            value="hide",
-            defaultValue=.ImagesTextPlacement,
-            class="rounded-tl border-b-0", behavior="UpdateChartTextPlacement" )
-          }}
-          {{ yield inputRadio(
-            id="text-placement-inline",
-            name="text-placement",
-            label="Inline",
-            value="inline",
-            defaultValue=.ImagesTextPlacement,
-            class="border-b-0",
-            behavior="UpdateChartTextPlacement"
-            )
-          }}
-          {{ yield inputRadio(
-            id="text-placement-overlay",
-            name="text-placement",
-            label="Overlay",
-            value="overlay",
-            defaultValue=.ImagesTextPlacement,
-            class="rounded-tr border-b-0",
-            behavior="UpdateChartTextPlacement"
-            )
-          }}
-          {{ yield inputRadio(
-            id="text-placement-left",
-            name="text-placement",
-            label="Left",
-            value="left",
-            defaultValue=.ImagesTextPlacement,
-            class="rounded-bl",
-            behavior="UpdateChartTextPlacement"
-            )
-          }}
-          {{ yield inputRadio(
-            id="text-placement-below",
-            name="text-placement",
-            label="Below",
-            value="below",
-            defaultValue=.ImagesTextPlacement,
-            behavior="UpdateChartTextPlacement"
-            )
-          }}
-          {{ yield inputRadio(
-            id="text-placement-right",
-            name="text-placement",
-            label="Right",
-            value="right",
-            defaultValue=.ImagesTextPlacement,
-            class="rounded-br",
-            behavior="UpdateChartTextPlacement"
-            )
-          }}
-        </div>
-      </fieldset>
+      <settings-images></settings-images>
     </div>
     <div class="px-4 flex justify-around items-center text-slate-400 h-16">
       <button

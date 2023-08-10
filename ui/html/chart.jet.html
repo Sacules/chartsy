@@ -94,8 +94,8 @@
 					</li>
 				{{ end }}
 			</ul>
-			<ul id="text" class="grid" slot="text">
-				{{ cols := .ColumnCount }}
+			{{ cols := .ColumnCount }}
+			<chart-text id="text" slot="text" columns="{{ cols }}">
 				{{ range i := .Images }}
 					<li class="aria-hidden:hidden text-slate-900">
 						<p id="chart-text-{{ i }}">
@@ -105,7 +105,7 @@
 						</p>
 					</li>
 				{{ end }}
-			</ul>
+			</chart-text>
 		</chart-images-text>
 	</div>
 {{ end }}

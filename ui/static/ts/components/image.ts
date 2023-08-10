@@ -1,5 +1,5 @@
 import { html, nothing } from 'lit';
-import { property, customElement, state } from 'lit/decorators.js';
+import { property, customElement, state, query } from 'lit/decorators.js';
 import { BaseElement } from './base';
 
 export interface SearchResult {
@@ -130,15 +130,39 @@ const textPlacementStyles = {
 export class ChartImagesText extends BaseElement {
 	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
 
+	@query('slot[name="images"]') imagesSlot!: HTMLSlotElement;
+
+	textTemplate() {
+		if (this.textPlacement === 'hide') {
+			return nothing;
+		}
+
+		return html`<slot name="text"></slot>`;
+	}
+
 	override render() {
 		const containerClass = `flex gap-8 ${textPlacementStyles[this.textPlacement ?? 'right']}`;
-		const text = this.textPlacement === 'hide' ? nothing : html`<slot name="text"></slot>`;
 
 		return html`
 			<div class="${containerClass}">
 				<slot name="images"></slot>
-				${text}
+				${this.textTemplate()}
 			</div>
+		`;
+	}
+}
+
+@customElement('chart-text')
+export class ChartText extends BaseElement {
+	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
+	@property({ attribute: 'columns' }) columns = 1;
+
+	override render() {
+		const styles = `grid-template-rows: repeat(${this.columns}, 1fr)`;
+		return html`
+			<ul>
+				<slot class="grid" style="${styles}"></slot>
+			</ul>
 		`;
 	}
 }

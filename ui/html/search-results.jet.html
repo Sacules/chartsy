@@ -1,9 +1,9 @@
 {{ import "./components/image.jet.html" }}
 
 {{ block searchResults() }}
-  {{ range . }}
-    <li
-      _="set element data to { url: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
+	{{ range . }}
+		<li
+			_="set element data to { url: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
 		 on click
 		     set targetId to `chart-img-${$imgIndex}`
 			 send replace(data: data) to #{targetId}
@@ -14,10 +14,10 @@
 			 set $draggingFromResults to true
 		 on dragend
 		     set $draggingFromResults to false"
-      class="search-result"
-      draggable="true"
-    >
-      {{ yield image(url=.Url, title=.Author, caption=.Title, behavior="ReplaceImage") }}
-    </li>
-  {{ end }}
+			class="search-result"
+			draggable="true"
+		>
+			{{ yield image(url=.Url, title=.Author, caption=.Title, behavior="ReplaceImage") }}
+		</li>
+	{{ end }}
 {{ end }}

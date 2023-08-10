@@ -1,17 +1,17 @@
 {{ block inputText(name, label, defaultValue="", class="", caption="", placeholder="", behavior="") }}
-  <label class="flex w-full flex-col gap-2">
-    <strong class="md:text-sm">{{ label }}</strong>
-    <input
-      {{ if behavior }}_="install {{ behavior }}"{{ end }}
-      type="text"
-      name="{{ name }}"
-      value="{{ defaultValue }}"
-      maxlength="128"
-      autocomplete="off"
-      placeholder="{{ placeholder }}"
-      class="{{ class }} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+	<label class="flex w-full flex-col gap-2">
+		<strong class="md:text-sm">{{ label }}</strong>
+		<input
+			{{ if behavior }}_="install {{ behavior }}"{{ end }}
+			type="text"
+			name="{{ name }}"
+			value="{{ defaultValue }}"
+			maxlength="128"
+			autocomplete="off"
+			placeholder="{{ placeholder }}"
+			class="{{ class }} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
 			hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm"
-    />
-    <span class="italic text-sm">{{ caption }}</span>
-  </label>
+		/>
+		<span class="italic text-sm">{{ caption }}</span>
+	</label>
 {{ end }}

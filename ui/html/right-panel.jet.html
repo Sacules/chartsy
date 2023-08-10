@@ -3,78 +3,78 @@
 {{ import "./components/input/radio" }}
 
 {{ block rightPanel() }}
-  <aside
-    class="pt-2 pb-4 hidden md:flex row-start-2 col-start-3 border-l border-slate-700 flex-col gap-4 overflow-y-auto"
-  >
-    <div class="flex flex-col gap-4 px-4 pt-2">
-      <strong>Title</strong>
-      <input-text
-        name="title"
-        value="{{ .Title }}"
-        class="settings"
-        caption="Works with Markdown and emojis! 🔥"
-        targetId="chart-title"
-        targetEvent="update"
-      >
-        Name
-      </input-text>
-    </div>
-    <hr class="border-slate-700" />
-    <fieldset class="flex flex-col gap-4 px-4" role="group">
-      <strong>Layout</strong>
-      <input-numeric
-        id="column-count"
-        name="columns"
-        value="{{ .ColumnCount }}"
-        class="settings"
-        min="1"
-        max="10"
-        targetId="chart"
-        targetEvent="chartUpdate"
-      >
-        Columns
-      </input-numeric>
-      <input-numeric
-        id="row-count"
-        name="rows"
-        value="{{ .RowCount }}"
-        class="settings"
-        min="1"
-        max="10"
-        targetId="chart"
-        targetEvent="chartUpdate"
-      >
-        Rows
-      </input-numeric>
-      <input-numeric
-        id="spacing"
-        name="spacing"
-        value="{{ .Spacing }}"
-        class="settings"
-        min="0"
-        max="5"
-        targetId="chart"
-        targetEvent="chartUpdate"
-      >
-        Spacing
-      </input-numeric>
-      <input-numeric
-        id="padding"
-        name="padding"
-        value="{{ .Padding }}"
-        class="settings"
-        min="0"
-        max="5"
-        targetId="chart"
-        targetEvent="chartUpdate"
-      >
-        Padding
-      </input-numeric>
-    </fieldset>
-    <hr class="border-slate-700" />
-    <div class="flex flex-col gap-4 px-4 pt-2">
-      <strong>Images</strong>
-      <settings-images></settings-images>
-    </div>
-  </aside>
+	<aside
+		class="pt-2 pb-4 hidden md:flex row-start-2 col-start-3 border-l border-slate-700 flex-col gap-4 overflow-y-auto"
+	>
+		<div class="flex flex-col gap-4 px-4 pt-2">
+			<strong>Title</strong>
+			<input-text
+				name="title"
+				value="{{ .Title }}"
+				class="settings"
+				caption="Works with Markdown and emojis! 🔥"
+				targetId="chart-title"
+				targetEvent="update"
+			>
+				Name
+			</input-text>
+		</div>
+		<hr class="border-slate-700" />
+		<fieldset class="flex flex-col gap-4 px-4" role="group">
+			<strong>Layout</strong>
+			<input-numeric
+				id="column-count"
+				name="columns"
+				value="{{ .ColumnCount }}"
+				class="settings"
+				min="1"
+				max="10"
+				targetId="chart"
+				targetEvent="chartUpdate"
+			>
+				Columns
+			</input-numeric>
+			<input-numeric
+				id="row-count"
+				name="rows"
+				value="{{ .RowCount }}"
+				class="settings"
+				min="1"
+				max="10"
+				targetId="chart"
+				targetEvent="chartUpdate"
+			>
+				Rows
+			</input-numeric>
+			<input-numeric
+				id="spacing"
+				name="spacing"
+				value="{{ .Spacing }}"
+				class="settings"
+				min="0"
+				max="5"
+				targetId="chart"
+				targetEvent="chartUpdate"
+			>
+				Spacing
+			</input-numeric>
+			<input-numeric
+				id="padding"
+				name="padding"
+				value="{{ .Padding }}"
+				class="settings"
+				min="0"
+				max="5"
+				targetId="chart"
+				targetEvent="chartUpdate"
+			>
+				Padding
+			</input-numeric>
+		</fieldset>
+		<hr class="border-slate-700" />
+		<div class="flex flex-col gap-4 px-4 pt-2">
+			<strong>Images</strong>
+			<settings-images></settings-images>
+		</div>
+	</aside>
 {{ end }}

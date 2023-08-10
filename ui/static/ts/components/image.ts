@@ -14,8 +14,9 @@ export type ChartTextPlacement = 'hide' | 'left' | 'below' | 'right';
 
 @customElement('chart-image')
 export class ChartImage extends BaseElement {
+	@property() index = 0;
 	@property() src = '';
-	@property() caption = '';
+	@property({ attribute: 'caption' }) caption = '';
 	@property() width = 150;
 	@property({ attribute: 'text-color' }) textColor = '';
 	@property({ attribute: 'text-placement' }) textPlacement?: ImageTextPlacement = 'hide';
@@ -37,6 +38,8 @@ export class ChartImage extends BaseElement {
 			this.title = title;
 			this.caption = caption;
 			this.isDraggingOver = false;
+
+			this.dataset.caption = caption;
 		});
 
 		// mobile only
@@ -163,6 +166,34 @@ export class ChartText extends BaseElement {
 			<ul>
 				<slot class="grid" style="${styles}"></slot>
 			</ul>
+		`;
+	}
+}
+
+@customElement('chart-text-item')
+export class ChartTextItem extends BaseElement {
+	@property({ type: Number }) index = 0;
+	@property() caption = '';
+
+	constructor() {
+		super();
+
+		this.addEventListener('replace', this.handleReplace);
+	}
+
+	handleReplace(e: CustomEvent<SearchResult>) {
+		const { title, caption } = e.detail;
+		this.title = title;
+		this.caption = caption;
+		console.log('replaced on index', this.index, 'caption', caption, 'title', title);
+	}
+
+	override render() {
+		return html`
+			<li class="text-slate-900">
+				<strong>${this.title}</strong>
+				<span>${this.caption}</span>
+			</li>
 		`;
 	}
 }

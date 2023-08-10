@@ -11,6 +11,14 @@
 		       set targetId to `chart-img-${$imgIndex}`
 			   send replace(src: src, title: title, caption: caption) to #{targetId}
 		   end
+		   -- event bubbles up from the original <chart-image>
+		   on drop(target)
+			   set i to target.attributes.index.value
+			   set t to target.attributes.title.value
+			   set c to target.dataset.caption
+			   log target
+			   set imgTxt to the children of #text
+			   send replace(src: "", title: t, caption: c) to imgTxt[i]
 		   on chartUpdate(setting, value)
 			   set f to :settingsFuncs[setting]
 			   set :settings[setting].val to f(value)
@@ -24,17 +32,22 @@
 			   end
 			   if value is "inline"
 				   add [@text-placement="inline"] to <chart-image/>
+				   add [@text-placement="hide"] to #images-text
 			   end
 			   if value is "overlay"
 				   add [@text-placement="overlay"] to <chart-image/>
+				   add [@text-placement="hide"] to #images-text
 			   end
 			   if value is "left"
+				   add [@text-placement="hide"] to <chart-image/>
 				   add [@text-placement="left"] to #images-text
 			   end
 			   if value is "below"
+				   add [@text-placement="hide"] to <chart-image/>
 				   add [@text-placement="below"] to #images-text
 			   end
 			   if value is "right"
+				   add [@text-placement="hide"] to <chart-image/>
 				   add [@text-placement="right"] to #images-text
 			   end
 		   end'
@@ -83,6 +96,7 @@
 					>
 						<chart-image
 							id="chart-img-{{ i }}"
+							index="{{ i }}"
 							title="{{ .Title }}"
 							caption="{{ .Caption }}"
 							src="{{ .URL }}"
@@ -95,15 +109,9 @@
 				{{ end }}
 			</ul>
 			{{ cols := .ColumnCount }}
-			<chart-text id="text" slot="text" columns="{{ cols }}">
+			<chart-text id="text" slot="text" columns="{{ cols }}" text-placement="hide">
 				{{ range i := .Images }}
-					<li class="aria-hidden:hidden text-slate-900">
-						<p id="chart-text-{{ i }}">
-							<strong>Darude</strong>
-							&nbsp;
-							<span>Sandstorm</span>
-						</p>
-					</li>
+					<chart-text-item index="{{ i }}" title="{{ .Title }}" caption="{{ .Caption }}"></chart-text-item>
 				{{ end }}
 			</chart-text>
 		</chart-images-text>

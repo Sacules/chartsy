@@ -10,6 +10,8 @@ export interface SearchResult {
 
 export type ImageTextPlacement = 'hide' | 'inline' | 'overlay';
 
+export type ChartTextPlacement = 'hide' | 'left' | 'below' | 'right';
+
 @customElement('chart-image')
 export class ChartImage extends BaseElement {
 	@property() src = '';
@@ -104,18 +106,39 @@ on drop
 	}
 
 	override render() {
-		let className =
-			'outline-cyan-600 hover:outline hover:outline-4 object-center object-cover transition-all duration-75 shadow-md';
-		if (this.isDraggingOver) {
-			className = className.concat(' ', 'outline outline-green-600');
-		}
+		const className =
+			'outline-cyan-600 hover:outline hover:outline-4 object-center object-cover transition-all duration-75 shadow-md data-[dragging-over=true]:outline data-[dragging-over=true]:outline-green-600';
 
 		return html`
 			<figure class="relative" style="width: ${this.width}px;">
 				${this.overlayTemplate()}
-				<img class="${className}" role="img" src="${this.src}" />
+				<img class="${className}" data-dragging-over="${this.isDraggingOver}" role="img" src="${this.src}" />
 				${this.inlineTemplate()}
 			</figure>
+		`;
+	}
+}
+
+const textPlacementStyles = {
+	hide: '',
+	left: 'flex-row-reverse ',
+	below: 'flex-col',
+	right: 'flow-row',
+};
+
+@customElement('chart-images-text')
+export class ChartImagesText extends BaseElement {
+	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
+
+	override render() {
+		const containerClass = `flex gap-8 ${textPlacementStyles[this.textPlacement ?? 'right']}`;
+		const text = this.textPlacement === 'hide' ? nothing : html`<slot name="text"></slot>`;
+
+		return html`
+			<div class="${containerClass}">
+				<slot name="images"></slot>
+				${text}
+			</div>
 		`;
 	}
 }

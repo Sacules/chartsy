@@ -1,7 +1,6 @@
 {{ block chart() }}
 	<div
-		_='set :images to {{ .Images | writeJson }}
-		   set :settings to settingsChart({{ .ColumnCount }}, {{ .RowCount }}, {{ .Spacing }}, {{ .Padding }})
+		_='set :settings to settingsChart({{ .ColumnCount }}, {{ .RowCount }}, {{ .Spacing }}, {{ .Padding }})
 		   set :settingsNames to settingsNames()
 		   set :settingsFuncs to settingsFuncs()
 		   init
@@ -9,10 +8,6 @@
 			   show me
 		   end
 		   on chartImages(src, title, caption)
-		       set :images[$imgIndex].src to src
-		       set :images[$imgIndex].title to title
-		       set :images[$imgIndex].caption to caption
-
 		       set targetId to `chart-img-${$imgIndex}`
 			   send replace(src: src, title: title, caption: caption) to #{targetId}
 		   end
@@ -25,7 +20,7 @@
 		   on chartTextPlacement(value)
 			   if value is "hide"
 				   add [@text-placement="hide"] to <chart-image/>
-				   hide #text
+				   add [@text-placement="hide"] to #images-text
 			   end
 			   if value is "inline"
 				   add [@text-placement="inline"] to <chart-image/>
@@ -34,21 +29,13 @@
 				   add [@text-placement="overlay"] to <chart-image/>
 			   end
 			   if value is "left"
-				   add .flex-row-reverse to #images-text
-				   remove .flex-row from #images-text
-				   remove .flex-col from #images-text
-			   end
-			   if value is "right"
-				   add .flex-row to #images-text
-				   remove .flex-row-reverse from #images-text
-				   remove .flex-col from #images-text
+				   add [@text-placement="left"] to #images-text
 			   end
 			   if value is "below"
-				   remove .flex-row from #images-text
-				   remove .flex-row-reverse from #images-text
-				   add .flex-col to #images-text
-				   set tmpl to :settings["columns"].val
-				   set #text.style["grid-template-columns"] to tmpl
+				   add [@text-placement="below"] to #images-text
+			   end
+			   if value is "right"
+				   add [@text-placement="right"] to #images-text
 			   end
 		   end'
 		id="chart"
@@ -63,7 +50,7 @@
 		>
 			{{ .Title }}
 		</h1>
-		<div id="images-text" class="flex flex-row-reverse gap-8">
+		<chart-images-text id="images-text" text-placement="hide">
 			<ul
 				_="on move(dragged)
 			 set the dragged's @data-was-dragging to true
@@ -71,6 +58,7 @@
 			 set the items's @data-was-dragging to false"
 				id="images"
 				class="grid sortable"
+				slot="images"
 			>
 				{{ imagesHeight := .ImagesHeight }}
 				{{ textColor := .TextColor }}
@@ -106,16 +94,18 @@
 					</li>
 				{{ end }}
 			</ul>
-			<ul id="text" class="hidden grid grid-flow-row-dense justify-between">
+			<ul id="text" class="grid" slot="text">
 				{{ cols := .ColumnCount }}
 				{{ range i := .Images }}
 					<li class="aria-hidden:hidden text-slate-900">
-						<strong>Darude</strong>
-						&nbsp;
-						<span>Sandstorm</span>
+						<p id="chart-text-{{ i }}">
+							<strong>Darude</strong>
+							&nbsp;
+							<span>Sandstorm</span>
+						</p>
 					</li>
 				{{ end }}
 			</ul>
-		</div>
+		</chart-images-text>
 	</div>
 {{ end }}

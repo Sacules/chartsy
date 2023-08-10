@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -22,7 +21,7 @@ func openDB(filename string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	setup, err := ioutil.ReadFile("setup.sql")
+	setup, err := os.ReadFile("setup.sql")
 	if err != nil {
 		db.Close()
 		return nil, err

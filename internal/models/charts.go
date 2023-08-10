@@ -10,9 +10,9 @@ import (
 // Image represents the core of a chart, whether
 // it is an Album, or a Movie, a Game, etc.
 type Image struct {
-	Title   string
-	Caption string
-	URL     string
+	Title   string `json:"title"`
+	Caption string `json:"caption"`
+	URL     string `json:"url"`
 }
 
 type ImagesTextPlacement string

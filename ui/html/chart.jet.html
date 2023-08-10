@@ -92,7 +92,7 @@
 				{{ imagesRoundedCorners := .ImagesRoundedCorners ? "rounded" : "" }}
 
 				{{ range i := .Images }}
-					<li
+					<chart-image
 						_="on touchend
 							   exit
 							   if @data-was-dragging
@@ -106,19 +106,16 @@
 							   set searchMobile to #search-mobile-input then searchMobile.focus()
 							end"
 						class="aria-hidden:hidden sortable-item"
+						index="{{ i }}"
+						title="{{ .Title }}"
+						caption="{{ .Caption }}"
+						src="{{ .URL }}"
+						width="{{ imagesHeight }}"
+						text-color="{{ textColor }}"
+						text-placement="inline"
+						aria-hidden="false"
 					>
-						<chart-image
-							index="{{ i }}"
-							title="{{ .Title }}"
-							caption="{{ .Caption }}"
-							src="{{ .URL }}"
-							width="{{ imagesHeight }}"
-							text-color="{{ textColor }}"
-							text-placement="inline"
-							aria-hidden="false"
-						>
-						</chart-image>
-					</li>
+					</chart-image>
 				{{ end }}
 			</ul>
 			{{ cols := .ColumnCount }}

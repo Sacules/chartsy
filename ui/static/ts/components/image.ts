@@ -1,5 +1,5 @@
 import { html, nothing } from 'lit';
-import { property, customElement } from 'lit/decorators.js';
+import { property, customElement, state } from 'lit/decorators.js';
 import { BaseElement } from './base';
 
 export interface SearchResult {
@@ -18,16 +18,24 @@ export class ChartImage extends BaseElement {
 	@property({ attribute: 'text-color' }) textColor = '';
 	@property({ attribute: 'text-placement' }) textPlacement?: ImageTextPlacement = 'hide';
 
+	@state() isDraggingOver = false;
+
 	constructor() {
 		super();
 
 		this.addEventListener('dragover', (e) => {
-			console.log("it's so over");
+			this.isDraggingOver = true;
 			e.preventDefault();
 		});
-		this.addEventListener('dragleave', () => console.log('leaving'));
+		this.addEventListener('dragleave', () => (this.isDraggingOver = false));
 		this.addEventListener('dragend', () => console.log('in the end'));
-		this.addEventListener('drop', () => console.log('dropping da bomb'));
+		this.addEventListener('drop', (e) => {
+			const { src, title, caption } = JSON.parse(e.dataTransfer!.getData('text/plain')) as SearchResult;
+			this.src = src;
+			this.title = title;
+			this.caption = caption;
+			this.isDraggingOver = false;
+		});
 
 		// mobile only
 		this.addEventListener('replace', this.handleReplace);
@@ -89,17 +97,23 @@ on drop
 				class="aria-hidden:hidden text-sm mt-2 grid place-items-center leading-tight"
 				style="color: ${this.textColor};"
 			>
-				<strong class="title">${this.title}</strong>
-				<span class="caption">${this.caption}</span>
+				<strong class="text-center">${this.title}</strong>
+				<span class="text-center">${this.caption}</span>
 			</figcaption>
 		`;
 	}
 
 	override render() {
+		let className =
+			'outline-cyan-600 hover:outline hover:outline-4 object-center object-cover transition-all duration-75 shadow-md';
+		if (this.isDraggingOver) {
+			className = className.concat(' ', 'outline outline-green-600');
+		}
+
 		return html`
-			<figure class="outline-cyan-600 hover:outline hover:outline-4 relative" style="width: ${this.width}px;">
+			<figure class="relative" style="width: ${this.width}px;">
 				${this.overlayTemplate()}
-				<img class="object-center object-cover transition-all duration-75 shadow-md" role="img" src="${this.src}" />
+				<img class="${className}" role="img" src="${this.src}" />
 				${this.inlineTemplate()}
 			</figure>
 		`;

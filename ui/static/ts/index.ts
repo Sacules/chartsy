@@ -39,17 +39,21 @@ export async function downloadChart() {
 }
 
 htmx.onLoad(function(content) {
+	console.log('htmx on load');
 	const images = content.querySelector('#images');
 	if (!images) {
+		console.log('no images');
 		return;
 	}
 
-	new Sortable(images as HTMLElement, {
+	const s = new Sortable(images as HTMLElement, {
 		animation: 300,
 		ghostClass: 'ghost-album',
 		invertSwap: true,
-		draggable: 'chart-image',
+		draggable: '.sortable-item',
 	});
+
+	console.log('ids:', s.toArray());
 });
 
 window.markdown = markdown;

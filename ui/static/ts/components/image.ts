@@ -26,20 +26,22 @@ export class ChartImage extends BaseElement {
 	constructor() {
 		super();
 
+		/*
 		this.addEventListener('dragover', (e) => {
 			this.isDraggingOver = true;
 			e.preventDefault();
+			e.stopPropagation();
 		});
+		*/
 		this.addEventListener('dragleave', () => (this.isDraggingOver = false));
 		this.addEventListener('dragend', () => console.log('in the end'));
 		this.addEventListener('drop', (e) => {
 			const data = e.dataTransfer!.getData('text/plain');
 			if (data.trim() === '') {
-				console.log('empty datatransfer');
 				this.isDraggingOver = false;
 				return;
 			}
-			console.log('datatransfer', data);
+
 			const { src, title, caption } = JSON.parse(data) as SearchResult;
 			this.src = src;
 			this.title = title;
@@ -80,7 +82,7 @@ on drop
 	put result.title into the next <.overlay .title/>
 	put result.caption into the next <.inlined .caption/>
 	put result.caption into the next <.overlay .caption/>
-	*/
+*/
 
 	overlayTemplate() {
 		if (this.textPlacement !== 'overlay') {
@@ -120,13 +122,11 @@ on drop
 			'outline-cyan-600 hover:outline hover:outline-4 object-center object-cover transition-all duration-75 shadow-md data-[dragging-over=true]:outline data-[dragging-over=true]:outline-green-600';
 
 		return html`
-			<li>
-				<figure class="relative" style="width: ${this.width}px;">
-					${this.overlayTemplate()}
-					<img class="${className}" data-dragging-over="${this.isDraggingOver}" role="img" src="${this.src}" />
-					${this.inlineTemplate()}
-				</figure>
-			</li>
+			<figure class="relative" style="width: ${this.width}px;">
+				${this.overlayTemplate()}
+				<img class="${className}" data-dragging-over="${this.isDraggingOver}" role="img" src="${this.src}" />
+				${this.inlineTemplate()}
+			</figure>
 		`;
 	}
 }

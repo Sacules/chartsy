@@ -69,9 +69,13 @@
 		<chart-images-text id="images-text" text-placement="hide">
 			<ul
 				_="-- sortable events
+				   on start
+				       log 'start'
 				   on move(dragged)
 				       set the dragged's @data-was-dragging to true
+					   log 'moving'
 				   on end(item)
+				       log 'item:', item
 					   set i to item.attributes.index.value
 					   set t to item.attributes.title.value
 					   set c to item.dataset.caption
@@ -79,7 +83,7 @@
 					   send replace(src: '', title: t, caption: c) to imgTxt[i]
 					   set the item's @data-was-dragging to false"
 				id="images"
-				class="grid sortable"
+				class="grid"
 				slot="images"
 			>
 				{{ imagesHeight := .ImagesHeight }}
@@ -88,29 +92,33 @@
 				{{ imagesRoundedCorners := .ImagesRoundedCorners ? "rounded" : "" }}
 
 				{{ range i := .Images }}
-					<chart-image
+					<li
 						_="on touchend
-								   if @data-was-dragging
-									   remove @data-was-dragging from me
-									   exit
-								   end
-								   wait 150ms
-								   toggle between .hidden and .block on <footer/>
-								   toggle between .hidden and .grid on #search-mobile
-								   set $imgIndex to {{ i }}
-								   set searchMobile to #search-mobile-input then searchMobile.focus()
+							   exit
+							   if @data-was-dragging
+								   remove @data-was-dragging from me
+								   exit
+							   end
+							   wait 150ms
+							   toggle between .hidden and .block on <footer/>
+							   toggle between .hidden and .grid on #search-mobile
+							   set $imgIndex to {{ i }}
+							   set searchMobile to #search-mobile-input then searchMobile.focus()
 							end"
-						class="aria-hidden:hidden"
-						index="{{ i }}"
-						title="{{ .Title }}"
-						caption="{{ .Caption }}"
-						src="{{ .URL }}"
-						width="{{ imagesHeight }}"
-						text-color="{{ textColor }}"
-						text-placement="inline"
-						aria-hidden="false"
+						class="aria-hidden:hidden sortable-item"
 					>
-					</chart-image>
+						<chart-image
+							index="{{ i }}"
+							title="{{ .Title }}"
+							caption="{{ .Caption }}"
+							src="{{ .URL }}"
+							width="{{ imagesHeight }}"
+							text-color="{{ textColor }}"
+							text-placement="inline"
+							aria-hidden="false"
+						>
+						</chart-image>
+					</li>
 				{{ end }}
 			</ul>
 			{{ cols := .ColumnCount }}

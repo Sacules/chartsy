@@ -7,9 +7,12 @@
 			   updateChart(:settingsNames, :settings)
 			   show me
 		   end
+		   -- mobile replace on search
 		   on chartImages(src, title, caption)
-		       set targetId to `chart-img-${$imgIndex}`
-			   send replace(src: src, title: title, caption: caption) to #{targetId}
+		       set imgs to the children of #images
+			   set imgTxt to the children of #text
+			   send replace(src: src, title: title, caption: caption) to imgs[$imgIndex]
+			   send replace(src: "", title: title, caption: caption) to imgTxt[$imgIndex]
 		   end
 		   -- event bubbles up from the original <chart-image>
 		   on drop(target)
@@ -65,10 +68,16 @@
 		</h1>
 		<chart-images-text id="images-text" text-placement="hide">
 			<ul
-				_="on move(dragged)
-			 set the dragged's @data-was-dragging to true
-		 on end(item)
-			 set the items's @data-was-dragging to false"
+				_="-- sortable events
+				   on move(dragged)
+				       set the dragged's @data-was-dragging to true
+				   on end(item)
+					   set i to item.attributes.index.value
+					   set t to item.attributes.title.value
+					   set c to item.dataset.caption
+					   set imgTxt to the children of #text
+					   send replace(src: '', title: t, caption: c) to imgTxt[i]
+					   set the item's @data-was-dragging to false"
 				id="images"
 				class="grid sortable"
 				slot="images"
@@ -79,33 +88,29 @@
 				{{ imagesRoundedCorners := .ImagesRoundedCorners ? "rounded" : "" }}
 
 				{{ range i := .Images }}
-					<li
+					<chart-image
 						_="on touchend
-						       if @data-was-dragging
-						           remove @data-was-dragging from me
-						           exit
-						       end
-						       wait 150ms
-						       toggle between .hidden and .block on <footer/>
-						       toggle between .hidden and .grid on #search-mobile
-						       set $imgIndex to {{ i }}
-						       set searchMobile to #search-mobile-input then searchMobile.focus()
-						   end"
-						class="aria-hidden:hidden chart-element"
+								   if @data-was-dragging
+									   remove @data-was-dragging from me
+									   exit
+								   end
+								   wait 150ms
+								   toggle between .hidden and .block on <footer/>
+								   toggle between .hidden and .grid on #search-mobile
+								   set $imgIndex to {{ i }}
+								   set searchMobile to #search-mobile-input then searchMobile.focus()
+							end"
+						class="aria-hidden:hidden"
+						index="{{ i }}"
+						title="{{ .Title }}"
+						caption="{{ .Caption }}"
+						src="{{ .URL }}"
+						width="{{ imagesHeight }}"
+						text-color="{{ textColor }}"
+						text-placement="inline"
 						aria-hidden="false"
 					>
-						<chart-image
-							id="chart-img-{{ i }}"
-							index="{{ i }}"
-							title="{{ .Title }}"
-							caption="{{ .Caption }}"
-							src="{{ .URL }}"
-							width="{{ imagesHeight }}"
-							text-color="{{ textColor }}"
-							text-placement="inline"
-						>
-						</chart-image>
-					</li>
+					</chart-image>
 				{{ end }}
 			</ul>
 			{{ cols := .ColumnCount }}

@@ -39,15 +39,16 @@ export async function downloadChart() {
 }
 
 htmx.onLoad(function(content) {
-	const chart = content.querySelector('#images');
-	if (!chart) {
+	const images = content.querySelector('#images');
+	if (!images) {
 		return;
 	}
 
-	new Sortable(chart as HTMLElement, {
+	new Sortable(images as HTMLElement, {
 		animation: 300,
 		ghostClass: 'ghost-album',
 		invertSwap: true,
+		draggable: 'chart-image',
 	});
 });
 

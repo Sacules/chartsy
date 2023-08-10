@@ -3,10 +3,10 @@
 {{ block searchResults() }}
 	{{ range . }}
 		<li
-			_="set element data to { url: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
+			_="
+		 set element data to { src: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
 		 on click
-		     set targetId to `chart-img-${$imgIndex}`
-			 send replace(data: data) to #{targetId}
+			 send chartImages(src: data.src, title: data.title, caption: data.caption) to #chart
 			 toggle between .hidden and .block on <footer/>
 			 toggle between .hidden and .grid on #search-mobile
 		 on dragstart

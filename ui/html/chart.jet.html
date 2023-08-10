@@ -5,26 +5,33 @@
 		   set :settingsNames to settingsNames()
 		   set :settingsFuncs to settingsFuncs()
 		   init
-			  updateChart(:settingsNames, :settings)
-			  show me
+			   updateChart(:settingsNames, :settings)
+			   show me
+		   end
+		   on chartImages(src, title, caption)
+		       set :images[$imgIndex].src to src
+		       set :images[$imgIndex].title to title
+		       set :images[$imgIndex].caption to caption
+
+		       set targetId to `chart-img-${$imgIndex}`
+			   send replace(src: src, title: title, caption: caption) to #{targetId}
 		   end
 		   on chartUpdate(setting, value)
-			  set f to :settingsFuncs[setting]
-			  set :settings[setting].val to f(value)
-			  set :settings[setting].rawVal to value
-			  updateChart(:settingsNames, :settings)
+			   set f to :settingsFuncs[setting]
+			   set :settings[setting].val to f(value)
+			   set :settings[setting].rawVal to value
+			   updateChart(:settingsNames, :settings)
 		   end
 		   on chartTextPlacement(value)
 			   if value is "hide"
-				   add [@aria-hidden=true] to <figcaption/>
+				   add [@text-placement="hide"] to <chart-image/>
+				   hide #text
 			   end
 			   if value is "inline"
-				   add [@aria-hidden=true] to <figcaption.overlay/>
-				   toggle [@aria-hidden=false] on <figcaption.inlined/>
+				   add [@text-placement="inline"] to <chart-image/>
 			   end
 			   if value is "overlay"
-				   toggle [@aria-hidden=false] on <figcaption.overlay/>
-				   add [@aria-hidden=true] to <figcaption.inlined/>
+				   add [@text-placement="overlay"] to <chart-image/>
 			   end
 			   if value is "left"
 				   add .flex-row-reverse to #images-text
@@ -73,85 +80,33 @@
 				{{ range i := .Images }}
 					<li
 						_="on touchend
-			     if @data-was-dragging
-					 remove @data-was-dragging from me
-				     exit
-				 end
-				 wait 150ms
-			     toggle between .hidden and .block on <footer/>
-			     toggle between .hidden and .grid on #search-mobile
-			     set $imgIndex to {{ i }}
-			     set searchMobile to #search-mobile-input then searchMobile.focus()
-			 end"
+						       if @data-was-dragging
+						           remove @data-was-dragging from me
+						           exit
+						       end
+						       wait 150ms
+						       toggle between .hidden and .block on <footer/>
+						       toggle between .hidden and .grid on #search-mobile
+						       set $imgIndex to {{ i }}
+						       set searchMobile to #search-mobile-input then searchMobile.focus()
+						   end"
 						class="aria-hidden:hidden chart-element"
 						aria-hidden="false"
 					>
-						<figure
-							class="outline-cyan-600 hover:outline hover:outline-4 relative"
-							style="width: {{ imagesHeight }}px;"
+						<chart-image
+							id="chart-img-{{ i }}"
+							title="{{ .Title }}"
+							caption="{{ .Caption }}"
+							src="{{ .URL }}"
+							width="{{ imagesHeight }}"
+							text-color="{{ textColor }}"
+							text-placement="inline"
 						>
-							<img
-								_="on dragover
-					 if not $draggingFromResults
-					     exit
-					 end
-				     halt the event
-					 set the target's style.outline to '1px solid red'
-				 on dragleave or drop
-					 set the target's style.outline to ''
-				 on drop
-					 if not $draggingFromResults
-					     exit
-					 end
-				     get the event.dataTransfer.getData('text/plain')
-					 then set result to it as an Object
-				     put result.url into me.src
-					 put result.title into the next <.inlined .title/>
-					 put result.title into the next <.overlay .title/>
-					 put result.caption into the next <.inlined .caption/>
-					 put result.caption into the next <.overlay .caption/>
-			     on replace(data)
-				     set d to data as Object
-				     put d.url into me.src
-					 put d.title into the next <.inlined .title/>
-					 put d.title into the next <.overlay .title/>
-					 put d.caption into the next <.inlined .caption/>
-					 put d.caption into the next <.overlay .caption/>"
-								id="chart-img-{{ i }}"
-								class="{{ imagesShape }} {{ imagesRoundedCorners }} object-center object-cover \
-					 transition-all duration-75 shadow-md"
-								role="img"
-								src="{{ .URL }}"
-							/>
-							<figcaption
-								class="aria-hidden:hidden z-10 absolute inset-0 text-left text-sm leading-tight \
-					 bg-gradient-to-t from-slate-800/80 grid overlay text-slate-50"
-								aria-hidden="true"
-							>
-								<div class="justify-self-start self-end p-2">
-									<strong class="title">{{ .Title }}</strong>
-									<br />
-									<span class="caption">
-										{{ .Caption }}
-									</span>
-								</div>
-							</figcaption>
-							<figcaption
-								class="aria-hidden:hidden text-sm mt-2 grid place-items-center leading-tight inlined"
-								style="color: {{ textColor }};"
-								aria-hidden="true"
-							>
-								<strong class="title text-center">{{ .Title }}</strong>
-								<br />
-								<span class="caption text-center">
-									{{ .Caption }}
-								</span>
-							</figcaption>
-						</figure>
+						</chart-image>
 					</li>
 				{{ end }}
 			</ul>
-			<ul id="text" class="grid grid-flow-row-dense justify-between">
+			<ul id="text" class="hidden grid grid-flow-row-dense justify-between">
 				{{ cols := .ColumnCount }}
 				{{ range i := .Images }}
 					<li class="aria-hidden:hidden text-slate-900">

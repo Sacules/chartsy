@@ -6,7 +6,11 @@ import DOMPurify from 'dompurify';
 
 // Components
 import './components/input';
+import './components/image';
 import './components/settings/images';
+
+// Types
+import { ImageTextPlacement, SearchResult } from './components/image';
 
 export function markdown(s: string) {
 	return DOMPurify.sanitize(marked.parse(s, { headerIds: false, mangle: false }));
@@ -34,8 +38,8 @@ export async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function (content) {
-	var chart = content.querySelector('#images');
+htmx.onLoad(function(content) {
+	const chart = content.querySelector('#images');
 	if (!chart) {
 		return;
 	}
@@ -47,8 +51,20 @@ htmx.onLoad(function (content) {
 	});
 });
 
-(window as any).markdown = markdown;
-(window as any).downloadChart = downloadChart;
+window.markdown = markdown;
+window.downloadChart = downloadChart;
+
+declare global {
+	interface HTMLElementEventMap {
+		replace: CustomEvent<SearchResult>;
+		textplacement: CustomEvent<ImageTextPlacement>;
+	}
+
+	interface Window {
+		markdown: typeof markdown;
+		downloadChart: typeof downloadChart;
+	}
+}
 
 /*
 import Alpine from 'alpinejs';

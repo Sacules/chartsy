@@ -3,8 +3,8 @@ import { map } from 'lit/directives/map.js';
 import { customElement, query, state } from 'lit/decorators.js';
 import { BaseElement } from '../base';
 
-@customElement('settings-images')
-export class SettingsImages extends BaseElement {
+@customElement('settings-images-titles')
+export class SettingsImagesTitles extends BaseElement {
 	@query('form') form!: HTMLFormElement;
 
 	@state() settings = [
@@ -40,6 +40,64 @@ export class SettingsImages extends BaseElement {
 						<strong>Titles placement</strong>
 					</legend>
 					<div class="grid grid-flow-row grid-cols-3 grid-rows-2">
+						${map(
+							this.settings,
+							(s) => html`
+								<div class="h-8 relative hover:cursor-pointer">
+									<input
+										id="text-placement-${s.value}"
+										type="radio"
+										name="text-placement"
+										?checked="${s.default}"
+										value="${s.value}"
+										class="opacity-0 absolute w-full h-full peer"
+										autocomplete="off"
+										@change="${() => this.handleChange(s.value)}"
+									/>
+									<label for="text-placement-${s}" class="${radioClass} ${s.class}"> ${s.label} </label>
+								</div>
+							`,
+						)}
+					</div>
+				</fieldset>
+			</form>
+		`;
+	}
+}
+
+@customElement('settings-images-shape')
+export class SettingsImagesShape extends BaseElement {
+	@query('form') form!: HTMLFormElement;
+
+	@state() settings = [
+		{
+			label: 'Square',
+			value: 'square',
+			class: 'rounded-l',
+			default: true,
+		},
+		{ label: 'Portrait', value: 'portrait', class: 'rounded-r' },
+	];
+
+	static formAssociated = true;
+
+	handleChange(value: string) {
+		const chart = document.getElementById('chart')!;
+		const update = new CustomEvent('chartImagesShape', { detail: { value } });
+
+		chart.dispatchEvent(update);
+	}
+
+	override render() {
+		const radioClass =
+			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+		return html`
+			<form>
+				<fieldset role="group">
+					<legend class="mb-2">
+						<strong>Shape</strong>
+					</legend>
+					<div class="grid grid-cols-2 grid-rows-1">
 						${map(
 							this.settings,
 							(s) => html`

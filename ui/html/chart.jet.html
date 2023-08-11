@@ -44,6 +44,14 @@
 				   add [@text-placement="hide"] to <chart-image/>
 				   add [@text-placement="right"] to #images-text
 			   end
+		   end
+		   on chartImagesShape(value)
+		       if value is "square"
+			       add [@shape="square"] to <chart-image/>
+			   end
+		       if value is "portrait"
+			       add [@shape="portrait"] to <chart-image/>
+			   end
 		   end'
 		id="chart"
 		class="shadow-lg grid place-items-center gap-4"
@@ -77,13 +85,12 @@
 			>
 				{{ imagesHeight := .ImagesHeight }}
 				{{ textColor := .TextColor }}
-				{{ imagesShape := .ImagesShape == "portrait" ? "aspect-[4/5]" : "aspect-square" }}
+				{{ shape := .ImagesShape }}
 				{{ imagesRoundedCorners := .ImagesRoundedCorners ? "rounded" : "" }}
 
 				{{ range i := .Images }}
 					<chart-image
 						_="on touchend
-							   exit
 							   if @data-was-dragging
 								   remove @data-was-dragging from me
 								   exit
@@ -102,6 +109,7 @@
 						width="{{ imagesHeight }}"
 						text-color="{{ textColor }}"
 						text-placement="hide"
+						shape="{{ shape }}"
 						aria-hidden="false"
 					>
 					</chart-image>

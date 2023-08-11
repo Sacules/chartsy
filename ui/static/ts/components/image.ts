@@ -13,6 +13,8 @@ export type ImageTextPlacement = 'hide' | 'inline' | 'overlay';
 
 export type ChartTextPlacement = 'hide' | 'left' | 'below' | 'right';
 
+export type ImageShape = 'square' | 'portrait';
+
 export type ImageTextUpdate = {
 	images: HTMLElement;
 };
@@ -25,6 +27,7 @@ export class ChartImage extends BaseElement {
 	@property() width = 150;
 	@property({ attribute: 'text-color' }) textColor = '';
 	@property({ attribute: 'text-placement' }) textPlacement?: ImageTextPlacement = 'hide';
+	@property() shape: ImageShape = 'square';
 
 	@state() isDraggingOver = false;
 
@@ -112,7 +115,7 @@ on drop
 		return html`
 			<figcaption
 				class="aria-hidden:hidden text-sm mt-2 grid place-items-center leading-tight"
-				style="color: ${this.textColor};"
+				style="color: ${this.textColor}; width: ${this.width}px;"
 			>
 				<strong class="text-center">${this.title}</strong>
 				<span class="text-center">${this.caption}</span>
@@ -121,14 +124,21 @@ on drop
 	}
 
 	override render() {
-		const className =
-			'outline-cyan-600 hover:outline hover:outline-4 object-center object-cover transition-all duration-75 shadow-md data-[dragging-over=true]:outline data-[dragging-over=true]:outline-green-600';
+		const className = `outline-cyan-600 hover:outline hover:outline-4 object-center object-cover \
+			 transition-all duration-75 shadow-md data-[dragging-over=true]:outline \
+			 data-[dragging-over=true]:outline-green-600 ${this.shape === 'portrait' ? 'aspect-[4/5]' : 'aspect-square'}`;
 
 		return html`
 			<li>
-				<figure class="relative" style="width: ${this.width}px;">
+				<figure class="relative">
 					${this.overlayTemplate()}
-					<img class="${className}" data-dragging-over="${this.isDraggingOver}" role="img" src="${this.src}" />
+					<img
+						class="${className}"
+						data-dragging-over="${this.isDraggingOver}"
+						role="img"
+						src="${this.src}"
+						style="width: ${this.width}px;"
+					/>
 					${this.inlineTemplate()}
 				</figure>
 			</li>

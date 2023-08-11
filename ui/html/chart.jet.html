@@ -13,7 +13,6 @@
 			   set imgTxt to the children of #text
 			   send replace(src: src, title: title, caption: caption) to imgs[$imgIndex]
 		   end
-		   -- event bubbles up from the original <chart-image>
 		   on chartUpdate(setting, value)
 			   set f to :settingsFuncs[setting]
 			   set :settings[setting].val to f(value)
@@ -108,8 +107,7 @@
 					</chart-image>
 				{{ end }}
 			</ul>
-			{{ cols := .ColumnCount }}
-			<chart-text id="text" slot="text" columns="{{ cols }}"></chart-text>
+			<chart-text id="text" slot="text" columns="{{ .ColumnCount }}" rows="{{ .RowCount }}"></chart-text>
 		</chart-images-text>
 	</div>
 {{ end }}

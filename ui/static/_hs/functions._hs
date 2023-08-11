@@ -23,14 +23,8 @@ def updateChart(settingsNames, settings)
 		end
 	end
 
-	set texts to the children of #text
-	for txt in texts index i
-		if i >= total
-			set txt's @aria-hidden to true
-		else
-			set txt's @aria-hidden to false
-		end
-	end
+	set #text's @rows to settings.rows.rawVal
+	set #text's @columns to settings.columns.rawVal
 end
 
 def settingsNames()

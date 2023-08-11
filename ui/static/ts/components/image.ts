@@ -145,7 +145,7 @@ const textPlacementStyles = {
 
 @customElement('chart-images-text')
 export class ChartImagesText extends BaseElement {
-	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
+	@property({ attribute: 'text-placement' }) textPlacement: ChartTextPlacement = 'hide';
 
 	@query('slot[name="images"]') imagesSlot!: HTMLSlotElement;
 
@@ -158,7 +158,7 @@ export class ChartImagesText extends BaseElement {
 	}
 
 	override render() {
-		const containerClass = `flex gap-8 ${textPlacementStyles[this.textPlacement ?? 'right']}`;
+		const containerClass = `flex gap-8 ${textPlacementStyles[this.textPlacement]}`;
 
 		return html`
 			<div class="${containerClass}">
@@ -171,8 +171,9 @@ export class ChartImagesText extends BaseElement {
 
 @customElement('chart-text')
 export class ChartText extends BaseElement {
-	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
-	@property({ attribute: 'columns' }) columns = 1;
+	@property({ attribute: 'text-placement' }) textPlacement: ChartTextPlacement = 'hide';
+	@property({ type: Number }) columns = 1;
+	@property({ type: Number }) rows = 1;
 
 	@state() images: Omit<Image, 'src'>[] = [];
 
@@ -180,12 +181,14 @@ export class ChartText extends BaseElement {
 		super();
 
 		this.addEventListener('update', (e: CustomEvent<ImageTextUpdate>) => {
-			this.images = Array.from(e.detail.images.children).map((e) => {
-				const { title, dataset } = e as ChartImage;
-				const caption = dataset.caption!;
+			this.images = Array.from(e.detail.images.children)
+				.slice(0, this.rows * this.columns)
+				.map((e) => {
+					const { title, dataset } = e as ChartImage;
+					const caption = dataset.caption!;
 
-				return { title, caption };
-			});
+					return { title, caption };
+				});
 		});
 	}
 
@@ -193,7 +196,9 @@ export class ChartText extends BaseElement {
 		return map(
 			this.images,
 			(img, i) => html`
-				<chart-text-item index="${i}" title="${img.title}" caption="${img.caption}"></chart-text-item>
+				<chart-text-item class="aria-hidden:hidden" index="${i}" title="${img.title}" caption="${img.caption}">
+				</chart-text-item>
+				${i % this.columns === this.columns - 1 ? html`<br class="aria-hidden:hidden" />` : nothing}
 			`,
 		);
 	}

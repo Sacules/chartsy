@@ -47,10 +47,9 @@ type Chart struct {
 	BgColor     string
 	TextColor   string
 
-	ImagesHeight         uint8
-	ImagesShape          ImagesShape
-	ImagesTextPlacement  ImagesTextPlacement
-	ImagesRoundedCorners bool
+	ImagesHeight        uint8
+	ImagesShape         ImagesShape
+	ImagesTextPlacement ImagesTextPlacement
 }
 
 type ChartModel struct {
@@ -87,7 +86,7 @@ func (m *ChartModel) Insert() (int, error) {
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_height, images_rounded_corners, bg_color, text_color, images_text_placement
+		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_height, bg_color, text_color, images_text_placement
 		FROM charts
 		WHERE rowid = ?`
 
@@ -95,7 +94,7 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 
 	c := &Chart{}
 
-	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImagesShape, &c.ImagesHeight, &c.ImagesRoundedCorners, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
+	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImagesShape, &c.ImagesHeight, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord

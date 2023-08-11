@@ -8,7 +8,7 @@
 		"build": "run-p build:compile build:js build:images build:tw build:_hs",
 		"build:compile": "run-s build:ts build:postcss build:esbuild",
 		"build:ts": "tsc --outDir .tmp/js",
-		"build:postcss": "npx postcss .tmp/js/**.js --verbose --write",
+		"build:postcss": "npx postcss .tmp/js/**.js --verbose --replace",
 		"build:esbuild": "esbuild .tmp/js/index.js --bundle --minify --outfile=public/js/index.js",
 		"build:js": "rsync -v --recursive ui/static/js public/",
 		"build:tw": "tailwindcss --input ui/static/css/index.css --output public/css/index.css",

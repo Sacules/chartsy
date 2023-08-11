@@ -10,7 +10,7 @@ import './components/image';
 import './components/settings/images';
 
 // Types
-import { ImageTextPlacement, SearchResult } from './components/image';
+import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
 
 export function markdown(s: string) {
 	return DOMPurify.sanitize(marked.parse(s, { headerIds: false, mangle: false }));
@@ -57,7 +57,8 @@ window.downloadChart = downloadChart;
 
 declare global {
 	interface HTMLElementEventMap {
-		replace: CustomEvent<SearchResult>;
+		update: CustomEvent<ImageTextUpdate>;
+		replace: CustomEvent<Image>;
 		textplacement: CustomEvent<ImageTextPlacement>;
 	}
 

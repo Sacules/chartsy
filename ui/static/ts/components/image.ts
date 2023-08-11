@@ -1,8 +1,9 @@
 import { html, nothing } from 'lit';
+import { map } from 'lit/directives/map.js';
 import { property, customElement, state, query } from 'lit/decorators.js';
 import { BaseElement } from './base';
 
-export interface SearchResult {
+export interface Image {
 	src: string;
 	title: string;
 	caption: string;
@@ -11,6 +12,10 @@ export interface SearchResult {
 export type ImageTextPlacement = 'hide' | 'inline' | 'overlay';
 
 export type ChartTextPlacement = 'hide' | 'left' | 'below' | 'right';
+
+export type ImageTextUpdate = {
+	images: HTMLElement;
+};
 
 @customElement('chart-image')
 export class ChartImage extends BaseElement {
@@ -40,7 +45,7 @@ export class ChartImage extends BaseElement {
 				return;
 			}
 
-			const { src, title, caption } = JSON.parse(data) as SearchResult;
+			const { src, title, caption } = JSON.parse(data) as Image;
 			this.src = src;
 			this.title = title;
 			this.caption = caption;
@@ -53,7 +58,7 @@ export class ChartImage extends BaseElement {
 		this.addEventListener('replace', this.handleReplace);
 	}
 
-	handleReplace(e: CustomEvent<SearchResult>) {
+	handleReplace(e: CustomEvent<Image>) {
 		const { src, title, caption } = e.detail;
 		this.src = src;
 		this.title = title;
@@ -169,11 +174,35 @@ export class ChartText extends BaseElement {
 	@property({ attribute: 'text-placement' }) textPlacement?: ChartTextPlacement;
 	@property({ attribute: 'columns' }) columns = 1;
 
+	@state() images: Omit<Image, 'src'>[] = [];
+
+	constructor() {
+		super();
+
+		this.addEventListener('update', (e: CustomEvent<ImageTextUpdate>) => {
+			this.images = Array.from(e.detail.images.children).map((e) => {
+				const { title, dataset } = e as ChartImage;
+				const caption = dataset.caption!;
+
+				return { title, caption };
+			});
+		});
+	}
+
+	imagesTemplate() {
+		return map(
+			this.images,
+			(img, i) => html`
+				<chart-text-item index="${i}" title="${img.title}" caption="${img.caption}"></chart-text-item>
+			`,
+		);
+	}
+
 	override render() {
-		const styles = `grid-template-rows: repeat(${this.columns}, 1fr)`;
+		//const styles = `grid-template-rows: repeat(${this.columns}, 1fr)`;
 		return html`
-			<ul>
-				<slot class="grid" style="${styles}"></slot>
+			<ul class="grid">
+				${this.imagesTemplate()}
 			</ul>
 		`;
 	}
@@ -190,11 +219,10 @@ export class ChartTextItem extends BaseElement {
 		this.addEventListener('replace', this.handleReplace);
 	}
 
-	handleReplace(e: CustomEvent<SearchResult>) {
+	handleReplace(e: CustomEvent<Image>) {
 		const { title, caption } = e.detail;
 		this.title = title;
 		this.caption = caption;
-		console.log('replaced on index', this.index, 'caption', caption, 'title', title);
 	}
 
 	override render() {

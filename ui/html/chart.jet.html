@@ -12,16 +12,8 @@
 		       set imgs to the children of #images
 			   set imgTxt to the children of #text
 			   send replace(src: src, title: title, caption: caption) to imgs[$imgIndex]
-			   send replace(src: "", title: title, caption: caption) to imgTxt[$imgIndex]
 		   end
 		   -- event bubbles up from the original <chart-image>
-		   on drop(target)
-			   set i to target.attributes.index.value
-			   set t to target.attributes.title.value
-			   set c to target.dataset.caption
-			   log target
-			   set imgTxt to the children of #text
-			   send replace(src: "", title: t, caption: c) to imgTxt[i]
 		   on chartUpdate(setting, value)
 			   set f to :settingsFuncs[setting]
 			   set :settings[setting].val to f(value)
@@ -68,19 +60,17 @@
 		</h1>
 		<chart-images-text id="images-text" text-placement="hide">
 			<ul
-				_="-- sortable events
-				   on start
-				       log 'start'
+				_="init
+					   send update(images: me) to #text
+				   end
+				   on drop(target)
+					   send update(images: me) to #text
+
+				   -- sortable events
 				   on move(dragged)
+					   send update(images: me) to #text
 				       set the dragged's @data-was-dragging to true
-					   log 'moving'
 				   on end(item)
-				       log 'item:', item
-					   set i to item.attributes.index.value
-					   set t to item.attributes.title.value
-					   set c to item.dataset.caption
-					   set imgTxt to the children of #text
-					   send replace(src: '', title: t, caption: c) to imgTxt[i]
 					   set the item's @data-was-dragging to false"
 				id="images"
 				class="grid"
@@ -112,18 +102,14 @@
 						src="{{ .URL }}"
 						width="{{ imagesHeight }}"
 						text-color="{{ textColor }}"
-						text-placement="inline"
+						text-placement="hide"
 						aria-hidden="false"
 					>
 					</chart-image>
 				{{ end }}
 			</ul>
 			{{ cols := .ColumnCount }}
-			<chart-text id="text" slot="text" columns="{{ cols }}" text-placement="hide">
-				{{ range i := .Images }}
-					<chart-text-item index="{{ i }}" title="{{ .Title }}" caption="{{ .Caption }}"></chart-text-item>
-				{{ end }}
-			</chart-text>
+			<chart-text id="text" slot="text" columns="{{ cols }}"></chart-text>
 		</chart-images-text>
 	</div>
 {{ end }}

@@ -1,6 +1,6 @@
 {{ block chart() }}
 	<div
-		_='set :settings to settingsChart({{ .ColumnCount }}, {{ .RowCount }}, {{ .Spacing }}, {{ .Padding }})
+		_="set :settings to settingsChart({{ .ColumnCount }}, {{ .RowCount }}, {{ .Spacing }}, {{ .Padding }})
 		   set :settingsNames to settingsNames()
 		   set :settingsFuncs to settingsFuncs()
 		   init
@@ -20,39 +20,21 @@
 			   updateChart(:settingsNames, :settings)
 		   end
 		   on chartTextPlacement(value)
-			   if value is "hide"
-				   add [@text-placement="hide"] to <chart-image/>
-				   add [@text-placement="hide"] to #images-text
+			   if value is 'hide' or value is 'inline' or value is 'overlay'
+			       set <chart-image/>'s @text-placement to value
+				   add [@text-placement=hide] to #images-text
 			   end
-			   if value is "inline"
-				   add [@text-placement="inline"] to <chart-image/>
-				   add [@text-placement="hide"] to #images-text
-			   end
-			   if value is "overlay"
-				   add [@text-placement="overlay"] to <chart-image/>
-				   add [@text-placement="hide"] to #images-text
-			   end
-			   if value is "left"
-				   add [@text-placement="hide"] to <chart-image/>
-				   add [@text-placement="left"] to #images-text
-			   end
-			   if value is "below"
-				   add [@text-placement="hide"] to <chart-image/>
-				   add [@text-placement="below"] to #images-text
-			   end
-			   if value is "right"
-				   add [@text-placement="hide"] to <chart-image/>
-				   add [@text-placement="right"] to #images-text
+			   if value is 'left' or value is 'below' or value is 'right'
+				   set #images-text's @text-placement to value
+				   add [@text-placement=hide] to <chart-image/>
 			   end
 		   end
 		   on chartImagesShape(value)
-		       if value is "square"
-			       add [@shape="square"] to <chart-image/>
-			   end
-		       if value is "portrait"
-			       add [@shape="portrait"] to <chart-image/>
-			   end
-		   end'
+		       set <chart-image/>'s @shape to value
+		   end
+		   on chartImagesWidth(value)
+		       set <chart-image/>'s @width to value
+		   end"
 		id="chart"
 		class="shadow-lg grid place-items-center gap-4"
 		style="background-color: {{ .BgColor }}; display: none;"

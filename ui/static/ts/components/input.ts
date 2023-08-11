@@ -7,9 +7,11 @@ import './icon';
 export class InputNumeric extends BaseElement {
 	@property() name = '';
 	@property() class = '';
-	@property() value = 1;
-	@property() min = 1;
-	@property() max = 10;
+	@property({ type: Number }) value = 1;
+	@property({ type: Number }) min = 1;
+	@property({ type: Number }) max = 10;
+	@property({ type: Number }) step = 1;
+	@property() unit = '';
 	@property() targetId = '';
 	@property() targetEvent = '';
 
@@ -17,7 +19,7 @@ export class InputNumeric extends BaseElement {
 	@query('#plus-button') plusButton!: HTMLButtonElement;
 
 	decrement() {
-		this.value--;
+		this.value = this.value - this.step;
 		if (this.value <= this.min) {
 			this.minusButton.setAttribute('disabled', 'true');
 		}
@@ -28,7 +30,7 @@ export class InputNumeric extends BaseElement {
 	}
 
 	increment() {
-		this.value++;
+		this.value = this.value + this.step;
 		if (this.value >= this.max) {
 			this.plusButton.setAttribute('disabled', 'true');
 		}
@@ -70,7 +72,7 @@ export class InputNumeric extends BaseElement {
 					>
 						<icon-minus></icon-minus>
 					</button>
-					<output for="${this.id}" class="w-4 text-center"> ${this.value} </output>
+					<output for="${this.id}" class="max-w-6 text-center">${this.value} ${this.unit}</output>
 					<button
 						id="plus-button"
 						type="button"

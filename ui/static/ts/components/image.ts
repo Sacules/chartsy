@@ -216,7 +216,7 @@ export class ChartText extends BaseElement {
 	override render() {
 		//const styles = `grid-template-rows: repeat(${this.columns}, 1fr)`;
 		return html`
-			<ul class="grid">
+			<ul class="grid w-max">
 				${this.imagesTemplate()}
 			</ul>
 		`;

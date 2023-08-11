@@ -34,7 +34,6 @@
 		"marked": "^7.0.2",
 		"panzoom": "^9.4.3",
 		"postcss": "^8.4.27",
-		"sortablejs": "github:Sacules/Sortable",
 		"tailwindcss": "^3.3.3",
 		"toolcool-range-slider": "^4.0.28"
 	},

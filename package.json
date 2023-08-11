@@ -14,7 +14,7 @@
 		"build:tw": "tailwindcss --input ui/static/css/index.css --output public/css/index.css",
 		"build:images": "rsync -v --recursive ui/static/img public/",
 		"build:_hs": "rsync -v --recursive ui/static/_hs public/",
-		"postbuild": "go install -v ./cmd/web"
+		"postbuild": "go build -v ./cmd/web"
 	},
 	"author": "Lucas Leonardo",
 	"license": "ISC",

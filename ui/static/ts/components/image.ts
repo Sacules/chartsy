@@ -1,6 +1,6 @@
-import { html, nothing } from 'lit';
+import { css, html, nothing } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { property, customElement, state, query } from 'lit/decorators.js';
+import { property, customElement, state } from 'lit/decorators.js';
 import { BaseElement } from './base';
 
 export interface Image {
@@ -146,34 +146,62 @@ on drop
 	}
 }
 
-const textPlacementStyles = {
-	hide: '',
-	left: 'flex-row-reverse ',
-	below: 'flex-col',
-	right: 'flow-row',
-};
-
 @customElement('chart-images-text')
 export class ChartImagesText extends BaseElement {
 	@property({ attribute: 'text-placement' }) textPlacement: ChartTextPlacement = 'hide';
 
-	@query('slot[name="images"]') imagesSlot!: HTMLSlotElement;
+	private textPlacementStyles = {
+		hide: '',
+		left: 'left',
+		below: 'below',
+		right: 'right',
+	};
 
-	textTemplate() {
-		if (this.textPlacement === 'hide') {
-			return nothing;
-		}
+	static override styles = [
+		BaseElement.styles,
+		css`
+			:host {
+				--layout: 'title' 'images';
+				--layout-left: '.  title' 'text images';
+				--layout-below: 'title' 'images' 'text';
+				--layout-right: 'title  .' 'images text';
+			}
+			div {
+				grid-template-areas: var(--layout);
+			}
 
-		return html`<slot name="text"></slot>`;
-	}
+			.left {
+				--layout: var(--layout-left);
+			}
+
+			.below {
+				--layout: var(--layout-below);
+			}
+
+			.right {
+				--layout: var(--layout-right);
+			}
+
+			slot[name='title']::slotted(*) {
+				grid-area: title;
+			}
+
+			slot[name='images']::slotted(*) {
+				grid-area: images;
+			}
+
+			slot[name='text']::slotted(*) {
+				grid-area: text;
+			}
+		`,
+	];
 
 	override render() {
-		const containerClass = `flex gap-8 ${textPlacementStyles[this.textPlacement]}`;
-
 		return html`
-			<div class="${containerClass}">
+			<div class="grid gap-4 ${this.textPlacementStyles[this.textPlacement]}">
+				<slot name="title"></slot>
 				<slot name="images"></slot>
-				${this.textTemplate()}
+				<slot name="text" class="aria-hidden:hidden" aria-hidden="${this.textPlacement === 'hide'}"></slot>
 			</div>
 		`;
 	}

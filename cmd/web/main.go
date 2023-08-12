@@ -25,18 +25,6 @@ func openDB(filename string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	setup, err := os.ReadFile("setup.sql")
-	if err != nil {
-		db.Close()
-		return nil, err
-	}
-
-	_, err = db.Exec(string(setup))
-	if err != nil {
-		db.Close()
-		return nil, err
-	}
-
 	if err = db.Ping(); err != nil {
 		return nil, err
 	}

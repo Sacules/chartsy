@@ -6,6 +6,10 @@ github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21 h1:ne6xAb77U0S0fU
 github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21/go.mod h1:wecIo/hdDlGbplGOLm6us9ffqPWiHTrqv7GRsXSMzrk=
 github.com/ajg/form v1.5.1 h1:t9c7v8JUKu/XxOGBU0yjNpaMloxGEJhUkqFRq0ibGeU=
 github.com/ajg/form v1.5.1/go.mod h1:uL1WgH+h2mgNtvBq0339dVnzXdBETtL2LeUXaIv25UY=
+github.com/alexedwards/scs/sqlite3store v0.0.0-20230327161757-10d4299e3b24 h1:G33Sht5Kp8Z8TZh7gGkRGSRlEyiKZ/OPgz9tnhpq2jM=
+github.com/alexedwards/scs/sqlite3store v0.0.0-20230327161757-10d4299e3b24/go.mod h1:Iyk7S76cxGaiEX/mSYmTZzYehp4KfyylcLaV3OnToss=
+github.com/alexedwards/scs/v2 v2.5.1 h1:EhAz3Kb3OSQzD8T+Ub23fKsiuvE0GzbF5Lgn0uTwM3Y=
+github.com/alexedwards/scs/v2 v2.5.1/go.mod h1:ToaROZxyKukJKT/xLcVQAChi5k6+Pn1Gvmdl7h3RRj8=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=
 github.com/cespare/xxhash/v2 v2.2.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/fsnotify/fsnotify v1.6.0 h1:n+5WquG0fcWoWp6xPWfHdbskMCQaFnG6PfBrh1Ky4HY=
@@ -24,6 +28,7 @@ github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/ad
 github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 h1:24NdJ5N6gtrcoeS4JwLMeruKFmg20QdF/5UnX5S/j18=
 github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71/go.mod h1:ozZLfjiLmXytkIUh200wMeuoQJ4ww06wN+KZtFP6j3g=
 github.com/jtolds/gls v4.20.0+incompatible h1:xdiiI2gbIgH/gLH7ADydsJ1uDOEzR8yvV7C0MuV77Wo=
+github.com/mattn/go-sqlite3 v1.14.6/go.mod h1:NyWgC/yNuGj7Q9rpYnZvas74GogHl5/Z4A/KQRfk6bU=
 github.com/mattn/go-sqlite3 v1.14.17 h1:mCRHCLDUBXgpKAqIKsaAaAsrAlbkeomtRFKXh2L6YIM=
 github.com/mattn/go-sqlite3 v1.14.17/go.mod h1:2eHXhiwb8IkHr+BDWZGa96P6+rkvnG63S2DGjv9HUNg=
 github.com/smartystreets/assertions v1.13.0 h1:Dx1kYM01xsSqKPno3aqLnrwac2LetPvN23diwyr69Qs=

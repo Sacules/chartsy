@@ -15,6 +15,8 @@ require (
 require (
 	github.com/CloudyKit/fastprinter v0.0.0-20200109182630-33d98a066a53 // indirect
 	github.com/ajg/form v1.5.1 // indirect
+	github.com/alexedwards/scs/sqlite3store v0.0.0-20230327161757-10d4299e3b24 // indirect
+	github.com/alexedwards/scs/v2 v2.5.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect

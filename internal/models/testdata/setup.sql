@@ -29,3 +29,18 @@ CREATE TABLE IF NOT EXISTS charts_images (
 	FOREIGN KEY (image_url)
 		REFERENCES images(url)
 );
+
+CREATE TABLE IF NOT EXISTS sessions (
+	token  TEXT PRIMARY KEY,
+	data   BLOB NOT NULL,
+	expiry REAL NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS sessions_expiry_idx ON sessions(expiry);
+
+CREATE TABLE IF NOT EXISTS users (
+	name			VARCHAR(255) NOT NULL,
+	email			VARCHAR(255) NOT NULL UNIQUE,
+	hashed_password CHAR(60) NOT NULL,
+	created			TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);

@@ -22,12 +22,11 @@
 			<strong>Layout</strong>
 			<input-numeric
 				id="column-count"
-				name="columns"
+				name="cols"
 				value="{{ .ColumnCount }}"
 				class="settings"
 				min="1"
 				max="10"
-				targetId="chart"
 				targetEvent="chartUpdate"
 			>
 				Columns
@@ -39,7 +38,6 @@
 				class="settings"
 				min="1"
 				max="10"
-				targetId="chart"
 				targetEvent="chartUpdate"
 			>
 				Rows
@@ -51,7 +49,6 @@
 				class="settings"
 				min="0"
 				max="5"
-				targetId="chart"
 				targetEvent="chartUpdate"
 			>
 				Spacing
@@ -63,7 +60,6 @@
 				class="settings"
 				min="0"
 				max="5"
-				targetId="chart"
 				targetEvent="chartUpdate"
 			>
 				Padding
@@ -82,7 +78,6 @@
 					max="200"
 					step="10"
 					unit="px"
-					targetId="chart"
 					targetEvent="chartImagesWidth"
 				>
 					Width

@@ -1,24 +1,41 @@
 {{ block chart() }}
 	<div
-		_="set :settings to settingsChart({{ .ColumnCount }}, {{ .RowCount }}, {{ .Spacing }}, {{ .Padding }})
-		   set :settingsNames to settingsNames()
-		   set :settingsFuncs to settingsFuncs()
+		_="def updateChart()
+			   get the getComputedStyle(me) then set computedStyles to it
+			   set cols to computedStyles.getPropertyValue('--chart-settings-cols')
+			   set rows to computedStyles.getPropertyValue('--chart-settings-rows')
+
+			   set total to rows * cols
+
+			   set images to the children of #images
+			   for img in images index i
+			   	   if i >= total
+			   	   	   set img's @aria-hidden to true
+			   	   else
+			   	   	   set img's @aria-hidden to false
+			   	   end
+			   end
+
+			   set #text's @rows to rows
+			   set #text's @columns to cols
+		   end
+
 		   init
-			   updateChart(:settingsNames, :settings)
+			   updateChart()
 			   show me
 		   end
+
 		   -- mobile replace on search
 		   on chartImages(src, title, caption)
 		       set imgs to the children of #images
 			   set imgTxt to the children of #text
 			   send replace(src: src, title: title, caption: caption) to imgs[$imgIndex]
 		   end
-		   on chartUpdate(setting, value)
-			   set f to :settingsFuncs[setting]
-			   set :settings[setting].val to f(value)
-			   set :settings[setting].rawVal to value
-			   updateChart(:settingsNames, :settings)
+
+		   on chartUpdate
+			   updateChart()
 		   end
+
 		   on chartTextPlacement(value)
 			   if value is 'hide' or value is 'inline' or value is 'overlay'
 			       set <chart-image/>'s @text-placement to value
@@ -29,11 +46,9 @@
 				   add [@text-placement=hide] to <chart-image/>
 			   end
 		   end
+
 		   on chartImagesShape(value)
 		       set <chart-image/>'s @shape to value
-		   end
-		   on chartImagesWidth(value)
-		       set <chart-image/>'s @width to value
 		   end"
 		id="chart"
 		class="shadow-lg grid place-items-center gap-4"
@@ -66,7 +81,6 @@
 				class="grid"
 				slot="images"
 			>
-				{{ imagesHeight := .ImagesHeight }}
 				{{ textColor := .TextColor }}
 				{{ shape := .ImagesShape }}
 
@@ -88,7 +102,6 @@
 						title="{{ .Title }}"
 						caption="{{ .Caption }}"
 						src="{{ .URL }}"
-						width="{{ imagesHeight }}"
 						text-color="{{ textColor }}"
 						text-placement="hide"
 						shape="{{ shape }}"

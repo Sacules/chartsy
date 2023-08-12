@@ -1,5 +1,5 @@
 import { PropertyValues, html } from 'lit';
-import { customElement, property, query } from 'lit/decorators.js';
+import { customElement, state, property, query } from 'lit/decorators.js';
 import { BaseElement } from './base';
 import './icon';
 
@@ -14,6 +14,8 @@ export class InputNumeric extends BaseElement {
 	@property() unit = '';
 	@property() targetId = '';
 	@property() targetEvent = '';
+
+	@state() chart: HTMLElement = document.getElementById('chart')!;
 
 	@query('#minus-button') minusButton!: HTMLButtonElement;
 	@query('#plus-button') plusButton!: HTMLButtonElement;
@@ -45,16 +47,10 @@ export class InputNumeric extends BaseElement {
 			return;
 		}
 
-		const target = document.getElementById(this.targetId);
-		if (!target) {
-			console.error("couldn't find target with id:", this.targetId);
-			return;
-		}
+		this.chart.style.setProperty(`--chart-settings-${this.name}`, String(this.value));
 
-		const e = new CustomEvent(this.targetEvent, {
-			detail: { setting: this.name, value: this.value },
-		});
-		target.dispatchEvent(e);
+		const e = new CustomEvent(this.targetEvent);
+		this.chart.dispatchEvent(e);
 	}
 
 	override render() {

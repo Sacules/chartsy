@@ -1,52 +1,72 @@
-@import url("https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,400;0,700;1,400&family=Sofia+Sans:ital,wght@0,400;0,700;1,400&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:ital,wght@0,400;0,700;1,400&family=Sofia+Sans:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
-  #chart-title h1 {
-    @apply text-5xl;
-  }
+	#chart-title h1 {
+		@apply text-5xl;
+	}
 
-  #chart-title h2 {
-    @apply text-4xl;
-  }
+	#chart-title h2 {
+		@apply text-4xl;
+	}
 
-  #chart-title h3 {
-    @apply text-3xl;
-  }
+	#chart-title h3 {
+		@apply text-3xl;
+	}
 
-  #chart-title h4 {
-    @apply text-2xl;
-  }
+	#chart-title h4 {
+		@apply text-2xl;
+	}
 
-  #chart-title h5 {
-    @apply text-xl;
-  }
+	#chart-title h5 {
+		@apply text-xl;
+	}
 
-  #chart-title h6 {
-    @apply text-lg;
-  }
+	#chart-title h6 {
+		@apply text-lg;
+	}
+}
+
+#images {
+	grid-template-columns: repeat(var(--chart-settings-cols), max-content);
+	grid-template-rows: repeat(var(--chart-settings-rows), max-content);
+	gap: calc(var(--chart-settings-spacing) * 1rem / 2);
+}
+
+#chart {
+	--chart-settings-cols: 3;
+	--chart-settings-rows: 3;
+	--chart-settings-spacing: 4;
+	--chart-settings-padding: 4;
+	--chart-settings-images-width: 150;
+
+	padding: calc(var(--chart-settings-padding) * 1rem / 2);
+}
+
+chart-image {
+	width: calc(var(--chart-settings-images-width) * 1px);
 }
 
 .ghost-album {
-  outline: 2px solid blue;
+	outline: 2px solid blue;
 }
 
 *::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+	width: 5px;
+	height: 5px;
 }
 
 *::-webkit-scrollbar-track {
-  background: #475569;
+	background: #475569;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: #94a3b8;
+	background: #94a3b8;
 }
 
 *::-webkit-scrollbar-corner {
-  background: #475569;
+	background: #475569;
 }

@@ -49,6 +49,14 @@
 
 		   on chartImagesShape(value)
 		       set <chart-image/>'s @shape to value
+		   end
+
+		   on popstate(state) from window
+			   -- assume we're back from the search
+			   if not state
+				   toggle between .hidden and .block on <footer/>
+				   toggle between .hidden and .grid on #search-mobile
+			   end
 		   end"
 		id="chart"
 		class="shadow-lg grid place-items-center gap-4"
@@ -91,10 +99,11 @@
 								   remove @data-was-dragging from me
 								   exit
 							   end
-							   wait 150ms
+							   wait 150ms -- helps make things feel smooth
 							   toggle between .hidden and .block on <footer/>
 							   toggle between .hidden and .grid on #search-mobile
 							   set $imgIndex to {{ i }}
+							   call history.pushState('search-mobile-open', null, 'search-mobile')
 							   set searchMobile to #search-mobile-input then searchMobile.focus()
 							end"
 						class="aria-hidden:hidden sortable-item"

@@ -12,15 +12,3 @@ behavior ToggleSettingMenu(menuId)
 		end
 	end
 end
-
-behavior UpdateChartTitle
-	on input(target)
-		send update(val:target.value) to #chart-title
-	end
-end
-
-behavior UpdateChartTextPlacement
-	on change(target)
-		send chartTextPlacement(value:target.value) to #chart
-	end
-end

@@ -6,9 +6,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/Sacules/lrserver"
+	"github.com/alexedwards/scs/sqlite3store"
+	"github.com/alexedwards/scs/v2"
 	"github.com/fsnotify/fsnotify"
 	_ "github.com/mattn/go-sqlite3"
 
@@ -45,9 +48,11 @@ type application struct {
 	errorLog *log.Logger
 	env      string
 
-	templateSet *jet.Set
+	templateSet    *jet.Set
+	sessionManager *scs.SessionManager
 
 	charts *models.ChartModel
+	users  *models.UserModel
 }
 
 func main() {
@@ -116,12 +121,18 @@ func main() {
 
 	set := jet.NewSet(jet.NewOSFileSystemLoader("./ui/html"), jet.InDevelopmentMode())
 
+	sessionManager := scs.New()
+	sessionManager.Store = sqlite3store.New(db)
+	sessionManager.Lifetime = 12 * time.Hour
+
 	app := &application{
-		infoLog:     infoLog,
-		errorLog:    errorLog,
-		charts:      &models.ChartModel{DB: db},
-		env:         *env,
-		templateSet: set,
+		infoLog:        infoLog,
+		errorLog:       errorLog,
+		templateSet:    set,
+		sessionManager: sessionManager,
+		charts:         &models.ChartModel{DB: db},
+		users:          &models.UserModel{DB: db},
+		env:            *env,
 	}
 
 	srv := &http.Server{

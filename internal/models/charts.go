@@ -47,7 +47,7 @@ type Chart struct {
 	BgColor     string
 	TextColor   string
 
-	ImagesHeight        uint8
+	ImagesWidth         uint8
 	ImagesShape         ImagesShape
 	ImagesTextPlacement ImagesTextPlacement
 }
@@ -86,7 +86,7 @@ func (m *ChartModel) Insert() (int, error) {
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_height, bg_color, text_color, images_text_placement
+		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_width, bg_color, text_color, images_text_placement
 		FROM charts
 		WHERE rowid = ?`
 
@@ -94,7 +94,7 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 
 	c := &Chart{}
 
-	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImagesShape, &c.ImagesHeight, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
+	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImagesShape, &c.ImagesWidth, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord
@@ -138,13 +138,13 @@ func (m *ChartModel) Latest() ([]*Chart, error) {
 	return nil, nil
 }
 
-func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsHeight uint8) error {
+func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsWidth uint8) error {
 	query := `UPDATE charts
 		SET title = ?, column_count = ?, row_count = ?,
-			spacing = ?, padding = ?, images_height = ?
+			spacing = ?, padding = ?, images_width = ?
 		WHERE rowid = ?`
 
-	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsHeight, id)
+	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsWidth, id)
 
 	return err
 }

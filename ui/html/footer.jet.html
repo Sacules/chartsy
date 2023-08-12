@@ -72,9 +72,27 @@
 		</div>
 		<div
 			id="settings-images"
-			class="setting-menu hidden aria-expanded:grid px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
+			class="setting-menu hidden aria-expanded:grid gap-4 px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
 		>
-			<settings-images></settings-images>
+			<div class="flex justify-between">
+				<settings-images-shape class="w-full"></settings-images-shape>
+				<fieldset class="flex flex-col gap-4 w-full" role="group">
+					<input-numeric
+						id="images-width"
+						name="images-width"
+						value="{{ .ImagesWidth }}"
+						class="settings self-end"
+						min="100"
+						max="200"
+						step="10"
+						unit="px"
+						targetEvent="chartImagesWidth"
+					>
+						Width
+					</input-numeric>
+				</fieldset>
+			</div>
+			<settings-images-titles></settings-images-titles>
 		</div>
 		<div class="px-4 flex justify-around items-center text-slate-400 h-16">
 			<button

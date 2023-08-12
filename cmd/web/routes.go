@@ -15,12 +15,12 @@ func (app *application) routes() *chi.Mux {
 	r := chi.NewRouter()
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.Recoverer, middleware.RedirectSlashes, middleware.Compress(5, "text/javascript", "text/css"))
+		r.Use(middleware.Recoverer, middleware.RedirectSlashes, middleware.Compress(5, "text/javascript", "text/css", "text/plain"))
 		r.Handle("/public/*", http.StripPrefix("/public", fileServer))
 	})
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.Recoverer, app.sessionManager.LoadAndSave)
+		r.Use(middleware.Recoverer, app.sessionManager.LoadAndSave, middleware.Compress(5, "text/html"))
 
 		r.Get("/", app.index)
 		r.Route("/search", func(r chi.Router) {

@@ -29,7 +29,7 @@
 		   on chartImages(src, title, caption)
 		       set imgs to the children of #images
 			   set imgTxt to the children of #text
-			   send replace(src: src, title: title, caption: caption) to imgs[$imgIndex]
+			   send replace(src: src, title: title, caption: caption) to imgs[$replaceIndex]
 		   end
 
 		   on chartUpdate
@@ -106,10 +106,9 @@
 							   end
 							   wait 150ms -- helps make things feel smooth
 							   toggle between .hidden and .block on <footer/>
-							   toggle between .hidden and .grid on #search-mobile
-							   set $imgIndex to my.index
+							   set $replaceIndex to my.index
+							   send open to #search-mobile
 							   call history.pushState('search-mobile-open', null, 'search-mobile')
-							   set searchMobile to #search-mobile-input then searchMobile.focus()
 							end"
 						class="aria-hidden:hidden sortable-item"
 						index="{{ i }}"

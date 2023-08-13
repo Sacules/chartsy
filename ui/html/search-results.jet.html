@@ -6,8 +6,7 @@
 			_="set element data to { src: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
 			   on click
 			  	   send chartImages(src: data.src, title: data.title, caption: data.caption) to #chart
-				   toggle between .hidden and .block on <footer/>
-				   toggle between .hidden and .grid on #search-mobile
+				   send close to #search-mobile
 			  	   call history.pushState(null, null, '/')
 			   on dragstart
 			  	   call event.dataTransfer.setData('text/plain', data as JSON)

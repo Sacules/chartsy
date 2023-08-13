@@ -83,6 +83,11 @@
 				   on move(dragged)
 					   send update(images: me) to #text
 				       set the dragged's @data-was-dragging to true
+				   on update(item, newIndex)
+				       set images to the children of me
+					   for img in images index i
+						   set the img's @index to i
+					   end
 				   on end(item)
 					   set the item's @data-was-dragging to false"
 				id="images"
@@ -102,7 +107,7 @@
 							   wait 150ms -- helps make things feel smooth
 							   toggle between .hidden and .block on <footer/>
 							   toggle between .hidden and .grid on #search-mobile
-							   set $imgIndex to {{ i }}
+							   set $imgIndex to my.index
 							   call history.pushState('search-mobile-open', null, 'search-mobile')
 							   set searchMobile to #search-mobile-input then searchMobile.focus()
 							end"

@@ -25,16 +25,20 @@ func (app *application) routes() *chi.Mux {
 		r.Get("/", app.index)
 		r.Route("/search", func(r chi.Router) {
 			// Rate limit the last.fm API by now
-			r.Use(httprate.LimitAll(3, 1*time.Second))
+			r.Use(httprate.LimitAll(2, 1*time.Second))
 
 			r.Post("/", app.search)
 		})
-		r.Route("/charts", func(r chi.Router) {
-			r.Patch("/settings", app.chartsSettings)
-		})
+
+		r.Get("/signup", app.userSignup)
+		r.Post("/signup", app.userSignupPost)
+		r.Get("/login", app.userLogin)
+		r.Post("/login", app.userLoginPost)
+		r.Post("/logout", app.userLogoutPost)
+		r.Patch("/settings", app.chartSettings)
 
 		r.NotFound(func(w http.ResponseWriter, r *http.Request) {
-			app.notFound(w)
+			http.Redirect(w, r, "/", http.StatusFound)
 		})
 
 	})

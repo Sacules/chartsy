@@ -51,7 +51,28 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 	render.HTML(w, r, buf.String())
 }
 
-func (app *application) chartsSettings(w http.ResponseWriter, r *http.Request) {
+type userSignupForm struct {
+	Name     string `form:"name"`
+	Email    string `form:"email"`
+	Password string `form:"password"`
+}
+
+func (app *application) userSignup(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
+}
+
+func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		app.errorLog.Println(err)

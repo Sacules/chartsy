@@ -21,5 +21,6 @@ require (
 	github.com/go-playground/form/v4 v4.2.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
-	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/crypto v0.12.0 // indirect
+	golang.org/x/sys v0.11.0 // indirect
 )

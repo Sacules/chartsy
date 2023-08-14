@@ -91,14 +91,15 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 	form.CheckField(validator.NotBlank(form.Password), "password", "This field cannot be blank")
 	form.CheckField(validator.MinChars(form.Password, 8), "password", "This field must be at least 8 characters long")
 
-	if !form.Valid() {
-		ts, err := app.templateSet.GetTemplate("signup")
-		if err != nil {
-			app.serverError(w, err)
-			return
-		}
+	ts, err := app.templateSet.GetTemplate("signup")
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
-		var buf bytes.Buffer
+	var buf bytes.Buffer
+
+	if !form.Valid() {
 		err = ts.Execute(&buf, nil, nil)
 		if err != nil {
 			app.serverError(w, err)
@@ -106,9 +107,32 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		}
 
 		render.HTML(w, r, buf.String())
+
+		return
 	}
 
-	render.HTML(w, r, "Create a new user...")
+	err = app.users.Insert(form.Name, form.Email, form.Password)
+	if err != nil {
+		if errors.Is(err, models.ErrDuplicateEmail) {
+			form.AddFieldError("email", "Email address is already in use")
+
+			err = ts.Execute(&buf, nil, form)
+			if err != nil {
+				app.serverError(w, err)
+				return
+			}
+
+			render.HTML(w, r, buf.String())
+		} else {
+			app.serverError(w, err)
+		}
+
+		return
+	}
+
+	app.sessionManager.Put(r.Context(), "flash", "Your signup was successful, please log in.")
+
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {

@@ -18,6 +18,7 @@ require (
 	github.com/alexedwards/scs/sqlite3store v0.0.0-20230327161757-10d4299e3b24 // indirect
 	github.com/alexedwards/scs/v2 v2.5.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/go-playground/form/v4 v4.2.1 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
 	golang.org/x/sys v0.10.0 // indirect

@@ -13,6 +13,7 @@ import (
 	"github.com/alexedwards/scs/sqlite3store"
 	"github.com/alexedwards/scs/v2"
 	"github.com/fsnotify/fsnotify"
+	"github.com/go-playground/form/v4"
 	_ "github.com/mattn/go-sqlite3"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -38,6 +39,7 @@ type application struct {
 
 	templateSet    *jet.Set
 	sessionManager *scs.SessionManager
+	formDecoder    *form.Decoder
 
 	charts *models.ChartModel
 	users  *models.UserModel
@@ -114,11 +116,14 @@ func main() {
 	sessionManager.Lifetime = 12 * time.Hour
 	sessionManager.Cookie.Secure = true
 
+	formDecoder := form.NewDecoder()
+
 	app := &application{
 		infoLog:        infoLog,
 		errorLog:       errorLog,
 		templateSet:    set,
 		sessionManager: sessionManager,
+		formDecoder:    formDecoder,
 		charts:         &models.ChartModel{DB: db},
 		users:          &models.UserModel{DB: db},
 		env:            *env,

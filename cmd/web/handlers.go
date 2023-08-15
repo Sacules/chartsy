@@ -1,14 +1,12 @@
 package main
 
 import (
-	"bytes"
 	"errors"
 	"net/http"
 	"net/url"
 	"os"
 	"strconv"
 
-	"github.com/CloudyKit/jet/v6"
 	"github.com/go-chi/render"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -20,8 +18,27 @@ const (
 	userAgent = "chartsy"
 )
 
-func (app *application) index(w http.ResponseWriter, r *http.Request) {
-	c, err := app.charts.Get(1)
+func (app *application) chart(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	var c *models.Chart
+
+	id := r.FormValue("id")
+	if id == "" {
+		latest, err := app.charts.Latest()
+		if err != nil {
+			app.serverError(w, err)
+			return
+		}
+
+		c = latest[0]
+	}
+
+	c, err = app.charts.Get(1)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			app.infoLog.Println(err)
@@ -33,23 +50,10 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ts, err := app.templateSet.GetTemplate("base")
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
+	data := app.newTemplateData(r)
+	data.Chart = c
 
-	vars := make(jet.VarMap)
-	vars.Set("env", app.env)
-
-	var buf bytes.Buffer
-	err = ts.Execute(&buf, vars, c)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	render.HTML(w, r, buf.String())
+	app.render(w, http.StatusOK, "chart", data)
 }
 
 type userSignupForm struct {
@@ -60,20 +64,7 @@ type userSignupForm struct {
 }
 
 func (app *application) userSignup(w http.ResponseWriter, r *http.Request) {
-	ts, err := app.templateSet.GetTemplate("signup")
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	var buf bytes.Buffer
-	err = ts.Execute(&buf, nil, nil)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	render.HTML(w, r, buf.String())
+	app.render(w, http.StatusOK, "signup", nil)
 }
 
 func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
@@ -87,27 +78,15 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 
 	form.CheckField(validator.NotBlank(form.Name), "name", "This field cannot be blank")
 	form.CheckField(validator.NotBlank(form.Email), "email", "This field cannot be blank")
-	form.CheckField(validator.Matches(form.Email, validator.EmailRX), "email", "This field must be a valid email address")
+	form.CheckField(validator.Email(form.Email), "email", "This field must be a valid email address")
 	form.CheckField(validator.NotBlank(form.Password), "password", "This field cannot be blank")
 	form.CheckField(validator.MinChars(form.Password, 8), "password", "This field must be at least 8 characters long")
 
-	ts, err := app.templateSet.GetTemplate("signup")
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	var buf bytes.Buffer
-
 	if !form.Valid() {
-		err = ts.Execute(&buf, nil, nil)
-		if err != nil {
-			app.serverError(w, err)
-			return
-		}
+		data := app.newTemplateData(r)
+		data.Form = form
 
-		render.HTML(w, r, buf.String())
-
+		app.render(w, http.StatusBadRequest, "signup", nil)
 		return
 	}
 
@@ -116,13 +95,10 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			form.AddFieldError("email", "Email address is already in use")
 
-			err = ts.Execute(&buf, nil, form)
-			if err != nil {
-				app.serverError(w, err)
-				return
-			}
+			data := app.newTemplateData(r)
+			data.Form = form
 
-			render.HTML(w, r, buf.String())
+			app.render(w, http.StatusBadRequest, "signup", nil)
 		} else {
 			app.serverError(w, err)
 		}
@@ -255,18 +231,5 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		records = append(records, record)
 	}
 
-	ts, err := app.templateSet.GetTemplate("search-results")
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	var buf bytes.Buffer
-	err = ts.Execute(&buf, nil, records)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	render.HTML(w, r, buf.String())
+	app.render(w, http.StatusOK, "search-results", nil)
 }

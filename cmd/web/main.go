@@ -3,12 +3,13 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"time"
 
-	"github.com/CloudyKit/jet/v6"
 	"github.com/Sacules/lrserver"
 	"github.com/alexedwards/scs/sqlite3store"
 	"github.com/alexedwards/scs/v2"
@@ -37,7 +38,7 @@ type application struct {
 	errorLog *log.Logger
 	env      string
 
-	templateSet    *jet.Set
+	templateCache  map[string]*template.Template
 	sessionManager *scs.SessionManager
 	formDecoder    *form.Decoder
 
@@ -70,20 +71,15 @@ func main() {
 
 		defer watcher.Close()
 
-		// TODO: Automate this to auto detect all templates
-		err = watcher.Add("ui/html")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
+		pages := []string{"ui/html", "ui/html/partials", "ui/html/pages/home", "ui/html/pages/chart"}
 
-		err = watcher.Add("ui/html/components")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
+		for i := range pages {
+			err = watcher.Add(pages[i])
+			if err != nil {
+				errorLog.Fatal(fmt.Errorf("%s: %s", pages[i], err))
+			}
 
-		err = watcher.Add("ui/html/components/input")
-		if err != nil {
-			errorLog.Fatal(err)
+			infoLog.Printf("watching for changes on '%s'\n", pages[i])
 		}
 
 		err = watcher.Add("public/js")
@@ -109,7 +105,10 @@ func main() {
 		}()
 	}
 
-	set := jet.NewSet(jet.NewOSFileSystemLoader("./ui/html"), jet.InDevelopmentMode())
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		errorLog.Fatal(err)
+	}
 
 	sessionManager := scs.New()
 	sessionManager.Store = sqlite3store.New(db)
@@ -121,7 +120,7 @@ func main() {
 	app := &application{
 		infoLog:        infoLog,
 		errorLog:       errorLog,
-		templateSet:    set,
+		templateCache:  templateCache,
 		sessionManager: sessionManager,
 		formDecoder:    formDecoder,
 		charts:         &models.ChartModel{DB: db},

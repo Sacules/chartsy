@@ -1,4 +1,4 @@
-{{ block chart() }}
+{{ define "chart" }}
 	<div
 		_="def updateChart()
 			   get the getComputedStyle(me) then set computedStyles to it
@@ -94,10 +94,10 @@
 				class="grid"
 				slot="images"
 			>
-				{{ textColor := .TextColor }}
-				{{ shape := .ImagesShape }}
+				{{ $textColor := .TextColor }}
+				{{ $shape := .ImagesShape }}
 
-				{{ range i := .Images }}
+				{{ range $i := .Images }}
 					<chart-image
 						_="on touchend
 							   if @data-was-dragging
@@ -111,13 +111,13 @@
 							   call history.pushState('search-mobile-open', null, 'search-mobile')
 							end"
 						class="aria-hidden:hidden sortable-item"
-						index="{{ i }}"
+						index="{{ $i }}"
 						title="{{ .Title }}"
 						caption="{{ .Caption }}"
 						src="{{ .URL }}"
-						text-color="{{ textColor }}"
+						text-color="{{ $textColor }}"
 						text-placement="hide"
-						shape="{{ shape }}"
+						shape="{{ $shape }}"
 						aria-hidden="false"
 					>
 					</chart-image>

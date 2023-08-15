@@ -1,4 +1,4 @@
-{{ block iconBurger() }}
+{{ define "icon/burger" }}
 	<svg
 		id="Layer_1"
 		version="1.1"
@@ -14,7 +14,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconShare() }}
+{{ define "icon/share" }}
 	<svg version="1.1" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362.621 362.621">
 		<path
 			d="M288.753,121.491c33.495,0,60.746-27.251,60.746-60.746S322.248,0,288.753,0
@@ -27,7 +27,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconClose() }}
+{{ define "icon/close" }}
 	<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
 		<path
 			fill="currentColor"
@@ -36,7 +36,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconText() }}
+{{ define "icon/text" }}
 	<svg fill="currentColor" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 		<path
 			class="stroke-0"
@@ -48,7 +48,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconLayout() }}
+{{ define "icon/layout" }}
 	<svg
 		fill="currentColor"
 		viewBox="0 0 17 17"
@@ -60,7 +60,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconImages() }}
+{{ define "icon/images" }}
 	<svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
 		<path
 			d="M21 16V20C21 20.5523 20.5523 21 20 21H4C3.44772 21 3 20.5523 3 20V18M21 16V4C21 3.44772 20.5523 3 20 3H4C3.44772 3 3 3.44772 3 4V18M21 16L15.4829 12.3219C15.1843 12.1228 14.8019 12.099 14.4809 12.2595L3 18"
@@ -72,7 +72,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconColors() }}
+{{ define "icon/colors" }}
 	<svg fill="none" stroke="currentColor" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
 		<g id="b894e32b-0437-45ab-b8bf-9f0c4e8f57cd" data-name="Layer 3">
 			<path
@@ -82,7 +82,7 @@
 	</svg>
 {{ end }}
 
-{{ block iconUser() }}
+{{ define "icon/user" }}
 	<svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 		<path
 			fill-rule="evenodd"
@@ -92,11 +92,11 @@
 	</svg>
 {{ end }}
 
-{{ block iconDownload() }}
+{{ define "icon/download" }}
 	<svg viewBox="0 -2 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<g id="Page-1" stroke="none" stroke-width="1" fill="currentColor" fill-rule="evenodd" sketch:type="MSPage">
 			<g
-				id="Icon-Set-Filled"
+				id="icon/Set-Filled"
 				sketch:type="MSLayerGroup"
 				transform="translate(-103.000000, -728.000000)"
 				fill="currentColor"

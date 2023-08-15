@@ -1,6 +1,4 @@
-{{ import "./components/icon" }}
-
-{{ block footer() }}
+{{ define "footer" }}
 	<footer class="relative pt-2 border-t border-slate-700 md:hidden">
 		<div
 			id="settings-text"
@@ -101,7 +99,7 @@
 				aria-pressed="false"
 			>
 				<div class="h-6 w-6">
-					{{ yield iconText() }}
+					{{ template "icon/text" . }}
 				</div>
 				<div class="text-center font-bold text-xs aria-pressed:text-slate-200">Text</div>
 			</button>
@@ -111,7 +109,7 @@
 				aria-pressed="false"
 			>
 				<div class="h-6 w-6">
-					{{ yield iconLayout() }}
+					{{ template "icon/layout" . }}
 				</div>
 				<div class="text-center font-bold text-xs aria-pressed:text-slate-200">Layout</div>
 			</button>
@@ -121,7 +119,7 @@
 				aria-pressed="false"
 			>
 				<div class="h-6 w-6">
-					{{ yield iconImages() }}
+					{{ template "icon/images" . }}
 				</div>
 				<div class="text-center font-bold text-xs aria-pressed:text-slate-200">Images</div>
 			</button>
@@ -131,7 +129,7 @@
 				aria-pressed="false"
 			>
 				<div class="h-6 w-6">
-					{{ yield iconColors() }}
+					{{ template "icon/colors" . }}
 				</div>
 				<div class="text-center font-bold text-xs aria-pressed:text-slate-200">Colors</div>
 			</button>

@@ -1,0 +1,14 @@
+{{ define "main" }}
+	<main class="overflow-auto grid place-items-center p-8 bg-slate-950 md:col-start-2 md:col-end-3">
+		<div
+			class="w-full h-full fixed overflow-auto grid grid-cols-1 grid-rows-[3.5rem_1fr_auto] md:grid-rows-[3rem_1fr] \
+				   md:grid-cols-[18rem_1fr_18rem]"
+		>
+			{{ template "left-panel" . }}
+			{{ template "chart" . }}
+			{{ template "right-panel" . }}
+		</div>
+		{{ template "search" . }}
+		{{ template "search-mobile" . }}
+	</main>
+{{ end }}

@@ -1,0 +1,23 @@
+{{ define "search" }}
+	<form
+		_="on submit(event) event.preventDefault()"
+		hx-post="/search"
+		hx-target="#search-results"
+		hx-trigger="input from:.search delay:300ms"
+	>
+		<label for="search" class="flex w-full flex-col gap-2">
+			<strong>Search</strong>
+		</label>
+		<input
+			id="search"
+			type="search"
+			name="search"
+			maxlength="64"
+			autocomplete="off"
+			placeholder="e.g. In Absentia"
+			class="search rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+					   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm"
+		/>
+	</form>
+	<ul id="search-results" class="mt-4 flex flex-col overflow-y-auto"></ul>
+{{ end }}

@@ -1,0 +1,13 @@
+{{ define "base" }}
+	<!doctype html>
+	<html lang="en" class="overflow-hidden">
+		<head>
+			{{ template "head" . }}
+		</head>
+		<body class="font-sans-serif bg-slate-900 text-slate-50">
+			{{ template "header" . }}
+			{{ template "main" . }}
+			{{ template "footer" . }}
+		</body>
+	</html>
+{{ end }}

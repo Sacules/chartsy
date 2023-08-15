@@ -1,5 +1,5 @@
-{{ block head(title) }}
-	<title>{{ title }} - Chartsy</title>
+{{ define "head" }}
+	<title>{{ .Title }} - Chartsy</title>
 	<meta charset="UTF-8" />
 	<link rel="apple-touch-icon" sizes="180x180" href="/public/img/apple-touch-icon.png" />
 	<link rel="icon" type="image/png" sizes="32x32" href="/public/img/favicon-32x32.png" />
@@ -16,7 +16,7 @@
 	<script defer type="text/hyperscript" src="/public/_hs/behaviours._hs"></script>
 	<script defer src="/public/js/_hyperscript.min.js"></script>
 
-	{{ if env == "dev" }}
+	{{ if eq .Env "dev" }}
 		<script src="http://192.168.0.81:35729/livereload.js"></script>
 	{{ end }}
 {{ end }}

@@ -1,4 +1,4 @@
-{{ block searchMobile() }}
+{{ define "search-mobile" }}
 	<div
 		id="search-mobile"
 		_="on open
@@ -22,7 +22,19 @@
 			hx-trigger="input from:.search-mobile delay:300ms"
 			class="p-4 self-start"
 		>
-			{{ yield inputSearch(id="search-mobile-input", label="Search", name="search", placeholder="e.g. In Absentia", class="search-mobile") }}
+			<label for="search-mobile" class="flex w-full flex-col gap-2">
+				<strong>Search</strong>
+			</label>
+			<input
+				id="search-mobile"
+				type="search"
+				name="search"
+				maxlength="64"
+				autocomplete="off"
+				placeholder="e.g. In Absentia"
+				class="search-mobile rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+					   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm"
+			/>
 		</form>
 		<ul
 			_="on htmx:afterSettle

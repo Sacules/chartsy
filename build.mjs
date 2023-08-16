@@ -74,7 +74,7 @@ if (isProd) {
 	await esbuild.build(injectStyles);
 	await esbuild.build(tsToJs);
 } else {
-	// let tailwindCtx = await esbuild.context(tailwindStyles);
+	let tailwindCtx = await esbuild.context(tailwindStyles);
 	let jsCtx = await esbuild.context(injectStyles);
 	let tsCtx = await esbuild.context(tsToJs);
 

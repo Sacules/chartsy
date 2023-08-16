@@ -12,13 +12,13 @@ import './components/settings/images';
 // Types
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
 
-export function markdown(s: string) {
+function markdown(s: string) {
 	return DOMPurify.sanitize(marked.parse(s, { headerIds: false, mangle: false }));
 }
 
 const downloadend = new Event('downloadend');
 
-export async function downloadChart() {
+async function downloadChart() {
 	const button = document.getElementById('download-button') as HTMLButtonElement;
 	const chart = document.getElementById('chart') as HTMLDivElement;
 	const dataUrl = await toPng(chart);
@@ -38,7 +38,7 @@ export async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function (content) {
+htmx.onLoad(function(content) {
 	const images = content.querySelector('#images');
 	if (!images) {
 		return;

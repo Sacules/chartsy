@@ -1,17 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"path/filepath"
-
-	"gitlab.com/sacules/chartsy/internal/models"
 )
-
-type templateData struct {
-	Chart *models.Chart
-	Form  any
-}
 
 func newTemplateCache() (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
@@ -54,7 +46,6 @@ func newTemplateCache() (map[string]*template.Template, error) {
 		}
 
 		cache[page] = ts
-		fmt.Println("loaded", page, "to the cache with files", f)
 	}
 
 	return cache, nil

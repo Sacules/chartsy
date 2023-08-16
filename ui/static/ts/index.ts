@@ -38,7 +38,7 @@ export async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function(content) {
+htmx.onLoad(function (content) {
 	const images = content.querySelector('#images');
 	if (!images) {
 		return;

@@ -27,18 +27,13 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 
 	var c *models.Chart
 
-	id := r.FormValue("id")
-	if id == "" {
-		latest, err := app.charts.Latest()
-		if err != nil {
-			app.serverError(w, err)
-			return
-		}
-
-		c = latest[0]
+	id, err := strconv.Atoi(r.FormValue("id"))
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
 	}
 
-	c, err = app.charts.Get(1)
+	c, err = app.charts.Get(id)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			app.infoLog.Println(err)

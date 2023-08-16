@@ -3,7 +3,6 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -62,7 +61,6 @@ func main() {
 
 	defer db.Close()
 
-	// TODO: add some logic later
 	if *env == "dev" {
 		watcher, err := fsnotify.NewWatcher()
 		if err != nil {
@@ -71,18 +69,17 @@ func main() {
 
 		defer watcher.Close()
 
-		pages := []string{"ui/html", "ui/html/partials", "ui/html/pages/home", "ui/html/pages/chart"}
-
-		for i := range pages {
-			err = watcher.Add(pages[i])
-			if err != nil {
-				errorLog.Fatal(fmt.Errorf("%s: %s", pages[i], err))
-			}
-
-			infoLog.Printf("watching for changes on '%s'\n", pages[i])
+		err = watcher.Add("ui/html")
+		if err != nil {
+			errorLog.Fatal(err)
 		}
 
-		err = watcher.Add("public/js")
+		err = watcher.Add("ui/html/pages/home")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
+		err = watcher.Add("ui/html/pages/chart")
 		if err != nil {
 			errorLog.Fatal(err)
 		}
@@ -98,6 +95,7 @@ func main() {
 				select {
 				case event := <-watcher.Events:
 					lr.Reload(event.Name)
+
 				case err := <-watcher.Errors:
 					errorLog.Println(err)
 				}

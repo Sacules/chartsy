@@ -5,10 +5,10 @@
 				   md:grid-cols-[18rem_1fr_18rem]"
 		>
 			{{ template "left-panel" . }}
-			{{ template "chart" . }}
-			{{ template "right-panel" . }}
+			{{ template "chart" .Chart }}
+			{{ template "right-panel" .Chart }}
+			{{ template "footer" . }}
 		</div>
-		{{ template "search" . }}
 		{{ template "search-mobile" . }}
 	</main>
 {{ end }}

@@ -5,14 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"runtime/debug"
 
 	"github.com/go-playground/form/v4"
+
+	"gitlab.com/sacules/chartsy/internal/models"
 )
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
-	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
-	app.errorLog.Output(2, trace)
+	app.errorLog.Println(err)
 
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
@@ -25,8 +25,16 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
+type templateData struct {
+	Env   string
+	Chart *models.Chart
+	Form  any
+}
+
 func (app *application) newTemplateData(r *http.Request) *templateData {
-	return &templateData{}
+	return &templateData{
+		Env: app.env,
+	}
 }
 
 func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {

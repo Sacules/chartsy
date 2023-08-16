@@ -16,7 +16,7 @@ func (app *application) routes() *chi.Mux {
 
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.Recoverer, middleware.RedirectSlashes, middleware.Compress(5, "text/javascript", "text/css", "text/plain"))
-		r.Handle("/public/*", http.StripPrefix("/public", fileServer))
+		r.Handle("/assets/*", http.StripPrefix("/assets", fileServer))
 	})
 
 	r.Group(func(r chi.Router) {
@@ -43,7 +43,7 @@ func (app *application) routes() *chi.Mux {
 		r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusFound)
 		})
-
 	})
+
 	return r
 }

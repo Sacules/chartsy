@@ -61,6 +61,35 @@ func main() {
 
 	defer db.Close()
 
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	sessionManager := scs.New()
+	sessionManager.Store = sqlite3store.New(db)
+	sessionManager.Lifetime = 12 * time.Hour
+	sessionManager.Cookie.Secure = true
+
+	formDecoder := form.NewDecoder()
+
+	app := &application{
+		infoLog:        infoLog,
+		errorLog:       errorLog,
+		templateCache:  templateCache,
+		sessionManager: sessionManager,
+		formDecoder:    formDecoder,
+		charts:         &models.ChartModel{DB: db},
+		users:          &models.UserModel{DB: db},
+		env:            *env,
+	}
+
+	srv := &http.Server{
+		Addr:     *addr,
+		ErrorLog: errorLog,
+		Handler:  app.routes(),
+	}
+
 	if *env == "dev" {
 		watcher, err := fsnotify.NewWatcher()
 		if err != nil {
@@ -94,6 +123,13 @@ func main() {
 			for {
 				select {
 				case event := <-watcher.Events:
+					tc, err := newTemplateCache()
+					if err != nil {
+						errorLog.Fatal(err)
+					}
+
+					app.templateCache = tc
+
 					lr.Reload(event.Name)
 
 				case err := <-watcher.Errors:
@@ -101,35 +137,6 @@ func main() {
 				}
 			}
 		}()
-	}
-
-	templateCache, err := newTemplateCache()
-	if err != nil {
-		errorLog.Fatal(err)
-	}
-
-	sessionManager := scs.New()
-	sessionManager.Store = sqlite3store.New(db)
-	sessionManager.Lifetime = 12 * time.Hour
-	sessionManager.Cookie.Secure = true
-
-	formDecoder := form.NewDecoder()
-
-	app := &application{
-		infoLog:        infoLog,
-		errorLog:       errorLog,
-		templateCache:  templateCache,
-		sessionManager: sessionManager,
-		formDecoder:    formDecoder,
-		charts:         &models.ChartModel{DB: db},
-		users:          &models.UserModel{DB: db},
-		env:            *env,
-	}
-
-	srv := &http.Server{
-		Addr:     *addr,
-		ErrorLog: errorLog,
-		Handler:  app.routes(),
 	}
 
 	infoLog.Printf("starting server on %s\n", *addr)

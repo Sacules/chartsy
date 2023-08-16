@@ -1,10 +1,20 @@
 {{ define "base" }}
 	<!doctype html>
-	<html lang="en" class="overflow-hidden">
+	<html
+		_="eventsource esbuild
+			     on change
+				     log 'changing'
+				 end
+		   end"
+		lang="en"
+		class="overflow-hidden"
+	>
 		<head>
 			{{ template "head" . }}
 		</head>
-		<body class="font-sans-serif bg-slate-900 text-slate-50">
+		<body
+			class="h-full w-full fixed font-sans-serif bg-slate-900 text-slate-50 grid grid-cols-1 grid-rows-[3.5rem_1fr_auto]"
+		>
 			{{ template "header" . }}
 			{{ template "main" . }}
 			{{ template "footer" . }}

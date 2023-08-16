@@ -12,8 +12,9 @@ import { env } from 'node:process';
 const tailwindLit = {
 	name: 'tailwind-lit',
 	setup(build) {
-		build.onLoad({ filter: /\.js$/ }, async (args) => {
+		build.onLoad({ filter: /\.ts$/ }, async (args) => {
 			const source = await fs.promises.readFile(args.path, 'utf8');
+			console.log(args.path);
 			let result;
 			try {
 				result = await postcss([tailwindcss({ config: './tailwind.config.js' }), autoprefixer]).process(source, {
@@ -29,26 +30,27 @@ const tailwindLit = {
 
 			return {
 				contents: result.content,
-				loader: 'js',
+				loader: 'ts',
 			};
 		});
 	},
 };
 
-const tsToJs = {
+const injectStyles = {
 	entryPoints: ['ui/static/ts/index.ts'],
 	outfile: '.tmp/index.js',
 	format: 'esm',
 	bundle: true,
 	minify: false,
-	plugins: [tsc()],
+	keepNames: true,
+	plugins: [tailwindLit],
 };
 
-const jsInsertSyles = {
+const tsToJs = {
 	entryPoints: ['.tmp/index.js'],
 	outfile: 'public/index.js',
 	minify: true,
-	plugins: [tailwindLit],
+	plugins: [tsc()],
 };
 
 const tailwindStyles = {
@@ -69,12 +71,12 @@ const isProd = env.BUILD_ENV === 'prod';
 
 if (isProd) {
 	await esbuild.build(tailwindStyles);
+	await esbuild.build(injectStyles);
 	await esbuild.build(tsToJs);
-	await esbuild.build(jsInsertSyles);
 } else {
-	let tailwindCtx = await esbuild.context(tailwindStyles);
+	// let tailwindCtx = await esbuild.context(tailwindStyles);
+	let jsCtx = await esbuild.context(injectStyles);
 	let tsCtx = await esbuild.context(tsToJs);
-	let jsCtx = await esbuild.context(jsInsertSyles);
 
 	tsCtx.watch();
 	jsCtx.watch();

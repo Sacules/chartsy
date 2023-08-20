@@ -42,7 +42,9 @@
 	--chart-settings-spacing: 4;
 	--chart-settings-padding: 4;
 	--chart-settings-images-width: 150;
+}
 
+#images-text {
 	padding: calc(var(--chart-settings-padding) * 1rem / 2);
 }
 

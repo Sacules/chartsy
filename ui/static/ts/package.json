@@ -32,7 +32,6 @@
 		"htmx.org": "^1.9.4",
 		"lit": "^2.8.0",
 		"marked": "^7.0.4",
-		"panzoom": "^9.4.3",
 		"postcss": "^8.4.28",
 		"sortablejs": "github:Sacules/Sortable",
 		"tailwindcss": "^3.3.3",

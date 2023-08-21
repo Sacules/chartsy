@@ -1,10 +1,8 @@
 {{ define "main" }}
-	<main class="overflow-auto grid place-items-center bg-slate-900 overflow-auto">
-		<div class="w-full h-full grid md:grid-rows-1 md:grid-cols-[18rem_1fr_18rem]">
-			{{ template "left-panel" . }}
-			{{ template "chart" .Chart }}
-			{{ template "right-panel" .Chart }}
-		</div>
+	<main class="grid md:grid-rows-1 md:grid-cols-[18rem_1fr_18rem] bg-slate-900">
+		{{ template "left-panel" . }}
+		{{ template "chart" .Chart }}
+		{{ template "right-panel" .Chart }}
 		{{ template "search-mobile" . }}
 	</main>
 {{ end }}

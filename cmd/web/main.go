@@ -98,6 +98,11 @@ func main() {
 
 		defer watcher.Close()
 
+		err = watcher.Add("public")
+		if err != nil {
+			errorLog.Fatal(err)
+		}
+
 		err = watcher.Add("ui/html")
 		if err != nil {
 			errorLog.Fatal(err)

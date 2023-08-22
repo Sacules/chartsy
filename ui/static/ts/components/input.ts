@@ -55,15 +55,15 @@ export class InputNumeric extends BaseElement {
 
 	override render() {
 		return html`
-			<div role="group" class="flex flex-col gap-1 md:flex-row md:justify-between items-center">
+			<div role="group" class="flex justify-between items-center">
 				<label for="${this.id}">
 					<slot></slot>
 				</label>
-				<div class="flex items-center gap-4">
+				<div class="flex items-center justify-between w-20">
 					<button
 						id="minus-button"
 						type="button"
-						class="w-8 h-8 md:w-6 md:h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
+						class="w-6 h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
 						@click="${this.decrement}"
 					>
 						<icon-minus></icon-minus>
@@ -72,7 +72,7 @@ export class InputNumeric extends BaseElement {
 					<button
 						id="plus-button"
 						type="button"
-						class="w-8 h-8 md:w-6 md:h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
+						class="w-6 h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
 						@click="${this.increment}"
 					>
 						<icon-plus></icon-plus>
@@ -117,7 +117,7 @@ export class InputText extends BaseElement {
 
 	override render() {
 		const c = `${this.class} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
-			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm`;
+			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition text-sm`;
 
 		return html`
 			<div class="flex flex-col gap-2">
@@ -137,7 +137,7 @@ export class InputText extends BaseElement {
 					class="${c}"
 					@input="${this.handleInput}"
 				/>
-				<span class="italic text-sm">${this.caption}</span>
+				<span class="text-sm">${this.caption}</span>
 			</div>
 		`;
 	}

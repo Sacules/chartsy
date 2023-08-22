@@ -1,6 +1,6 @@
 {{ define "footer" }}
 	{{ with .Chart }}
-		<footer class="relative pt-2 border-t border-slate-700 md:hidden">
+		<footer class="relative border-t border-slate-700 md:hidden text-sm">
 			<div
 				id="settings-chart"
 				class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
@@ -18,7 +18,7 @@
 			</div>
 			<div
 				id="settings-layout"
-				class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
+				class="setting-menu hidden aria-expanded:grid p-4 text-slate-50 gap-6 grid-rows-2 grid-cols-2 border-b border-slate-700"
 			>
 				<input-numeric
 					id="column-count"

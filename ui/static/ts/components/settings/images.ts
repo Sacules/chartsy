@@ -97,7 +97,67 @@ export class SettingsImagesShape extends BaseElement {
 					<legend class="mb-2">
 						<strong>Shape</strong>
 					</legend>
-					<div class="grid grid-cols-2 grid-rows-1">
+					<div class="grid grid-cols-3 grid-rows-1">
+						${map(
+							this.settings,
+							(s) => html`
+								<div class="h-8 relative hover:cursor-pointer">
+									<input
+										id="text-placement-${s.value}"
+										type="radio"
+										name="text-placement"
+										?checked="${s.default}"
+										value="${s.value}"
+										class="opacity-0 absolute w-full h-full peer"
+										autocomplete="off"
+										@change="${() => this.handleChange(s.value)}"
+									/>
+									<label for="text-placement-${s}" class="${radioClass} ${s.class}"> ${s.label} </label>
+								</div>
+							`,
+						)}
+					</div>
+				</fieldset>
+			</form>
+		`;
+	}
+}
+
+@customElement('settings-images-size')
+export class SettingsImagesSize extends BaseElement {
+	@query('form') form!: HTMLFormElement;
+
+	@state() settings = [
+		{
+			label: 'Small',
+			value: '96',
+			class: 'rounded-l',
+			default: false,
+		},
+		{ label: 'Medium', value: '144', class: '', default: true },
+		{ label: 'Large', value: '192', class: 'rounded-r', default: false },
+	];
+
+	static formAssociated = true;
+
+	handleChange(value: string) {
+		const chart = document.getElementById('chart')!;
+		chart.style.setProperty(`--chart-settings-images-width`, value);
+
+		const update = new CustomEvent('chartImagesWidth', { detail: { value } });
+		chart.dispatchEvent(update);
+	}
+
+	override render() {
+		const radioClass =
+			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+		return html`
+			<form>
+				<fieldset role="group">
+					<legend class="mb-2">
+						<strong>Shape</strong>
+					</legend>
+					<div class="grid grid-cols-3 grid-rows-1">
 						${map(
 							this.settings,
 							(s) => html`

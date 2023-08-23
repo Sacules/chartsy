@@ -84,7 +84,7 @@
 				class="setting-menu hidden aria-expanded:grid gap-4 px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
 			>
 				<input-radio-group name="images-shape" targetEvent="chartImagesShape">
-					<span slot="legend">My shape</span>
+					<span slot="legend">Shape</span>
 					<div default value="square" class="rounded-l" slot="item">
 						Square
 					</div>
@@ -92,8 +92,36 @@
 						Portrait
 					</div>
 				</input-radio-group>
-				<settings-images-size></settings-images-size>
-				<settings-images-titles></settings-images-titles>
+				<input-radio-group name="images-width">
+					<span slot="legend">Size</span>
+					<div default value="150" class="rounded-l" slot="item">
+						Regular
+					</div>
+					<div value="200" class="rounded-r" slot="item">
+						Large
+					</div>
+				</input-radio-group>
+				<input-radio-group name="titles-placement" targetEvent="chartTextPlacement">
+					<span slot="legend">Position</span>
+					<div default value="hide" class="rounded-tl border-b-0" slot="item">
+						Hide
+					</div>
+					<div value="inline" class="border-b-0" slot="item">
+						Inline
+					</div>
+					<div value="overlay" class="border-b-0 rounded-tr" slot="item">
+						Overlay
+					</div>
+					<div value="left" class="rounded-bl" slot="item">
+						Left
+					</div>
+					<div value="below" slot="item">
+						Below
+					</div>
+					<div value="right" class="rounded-br" slot="item">
+						Right
+					</div>
+				</input-radio-group>
 			</div>
 			<div class="px-4 flex justify-around items-center text-slate-400 h-20">
 				<button

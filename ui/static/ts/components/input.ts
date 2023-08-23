@@ -168,7 +168,10 @@ export class InputRadioGroup extends BaseElement {
 			return;
 		}
 
-		target.style.setProperty(`--chart-settings-${this.name}`, value);
+		if (!this.targetEvent) {
+			target.style.setProperty(`--chart-settings-${this.name}`, value);
+			return;
+		}
 
 		const update = new CustomEvent(this.targetEvent, { detail: { value } });
 		target.dispatchEvent(update);
@@ -193,7 +196,7 @@ export class InputRadioGroup extends BaseElement {
 						<slot name="legend"></slot>
 					</legend>
 					<slot name="item" class="hidden"></slot>
-					<div class="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] grid-rows-1">
+					<div class="grid grid-cols-[repeat(3,minmax(5rem,1fr))] grid-flow-row auto-rows-max">
 		${map(
 			this.settings,
 			(s) => html`

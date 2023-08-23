@@ -67,28 +67,6 @@ export class ChartImage extends BaseElement {
 		this.caption = caption;
 	}
 
-	/*
-on dragover
-	not $draggingFromResults
-		 exit
-	 end
-	 halt the event
-	 set the target's style.outline to '1px solid red'
-on dragleave or drop
-	 the target's style.outline to ''
-on drop
-	not $draggingFromResults
-		exit
-	end
-	get the event.dataTransfer.getData('text/plain')
-	then set result to it as an Object
-	put result.url into me.src
-	put result.title into the next <.inlined .title/>
-	put result.title into the next <.overlay .title/>
-	put result.caption into the next <.inlined .caption/>
-	put result.caption into the next <.overlay .caption/>
-*/
-
 	overlayTemplate() {
 		if (this.textPlacement !== 'overlay') {
 			return nothing;

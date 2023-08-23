@@ -1,5 +1,6 @@
 import { PropertyValues, html } from 'lit';
-import { customElement, state, property, query } from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js';
+import { customElement, state, property, query, queryAssignedElements } from 'lit/decorators.js';
 import { BaseElement } from './base';
 import './icon';
 
@@ -139,6 +140,81 @@ export class InputText extends BaseElement {
 				/>
 				<span class="text-sm">${this.caption}</span>
 			</div>
+		`;
+	}
+}
+
+type InputRadioGroupSetting = {
+	default: boolean;
+	value: string;
+	class: string;
+	label: string;
+}
+
+@customElement('input-radio-group')
+export class InputRadioGroup extends BaseElement {
+	@property() name = "";
+	@property() targetId = 'chart';
+	@property() targetEvent = '';
+
+	@state() settings: InputRadioGroupSetting[] = [];
+
+	@queryAssignedElements({ slot: "item" }) groupSlot!: Array<HTMLElement>;
+
+	handleChange(value: string) {
+		const target = document.getElementById(this.targetId)!;
+		if (!target) {
+			console.error("couldn't find target id:", this.targetId);
+			return;
+		}
+
+		target.style.setProperty(`--chart-settings-${this.name}`, value);
+
+		const update = new CustomEvent(this.targetEvent, { detail: { value } });
+		target.dispatchEvent(update);
+	}
+
+	protected override firstUpdated() {
+		this.settings = this.groupSlot.map(item => ({
+			default: Boolean(item.attributes.getNamedItem("default")),
+			value: item.getAttribute('value') || '',
+			class: item.className,
+			label: item.innerText
+		}));
+	}
+
+	override render() {
+		const radioClass =
+			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+		return html`
+			<form>
+				<fieldset role="group" class="flex flex-col gap-2">
+					<legend class="contents">
+						<slot name="legend"></slot>
+					</legend>
+					<slot name="item" class="hidden"></slot>
+					<div class="grid grid-cols-[repeat(auto-fill,minmax(5rem,1fr))] grid-rows-1">
+		${map(
+			this.settings,
+			(s) => html`
+				<div class="h-8 relative hover:cursor-pointer">
+					<input
+						id="text-placement-${s.value}"
+						type="radio"
+						name="text-placement"
+						?checked="${s.default}"
+						value="${s.value}"
+						class="opacity-0 absolute w-full h-full peer"
+						autocomplete="off"
+						@change="${() => this.handleChange(s.value)}"
+					/>
+					<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
+				</div>
+			`,
+		)}
+					</div>
+				</fieldset>
+			</form>
 		`;
 	}
 }

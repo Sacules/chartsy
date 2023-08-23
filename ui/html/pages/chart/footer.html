@@ -3,7 +3,7 @@
 		<footer class="relative border-t border-slate-700 md:hidden text-sm">
 			<div
 				id="settings-chart"
-				class="setting-menu hidden aria-expanded:flex px-4 text-slate-50 pb-4 overflow-y-auto gap-8 border-b border-slate-700"
+				class="setting-menu hidden aria-expanded:flex flex-col p-4 text-slate-50 overflow-y-auto gap-8 border-b border-slate-700"
 			>
 				<input-text
 					name="title"
@@ -15,6 +15,16 @@
 				>
 					Title
 				</input-text>
+				<hr>
+				<input-radio-group name="background" targetId="chart" targetEvent="chart">
+					<span slot="legend">Background</span>
+					<div default value="color" class="rounded-l" slot="item">
+						Color
+					</div>
+					<div value="image" class="rounded-r" slot="item">
+						Image
+					</div>
+				</input-radio-group>
 			</div>
 			<div
 				id="settings-layout"
@@ -73,7 +83,15 @@
 				id="settings-images"
 				class="setting-menu hidden aria-expanded:grid gap-4 px-4 text-slate-50 pb-4 pt-2 overflow-y-auto border-b border-slate-700"
 			>
-				<settings-images-shape></settings-images-shape>
+				<input-radio-group name="images-shape" targetEvent="chartImagesShape">
+					<span slot="legend">My shape</span>
+					<div default value="square" class="rounded-l" slot="item">
+						Square
+					</div>
+					<div value="portrait" class="rounded-r" slot="item">
+						Portrait
+					</div>
+				</input-radio-group>
 				<settings-images-size></settings-images-size>
 				<settings-images-titles></settings-images-titles>
 			</div>

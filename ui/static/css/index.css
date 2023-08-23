@@ -30,18 +30,18 @@
 	}
 }
 
-#images {
-	grid-template-columns: repeat(var(--chart-settings-cols), max-content);
-	grid-template-rows: repeat(var(--chart-settings-rows), max-content);
-	gap: calc(var(--chart-settings-spacing) * 1rem / 2);
-}
-
 #chart {
 	--chart-settings-cols: 3;
 	--chart-settings-rows: 3;
 	--chart-settings-spacing: 4;
 	--chart-settings-padding: 4;
 	--chart-settings-images-width: 150;
+}
+
+#images {
+	grid-template-columns: repeat(var(--chart-settings-cols), max-content);
+	grid-template-rows: repeat(var(--chart-settings-rows), max-content);
+	gap: calc(var(--chart-settings-spacing) * 1rem / 2);
 }
 
 #images-text {

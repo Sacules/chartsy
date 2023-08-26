@@ -1,4 +1,4 @@
-import { PropertyValues, html } from 'lit';
+import { css, PropertyValues, html } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { customElement, state, property, query, queryAssignedElements } from 'lit/decorators.js';
 import { BaseElement } from './base';
@@ -149,17 +149,30 @@ type InputRadioGroupSetting = {
 	value: string;
 	class: string;
 	label: string;
-}
+};
 
 @customElement('input-radio-group')
 export class InputRadioGroup extends BaseElement {
-	@property() name = "";
+	@property() name = '';
 	@property() targetId = 'chart';
 	@property() targetEvent = '';
 
 	@state() settings: InputRadioGroupSetting[] = [];
 
-	@queryAssignedElements({ slot: "item" }) groupSlot!: Array<HTMLElement>;
+	@queryAssignedElements({ slot: 'item' }) groupSlot!: Array<HTMLElement>;
+
+	static override styles = [
+		BaseElement.styles,
+		css`
+			.radio-group-2 {
+				grid-template-columns: repeat(2, minmax(5rem, 1fr));
+			}
+
+			.radio-group-3 {
+				grid-template-columns: repeat(3, minmax(5rem, 1fr));
+			}
+		`,
+	];
 
 	handleChange(value: string) {
 		const target = document.getElementById(this.targetId)!;
@@ -178,17 +191,19 @@ export class InputRadioGroup extends BaseElement {
 	}
 
 	protected override firstUpdated() {
-		this.settings = this.groupSlot.map(item => ({
-			default: Boolean(item.attributes.getNamedItem("default")),
+		this.settings = this.groupSlot.map((item) => ({
+			default: Boolean(item.attributes.getNamedItem('default')),
 			value: item.getAttribute('value') || '',
 			class: item.className,
-			label: item.innerText
+			label: item.innerText,
 		}));
 	}
 
 	override render() {
 		const radioClass =
 			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+		const listClass = `grid radio-group-${this.settings.length % 3 === 0 ? 3 : 2} grid-flow-row auto-rows-max`;
+
 		return html`
 			<form>
 				<fieldset role="group" class="flex flex-col gap-2">
@@ -196,25 +211,25 @@ export class InputRadioGroup extends BaseElement {
 						<slot name="legend"></slot>
 					</legend>
 					<slot name="item" class="hidden"></slot>
-					<div class="grid grid-cols-[repeat(3,minmax(5rem,1fr))] grid-flow-row auto-rows-max">
-		${map(
-			this.settings,
-			(s) => html`
-				<div class="h-8 relative hover:cursor-pointer">
-					<input
-						id="text-placement-${s.value}"
-						type="radio"
-						name="text-placement"
-						?checked="${s.default}"
-						value="${s.value}"
-						class="opacity-0 absolute w-full h-full peer"
-						autocomplete="off"
-						@change="${() => this.handleChange(s.value)}"
-					/>
-					<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
-				</div>
-			`,
-		)}
+					<div class="${listClass}">
+						${map(
+							this.settings,
+							(s) => html`
+								<div class="h-8 relative hover:cursor-pointer">
+									<input
+										id="text-placement-${s.value}"
+										type="radio"
+										name="text-placement"
+										?checked="${s.default}"
+										value="${s.value}"
+										class="opacity-0 absolute w-full h-full peer"
+										autocomplete="off"
+										@change="${() => this.handleChange(s.value)}"
+									/>
+									<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
+								</div>
+							`,
+						)}
 					</div>
 				</fieldset>
 			</form>

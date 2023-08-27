@@ -1,12 +1,14 @@
 {{ define "main" }}
-<div class="h-full grid grid-cols-1 md:grid-cols-[18rem_1fr_18rem] grid-rows-[3.5rem_1fr_auto] md:grid-rows-[3.5rem_1fr]">
-	{{ template "header" . }}
-	{{ template "left-panel" . }}
-	<main class="overflow-auto grid place-items-center p-8 bg-slate-950">
-		{{ template "chart" .Chart }}
-	</main>
-	{{ template "right-panel" .Chart }}
-	{{ template "search-mobile" . }}
-	{{ template "footer" . }}
-</div>
+	<div
+		class="h-full grid grid-cols-1 md:grid-cols-[18rem_1fr_18rem] grid-rows-[3.5rem_1fr_auto] md:grid-rows-[3.5rem_1fr]"
+	>
+		{{ template "header" . }}
+		{{ template "left-panel" . }}
+		<main class="overflow-auto grid place-items-center p-8 bg-slate-950">
+			{{ template "chart" .Chart }}
+		</main>
+		{{ template "right-panel" .Chart }}
+		{{ template "search-mobile" . }}
+		{{ template "footer" . }}
+	</div>
 {{ end }}

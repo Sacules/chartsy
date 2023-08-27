@@ -37,7 +37,7 @@ const tailwindLit = {
 };
 
 const injectStyles = {
-	entryPoints: ['index.ts'],
+	entryPoints: ['ui/static/ts/index.ts'],
 	outfile: '.tmp/index.ts',
 	format: 'esm',
 	bundle: true,
@@ -48,14 +48,14 @@ const injectStyles = {
 
 const tsToJs = {
 	entryPoints: ['.tmp/index.ts'],
-	outfile: '../../../public/index.js',
+	outfile: 'public/index.js',
 	minify: true,
 	plugins: [tsc()],
 };
 
 const tailwindStyles = {
-	entryPoints: ['../css/index.css'],
-	outdir: '../../../public',
+	entryPoints: ['ui/staic/css/index.css'],
+	outdir: 'public',
 	bundle: true,
 	minify: true,
 	plugins: [

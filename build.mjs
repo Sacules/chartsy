@@ -50,11 +50,11 @@ const tsToJs = {
 	entryPoints: ['.tmp/index.ts'],
 	outfile: 'public/index.js',
 	minify: true,
-	plugins: [tsc()],
+	plugins: [tsc({ tsconfigPath: './ui/static/ts/tsconfig.json' })],
 };
 
 const tailwindStyles = {
-	entryPoints: ['ui/staic/css/index.css'],
+	entryPoints: ['ui/static/css/index.css'],
 	outdir: 'public',
 	bundle: true,
 	minify: true,
@@ -71,14 +71,15 @@ const isProd = env.BUILD_ENV === 'prod';
 
 if (isProd) {
 	await esbuild.build(tailwindStyles);
-	await esbuild.build(injectStyles);
-	await esbuild.build(tsToJs);
+	esbuild.build(injectStyles).then(async () => {
+		await esbuild.build(tsToJs);
+	});
 } else {
 	let tailwindCtx = await esbuild.context(tailwindStyles);
 	let jsCtx = await esbuild.context(injectStyles);
 	let tsCtx = await esbuild.context(tsToJs);
 
-	tsCtx.watch();
 	jsCtx.watch();
+	tsCtx.watch();
 	tailwindCtx.watch();
 }

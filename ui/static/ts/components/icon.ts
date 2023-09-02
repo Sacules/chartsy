@@ -134,3 +134,30 @@ export class IconText extends BaseElement {
 		`;
 	}
 }
+
+@customElement('icon-burger')
+export class IconBurger extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" fill="none" viewBox="0 0 26 18">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M1 1h24M1 9h24M1 17h24" />
+			</svg>
+		`;
+	}
+}
+
+@customElement('icon-download')
+export class IconDownload extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 26 26">
+				<path
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M19.667 20.5h.013m.52-4.5h.8c1.242 0 1.864 0 2.354.228.653.305 1.172.889 1.443 1.624.203.551.203 1.25.203 2.648 0 1.398 0 2.097-.203 2.648-.27.735-.79 1.32-1.443 1.624C22.864 25 22.243 25 21 25H5c-1.243 0-1.864 0-2.354-.228-.653-.305-1.172-.889-1.443-1.624C1 22.597 1 21.898 1 20.5c0-1.398 0-2.097.203-2.648.27-.735.79-1.32 1.443-1.624C3.136 16 3.757 16 5 16h.8m7.2 1.5V1m0 16.5L9 13m4 4.5 4-4.5"
+				/>
+			</svg>
+		`;
+	}
+}

@@ -1,29 +1,20 @@
 {{ define "header" }}
-	<header
-		class="px-4 grid griw-rows-1 grid-cols-[auto_1fr_auto] md:grid-cols-3 items-center \
-				 text-slate-50 border-b border-slate-700 md:col-span-full md:row-start-1 md:row-span-1"
-	>
+	<header class="px-4 flex justify-between text-slate-50 border-b border-slate-700 items-center">
 		<button type="button" class="h-6 w-6 invisible">
-			{{ template "icon/burger" . }}
+			<icon-burger></icon-burger>
 		</button>
-		<div class="text-xl md:text-base text-center">Chartsy</div>
-		<div class="flex justify-self-end gap-6 items-center">
-			<button type="button" class="h-6 w-6 hidden md:block invisible">
-				{{ template "icon/user" . }}
-			</button>
-			<div class="hidden md:block invisible">100%</div>
-			<button
-				_="on downloadend
+		<div class="text-xl md:text-base text-center">Untitled chart</div>
+		<button
+			_="on downloadend
 				       set @aria-disabled to 'false'
 				   on click
 					   set @aria-disabled to 'true'
 					   async call downloadChart()"
-				id="download-button"
-				type="button"
-				class="h-6 w-6 aria-disabled:animate-pulse"
-			>
-				{{ template "icon/download" . }}
-			</button>
-		</div>
+			id="download-button"
+			type="button"
+			class="h-6 w-6 aria-disabled:animate-pulse"
+		>
+			<icon-download></icon-download>
+		</button>
 	</header>
 {{ end }}

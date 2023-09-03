@@ -1,6 +1,6 @@
 import { css, PropertyValues, html, nothing } from 'lit';
 import { map } from 'lit/directives/map.js';
-import { customElement, state, property, query, queryAssignedElements } from 'lit/decorators.js';
+import { customElement, state, property, query, queryAll, queryAssignedElements } from 'lit/decorators.js';
 import { BaseElement } from './base';
 import './icon';
 
@@ -183,6 +183,7 @@ export class InputRadioGroup extends BaseElement {
 	@state() settings: InputRadioGroupSetting[] = [];
 
 	@queryAssignedElements({ slot: 'item' }) groupSlot!: Array<HTMLElement>;
+	@queryAll('input') inputs!: HTMLInputElement[];
 
 	static override styles = [
 		BaseElement.styles,
@@ -220,15 +221,35 @@ export class InputRadioGroup extends BaseElement {
 			class: item.className,
 			label: item.innerText,
 		}));
+
+		this.addEventListener('focus', () => {
+			console.log('focus!');
+			this.inputs[0].focus();
+		});
+	}
+
+	handlePress(e: KeyboardEvent, index: number) {
+		if (e.key !== 'Enter') {
+			return;
+		}
+
+		this.settings.forEach((s) => (s.default = false));
+		this.settings[index].default = true;
+		this.inputs[index].checked = true;
+		this.handleChange(this.settings[index].value);
 	}
 
 	renderSettings() {
-		const radioClass =
+		const labelClass =
 			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
 		return map(
 			this.settings,
-			(s) => html`
-				<div class="h-8 relative hover:cursor-pointer">
+			(s, i) => html`
+				<div
+					class="group focus-visible:outline focus-visible:outline-sky-600 h-8 relative hover:cursor-pointer"
+					tabindex="0"
+					@keydown="${(e: KeyboardEvent) => this.handlePress(e, i)}"
+				>
 					<input
 						id="text-placement-${s.value}"
 						type="radio"
@@ -239,7 +260,7 @@ export class InputRadioGroup extends BaseElement {
 						autocomplete="off"
 						@change="${() => this.handleChange(s.value)}"
 					/>
-					<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
+					<label for="text-placement-${s.value}" class="${labelClass} ${s.class}">${s.label}</label>
 				</div>
 			`,
 		);

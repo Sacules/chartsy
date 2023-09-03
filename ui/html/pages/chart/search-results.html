@@ -1,5 +1,5 @@
 {{ define "search-results" }}
-	{{ range . }}
+	{{ range .SearchResults }}
 		<li
 			_="set element data to { src: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
 			   on click
@@ -11,24 +11,24 @@
 			  	   set $draggingFromResults to true
 			   on dragend
 			  	   set $draggingFromResults to false"
-			class="search-result"
+			class="search-result p-4 group hover:bg-slate-200 transition duration-150"
 			draggable="true"
 		>
-			<figure class="h-28 px-2 flex gap-4 items-center group hover:bg-slate-200 transition duration-150">
+			<figure class="h-24 flex gap-4 items-center">
 				<img
 					class="w-24 object-center object-cover transition-all duration-150 shadow-md"
 					role="img"
 					src="{{ .Url }}"
 				/>
 				<figcaption
-					class="max-w-[10rem] max-h-[5rem] text-sm mt-2 leading-snug break-words \
-				   text-ellipsis overflow-hidden transition-all duration-150 \
-				   filter group-hover:invert"
+					class="max-w-[10rem] max-h-[5rem] text-sm leading-snug break-words \
+						   text-ellipsis overflow-hidden transition-all duration-150 \
+						   filter group-hover:invert"
 					style="user-select: none;"
 				>
-					<strong>{{ .Title }}</strong>
+					<strong>{{ .Author }}</strong>
 					<br />
-					{{ .Caption }}
+					{{ .Title }}
 				</figcaption>
 			</figure>
 		</li>

@@ -1,8 +1,5 @@
 {{ define "left-panel" }}
-	<aside
-		class="p-4 hidden col-start-1 col-end-2 border-r border-slate-700 \
-		   max-h-[94vh] md:grid grid-cols-1 grid-rows-[auto_1fr]"
-	>
+	<aside class="hidden border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-auto">
 		{{ template "search" . }}
 	</aside>
 {{ end }}

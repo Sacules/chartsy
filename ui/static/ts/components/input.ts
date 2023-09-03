@@ -110,8 +110,9 @@ export class InputText extends BaseElement {
 		this.input.addEventListener('input', (e) => {
 			this.value = (e.target as HTMLInputElement).value;
 
-			const changeEvent = new Event('input', { bubbles: true });
+			const changeEvent = new CustomEvent('input', { detail: { value: this.value } });
 			this.dispatchEvent(changeEvent);
+			e.stopPropagation();
 		});
 	}
 
@@ -123,17 +124,6 @@ export class InputText extends BaseElement {
 		if (!changedProperties.has('value') || !this.targetId) {
 			return;
 		}
-
-		const target = document.getElementById(this.targetId);
-		if (!target) {
-			console.error("couldn't find target with id:", this.targetId);
-			return;
-		}
-
-		const e = new CustomEvent(this.targetEvent, {
-			detail: { val: this.value },
-		});
-		target.dispatchEvent(e);
 	}
 
 	renderCaption() {
@@ -177,13 +167,23 @@ type InputRadioGroupSetting = {
 @customElement('input-radio-group')
 export class InputRadioGroup extends BaseElement {
 	@property() name = '';
+	@property() value = '';
 	@property() targetId = 'chart';
 	@property() targetEvent = '';
 
+	@state() internals;
 	@state() settings: InputRadioGroupSetting[] = [];
 
 	@queryAssignedElements({ slot: 'item' }) groupSlot!: Array<HTMLElement>;
 	@queryAll('input') inputs!: HTMLInputElement[];
+
+	static formAssociated = true;
+
+	constructor() {
+		super();
+
+		this.internals = this.attachInternals();
+	}
 
 	static override styles = [
 		BaseElement.styles,
@@ -198,22 +198,6 @@ export class InputRadioGroup extends BaseElement {
 		`,
 	];
 
-	handleChange(value: string) {
-		const target = document.getElementById(this.targetId)!;
-		if (!target) {
-			console.error("couldn't find target id:", this.targetId);
-			return;
-		}
-
-		if (!this.targetEvent) {
-			target.style.setProperty(`--chart-settings-${this.name}`, value);
-			return;
-		}
-
-		const update = new CustomEvent(this.targetEvent, { detail: { value } });
-		target.dispatchEvent(update);
-	}
-
 	protected override firstUpdated() {
 		this.settings = this.groupSlot.map((item) => ({
 			default: Boolean(item.attributes.getNamedItem('default')),
@@ -223,7 +207,6 @@ export class InputRadioGroup extends BaseElement {
 		}));
 
 		this.addEventListener('focus', () => {
-			console.log('focus!');
 			this.inputs[0].focus();
 		});
 	}
@@ -236,12 +219,19 @@ export class InputRadioGroup extends BaseElement {
 		this.settings.forEach((s) => (s.default = false));
 		this.settings[index].default = true;
 		this.inputs[index].checked = true;
-		this.handleChange(this.settings[index].value);
+		this.handleChange(e);
+	}
+
+	handleChange(e: Event) {
+		this.value = (e.target as HTMLInputElement).value;
+
+		const changeEvent = new CustomEvent('change', { bubbles: true, detail: { value: this.value } });
+		this.dispatchEvent(changeEvent);
 	}
 
 	renderSettings() {
 		const labelClass =
-			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+			'z-10 hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
 		return map(
 			this.settings,
 			(s, i) => html`
@@ -256,9 +246,9 @@ export class InputRadioGroup extends BaseElement {
 						name="text-placement"
 						?checked="${s.default}"
 						value="${s.value}"
-						class="z-10 opacity-0 absolute w-full h-full peer"
+						class="opacity-0 absolute w-full h-full peer"
 						autocomplete="off"
-						@change="${() => this.handleChange(s.value)}"
+						@change="${this.handleChange}"
 					/>
 					<label for="text-placement-${s.value}" class="${labelClass} ${s.class}">${s.label}</label>
 				</div>
@@ -270,15 +260,13 @@ export class InputRadioGroup extends BaseElement {
 		const listClass = `grid radio-group-${this.settings.length % 3 === 0 ? 3 : 2} grid-flow-row auto-rows-max`;
 
 		return html`
-			<form>
-				<fieldset role="group" class="flex flex-col gap-2">
-					<legend class="contents">
-						<slot name="legend"></slot>
-					</legend>
-					<slot name="item" class="hidden"></slot>
-					<div class="${listClass}">${this.renderSettings()}</div>
-				</fieldset>
-			</form>
+			<fieldset role="group" class="flex flex-col gap-2">
+				<legend class="contents">
+					<slot name="legend"></slot>
+				</legend>
+				<slot name="item" class="hidden"></slot>
+				<div class="${listClass}">${this.renderSettings()}</div>
+			</fieldset>
 		`;
 	}
 }

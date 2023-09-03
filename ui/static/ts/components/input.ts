@@ -256,7 +256,7 @@ export class InputRadioGroup extends BaseElement {
 						name="text-placement"
 						?checked="${s.default}"
 						value="${s.value}"
-						class="opacity-0 absolute w-full h-full peer"
+						class="z-10 opacity-0 absolute w-full h-full peer"
 						autocomplete="off"
 						@change="${() => this.handleChange(s.value)}"
 					/>

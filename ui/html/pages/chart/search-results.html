@@ -11,8 +11,9 @@
 			  	   set $draggingFromResults to true
 			   on dragend
 			  	   set $draggingFromResults to false"
-			class="search-result p-4 group hover:bg-slate-200 transition duration-150"
+			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150"
 			draggable="true"
+			tabindex="0"
 		>
 			<figure class="h-24 flex gap-4 items-center">
 				<img
@@ -23,7 +24,7 @@
 				<figcaption
 					class="max-w-[10rem] max-h-[5rem] text-sm leading-snug break-words \
 						   text-ellipsis overflow-hidden transition-all duration-150 \
-						   filter group-hover:invert"
+						   filter group-focus-visible:invert group-hover:invert"
 					style="user-select: none;"
 				>
 					<strong>{{ .Author }}</strong>

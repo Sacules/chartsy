@@ -168,7 +168,7 @@ type LastfmAlbumsResults struct {
 	} `json:"results"`
 }
 
-type record struct {
+type SearchResult struct {
 	Title  string
 	Author string
 	Url    string
@@ -215,16 +215,19 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	records := make([]record, 0, len(results.Results.Albummatches.Album))
+	records := make([]SearchResult, 0, len(results.Results.Albummatches.Album))
 	for _, al := range results.Results.Albummatches.Album {
 		cover := al.Image[2].Text
 		if cover == "" {
 			continue
 		}
 
-		record := record{Author: al.Artist, Title: al.Name, Url: cover}
+		record := SearchResult{Author: al.Artist, Title: al.Name, Url: cover}
 		records = append(records, record)
 	}
 
-	app.render(w, http.StatusOK, "search-results", nil)
+	data := app.newTemplateData(r)
+	data.SearchResults = records
+
+	app.renderFragment(w, http.StatusOK, "chart", "search-results", data)
 }

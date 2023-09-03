@@ -26,9 +26,10 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 type templateData struct {
-	Env   string
-	Chart *models.Chart
-	Form  any
+	Env           string
+	Chart         *models.Chart
+	SearchResults []SearchResult
+	Form          any
 }
 
 func (app *application) newTemplateData(r *http.Request) *templateData {
@@ -38,6 +39,10 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 }
 
 func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {
+	app.renderFragment(w, status, page, "base", data)
+}
+
+func (app *application) renderFragment(w http.ResponseWriter, status int, page, fragment string, data *templateData) {
 	ts, ok := app.templateCache[page]
 	if !ok {
 		err := fmt.Errorf("the template %s doesn't exist", page)
@@ -47,7 +52,7 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	}
 
 	var buf bytes.Buffer
-	err := ts.ExecuteTemplate(&buf, "base", data)
+	err := ts.ExecuteTemplate(&buf, fragment, data)
 	if err != nil {
 		app.serverError(w, err)
 		return

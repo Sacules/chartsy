@@ -22,14 +22,13 @@
 					src="{{ .Url }}"
 				/>
 				<figcaption
-					class="max-w-[10rem] max-h-[5rem] text-sm leading-snug break-words \
+					class="max-w-[10rem] max-h-full text-sm break-words \
 						   text-ellipsis overflow-hidden transition-all duration-150 \
 						   filter group-focus-visible:invert group-hover:invert"
 					style="user-select: none;"
 				>
 					<strong>{{ .Author }}</strong>
-					<br />
-					{{ .Title }}
+					<p>{{ .Title }}</p>
 				</figcaption>
 			</figure>
 		</li>

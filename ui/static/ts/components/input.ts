@@ -222,9 +222,30 @@ export class InputRadioGroup extends BaseElement {
 		}));
 	}
 
-	override render() {
+	renderSettings() {
 		const radioClass =
 			'hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 grid place-items-center border border-slate-700 select-none h-full';
+		return map(
+			this.settings,
+			(s) => html`
+				<div class="h-8 relative hover:cursor-pointer">
+					<input
+						id="text-placement-${s.value}"
+						type="radio"
+						name="text-placement"
+						?checked="${s.default}"
+						value="${s.value}"
+						class="opacity-0 absolute w-full h-full peer"
+						autocomplete="off"
+						@change="${() => this.handleChange(s.value)}"
+					/>
+					<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
+				</div>
+			`,
+		);
+	}
+
+	override render() {
 		const listClass = `grid radio-group-${this.settings.length % 3 === 0 ? 3 : 2} grid-flow-row auto-rows-max`;
 
 		return html`
@@ -234,26 +255,7 @@ export class InputRadioGroup extends BaseElement {
 						<slot name="legend"></slot>
 					</legend>
 					<slot name="item" class="hidden"></slot>
-					<div class="${listClass}">
-						${map(
-			this.settings,
-			(s) => html`
-								<div class="h-8 relative hover:cursor-pointer">
-									<input
-										id="text-placement-${s.value}"
-										type="radio"
-										name="text-placement"
-										?checked="${s.default}"
-										value="${s.value}"
-										class="opacity-0 absolute w-full h-full peer"
-										autocomplete="off"
-										@change="${() => this.handleChange(s.value)}"
-									/>
-									<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
-								</div>
-							`,
-		)}
-					</div>
+					<div class="${listClass}">${this.renderSettings()}</div>
 				</fieldset>
 			</form>
 		`;

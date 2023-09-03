@@ -1,4 +1,4 @@
-import { css, PropertyValues, html } from 'lit';
+import { css, PropertyValues, html, nothing } from 'lit';
 import { map } from 'lit/directives/map.js';
 import { customElement, state, property, query, queryAssignedElements } from 'lit/decorators.js';
 import { BaseElement } from './base';
@@ -88,19 +88,39 @@ export class InputNumeric extends BaseElement {
 @customElement('input-text')
 export class InputText extends BaseElement {
 	@property() name = '';
-	@property() class = '';
 	@property() value = '';
 	@property() caption = '';
 	@property() placeholder = '';
 	@property() targetId = '';
 	@property() targetEvent = '';
 
-	handleInput(e: Event) {
-		this.value = (e.target as HTMLInputElement).value;
+	@state() internals;
+
+	@query('input') input!: HTMLInputElement;
+
+	static formAssociated = true;
+
+	constructor() {
+		super();
+
+		this.internals = this.attachInternals();
+	}
+
+	protected override firstUpdated() {
+		this.input.addEventListener('input', (e) => {
+			this.value = (e.target as HTMLInputElement).value;
+
+			const changeEvent = new Event('input', { bubbles: true });
+			this.dispatchEvent(changeEvent);
+		});
 	}
 
 	protected override updated(changedProperties: PropertyValues<this>) {
-		if (!changedProperties.has('value')) {
+		if (changedProperties.has('value')) {
+			this.internals.setFormValue(this.input.value);
+		}
+
+		if (!changedProperties.has('value') || !this.targetId) {
 			return;
 		}
 
@@ -116,9 +136,13 @@ export class InputText extends BaseElement {
 		target.dispatchEvent(e);
 	}
 
+	renderCaption() {
+		return this.caption !== '' ? html`<span class="text-sm">${this.caption}</span>` : nothing;
+	}
+
 	override render() {
-		const c = `${this.class} rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
-			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition text-sm`;
+		const c = `${this.className} h-10 px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none transition text-sm`;
 
 		return html`
 			<div class="flex flex-col gap-2">
@@ -136,9 +160,8 @@ export class InputText extends BaseElement {
 					autocomplete="off"
 					placeholder="${this.placeholder}"
 					class="${c}"
-					@input="${this.handleInput}"
 				/>
-				<span class="text-sm">${this.caption}</span>
+				${this.renderCaption()}
 			</div>
 		`;
 	}
@@ -213,8 +236,8 @@ export class InputRadioGroup extends BaseElement {
 					<slot name="item" class="hidden"></slot>
 					<div class="${listClass}">
 						${map(
-							this.settings,
-							(s) => html`
+			this.settings,
+			(s) => html`
 								<div class="h-8 relative hover:cursor-pointer">
 									<input
 										id="text-placement-${s.value}"
@@ -229,7 +252,7 @@ export class InputRadioGroup extends BaseElement {
 									<label for="text-placement-${s.value}" class="${radioClass} ${s.class}">${s.label}</label>
 								</div>
 							`,
-						)}
+		)}
 					</div>
 				</fieldset>
 			</form>

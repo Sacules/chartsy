@@ -2,7 +2,6 @@ import { toPng } from 'html-to-image';
 import Sortable from 'sortablejs';
 import htmx from 'htmx.org';
 import { marked } from 'marked';
-import DOMPurify from 'dompurify';
 
 // Components
 import './components/input';
@@ -13,7 +12,7 @@ import './components/settings/images';
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
 
 function markdown(s: string) {
-	return DOMPurify.sanitize(marked.parse(s, { headerIds: false, mangle: false }));
+	return marked.parse(s);
 }
 
 const downloadend = new Event('downloadend');
@@ -38,7 +37,7 @@ async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function (content) {
+htmx.onLoad(function(content) {
 	const images = content.querySelector('#images');
 	if (!images) {
 		return;

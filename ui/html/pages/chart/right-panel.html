@@ -1,7 +1,7 @@
 {{ define "right-panel" }}
 	<aside class="hidden md:flex col-start-3 border-l border-slate-700 flex-col overflow-y-auto">
 		<div class="flex flex-col gap-4 p-4">
-			<strong>Title</strong>
+			<strong>Chart</strong>
 			<input-text
 				name="title"
 				value="{{ .Title }}"
@@ -10,8 +10,37 @@
 				targetId="chart-title"
 				targetEvent="update"
 			>
-				Name
+				Title
 			</input-text>
+			<hr class="border-slate-700" />
+			<div
+				_="on toggle(value)
+				    if value is 'color'
+					    add [@aria-hidden=false] to #settings-chart-bg-color
+					    add [@aria-hidden=true] to #settings-chart-bg-image
+					end
+				    if value is 'image'
+					    add [@aria-hidden=true] to #settings-chart-bg-color
+					    add [@aria-hidden=false] to #settings-chart-bg-image
+					end"
+				id="settings-chart-bg"
+				class="flex flex-col gap-4"
+			>
+				<input-radio-group name="background" targetId="settings-chart-bg" targetEvent="toggle">
+					<span slot="legend">Background</span>
+					<div default value="color" class="rounded-l" slot="item">Color</div>
+					<div value="image" class="rounded-r" slot="item">Image</div>
+				</input-radio-group>
+				<input
+					id="settings-chart-bg-color"
+					class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
+					autocomplete="off"
+					type="color"
+					name="bgColor"
+					value="{{ .BgColor }}"
+				/>
+				<input aria-hidden="true" class="aria-hidden:hidden" id="settings-chart-bg-image" type="file" name="bgImage" />
+			</div>
 		</div>
 		<hr class="border-slate-700" />
 		<fieldset class="flex flex-col gap-4 p-4" role="group">
@@ -64,23 +93,29 @@
 		<hr class="border-slate-700" />
 		<div class="flex flex-col gap-4 p-4">
 			<strong>Images</strong>
-			<fieldset class="flex flex-col gap-4" role="group">
-				<input-numeric
-					id="images-width"
-					name="images-width"
-					value="{{ .ImagesWidth }}"
-					class="settings"
-					min="100"
-					max="200"
-					step="10"
-					unit="px"
-					targetEvent="chartImagesWidth"
-				>
-					Width
-				</input-numeric>
-			</fieldset>
-			<settings-images-shape></settings-images-shape>
-			<settings-images-titles></settings-images-titles>
+			<input-radio-group name="images-shape" targetEvent="chartImagesShape">
+				<span slot="legend">Shape</span>
+				<div default value="square" class="rounded-l" slot="item">Square</div>
+				<div value="portrait" class="rounded-r" slot="item">Portrait</div>
+			</input-radio-group>
+			<input-radio-group name="images-width">
+				<span slot="legend">Size</span>
+				<div default value="150" class="rounded-l" slot="item">Regular</div>
+				<div value="200" class="rounded-r" slot="item">Large</div>
+			</input-radio-group>
+		</div>
+		<hr class="border-slate-700" />
+		<div class="flex flex-col gap-4 p-4">
+			<strong>Titles</strong>
+			<input-radio-group name="titles-placement" targetEvent="chartTextPlacement">
+				<span slot="legend">Position</span>
+				<div default value="hide" class="rounded-tl border-b-0" slot="item">Hide</div>
+				<div value="inline" class="border-b-0" slot="item">Inline</div>
+				<div value="overlay" class="rounded-tr border-b-0" slot="item">Overlay</div>
+				<div value="left" class="rounded-bl" slot="item">Left</div>
+				<div value="below" slot="item">Below</div>
+				<div value="right" class="rounded-br" slot="item">Right</div>
+			</input-radio-group>
 		</div>
 	</aside>
 {{ end }}

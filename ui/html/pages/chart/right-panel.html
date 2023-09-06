@@ -15,14 +15,15 @@
 			<hr class="border-slate-700" />
 			<form
 				_="on toggle(value)
-				    if value is 'color'
-					    add [@aria-hidden=false] to #settings-chart-bg-color
-					    add [@aria-hidden=true] to #settings-chart-bg-image
-					end
-				    if value is 'image'
-					    add [@aria-hidden=true] to #settings-chart-bg-color
-					    add [@aria-hidden=false] to #settings-chart-bg-image
-					end"
+				       if value is 'color'
+				   	       add [@aria-hidden=false] to #settings-chart-bg-color
+				   	       add [@aria-hidden=true] to #settings-chart-bg-image
+				       end
+				       if value is 'image'
+				   	       add [@aria-hidden=true] to #settings-chart-bg-color
+				   	       add [@aria-hidden=false] to #settings-chart-bg-image
+				   	   end
+					   send bgChange(state: value) to #images-text"
 				id="settings-chart-bg"
 				class="flex flex-col gap-4"
 			>
@@ -36,6 +37,8 @@
 					<div value="image" class="rounded-r" slot="item">Image</div>
 				</input-radio-group>
 				<input
+					_="on input(target)
+						   send bgChangeColor(value: target.value) to #images-text"
 					id="settings-chart-bg-color"
 					class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
 					autocomplete="off"
@@ -43,7 +46,16 @@
 					name="bgColor"
 					value="{{ .BgColor }}"
 				/>
-				<input aria-hidden="true" class="aria-hidden:hidden" id="settings-chart-bg-image" type="file" name="bgImage" />
+				<input
+					_="on input(target)
+						   send bgChangeImage(file: target.files[0]) to #images-text"
+					aria-hidden="true"
+					class="aria-hidden:hidden"
+					id="settings-chart-bg-image"
+					type="file"
+					name="bgImage"
+					accept="image/*"
+				/>
 			</form>
 		</div>
 		<hr class="border-slate-700" />

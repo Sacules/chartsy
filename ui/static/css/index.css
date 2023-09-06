@@ -36,6 +36,8 @@
 	--chart-settings-spacing: 4;
 	--chart-settings-padding: 4;
 	--chart-settings-images-width: 150;
+	--chart-settings-background-color: #000000;
+	--chart-settings-background-image: url('https://i.imgur.com/w4toMiR.jpg');
 }
 
 #images {
@@ -46,6 +48,14 @@
 
 #images-text {
 	padding: calc(var(--chart-settings-padding) * 1rem / 2);
+}
+
+#images-text.color {
+	background-color: var(--chart-settings-background-color);
+}
+
+#images-text.image {
+	background-image: var(--chart-settings-background-image);
 }
 
 chart-image {

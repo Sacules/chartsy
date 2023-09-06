@@ -61,7 +61,26 @@
 		id="chart"
 		style="display: none;"
 	>
-		<chart-images-text id="images-text" text-placement="hide" class="grid" style="background-color: {{ .BgColor }}">
+		<chart-images-text
+			_="on bgChange(state)
+				   if state is 'color'
+				       remove .image from me
+					   add .color to me
+				   end
+				   if state is 'image'
+				       remove .color from me
+					   add .image to me
+				   end
+			   on bgChangeColor(value)
+				   call #chart.style.setProperty('--chart-settings-background-color', value)
+			   on bgChangeImage(file)
+			       set src to URL.createObjectURL(file)
+			       set url to beep! `url('${src}')`
+				   call #chart.style.setProperty('--chart-settings-background-image', url)"
+			id="images-text"
+			text-placement="hide"
+			class="grid bg-cover bg-center"
+		>
 			<h1
 				_="on update(value) get the markdown(value) then set my.innerHTML to it"
 				id="chart-title"

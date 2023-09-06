@@ -6,30 +6,34 @@
 				class="setting-menu hidden flex-col gap-4 overflow-y-auto border-b border-slate-700 p-4 text-slate-50 aria-expanded:flex"
 			>
 				<input-text
+					_="on input(value)
+				       send update(value: value) to #chart-title"
 					name="title"
 					value="{{ .Title }}"
-					class="settings w-full"
+					class="settings"
 					caption="Works with Markdown and emojis! 🔥"
-					targetId="chart-title"
-					targetEvent="update"
 				>
 					Title
 				</input-text>
 				<hr class="border-slate-700" />
-				<div
+				<form
 					_="on toggle(value)
-				    if value is 'color'
-					    add [@aria-hidden=false] to #settings-chart-bg-color
-					    add [@aria-hidden=true] to #settings-chart-bg-image
-					end
-				    if value is 'image'
-					    add [@aria-hidden=true] to #settings-chart-bg-color
-					    add [@aria-hidden=false] to #settings-chart-bg-image
-					end"
-					id="settings-chart-bg"
+					       if value is 'color'
+						       add [@aria-hidden=false] to #settings-chart-bg-color
+							   add [@aria-hidden=true] to #settings-chart-bg-image
+						   end
+						   if value is 'image'
+						  	   add [@aria-hidden=true] to #settings-chart-bg-color
+						  	   add [@aria-hidden=false] to #settings-chart-bg-image
+						   end"
+					id="mobile-settings-chart-bg"
 					class="flex items-end justify-between"
 				>
-					<input-radio-group name="background" targetId="settings-chart-bg" targetEvent="toggle">
+					<input-radio-group
+						_="on change(value)
+					           send toggle(value: value) to #mobile-settings-chart-bg"
+						name="background"
+					>
 						<span slot="legend">Background</span>
 						<div default value="color" class="rounded-l" slot="item">Color</div>
 						<div value="image" class="rounded-r" slot="item">Image</div>
@@ -49,7 +53,7 @@
 						type="file"
 						name="bgImage"
 					/>
-				</div>
+				</form>
 			</div>
 			<div
 				id="settings-layout"

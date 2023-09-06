@@ -17,11 +17,18 @@
 				_="on toggle(value)
 				       if value is 'color'
 				   	       add [@aria-hidden=false] to #settings-chart-bg-color
+				   	       add [@aria-hidden=true] to #settings-chart-bg-gradient
+				   	       add [@aria-hidden=true] to #settings-chart-bg-image
+				       end
+				       if value is 'gradient'
+				   	       add [@aria-hidden=true] to #settings-chart-bg-color
+				   	       add [@aria-hidden=false] to #settings-chart-bg-gradient
 				   	       add [@aria-hidden=true] to #settings-chart-bg-image
 				       end
 				       if value is 'image'
-				   	       add [@aria-hidden=true] to #settings-chart-bg-color
-				   	       add [@aria-hidden=false] to #settings-chart-bg-image
+				   	       add [@aria-hidden=false] to #settings-chart-bg-color
+				   	       add [@aria-hidden=true] to #settings-chart-bg-gradient
+				   	       add [@aria-hidden=true] to #settings-chart-bg-image
 				   	   end
 					   send bgChange(state: value) to #images-text"
 				id="settings-chart-bg"
@@ -34,18 +41,52 @@
 				>
 					<span slot="legend">Background</span>
 					<div default value="color" class="rounded-l" slot="item">Color</div>
+					<div value="gradient" slot="item">Gradient</div>
 					<div value="image" class="rounded-r" slot="item">Image</div>
 				</input-radio-group>
-				<input
-					_="on input(target)
-						   send bgChangeColor(value: target.value) to #images-text"
-					id="settings-chart-bg-color"
-					class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
-					autocomplete="off"
-					type="color"
-					name="bgColor"
-					value="{{ .BgColor }}"
-				/>
+				<div id="settings-chart-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
+					<output name="color" for="settings-chart-bg-color-picker">{{ .BgColor }}</output>
+					<input
+						_="on input(target)
+					       set val to target.value
+						   send bgChangeColor(value: val) to #images-text
+						   put val into the previous <output/>"
+						id="settings-chart-bg-color-picker"
+						class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2"
+						autocomplete="off"
+						type="color"
+						name="bgColor"
+						value="{{ .BgColor }}"
+					/>
+				</div>
+				<div id="settings-chart-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
+					<div class="flex gap-4 items-center">
+						<label for="settings-chart-bg-gradient-from">From</label>
+						<input
+							_="on input(target)
+							       send bgChangeGradientFrom(value: target.value) to #images-text"
+							id="settings-chart-bg-gradient-from"
+							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
+							autocomplete="off"
+							type="color"
+							name="bgGradientFrom"
+							value="{{ .BgColor }}"
+						/>
+					</div>
+					<div class="flex gap-4 items-center">
+						<label for="settings-chart-bg-gradient-to">To</label>
+						<input
+							_="on input(target)
+							       send bgChangeGradientTo(value: target.value) to #images-text"
+							id="settings-chart-bg-gradient-to"
+							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
+							autocomplete="off"
+							type="color"
+							name="bgGradientTo"
+							value="{{ .BgColor }}"
+						/>
+					</div>
+				</div>
 				<input
 					_="on input(target)
 						   send bgChangeImage(file: target.files[0]) to #images-text"

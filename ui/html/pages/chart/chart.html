@@ -64,15 +64,26 @@
 		<chart-images-text
 			_="on bgChange(state)
 				   if state is 'color'
+				       remove .gradient from me
 				       remove .image from me
 					   add .color to me
 				   end
+				   if state is 'gradient'
+				       remove .color from me
+				       remove .image from me
+					   add .gradient to me
+				   end
 				   if state is 'image'
 				       remove .color from me
+				       remove .gradient from me
 					   add .image to me
 				   end
 			   on bgChangeColor(value)
 				   call #chart.style.setProperty('--chart-settings-background-color', value)
+			   on bgChangeGradientFrom(value)
+				   call #chart.style.setProperty('--chart-settings-background-gradient-from', value)
+			   on bgChangeGradientTo(value)
+				   call #chart.style.setProperty('--chart-settings-background-gradient-to', value)
 			   on bgChangeImage(file)
 			       set src to URL.createObjectURL(file)
 			       set url to beep! `url('${src}')`

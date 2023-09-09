@@ -22,10 +22,6 @@ func (app *application) routes() *chi.Mux {
 	r.Group(func(r chi.Router) {
 		r.Use(middleware.Recoverer, app.sessionManager.LoadAndSave, middleware.Compress(5, "text/html"))
 
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			data := app.newTemplateData(r)
-			app.render(w, http.StatusOK, "home", data)
-		})
 		r.Route("/search", func(r chi.Router) {
 			// Rate limit the last.fm API by now
 			r.Use(httprate.LimitAll(2, 1*time.Second))
@@ -33,6 +29,11 @@ func (app *application) routes() *chi.Mux {
 			r.Post("/", app.search)
 		})
 
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			data := app.newTemplateData(r)
+			data.Form = userSignupForm{}
+			app.render(w, http.StatusOK, "home", data)
+		})
 		r.Get("/chart", app.chart)
 		r.Post("/signup", app.userSignupPost)
 		r.Post("/login", app.userLoginPost)

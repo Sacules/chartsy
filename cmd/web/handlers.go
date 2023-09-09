@@ -52,14 +52,9 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 }
 
 type userSignupForm struct {
-	Name                string `form:"name"`
 	Email               string `form:"email"`
 	Password            string `form:"password"`
 	validator.Validator `form:"-"`
-}
-
-func (app *application) userSignup(w http.ResponseWriter, r *http.Request) {
-	app.render(w, http.StatusOK, "signup", nil)
 }
 
 func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
@@ -71,7 +66,6 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	form.CheckField(validator.NotBlank(form.Name), "name", "This field cannot be blank")
 	form.CheckField(validator.NotBlank(form.Email), "email", "This field cannot be blank")
 	form.CheckField(validator.Email(form.Email), "email", "This field must be a valid email address")
 	form.CheckField(validator.NotBlank(form.Password), "password", "This field cannot be blank")
@@ -81,11 +75,12 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		data := app.newTemplateData(r)
 		data.Form = form
 
-		app.render(w, http.StatusBadRequest, "signup", nil)
+		app.renderFragment(w, http.StatusOK, "home", "signup", data)
+		app.infoLog.Println("form invalid:", form)
 		return
 	}
 
-	err = app.users.Insert(form.Name, form.Email, form.Password)
+	err = app.users.Insert(form.Email, form.Password)
 	if err != nil {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			form.AddFieldError("email", "Email address is already in use")
@@ -93,7 +88,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 			data := app.newTemplateData(r)
 			data.Form = form
 
-			app.render(w, http.StatusBadRequest, "signup", nil)
+			app.renderFragment(w, http.StatusOK, "home", "signup", data)
 		} else {
 			app.serverError(w, err)
 		}
@@ -101,9 +96,10 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.sessionManager.Put(r.Context(), "flash", "Your signup was successful, please log in.")
+	data := app.newTemplateData(r)
+	data.Form = form
 
-	http.Redirect(w, r, "/login", http.StatusSeeOther)
+	app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
 }
 
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {

@@ -87,11 +87,13 @@ export class InputNumeric extends BaseElement {
 
 @customElement('input-text')
 export class InputText extends BaseElement {
+	@property() required = false;
 	@property() name = '';
 	@property() value = '';
 	@property() caption = '';
 	@property() placeholder = '';
 	@property() type = 'text';
+	@property() error = '';
 
 	@state() internals;
 
@@ -106,7 +108,10 @@ export class InputText extends BaseElement {
 	}
 
 	protected override firstUpdated() {
+		this.internals.setValidity(this.input.validity, this.input.validationMessage, this.input);
+
 		this.input.addEventListener('input', (e) => {
+			this.internals.setValidity(this.input.validity, this.input.validationMessage, this.input);
 			this.value = (e.target as HTMLInputElement).value;
 
 			const changeEvent = new CustomEvent('input', { detail: { value: this.value } });
@@ -121,13 +126,34 @@ export class InputText extends BaseElement {
 		}
 	}
 
+	public checkValidity(): boolean {
+		return this.internals.checkValidity();
+	}
+
+	public reportValidity(): boolean {
+		return this.internals.reportValidity();
+	}
+
+	public get validity(): ValidityState {
+		return this.internals.validity;
+	}
+
+	public get validationMessage(): string {
+		return this.internals.validationMessage;
+	}
+
 	renderCaption() {
+		if (this.error !== '') {
+			return html`<span class="text-sm text-rose-600">${this.error}</span>`;
+		}
+
 		return this.caption !== '' ? html`<span class="text-sm">${this.caption}</span>` : nothing;
 	}
 
 	override render() {
-		const c = `${this.className} h-10 px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
-			   hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none transition text-sm`;
+		const c = `h-10 px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+			       hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none \
+				   transition text-sm invalid:border-rose-600 ${this.className}`;
 
 		return html`
 			<div class="flex flex-col gap-2">
@@ -137,6 +163,7 @@ export class InputText extends BaseElement {
 					</strong>
 				</label>
 				<input
+					?required=${this.required}
 					id="input-text"
 					type="${this.type}"
 					name="${this.name}"

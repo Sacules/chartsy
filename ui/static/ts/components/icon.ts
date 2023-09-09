@@ -161,3 +161,57 @@ export class IconDownload extends BaseElement {
 		`;
 	}
 }
+
+@customElement('icon-user-plus')
+export class IconUserPlus extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 26 26">
+				<path
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M25 21h-4.5m0 0H16m4.5 0v-4m0 4v4m-9 0H1c0-5.155 4.701-9.333 10.5-9.333 1.043 0 2.05.135 3 .386m3-9.72c0 2.946-2.686 5.334-6 5.334s-6-2.388-6-5.334C5.5 3.388 8.186 1 11.5 1s6 2.388 6 5.333Z"
+				/>
+			</svg>
+		`;
+	}
+}
+
+@customElement('icon-arrow-right')
+export class IconArrowRight extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 26 26">
+				<path
+					stroke="currentColor"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="m14.333 17 4-4m0 0-4-4m4 4H7.667M25 13c0 6.628-5.372 12-12 12-6.627 0-12-5.372-12-12C1 6.373 6.373 1 13 1c6.628 0 12 5.373 12 12Z"
+				/>
+			</svg>
+		`;
+	}
+}
+
+@customElement('icon-x')
+export class IconX extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 26 26">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m1 1 24 24m0-24L1 25" />
+			</svg>
+		`;
+	}
+}
+
+@customElement('icon-check')
+export class IconCheck extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 25">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m.5 13.398 7.077 10.32L23.5.5" />
+			</svg>
+		`;
+	}
+}

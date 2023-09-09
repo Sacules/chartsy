@@ -91,8 +91,7 @@ export class InputText extends BaseElement {
 	@property() value = '';
 	@property() caption = '';
 	@property() placeholder = '';
-	@property() targetId = '';
-	@property() targetEvent = '';
+	@property() type = 'text';
 
 	@state() internals;
 
@@ -120,10 +119,6 @@ export class InputText extends BaseElement {
 		if (changedProperties.has('value')) {
 			this.internals.setFormValue(this.input.value);
 		}
-
-		if (!changedProperties.has('value') || !this.targetId) {
-			return;
-		}
 	}
 
 	renderCaption() {
@@ -143,7 +138,7 @@ export class InputText extends BaseElement {
 				</label>
 				<input
 					id="input-text"
-					type="text"
+					type="${this.type}"
 					name="${this.name}"
 					value="${this.value}"
 					maxlength="128"
@@ -168,8 +163,6 @@ type InputRadioGroupSetting = {
 export class InputRadioGroup extends BaseElement {
 	@property() name = '';
 	@property() value = '';
-	@property() targetId = 'chart';
-	@property() targetEvent = '';
 
 	@state() internals;
 	@state() settings: InputRadioGroupSetting[] = [];

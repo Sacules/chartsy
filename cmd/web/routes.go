@@ -23,7 +23,8 @@ func (app *application) routes() *chi.Mux {
 		r.Use(middleware.Recoverer, app.sessionManager.LoadAndSave, middleware.Compress(5, "text/html"))
 
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			app.render(w, http.StatusTeapot, "home", nil)
+			data := app.newTemplateData(r)
+			app.render(w, http.StatusOK, "home", data)
 		})
 		r.Route("/search", func(r chi.Router) {
 			// Rate limit the last.fm API by now
@@ -33,9 +34,7 @@ func (app *application) routes() *chi.Mux {
 		})
 
 		r.Get("/chart", app.chart)
-		r.Get("/signup", app.userSignup)
 		r.Post("/signup", app.userSignupPost)
-		r.Get("/login", app.userLogin)
 		r.Post("/login", app.userLoginPost)
 		r.Post("/logout", app.userLogoutPost)
 		r.Patch("/settings", app.chartSettings)

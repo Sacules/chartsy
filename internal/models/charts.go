@@ -3,29 +3,30 @@ package models
 import (
 	"database/sql"
 	"errors"
-	"os"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/jmoiron/sqlx"
 )
 
 // Image represents the core of a chart, whether
-// it is an Album, or a Movie, a Game, etc.
+// it is an Album, a Movie, a Game, etc.
 type Image struct {
-	Title   string `json:"title"`
-	Caption string `json:"caption"`
-	URL     string `json:"url"`
+	Title   string `db:"title"`
+	Caption string `db:"caption"`
+	URL     string `db:"url"`
 }
 
-type ImagesTextPlacement string
+type ImagesTextPosition string
 
 const (
-	ImagesTextHide    ImagesTextPlacement = "hide"
-	ImagesTextInline  ImagesTextPlacement = "inline"
-	ImagesTextLeft    ImagesTextPlacement = "left"
-	ImagesTextRight   ImagesTextPlacement = "right"
-	ImagesTextBelow   ImagesTextPlacement = "below"
-	ImagesTextOverlay ImagesTextPlacement = "overlay"
+	ImagesTextHide    ImagesTextPosition = "hide"
+	ImagesTextInline  ImagesTextPosition = "inline"
+	ImagesTextLeft    ImagesTextPosition = "left"
+	ImagesTextRight   ImagesTextPosition = "right"
+	ImagesTextBelow   ImagesTextPosition = "below"
+	ImagesTextOverlay ImagesTextPosition = "overlay"
 )
 
 type ImagesShape string
@@ -37,6 +38,8 @@ const (
 
 type Chart struct {
 	ID      int       `db:"rowid"`
+	UserID  int       `db:"user_id"`
+	Name    string    `db:"name"`
 	Created time.Time `db:"created"`
 	Updated time.Time `db:"updated"`
 
@@ -46,12 +49,13 @@ type Chart struct {
 	RowCount    uint8   `db:"row_count"`
 	Spacing     uint8   `db:"spacing"`
 	Padding     uint8   `db:"padding"`
-	BgColor     string  `db:"bg_color"`
-	TextColor   string  `db:"text_color"`
 
-	ImagesWidth         uint8               `db:"images_width"`
-	ImagesShape         ImagesShape         `db:"images_shape"`
-	ImagesTextPlacement ImagesTextPlacement `db:"images_text_placement"`
+	ImagesSize         uint8              `db:"images_size"`
+	ImagesShape        ImagesShape        `db:"images_shape"`
+	ImagesTextPosition ImagesTextPosition `db:"images_text_position"`
+
+	BgColor   string `db:"bg_color"`
+	TextColor string `db:"text_color"`
 }
 
 type ChartModel struct {
@@ -71,26 +75,44 @@ func (m *ChartModel) Insert() (int, error) {
 		return 0, err
 	}
 
-	content, err := os.ReadFile("newchart.sql")
+	core := `INSERT INTO
+				charts_images (chart_id, image_url, image_position)
+				VALUES (?, 'https://i.imgur.com/w4toMiR.jpg', !);`
+
+	b := strings.Builder{}
+
+	// Generate 100 images for each new chart
+	ids := make([]int64, 100)
+	for i := 0; i < len(ids); i++ {
+		ids[i] = id
+		line := strings.Replace(core, "!", strconv.Itoa(i), 1)
+
+		b.WriteString(line)
+	}
+
+	tx, err := m.DB.Begin()
+	if err != nil {
+		return 0, err
+	}
+	_, err = tx.Exec(b.String(), ids)
 	if err != nil {
 		return 0, err
 	}
 
-	ids := make([]int64, 100)
-	for i := 0; i < len(ids); i++ {
-		ids[i] = id
+	err = tx.Commit()
+	if err != nil {
+		return 0, err
 	}
-
-	m.DB.Exec(string(content), ids)
 
 	return int(id), nil
 }
 
 func (m *ChartModel) Get(id int) (*Chart, error) {
 	query := `SELECT
-		rowid, created, updated, title, column_count, row_count, spacing, padding, images_shape, images_width, bg_color, text_color, images_text_placement
-		FROM charts
-		WHERE rowid = ?`
+				rowid, created, updated, title, column_count, row_count, spacing,
+				padding, images_shape, images_width, bg_color, text_color, images_text_placement
+			  FROM charts
+			  WHERE rowid = ?`
 
 	c := Chart{}
 	err := m.DB.Get(&c, query, id)
@@ -118,8 +140,20 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 	return &c, nil
 }
 
-func (m *ChartModel) Latest() ([]*Chart, error) {
-	return nil, nil
+func (m *ChartModel) Latest(n int) ([]Chart, error) {
+	cs := []Chart{}
+	query := `SELECT updated, title FROM charts ORDER BY updated DESC LIMIT ?`
+
+	err := m.DB.Select(&cs, query, n)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNoRecord
+		}
+
+		return nil, err
+	}
+
+	return cs, nil
 }
 
 func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsWidth uint8) error {

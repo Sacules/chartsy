@@ -1,16 +1,25 @@
 CREATE TABLE IF NOT EXISTS charts (
-	created				   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	updated				   TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	title				   VARCHAR(128) DEFAULT 'Untitled chart' NOT NULL,
-	column_count		   TINYINT(8) DEFAULT 3 NOT NULL,
-	row_count			   TINYINT(8) DEFAULT 3 NOT NULL,
-	spacing				   TINYINT(8) DEFAULT 4 NOT NULL,
-	padding				   TINYINT(8) DEFAULT 4 NOT NULL,
-	images_shape		   TEXT CHECK(images_shape IN ('square', 'portrait')) DEFAULT 'square' NOT NULL,
-	images_text_placement  TEXT CHECK(images_text_placement IN ('hide', 'inline', 'left', 'right', 'below', 'overlay')) DEFAULT 'hide' NOT NULL,
-	images_width		   TINYINT(8) DEFAULT 150 NOT NULL,
-	bg_color			   CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
-	text_color			   CHAR(7) DEFAULT "#020617" NOT NULL -- dark:slate-950
+	user_id INTEGER NOT NULL,
+	name    VARCHAR(128) DEFAULT 'Untitled chart' NOT NULL,
+	created	TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	updated	TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+
+	title		 VARCHAR(128) NOT NULL,
+	column_count TINYINT(8) DEFAULT 3 NOT NULL,
+	row_count	 TINYINT(8) DEFAULT 3 NOT NULL,
+	spacing		 TINYINT(8) DEFAULT 4 NOT NULL,
+	padding		 TINYINT(8) DEFAULT 4 NOT NULL,
+
+	images_shape		 TEXT CHECK(images_shape IN ('square', 'portrait')) DEFAULT 'square' NOT NULL,
+	images_text_position TEXT CHECK(images_text_position IN ('hide', 'inline', 'left', 'right', 'below', 'overlay')) DEFAULT 'hide' NOT NULL,
+	images_size		     TINYINT(8) CHECK(images_size IN (150, 200)) DEFAULT 150 NOT NULL,
+
+	bg_color   CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
+	text_color CHAR(7) DEFAULT "#020617" NOT NULL, -- dark:slate-950
+
+	FOREIGN KEY (user_id)
+		REFERENCES users(id)
+		ON DELETE CASCADE,
 );
 
 CREATE TABLE IF NOT EXISTS images (

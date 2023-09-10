@@ -26,15 +26,36 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var c *models.Chart
+	id := r.FormValue("id")
+	if id != "" {
+		chartID, err := strconv.Atoi(id)
+		if err != nil {
+			app.errorLog.Println(err)
+			app.clientError(w, http.StatusBadRequest)
+			return
+		}
 
-	id, err := strconv.Atoi(r.FormValue("id"))
-	if err != nil {
-		app.clientError(w, http.StatusBadRequest)
+		c, err := app.charts.Get(chartID)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.infoLog.Println(err)
+				app.notFound(w)
+			} else {
+				app.serverError(w, err)
+			}
+
+			return
+		}
+
+		data := app.newTemplateData(r)
+		data.CurrentChart = c
+
+		app.render(w, http.StatusOK, "chart", data)
 		return
 	}
 
-	c, err = app.charts.Get(id)
+	// TODO: verificar que traiga solo las del usuario!!!
+	charts, err := app.charts.Latest(100)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			app.infoLog.Println(err)
@@ -46,8 +67,15 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	app.infoLog.Println(charts)
+	c, err := app.charts.Get(charts[0].ID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
 	data := app.newTemplateData(r)
-	data.Chart = c
+	data.CurrentChart = c
 
 	app.render(w, http.StatusOK, "chart", data)
 }

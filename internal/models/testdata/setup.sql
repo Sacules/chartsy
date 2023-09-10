@@ -41,6 +41,7 @@ CREATE INDEX IF NOT EXISTS sessions_expiry_idx ON sessions(expiry);
 CREATE TABLE IF NOT EXISTS users (
 	email			VARCHAR(255) NOT NULL UNIQUE,
 	hashed_password CHAR(60) NOT NULL,
+	is_verified     BOOLEAN DEFAULT FALSE NOT NULL,
 	created			TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 

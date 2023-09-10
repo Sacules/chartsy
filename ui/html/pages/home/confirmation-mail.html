@@ -4,7 +4,6 @@
 		<head>
 			<title>Chartsy</title>
 			<meta charset="UTF-8" />
-			<meta name="theme-color" content="#ffffff" />
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		</head>
 		<body>
@@ -12,9 +11,13 @@
 
 			<br />
 			<br />
-			<a href="localhost:4000/verify?code={{ .VerificationCode }}">
-				localhost:4000/verify?code={{ .VerificationCode }}
+			<a href="{{ .UserVerificationURL }}" target="_blank">
+				{{ .UserVerificationURL }}
 			</a>
+
+			<br />
+			<br />
+			Please note that the link will only remain valid for 24 hours.
 		</body>
 	</html>
 {{ end }}

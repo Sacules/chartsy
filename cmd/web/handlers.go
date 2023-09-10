@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/render"
 
@@ -118,10 +119,41 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 }
 
-func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
+func (app *application) userLogout(w http.ResponseWriter, r *http.Request) {
 }
 
-func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
+func (app *application) emailVerify(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		app.errorLog.Println(err)
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	code := r.Form.Get("code")
+	email := r.Form.Get("email")
+
+	ver, err := app.verifications.Get(email)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	if ver.Code != code {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	if ver.ExpiresAt.Before(time.Now()) {
+		app.infoLog.Println("now:", time.Now())
+		app.infoLog.Println("expires at:", ver.ExpiresAt)
+		app.renderFragment(w, http.StatusUnauthorized, "base", "error/expired-code", nil)
+		return
+	}
+
+	//TODO: mark user as verified, and delete the email from the verifications table
+
+	http.Redirect(w, r, "/chart", http.StatusSeeOther)
 }
 
 func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {

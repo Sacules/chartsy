@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 
@@ -35,11 +36,11 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 type templateData struct {
-	Env                  string
-	Chart                *models.Chart
-	SearchResults        []SearchResult
-	Form                 any
-	UserVerificationCode string
+	Env                 string
+	Chart               *models.Chart
+	SearchResults       []SearchResult
+	Form                any
+	UserVerificationURL string
 }
 
 func (app *application) newTemplateData(r *http.Request) *templateData {
@@ -119,8 +120,12 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 
 	ts := app.templateCache["home"]
 
-	data := templateData{}
-	data.UserVerificationCode = verificationCode
+	params := url.Values{}
+	params.Add("email", to)
+	params.Add("code", verificationCode)
+	data := &templateData{
+		UserVerificationURL: "http://localhost:4000/verify?" + params.Encode(),
+	}
 
 	var buf bytes.Buffer
 	err = ts.ExecuteTemplate(&buf, "confirmation-mail", data)
@@ -128,8 +133,8 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 		return err
 	}
 
-	email := mail.NewMSG()
-	email.SetFrom(from).
+	email := mail.NewMSG().
+		SetFrom(from).
 		AddTo(to).
 		SetSubject("Confirm your e-mail address").
 		SetBody(mail.TextHTML, buf.String())

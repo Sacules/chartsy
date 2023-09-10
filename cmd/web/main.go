@@ -98,7 +98,7 @@ func main() {
 
 		defer watcher.Close()
 
-		err = watcher.Add("public")
+		err = watcher.Add("reloader.txt")
 		if err != nil {
 			errorLog.Fatal(err)
 		}

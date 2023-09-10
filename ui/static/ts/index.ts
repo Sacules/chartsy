@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+/// <reference lib="dom.iterable" />
+
 import { toPng } from 'html-to-image';
 import Sortable from 'sortablejs';
 import htmx from 'htmx.org';
@@ -37,7 +40,7 @@ async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function(content) {
+htmx.onLoad(function (content) {
 	const images = content.querySelector('#images');
 	if (!images) {
 		return;

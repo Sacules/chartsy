@@ -5,10 +5,18 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/go-playground/form/v4"
+	mail "github.com/xhit/go-simple-mail/v2"
 
 	"gitlab.com/sacules/chartsy/internal/models"
+)
+
+var (
+	ErrMissingMailFrom = errors.New("email: missing EMAIL_FROM")
+	ErrMissingMailPass = errors.New("email: missing EMAIL_PASS")
 )
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
@@ -81,4 +89,37 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 	}
 
 	return nil
+}
+
+func (app *application) sendConfirmationEmail(to string) error {
+	from, ok := os.LookupEnv("EMAIL_FROM")
+	if !ok {
+		return ErrMissingMailFrom
+	}
+	password, ok := os.LookupEnv("EMAIL_PASS")
+	if !ok {
+		return ErrMissingMailPass
+	}
+
+	server := mail.NewSMTPClient()
+	server.Host = "mail.privateemail.com"
+	server.Port = 587
+	server.Username = from
+	server.Password = password
+	server.Encryption = mail.EncryptionSTARTTLS
+	server.ConnectTimeout = 10 * time.Second
+	server.SendTimeout = 10 * time.Second
+
+	client, err := server.Connect()
+	if err != nil {
+		return err
+	}
+
+	email := mail.NewMSG()
+	email.SetFrom(from).
+		AddTo(to).
+		SetSubject("Confirm your e-mail address").
+		SetBody(mail.TextPlain, "testing")
+
+	return email.Send(client)
 }

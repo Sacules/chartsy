@@ -92,3 +92,15 @@ chart-image {
 *::-webkit-scrollbar-corner {
 	background: #475569;
 }
+
+.htmx-indicator {
+	display: none;
+}
+
+.htmx-request .confirm {
+	display: none;
+}
+
+.htmx-request .spinner {
+	display: block;
+}

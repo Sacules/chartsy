@@ -100,6 +100,12 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 	data.Form = form
 
 	app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
+
+	err = app.sendConfirmationEmail(form.Email)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 }
 
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {

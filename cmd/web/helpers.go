@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"time"
@@ -34,10 +35,11 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 type templateData struct {
-	Env           string
-	Chart         *models.Chart
-	SearchResults []SearchResult
-	Form          any
+	Env                  string
+	Chart                *models.Chart
+	SearchResults        []SearchResult
+	Form                 any
+	UserVerificationCode string
 }
 
 func (app *application) newTemplateData(r *http.Request) *templateData {
@@ -91,7 +93,7 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 	return nil
 }
 
-func (app *application) sendConfirmationEmail(to string) error {
+func (app *application) sendConfirmationEmail(to, verificationCode string) error {
 	from, ok := os.LookupEnv("EMAIL_FROM")
 	if !ok {
 		return ErrMissingMailFrom
@@ -107,10 +109,21 @@ func (app *application) sendConfirmationEmail(to string) error {
 	server.Username = from
 	server.Password = password
 	server.Encryption = mail.EncryptionSTARTTLS
-	server.ConnectTimeout = 10 * time.Second
-	server.SendTimeout = 10 * time.Second
+	server.ConnectTimeout = 20 * time.Second
+	server.SendTimeout = 20 * time.Second
 
 	client, err := server.Connect()
+	if err != nil {
+		return err
+	}
+
+	ts := app.templateCache["home"]
+
+	data := templateData{}
+	data.UserVerificationCode = verificationCode
+
+	var buf bytes.Buffer
+	err = ts.ExecuteTemplate(&buf, "confirmation-mail", data)
 	if err != nil {
 		return err
 	}
@@ -119,7 +132,19 @@ func (app *application) sendConfirmationEmail(to string) error {
 	email.SetFrom(from).
 		AddTo(to).
 		SetSubject("Confirm your e-mail address").
-		SetBody(mail.TextPlain, "testing")
+		SetBody(mail.TextHTML, buf.String())
 
 	return email.Send(client)
+}
+
+func randomString(n int) string {
+	letters := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[r.Intn(len(letters))]
+	}
+
+	return string(b)
 }

@@ -1,24 +1,23 @@
 package models
 
 import (
-	"database/sql"
 	"errors"
 	"time"
 
+	"github.com/jmoiron/sqlx"
 	"github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
 	ID             int
-	Name           string
 	Email          string
 	HashedPassword []byte
 	Created        time.Time
 }
 
 type UserModel struct {
-	DB *sql.DB
+	DB *sqlx.DB
 }
 
 func (m *UserModel) Insert(email, password string) error {

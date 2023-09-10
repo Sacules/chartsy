@@ -101,7 +101,14 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 
 	app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
 
-	err = app.sendConfirmationEmail(form.Email)
+	verificationCode := randomString(8)
+	err = app.verifications.Insert(form.Email, verificationCode)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	err = app.sendConfirmationEmail(form.Email, verificationCode)
 	if err != nil {
 		app.serverError(w, err)
 		return

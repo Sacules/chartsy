@@ -1,0 +1,20 @@
+{{ define "confirmation-mail" }}
+	<!doctype html>
+	<html lang="en">
+		<head>
+			<title>Chartsy</title>
+			<meta charset="UTF-8" />
+			<meta name="theme-color" content="#ffffff" />
+			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		</head>
+		<body>
+			Thanks for signing up! Please follow the link below to verify your account:
+
+			<br />
+			<br />
+			<a href="localhost:4000/verify?code={{ .VerificationCode }}">
+				localhost:4000/verify?code={{ .VerificationCode }}
+			</a>
+		</body>
+	</html>
+{{ end }}

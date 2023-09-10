@@ -5,6 +5,8 @@ import (
 	"errors"
 	"os"
 	"time"
+
+	"github.com/jmoiron/sqlx"
 )
 
 // Image represents the core of a chart, whether
@@ -34,26 +36,26 @@ const (
 )
 
 type Chart struct {
-	ID      int
-	Created time.Time
-	Updated time.Time
+	ID      int       `db:"rowid"`
+	Created time.Time `db:"created"`
+	Updated time.Time `db:"updated"`
 
-	Images      []Image
-	Title       string
-	ColumnCount uint8
-	RowCount    uint8
-	Spacing     uint8
-	Padding     uint8
-	BgColor     string
-	TextColor   string
+	Images      []Image `db:"-"`
+	Title       string  `db:"title"`
+	ColumnCount uint8   `db:"column_count"`
+	RowCount    uint8   `db:"row_count"`
+	Spacing     uint8   `db:"spacing"`
+	Padding     uint8   `db:"padding"`
+	BgColor     string  `db:"bg_color"`
+	TextColor   string  `db:"text_color"`
 
-	ImagesWidth         uint8
-	ImagesShape         ImagesShape
-	ImagesTextPlacement ImagesTextPlacement
+	ImagesWidth         uint8               `db:"images_width"`
+	ImagesShape         ImagesShape         `db:"images_shape"`
+	ImagesTextPlacement ImagesTextPlacement `db:"images_text_placement"`
 }
 
 type ChartModel struct {
-	DB *sql.DB
+	DB *sqlx.DB
 }
 
 func (m *ChartModel) Insert() (int, error) {
@@ -90,11 +92,9 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 		FROM charts
 		WHERE rowid = ?`
 
-	row := m.DB.QueryRow(query, id)
+	c := Chart{}
+	err := m.DB.Get(&c, query, id)
 
-	c := &Chart{}
-
-	err := row.Scan(&c.ID, &c.Created, &c.Updated, &c.Title, &c.ColumnCount, &c.RowCount, &c.Spacing, &c.Padding, &c.ImagesShape, &c.ImagesWidth, &c.BgColor, &c.TextColor, &c.ImagesTextPlacement)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord
@@ -109,29 +109,13 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 		ON ci.chart_id = ? AND imgs.url = ci.image_url
 		ORDER BY ci.image_position ASC`
 
-	rows, err := m.DB.Query(query, id)
-	if err != nil {
-		return nil, err
-	}
-
-	defer rows.Close()
-
 	images := []Image{}
 
-	for rows.Next() {
-		img := Image{}
-
-		err = rows.Scan(&img.URL, &img.Title, &img.Caption)
-		if err != nil {
-			return nil, err
-		}
-
-		images = append(images, img)
-	}
+	err = m.DB.Select(&images, query, c.ID)
 
 	c.Images = images
 
-	return c, nil
+	return &c, nil
 }
 
 func (m *ChartModel) Latest() ([]*Chart, error) {

@@ -1,26 +1,23 @@
 package main
 
 import (
-	"database/sql"
 	"flag"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/Sacules/lrserver"
-	"github.com/alexedwards/scs/sqlite3store"
-	"github.com/alexedwards/scs/v2"
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/form/v4"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
-func openDB(filename string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", filename)
+func openDB(filename string) (*sqlx.DB, error) {
+	db, err := sqlx.Open("sqlite3", filename)
 	if err != nil {
 		return nil, err
 	}
@@ -37,12 +34,12 @@ type application struct {
 	errorLog *log.Logger
 	env      string
 
-	templateCache  map[string]*template.Template
-	sessionManager *scs.SessionManager
-	formDecoder    *form.Decoder
+	templateCache map[string]*template.Template
+	formDecoder   *form.Decoder
 
-	charts *models.ChartModel
-	users  *models.UserModel
+	charts        *models.ChartModel
+	users         *models.UserModel
+	verifications *models.VerificationModel
 }
 
 func main() {
@@ -66,22 +63,17 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
-	sessionManager := scs.New()
-	sessionManager.Store = sqlite3store.New(db)
-	sessionManager.Lifetime = 12 * time.Hour
-	sessionManager.Cookie.Secure = true
-
 	formDecoder := form.NewDecoder()
 
 	app := &application{
-		infoLog:        infoLog,
-		errorLog:       errorLog,
-		templateCache:  templateCache,
-		sessionManager: sessionManager,
-		formDecoder:    formDecoder,
-		charts:         &models.ChartModel{DB: db},
-		users:          &models.UserModel{DB: db},
-		env:            *env,
+		infoLog:       infoLog,
+		errorLog:      errorLog,
+		templateCache: templateCache,
+		formDecoder:   formDecoder,
+		charts:        &models.ChartModel{DB: db},
+		users:         &models.UserModel{DB: db},
+		verifications: &models.VerificationModel{DB: db},
+		env:           *env,
 	}
 
 	srv := &http.Server{
@@ -99,21 +91,6 @@ func main() {
 		defer watcher.Close()
 
 		err = watcher.Add(".reloader")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
-
-		err = watcher.Add("ui/html")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
-
-		err = watcher.Add("ui/html/pages/home")
-		if err != nil {
-			errorLog.Fatal(err)
-		}
-
-		err = watcher.Add("ui/html/pages/chart")
 		if err != nil {
 			errorLog.Fatal(err)
 		}

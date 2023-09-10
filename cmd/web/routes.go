@@ -20,7 +20,7 @@ func (app *application) routes() *chi.Mux {
 	})
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.Recoverer, app.sessionManager.LoadAndSave, middleware.Compress(5, "text/html"))
+		r.Use(middleware.Recoverer, middleware.Compress(5, "text/html"))
 
 		r.Route("/search", func(r chi.Router) {
 			// Rate limit the last.fm API by now
@@ -39,6 +39,12 @@ func (app *application) routes() *chi.Mux {
 		r.Post("/login", app.userLoginPost)
 		r.Post("/logout", app.userLogoutPost)
 		r.Patch("/settings", app.chartSettings)
+
+		r.Get("/email", func(w http.ResponseWriter, r *http.Request) {
+			data := app.newTemplateData(r)
+			data.Form = userSignupForm{}
+			app.renderFragment(w, http.StatusOK, "home", "confirmation-mail", nil)
+		})
 
 		r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusFound)

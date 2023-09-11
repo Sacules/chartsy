@@ -69,15 +69,8 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Println("charts:", charts)
-	c, err := app.charts.Get(charts[0].ID, userID)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
 	data := app.newTemplateData(r)
-	data.CurrentChart = c
+	data.Charts = charts
 
 	app.render(w, http.StatusOK, "chart", data)
 }

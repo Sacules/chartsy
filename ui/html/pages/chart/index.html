@@ -9,6 +9,8 @@
 		</main>
 		{{ template "right-panel" .CurrentChart }}
 		{{ template "search-mobile" . }}
-		{{ template "footer" . }}
+		{{ with .CurrentChart }}
+			{{ template "footer" . }}
+		{{ end }}
 	</div>
 {{ end }}

@@ -26,6 +26,8 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	userID := 1
+
 	id := r.FormValue("id")
 	if id != "" {
 		chartID, err := strconv.Atoi(id)
@@ -35,7 +37,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		c, err := app.charts.Get(chartID)
+		c, err := app.charts.Get(chartID, userID)
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
 				app.infoLog.Println(err)
@@ -55,7 +57,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// TODO: verificar que traiga solo las del usuario!!!
-	charts, err := app.charts.Latest(100)
+	charts, err := app.charts.Latest(userID, 100)
 	if err != nil {
 		if errors.Is(err, models.ErrNoRecord) {
 			app.infoLog.Println(err)
@@ -67,8 +69,8 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.infoLog.Println(charts)
-	c, err := app.charts.Get(charts[0].ID)
+	app.infoLog.Println("charts:", charts)
+	c, err := app.charts.Get(charts[0].ID, userID)
 	if err != nil {
 		app.serverError(w, err)
 		return

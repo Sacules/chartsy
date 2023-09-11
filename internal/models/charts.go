@@ -107,22 +107,21 @@ func (m *ChartModel) Insert() (int, error) {
 	return int(id), nil
 }
 
-func (m *ChartModel) Get(id int) (*Chart, error) {
-	query := `SELECT
-				rowid, created, updated, title, column_count, row_count, spacing,
-				padding, images_shape, images_width, bg_color, text_color, images_text_placement
+func (m *ChartModel) Get(id, userID int) (Chart, error) {
+	query := `SELECT *
 			  FROM charts
-			  WHERE rowid = ?`
+			  WHERE rowid = ?
+			  AND user_id = ?`
 
 	c := Chart{}
-	err := m.DB.Get(&c, query, id)
+	err := m.DB.Get(&c, query, id, userID)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, ErrNoRecord
+			return c, ErrNoRecord
 		}
 
-		return nil, err
+		return c, err
 	}
 
 	query = `SELECT imgs.url, imgs.title, imgs.caption
@@ -137,14 +136,18 @@ func (m *ChartModel) Get(id int) (*Chart, error) {
 
 	c.Images = images
 
-	return &c, nil
+	return c, nil
 }
 
-func (m *ChartModel) Latest(n int) ([]Chart, error) {
+func (m *ChartModel) Latest(userID, n int) ([]Chart, error) {
 	cs := []Chart{}
-	query := `SELECT updated, title FROM charts ORDER BY updated DESC LIMIT ?`
+	query := `SELECT rowid, name, updated
+				FROM charts
+				WHERE user_id = ?
+				ORDER BY updated DESC
+				LIMIT ?`
 
-	err := m.DB.Select(&cs, query, n)
+	err := m.DB.Select(&cs, query, userID, n)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return nil, ErrNoRecord

@@ -3,14 +3,14 @@
 		class="h-full grid grid-cols-1 grid-rows-[3.5rem_1fr_auto] md:grid-cols-[18rem_1fr_18rem] md:grid-rows-[3.5rem_1fr]"
 	>
 		{{ template "header" .CurrentChart }}
-		{{ template "left-panel" .Charts }}
+		{{ template "desktop/panel/left" .Charts }}
 		<main class="overflow-auto grid place-items-center p-8 bg-slate-950">
 			{{ template "chart" .CurrentChart }}
 		</main>
-		{{ template "right-panel" .CurrentChart }}
-		{{ template "search-mobile" . }}
+		{{ template "desktop/panel/right" .CurrentChart }}
+		{{ template "mobile/search" . }}
 		{{ with .CurrentChart }}
-			{{ template "footer" . }}
+			{{ template "mobile/footer" . }}
 		{{ end }}
 	</div>
 {{ end }}

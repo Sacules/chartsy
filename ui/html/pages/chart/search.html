@@ -1,12 +1,83 @@
-{{ define "search" }}
-	<form
-		_="on submit(event) event.preventDefault()"
-		hx-post="/search"
-		hx-target="#search-results"
-		hx-trigger="input from:#search delay:300ms"
-		class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
+{{ define "search/results" }}
+	{{ range .SearchResults }}
+		<li
+			_="set element data to { src: '{{ .Url }}', title: `{{ .Author }}`, caption: `{{ .Title }}` }
+			   on click
+			  	   send chartImages(src: data.src, title: data.title, caption: data.caption) to #chart
+				   send close to #search-mobile
+			  	   call history.pushState(null, null, '/')
+			   on dragstart
+			  	   call event.dataTransfer.setData('text/plain', data as JSON)
+			  	   set $draggingFromResults to true
+			   on dragend
+			  	   set $draggingFromResults to false"
+			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150"
+			draggable="true"
+			tabindex="0"
+		>
+			<figure class="h-24 flex gap-4 items-center">
+				<img
+					class="w-24 object-center object-cover transition-all duration-150 shadow-md"
+					role="img"
+					src="{{ .Url }}"
+				/>
+				<figcaption
+					class="max-w-[10rem] max-h-full text-sm break-words \
+						   text-ellipsis overflow-hidden transition-all duration-150 \
+						   filter group-focus-visible:invert group-hover:invert"
+					style="user-select: none;"
+				>
+					<strong>{{ .Author }}</strong>
+					<p>{{ .Title }}</p>
+				</figcaption>
+			</figure>
+		</li>
+	{{ end }}
+{{ end }}
+
+{{ define "mobile/search" }}
+	<div
+		id="search-mobile"
+		_="on open
+		       set @aria-expanded to 'true'
+			   transition #underlay's opacity to 95% over 200ms
+			   set searchMobile to #search-mobile-input then searchMobile.focus()
+		   end
+           on close or click from #underlay
+		       transition #underlay's opacity to 0 over 200ms
+			   set @aria-expanded to 'false'
+			   toggle between .hidden and .block on <footer/>
+			   call history.pushState(null, null, '/')
+		   end"
+		class="hidden aria-expanded:grid fixed inset-0 z-50 h-screen"
 	>
-		<input-text id="search" type="search" name="search" placeholder="e.g. In Absentia">Search</input-text>
-	</form>
-	<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
+		<div id="underlay" class="absolute inset-0 -z-10 bg-slate-950 opacity-0"></div>
+		<form
+			_="on submit(event) event.preventDefault()"
+			hx-post="/search"
+			hx-target="#search-results-mobile"
+			hx-trigger="input from:.search-mobile delay:300ms"
+			class="p-4 self-start"
+		>
+			<label for="search-mobile" class="flex w-full flex-col gap-2">
+				<strong>Search</strong>
+			</label>
+			<input
+				id="search-mobile"
+				type="search"
+				name="search"
+				maxlength="64"
+				autocomplete="off"
+				placeholder="e.g. In Absentia"
+				class="search-mobile rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+					   hover:border-sky-600 focus:border-sky-600 focus:ring-0 transition md:text-sm"
+			/>
+		</form>
+		<ul
+			_="on htmx:afterSettle
+			       remove .hidden from me"
+			id="search-results-mobile"
+			class="hidden px-4 flex flex-col overflow-y-auto"
+		></ul>
+	</div>
 {{ end }}

@@ -62,8 +62,6 @@ behavior TabContainer
 
 	on select(target)
 		for tab in <[role=tab] /> in me
-			log 'tab', tab
-			log 'target', target
 			if tab is target
 				add [@aria-selected="true"] to tab
 			else

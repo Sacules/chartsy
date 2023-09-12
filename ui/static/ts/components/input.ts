@@ -157,10 +157,8 @@ export class InputText extends BaseElement {
 
 		return html`
 			<div class="flex flex-col gap-2">
-				<label for="input-text" class="w-full">
-					<strong class="md:text-sm">
-						<slot></slot>
-					</strong>
+				<label for="input-text" class="w-full md:text-sm font-bold">
+					<slot></slot>
 				</label>
 				<input
 					?required=${this.required}

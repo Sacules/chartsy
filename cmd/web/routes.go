@@ -21,7 +21,7 @@ func (app *application) routes() *chi.Mux {
 	})
 
 	r.Group(func(r chi.Router) {
-		r.Use(middleware.Recoverer, middleware.Compress(5, "text/html"))
+		r.Use(app.sessionManager.LoadAndSave, middleware.Recoverer, middleware.Compress(5, "text/html"))
 
 		r.Route("/search", func(r chi.Router) {
 			// Rate limit the last.fm API by now

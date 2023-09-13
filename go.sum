@@ -2,6 +2,10 @@ github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21 h1:ne6xAb77U0S0fU
 github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21/go.mod h1:wecIo/hdDlGbplGOLm6us9ffqPWiHTrqv7GRsXSMzrk=
 github.com/ajg/form v1.5.1 h1:t9c7v8JUKu/XxOGBU0yjNpaMloxGEJhUkqFRq0ibGeU=
 github.com/ajg/form v1.5.1/go.mod h1:uL1WgH+h2mgNtvBq0339dVnzXdBETtL2LeUXaIv25UY=
+github.com/alexedwards/scs/sqlite3store v0.0.0-20230902070821-95fa2ac9d520 h1:1bwzE8Q+CRJ+dO1oj7I/cW1n/2FJKpxJOMlqPsV1nb0=
+github.com/alexedwards/scs/sqlite3store v0.0.0-20230902070821-95fa2ac9d520/go.mod h1:Iyk7S76cxGaiEX/mSYmTZzYehp4KfyylcLaV3OnToss=
+github.com/alexedwards/scs/v2 v2.5.1 h1:EhAz3Kb3OSQzD8T+Ub23fKsiuvE0GzbF5Lgn0uTwM3Y=
+github.com/alexedwards/scs/v2 v2.5.1/go.mod h1:ToaROZxyKukJKT/xLcVQAChi5k6+Pn1Gvmdl7h3RRj8=
 github.com/cespare/xxhash/v2 v2.2.0 h1:DC2CZ1Ep5Y4k3ZQ899DldepgrayRUGE6BBZ/cd9Cj44=
 github.com/cespare/xxhash/v2 v2.2.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

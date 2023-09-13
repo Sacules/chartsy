@@ -17,6 +17,8 @@ require (
 
 require (
 	github.com/ajg/form v1.5.1 // indirect
+	github.com/alexedwards/scs/sqlite3store v0.0.0-20230902070821-95fa2ac9d520 // indirect
+	github.com/alexedwards/scs/v2 v2.5.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/go-test/deep v1.1.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect

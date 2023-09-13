@@ -1,14 +1,6 @@
 {{ define "base" }}
 	<!doctype html>
-	<html
-		_="eventsource esbuild
-			     on change
-				     log 'changing'
-				 end
-		   end"
-		lang="en"
-		class="overflow-hidden"
-	>
+	<html lang="en" class="overflow-hidden">
 		<head>
 			{{ template "head" . }}
 		</head>

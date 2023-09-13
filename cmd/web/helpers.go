@@ -43,11 +43,13 @@ type templateData struct {
 	User                *models.User
 	Form                any
 	UserVerificationURL string
+	IsAuthenticated     bool
 }
 
 func (app *application) newTemplateData(r *http.Request) *templateData {
 	return &templateData{
-		Env: app.env,
+		Env:             app.env,
+		IsAuthenticated: app.isAuthenticated(r),
 	}
 }
 
@@ -142,6 +144,11 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 		SetBody(mail.TextHTML, buf.String())
 
 	return email.Send(client)
+}
+
+func (app *application) isAuthenticated(r *http.Request) bool {
+	return app.sessionManager.Exists(r.Context(), "authenticatedUserID")
+
 }
 
 func randomString(n int) string {

@@ -44,7 +44,7 @@
 				{{ template "desktop/search" . }}
 			</div>
 		{{ end }}
-		{{ with .User }}
+		{{ if .IsAuthenticated }}
 			<div id="user" role="tabpanel" aria-labelledby="tab-user" hidden>
 				{{ template "user" . }}
 			</div>

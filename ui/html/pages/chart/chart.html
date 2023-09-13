@@ -149,3 +149,33 @@
 		</chart-images-text>
 	</div>
 {{ end }}
+
+{{ define "charts" }}
+	<ul class="grid divide-y divide-slate-700">
+		{{ $curr := .CurrentChart }}
+		{{ range .Charts }}
+			<li tabindex="0">
+				<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100 hover:cursor-pointer">
+					<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
+					<figcaption class="group-hover:text-slate-900 select-none">
+						{{ with $curr }}
+							{{ if eq $curr.ID .ID }}
+								<strong>{{ .Name }}</strong>
+							{{ end }}
+						{{ else }}
+							{{ .Name }}
+						{{ end }}
+					</figcaption>
+				</figure>
+			</li>
+		{{ end }}
+		<li class="grid place-items-center pt-4">
+			<button class="flex gap-2">
+				<div class="h-6 w-6">
+					<icon-plus></icon-plus>
+				</div>
+				New chart
+			</button>
+		</li>
+	</ul>
+{{ end }}

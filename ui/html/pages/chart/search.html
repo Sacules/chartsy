@@ -36,18 +36,16 @@
 {{ end }}
 
 {{ define "desktop/search" }}
-	<div role="tabpanel" id="search" aria-labelledby="tab-search" hidden>
-		<form
-			_="on submit(event) event.preventDefault()"
-			hx-post="/search"
-			hx-target="#search-results"
-			hx-trigger="input from:#search delay:300ms"
-			class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
-		>
-			<input-text type="search" name="search" placeholder="e.g. In Absentia">Search</input-text>
-		</form>
-		<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
-	</div>
+	<form
+		_="on submit(event) event.preventDefault()"
+		hx-post="/search"
+		hx-target="#search-results"
+		hx-trigger="input from:#search delay:300ms"
+		class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
+	>
+		<input-text type="search" name="search" placeholder="e.g. In Absentia">Search</input-text>
+	</form>
+	<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
 {{ end }}
 
 {{ define "mobile/search" }}

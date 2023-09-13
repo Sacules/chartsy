@@ -1,9 +1,19 @@
 {{ define "header" }}
-	<header class="px-4 flex justify-between text-slate-50 border-b border-slate-700 items-center md:col-span-full">
-		<button type="button" class="h-6 w-6 invisible">
+	<header
+		class="bg-slate-900 px-4 flex justify-between text-slate-50 border-b border-slate-700 items-center md:col-span-full"
+	>
+		<button class="h-6 w-6 invisible md:hidden">
 			<icon-burger></icon-burger>
 		</button>
-		<div class="text-center">Untitled chart</div>
+		<figure class="hidden md:flex gap-2 items-center">
+			<img class="w-6 h-6" src="/assets/img/favicon-32x32.png" alt="Chartsy logo" />
+			<figcaption>Chartsy</figcaption>
+		</figure>
+		<div class="text-center {{ with . }}visible{{ else }}invisible{{ end }}">
+			{{ with . }}
+				{{ .Name }}
+			{{ end }}
+		</div>
 		<button
 			_="on downloadend
 				       set @aria-disabled to 'false'
@@ -12,7 +22,12 @@
 					   async call downloadChart()"
 			id="download-button"
 			type="button"
-			class="h-6 w-6 aria-disabled:animate-pulse"
+			class="h-6 w-6 aria-disabled:animate-pulse
+			{{ with . }}
+				visible
+			{{ else }}
+				invisible
+			{{ end }}"
 		>
 			<icon-download></icon-download>
 		</button>

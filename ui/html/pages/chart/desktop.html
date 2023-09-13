@@ -1,7 +1,7 @@
 {{ define "desktop/panel/left" }}
 	<aside
 		_="install TabContainer"
-		class="hidden border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-auto"
+		class="hidden bg-slate-900 border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-auto"
 	>
 		<div role="tablist" class="flex gap-2 p-4 border-b border-slate-700">
 			<a
@@ -32,19 +32,21 @@
 				User
 			</a>
 		</div>
-		<div role="tabpanel" id="charts" aria-labelledby="tab-charts">
-			<p>charts!!!</p>
+		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
+			{{ template "charts" . }}
 		</div>
-		{{ template "desktop/search" . }}
-		<div role="tabpanel" id="user" aria-labelledby="tab-user" hidden>
-			<p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
+		<div id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
+			{{ template "desktop/search" . }}
+		</div>
+		<div id="user" role="tabpanel" aria-labelledby="tab-user" hidden>
+			{{ template "user" . }}
 		</div>
 	</aside>
 {{ end }}
 
 {{ define "desktop/panel/right" }}
 	<!-- TODO: poner cada setting en un template aparte y llamarlo desde acá -->
-	<aside class="hidden md:flex col-start-3 border-l border-slate-700 flex-col overflow-y-auto">
+	<aside class="bg-slate-900 hidden md:flex col-start-3 border-l border-slate-700 flex-col overflow-y-auto">
 		<div class="flex flex-col gap-4 p-4">
 			<strong>Chart</strong>
 			<input-text

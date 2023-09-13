@@ -27,6 +27,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := 1
+	data := app.newTemplateData(r)
 
 	id := r.FormValue("id")
 	if id != "" {
@@ -49,11 +50,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		data := app.newTemplateData(r)
 		data.CurrentChart = c
-
-		app.render(w, http.StatusOK, "chart", data)
-		return
 	}
 
 	// TODO: verificar que traiga solo las del usuario!!!
@@ -69,7 +66,6 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newTemplateData(r)
 	data.Charts = charts
 
 	app.render(w, http.StatusOK, "chart", data)

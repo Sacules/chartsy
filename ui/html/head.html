@@ -15,8 +15,10 @@
 
 	<script defer type="text/hyperscript" src="/assets/_hs/behaviours._hs"></script>
 	<script defer src="/assets/js/_hyperscript.min.js"></script>
+	<script defer src="/assets/js/htmx.min.js"></script>
+	<script defer src="/assets/js/multi-swap.min.js"></script>
 
 	{{ if eq .Env "dev" }}
-		<script src="http://192.168.0.81:35729/livereload.js"></script>
+		<script defer src="http://192.168.0.81:35729/livereload.js"></script>
 	{{ end }}
 {{ end }}

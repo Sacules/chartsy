@@ -40,6 +40,7 @@ type templateData struct {
 	CurrentChart        *models.Chart
 	Charts              []models.Chart
 	SearchResults       []SearchResult
+	User                *models.User
 	Form                any
 	UserVerificationURL string
 }

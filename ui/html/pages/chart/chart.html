@@ -96,6 +96,7 @@
 			</h1>
 			<ul
 				_="init
+					   call prepareChart(me)
 					   send update(images: me) to #text
 				   end
 				   on drop(target)
@@ -151,31 +152,35 @@
 {{ end }}
 
 {{ define "charts" }}
-	<ul class="grid divide-y divide-slate-700">
-		{{ $curr := .CurrentChart }}
-		{{ range .Charts }}
-			<li tabindex="0">
-				<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100 hover:cursor-pointer">
-					<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
-					<figcaption class="group-hover:text-slate-900 select-none">
-						{{ with $curr }}
-							{{ if eq $curr.ID .ID }}
-								<strong>{{ .Name }}</strong>
-							{{ end }}
-						{{ else }}
-							{{ .Name }}
-						{{ end }}
-					</figcaption>
-				</figure>
+	<form action="/chart" method="get" hx-boost="true" hx-push-url="true" hx-swap="morph:innerHTML">
+		<ul class="grid divide-y divide-slate-700">
+			{{ $curr := .CurrentChart }}
+			{{ range .Charts }}
+				<li tabindex="0">
+					<button class="w-full" name="id" value="{{ .ID }}">
+						<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100">
+							<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
+							<figcaption class="group-hover:text-slate-900 select-none">
+								{{ with $curr }}
+									{{ if eq $curr.ID .ID }}
+										<strong>{{ .Name }}</strong>
+									{{ end }}
+								{{ else }}
+									{{ .Name }}
+								{{ end }}
+							</figcaption>
+						</figure>
+					</button>
+				</li>
+			{{ end }}
+			<li class="grid place-items-center pt-4">
+				<button class="flex gap-2">
+					<div class="h-6 w-6">
+						<icon-plus></icon-plus>
+					</div>
+					New chart
+				</button>
 			</li>
-		{{ end }}
-		<li class="grid place-items-center pt-4">
-			<button class="flex gap-2">
-				<div class="h-6 w-6">
-					<icon-plus></icon-plus>
-				</div>
-				New chart
-			</button>
-		</li>
-	</ul>
+		</ul>
+	</form>
 {{ end }}

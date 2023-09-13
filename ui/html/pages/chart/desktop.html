@@ -13,34 +13,42 @@
 			>
 				Charts
 			</a>
-			<a
-				id="tab-search"
-				href="#search"
-				role="tab"
-				aria-controls="search"
-				class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
-			>
-				Search
-			</a>
-			<a
-				id="tab-user"
-				href="#user"
-				role="tab"
-				aria-controls="user"
-				class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
-			>
-				User
-			</a>
+			{{ with .CurrentChart }}
+				<a
+					id="tab-search"
+					href="#search"
+					role="tab"
+					aria-controls="search"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Search
+				</a>
+			{{ end }}
+			{{ with .User }}
+				<a
+					id="tab-user"
+					href="#user"
+					role="tab"
+					aria-controls="user"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					User
+				</a>
+			{{ end }}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
 			{{ template "charts" . }}
 		</div>
-		<div id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
-			{{ template "desktop/search" . }}
-		</div>
-		<div id="user" role="tabpanel" aria-labelledby="tab-user" hidden>
-			{{ template "user" . }}
-		</div>
+		{{ with .CurrentChart }}
+			<div id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
+				{{ template "desktop/search" . }}
+			</div>
+		{{ end }}
+		{{ with .User }}
+			<div id="user" role="tabpanel" aria-labelledby="tab-user" hidden>
+				{{ template "user" . }}
+			</div>
+		{{ end }}
 	</aside>
 {{ end }}
 

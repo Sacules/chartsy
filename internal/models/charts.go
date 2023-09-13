@@ -107,21 +107,21 @@ func (m *ChartModel) Insert() (int, error) {
 	return int(id), nil
 }
 
-func (m *ChartModel) Get(id, userID int) (Chart, error) {
+func (m *ChartModel) Get(id, userID int) (*Chart, error) {
 	query := `SELECT *
 			  FROM charts
 			  WHERE rowid = ?
 			  AND user_id = ?`
 
-	c := Chart{}
-	err := m.DB.Get(&c, query, id, userID)
+	c := &Chart{}
+	err := m.DB.Get(c, query, id, userID)
 
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return c, ErrNoRecord
+			return nil, ErrNoRecord
 		}
 
-		return c, err
+		return nil, err
 	}
 
 	query = `SELECT imgs.url, imgs.title, imgs.caption

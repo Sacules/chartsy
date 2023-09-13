@@ -37,7 +37,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 
 type templateData struct {
 	Env                 string
-	CurrentChart        models.Chart
+	CurrentChart        *models.Chart
 	Charts              []models.Chart
 	SearchResults       []SearchResult
 	Form                any

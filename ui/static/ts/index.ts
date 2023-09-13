@@ -3,7 +3,6 @@
 
 import { toPng } from 'html-to-image';
 import Sortable from 'sortablejs';
-import htmx from 'htmx.org';
 import { marked } from 'marked';
 
 // Components
@@ -40,21 +39,17 @@ async function downloadChart() {
 	return 'ok';
 }
 
-htmx.onLoad(function (content) {
-	const images = content.querySelector('#images');
-	if (!images) {
-		return;
-	}
-
-	new Sortable(images as HTMLElement, {
+function prepareChart(imgs: HTMLElement) {
+	new Sortable(imgs, {
 		animation: 300,
 		ghostClass: 'ghost-album',
 		invertSwap: true,
 		draggable: '.sortable-item',
 	});
-});
+}
 
 window.markdown = markdown;
+window.prepareChart = prepareChart;
 window.downloadChart = downloadChart;
 
 declare global {
@@ -66,19 +61,7 @@ declare global {
 
 	interface Window {
 		markdown: typeof markdown;
+		prepareChart: typeof prepareChart;
 		downloadChart: typeof downloadChart;
 	}
 }
-
-/*
-import Alpine from 'alpinejs';
-var panzoom = require('panzoom')
-
-window.Alpine = Alpine;
-
-var element = document.getElementById('scene')
-panzoom(element)
-
-
-Alpine.start();
-*/

@@ -67,6 +67,8 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 
 	data.Charts = charts
 
+	app.infoLog.Println("authenticated:", data.IsAuthenticated)
+
 	app.render(w, http.StatusOK, "chart", data)
 }
 
@@ -229,7 +231,19 @@ func (app *application) emailVerify(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//TODO: mark user as verified, and delete the email from the verifications table
+	id, err := app.users.Verify(email)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	err = app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
 	http.Redirect(w, r, "/chart", http.StatusSeeOther)
 }

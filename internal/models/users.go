@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/jmoiron/sqlx"
@@ -73,4 +74,35 @@ func (m *UserModel) Authenticate(email, password string) (int, error) {
 
 func (m *UserModel) Exists(id int) (bool, error) {
 	return false, nil
+}
+
+func (m *UserModel) Verify(email string) (int, error) {
+	stmt := `UPDATE users
+				SET is_verified = true
+				WHERE email = ?`
+
+	_, err := m.DB.Exec(stmt, email)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, ErrNoRecord
+		}
+
+		return 0, fmt.Errorf("models: couldn't update the user to verified: %s", err)
+	}
+
+	stmt = `SELECT rowid
+				FROM users
+				WHERE email = ?`
+
+	var id int
+	err = m.DB.Get(&id, stmt, email)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return 0, ErrNoRecord
+		}
+
+		return 0, fmt.Errorf("models: couldn't update the user to verified: %s", err)
+	}
+
+	return id, nil
 }

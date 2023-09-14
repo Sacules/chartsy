@@ -131,7 +131,7 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 	params.Add("email", to)
 	params.Add("code", verificationCode)
 	data := &templateData{
-		UserVerificationURL: "http://localhost:4000/verify?" + params.Encode(),
+		UserVerificationURL: app.url + "/verify?" + params.Encode(),
 	}
 
 	var buf bytes.Buffer

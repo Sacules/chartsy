@@ -24,7 +24,7 @@
 					Search
 				</a>
 			{{ end }}
-			{{ with .User }}
+			{{ if .IsAuthenticated }}
 				<a
 					id="tab-user"
 					href="#user"

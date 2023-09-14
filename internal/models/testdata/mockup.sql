@@ -11,3 +11,5 @@ INSERT INTO users (
 INSERT INTO charts (user_id) VALUES (1);
 INSERT INTO charts (user_id) VALUES (1);
 INSERT INTO charts (user_id) VALUES (1);
+
+INSERT INTO images (url) VALUES ('https://i.imgur.com/w4toMiR.jpg');

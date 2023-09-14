@@ -109,7 +109,7 @@ func (m *ChartModel) Insert(userID int) (int, error) {
 }
 
 func (m *ChartModel) Get(id, userID int) (*Chart, error) {
-	query := `SELECT *
+	query := `SELECT rowid, *
 			  FROM charts
 			  WHERE rowid = ?
 			  AND user_id = ?`
@@ -125,15 +125,22 @@ func (m *ChartModel) Get(id, userID int) (*Chart, error) {
 		return nil, err
 	}
 
-	query = `SELECT imgs.url, imgs.title, imgs.caption
-		FROM images imgs
+	query = `SELECT title, caption, url
+		FROM images
 		INNER JOIN charts_images ci
-		ON ci.chart_id = ? AND imgs.url = ci.image_url
+		ON ci.chart_id = ? AND images.url = ci.image_url
 		ORDER BY ci.image_position ASC`
 
 	images := []Image{}
 
-	err = m.DB.Select(&images, query, c.ID)
+	err = m.DB.Select(&images, query, id)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNoRecord
+		}
+
+		return nil, err
+	}
 
 	c.Images = images
 

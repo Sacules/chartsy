@@ -27,7 +27,6 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
-	app.infoLog.Println("userID:", userID)
 	data := app.newTemplateData(r)
 
 	err = r.ParseForm()
@@ -73,7 +72,41 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 
 	data.Charts = charts
 
-	app.infoLog.Println("authenticated:", data.IsAuthenticated)
+	app.render(w, http.StatusOK, "chart", data)
+}
+
+func (app *application) chartNew(w http.ResponseWriter, r *http.Request) {
+	err := app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+
+	id, err := app.charts.Insert(userID)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	c, err := app.charts.Get(id, userID)
+	if err != nil {
+		app.serverError(w, err)
+
+		return
+	}
+
+	charts, err := app.charts.Latest(userID, 100)
+	if err != nil {
+		app.serverError(w, err)
+
+		return
+	}
+
+	data := app.newTemplateData(r)
+	data.CurrentChart = c
+	data.Charts = charts
 
 	app.render(w, http.StatusOK, "chart", data)
 }

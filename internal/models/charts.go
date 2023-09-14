@@ -62,10 +62,11 @@ type ChartModel struct {
 	DB *sqlx.DB
 }
 
-func (m *ChartModel) Insert() (int, error) {
-	query := `INSERT INTO charts (title) VALUES ('Untitled chart')`
+func (m *ChartModel) Insert(userID int) (int, error) {
+	query := `INSERT INTO charts (user_id)
+				VALUES (?)`
 
-	result, err := m.DB.Exec(query)
+	result, err := m.DB.Exec(query, userID)
 	if err != nil {
 		return 0, err
 	}
@@ -75,17 +76,17 @@ func (m *ChartModel) Insert() (int, error) {
 		return 0, err
 	}
 
-	core := `INSERT INTO
-				charts_images (chart_id, image_url, image_position)
-				VALUES (?, 'https://i.imgur.com/w4toMiR.jpg', !);`
+	stmt := `INSERT INTO
+				charts_images (chart_id, image_position)
+				VALUES (?, !);`
 
 	b := strings.Builder{}
 
 	// Generate 100 images for each new chart
-	ids := make([]int64, 100)
+	ids := make([]any, 100)
 	for i := 0; i < len(ids); i++ {
 		ids[i] = id
-		line := strings.Replace(core, "!", strconv.Itoa(i), 1)
+		line := strings.Replace(stmt, "!", strconv.Itoa(i), 1)
 
 		b.WriteString(line)
 	}
@@ -94,7 +95,7 @@ func (m *ChartModel) Insert() (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	_, err = tx.Exec(b.String(), ids)
+	_, err = tx.Exec(b.String(), ids...)
 	if err != nil {
 		return 0, err
 	}

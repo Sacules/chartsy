@@ -36,6 +36,7 @@ func (app *application) routes() *chi.Mux {
 			app.render(w, http.StatusOK, "home", data)
 		})
 		r.Get("/chart", app.chart)
+		r.Post("/chart", app.chartNew)
 		r.Post("/signup", app.userSignupPost)
 		r.Post("/login", app.userLogin)
 		r.Post("/logout", app.userLogout)

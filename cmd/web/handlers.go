@@ -20,14 +20,21 @@ const (
 )
 
 func (app *application) chart(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+	err := app.sessionManager.RenewToken(r.Context())
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
-	userID := 1
+	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	app.infoLog.Println("userID:", userID)
 	data := app.newTemplateData(r)
+
+	err = r.ParseForm()
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
 	id := r.FormValue("id")
 	if id != "" {
@@ -41,8 +48,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		c, err := app.charts.Get(chartID, userID)
 		if err != nil {
 			if errors.Is(err, models.ErrNoRecord) {
-				app.infoLog.Println(err)
-				app.notFound(w)
+				data.Charts = make([]models.Chart, 0)
 			} else {
 				app.serverError(w, err)
 			}

@@ -23,6 +23,7 @@ require (
 	github.com/go-test/deep v1.1.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/toorop/go-dkim v0.0.0-20201103131630-e1cd1a0a5208 // indirect
 	golang.org/x/sys v0.11.0 // indirect

@@ -30,3 +30,4 @@ tls/
 *.svg
 *.webp
 .reloader
+.env

@@ -15,6 +15,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/go-playground/form/v4"
 	"github.com/jmoiron/sqlx"
+	"github.com/joho/godotenv"
 	_ "github.com/mattn/go-sqlite3"
 
 	"gitlab.com/sacules/chartsy/internal/models"
@@ -34,9 +35,11 @@ func openDB(filename string) (*sql.DB, error) {
 }
 
 type application struct {
+	url      string
+	isServer bool
+
 	infoLog  *log.Logger
 	errorLog *log.Logger
-	env      string
 
 	templateCache  map[string]*template.Template
 	formDecoder    *form.Decoder
@@ -49,14 +52,21 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", "chartsy.db", "SQLite3 db name")
-	env := flag.String("env", "dev", "Whether this is a 'dev' or 'prod' environment")
+	dbName := flag.String("dbName", "chartsy.db", "SQLite3 db name")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "\033[1;32mINFO\033[0m\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "\033[1;31mERROR\033[0m\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	db, err := openDB(*dsn)
+	err := godotenv.Load()
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
+	env := os.Getenv("ENV")
+	serverURL := os.Getenv("URL")
+
+	db, err := openDB(*dbName)
 	if err != nil {
 		errorLog.Fatal(err)
 	}
@@ -77,6 +87,8 @@ func main() {
 	sqlxDB := sqlx.NewDb(db, "sqlite3")
 
 	app := &application{
+		url:            serverURL,
+		isServer:       env == "dev",
 		infoLog:        infoLog,
 		errorLog:       errorLog,
 		sessionManager: sessionManager,
@@ -85,7 +97,6 @@ func main() {
 		charts:         &models.ChartModel{DB: sqlxDB},
 		users:          &models.UserModel{DB: sqlxDB},
 		verifications:  &models.VerificationModel{DB: sqlxDB},
-		env:            *env,
 	}
 
 	srv := &http.Server{
@@ -94,7 +105,7 @@ func main() {
 		Handler:  app.routes(),
 	}
 
-	if *env == "dev" {
+	if env == "dev" {
 		watcher, err := fsnotify.NewWatcher()
 		if err != nil {
 			errorLog.Fatal(err)

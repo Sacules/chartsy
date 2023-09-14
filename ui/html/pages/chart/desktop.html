@@ -58,7 +58,7 @@
 		<strong>Chart</strong>
 		<input-text
 			_="on input(value)
-				       send update(value: value) to #chart-title"
+				    send chart:title(value: value) to #images-text"
 			name="title"
 			value="{{ .Title }}"
 			class="settings"

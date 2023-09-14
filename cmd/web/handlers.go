@@ -401,5 +401,5 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	data := app.newTemplateData(r)
 	data.SearchResults = records
 
-	app.renderFragment(w, http.StatusOK, "chart", "search-results", data)
+	app.renderFragment(w, http.StatusOK, "chart", "search/results", data)
 }

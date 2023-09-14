@@ -3,7 +3,6 @@
 
 import { toPng } from 'html-to-image';
 import Sortable from 'sortablejs';
-import { marked } from 'marked';
 
 // Components
 import './components/input';
@@ -12,10 +11,6 @@ import './components/settings/images';
 
 // Types
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
-
-function markdown(s: string) {
-	return marked.parse(s);
-}
 
 const downloadend = new Event('downloadend');
 
@@ -48,19 +43,18 @@ function prepareChart(imgs: HTMLElement) {
 	});
 }
 
-window.markdown = markdown;
 window.prepareChart = prepareChart;
 window.downloadChart = downloadChart;
 
 declare global {
 	interface HTMLElementEventMap {
-		update: CustomEvent<ImageTextUpdate>;
-		replace: CustomEvent<Image>;
-		textplacement: CustomEvent<ImageTextPlacement>;
+		'chart:update': CustomEvent<ImageTextUpdate>;
+		'chart:replace': CustomEvent<Image>;
+		'chart:textplacement': CustomEvent<ImageTextPlacement>;
+		'chart:title': CustomEvent<{ value: string }>;
 	}
 
 	interface Window {
-		markdown: typeof markdown;
 		prepareChart: typeof prepareChart;
 		downloadChart: typeof downloadChart;
 	}

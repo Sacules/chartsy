@@ -1,6 +1,9 @@
 import { css, html, nothing } from 'lit';
+import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { map } from 'lit/directives/map.js';
-import { property, customElement, state } from 'lit/decorators.js';
+import { query, property, customElement, state } from 'lit/decorators.js';
+import { marked } from 'marked';
+
 import { BaseElement } from './base';
 
 export interface Image {
@@ -57,7 +60,7 @@ export class ChartImage extends BaseElement {
 		});
 
 		// mobile only
-		this.addEventListener('replace', this.handleReplace);
+		this.addEventListener('chart:replace', this.handleReplace);
 	}
 
 	handleReplace(e: CustomEvent<Image>) {
@@ -120,6 +123,9 @@ export class ChartImage extends BaseElement {
 @customElement('chart-images-text')
 export class ChartImagesText extends BaseElement {
 	@property({ attribute: 'text-placement' }) textPlacement: ChartTextPlacement = 'hide';
+	@property({ attribute: 'chart-title' }) chartTitle = '';
+
+	@query('h1') heading!: HTMLHeadingElement;
 
 	private textPlacementStyles = {
 		hide: '',
@@ -167,10 +173,20 @@ export class ChartImagesText extends BaseElement {
 		`,
 	];
 
+	constructor() {
+		super();
+
+		this.addEventListener('chart:title', (e) => {
+			this.chartTitle = marked.parse(e.detail.value);
+		});
+	}
+
 	override render() {
-		return html`
+		return staticHtml`
 			<div class="grid gap-4 ${this.textPlacementStyles[this.textPlacement]}">
-				<slot name="title"></slot>
+				<div id="chart-title" class="text-slate-900 font-condensed place-self-center max-w-[60ch]">
+					${this.chartTitle === '' ? nothing : unsafeStatic(this.chartTitle)}
+				</div>
 				<slot name="images"></slot>
 				<slot name="text" class="aria-hidden:hidden" aria-hidden="${this.textPlacement === 'hide'}"></slot>
 			</div>
@@ -189,7 +205,7 @@ export class ChartText extends BaseElement {
 	constructor() {
 		super();
 
-		this.addEventListener('update', (e: CustomEvent<ImageTextUpdate>) => {
+		this.addEventListener('chart:update', (e: CustomEvent<ImageTextUpdate>) => {
 			this.images = Array.from(e.detail.images.children)
 				.slice(0, this.rows * this.columns)
 				.map((e) => {
@@ -230,7 +246,7 @@ export class ChartTextItem extends BaseElement {
 	constructor() {
 		super();
 
-		this.addEventListener('replace', this.handleReplace);
+		this.addEventListener('chart:replace', this.handleReplace);
 	}
 
 	handleReplace(e: CustomEvent<Image>) {

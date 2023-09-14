@@ -79,21 +79,13 @@
 				   call #chart.style.setProperty('--chart-settings-background-gradient-to', value)
 			   on bgChangeImage(file)
 			       set src to URL.createObjectURL(file)
-			       set url to beep! `url('${src}')`
+			       set url to `url('${src}')`
 				   call #chart.style.setProperty('--chart-settings-background-image', url)"
 			id="images-text"
 			text-placement="hide"
+			chart-title="{{ .Title }}"
 			class="grid bg-cover bg-center color"
 		>
-			<h1
-				_="on update(value) get the markdown(value) then set my.innerHTML to it"
-				id="chart-title"
-				class="font-condensed place-self-center max-w-[60ch]"
-				style="color: {{ .TextColor }};"
-				slot="title"
-			>
-				{{ .Title }}
-			</h1>
 			<ul
 				_="init
 					   call prepareChart(me)

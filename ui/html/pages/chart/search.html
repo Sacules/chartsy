@@ -40,7 +40,7 @@
 		_="on submit(event) event.preventDefault()"
 		hx-post="/search"
 		hx-target="#search-results"
-		hx-trigger="input from:#search delay:300ms"
+		hx-trigger="input from:[name='search'] delay:300ms"
 		class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
 	>
 		<input-text type="search" name="search" placeholder="e.g. In Absentia">Search</input-text>

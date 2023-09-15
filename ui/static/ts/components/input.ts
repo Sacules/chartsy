@@ -13,10 +13,6 @@ export class InputNumeric extends BaseElement {
 	@property({ type: Number }) max = 10;
 	@property({ type: Number }) step = 1;
 	@property() unit = '';
-	@property() targetId = '';
-	@property() targetEvent = '';
-
-	@state() chart: HTMLElement = document.getElementById('chart')!;
 
 	@query('#minus-button') minusButton!: HTMLButtonElement;
 	@query('#plus-button') plusButton!: HTMLButtonElement;
@@ -48,10 +44,8 @@ export class InputNumeric extends BaseElement {
 			return;
 		}
 
-		this.chart.style.setProperty(`--chart-settings-${this.name}`, String(this.value));
-
-		const e = new CustomEvent(this.targetEvent);
-		this.chart.dispatchEvent(e);
+		const e = new CustomEvent('change', { detail: { value: this.value } });
+		this.dispatchEvent(e);
 	}
 
 	override render() {

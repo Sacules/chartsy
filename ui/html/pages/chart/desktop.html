@@ -157,46 +157,46 @@
 	<fieldset class="flex flex-col gap-4 p-4" role="group">
 		<strong>Layout</strong>
 		<input-numeric
+			_="install ChartSetting"
 			id="column-count"
 			name="cols"
 			value="{{ .ColumnCount }}"
 			class="settings"
 			min="1"
 			max="10"
-			targetEvent="chartUpdate"
 		>
 			Columns
 		</input-numeric>
 		<input-numeric
+			_="install ChartSetting"
 			id="row-count"
 			name="rows"
 			value="{{ .RowCount }}"
 			class="settings"
 			min="1"
 			max="10"
-			targetEvent="chartUpdate"
 		>
 			Rows
 		</input-numeric>
 		<input-numeric
+			_="install ChartSetting"
 			id="spacing"
 			name="spacing"
 			value="{{ .Spacing }}"
 			class="settings"
 			min="0"
 			max="5"
-			targetEvent="chartUpdate"
 		>
 			Spacing
 		</input-numeric>
 		<input-numeric
+			_="install ChartSetting"
 			id="padding"
 			name="padding"
 			value="{{ .Padding }}"
 			class="settings"
 			min="0"
 			max="5"
-			targetEvent="chartUpdate"
 		>
 			Padding
 		</input-numeric>

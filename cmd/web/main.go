@@ -63,7 +63,7 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
-	env := os.Getenv("ENV")
+	env := os.Getenv("CHARTSY_ENV")
 	serverURL := os.Getenv("URL")
 
 	db, err := openDB(*dbName)

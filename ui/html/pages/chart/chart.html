@@ -89,14 +89,14 @@
 			<ul
 				_="init
 					   call prepareChart(me)
-					   send update(images: me) to #text
+					   send chart:update(images: me) to #text
 				   end
 				   on drop(target)
-					   send update(images: me) to #text
+					   send chart:update(images: me) to #text
 
 				   -- sortable events
 				   on move(dragged)
-					   send update(images: me) to #text
+					   send chart:update(images: me) to #text
 				       set the dragged's @data-was-dragging to true
 				   on update(item, newIndex)
 				       set images to the children of me

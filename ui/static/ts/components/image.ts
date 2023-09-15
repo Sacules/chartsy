@@ -143,7 +143,7 @@ export class ChartImagesText extends BaseElement {
 				--layout-below: 'title' 'images' 'text';
 				--layout-right: 'title  .' 'images text';
 			}
-			div {
+			#chart {
 				grid-template-areas: var(--layout);
 			}
 
@@ -183,7 +183,7 @@ export class ChartImagesText extends BaseElement {
 
 	override render() {
 		return staticHtml`
-			<div class="grid gap-4 ${this.textPlacementStyles[this.textPlacement]}">
+			<div id="chart" class="grid ${this.textPlacementStyles[this.textPlacement]}">
 				<div id="chart-title" class="text-slate-900 font-condensed place-self-center max-w-[60ch]">
 					${this.chartTitle === '' ? nothing : unsafeStatic(this.chartTitle)}
 				</div>
@@ -229,9 +229,8 @@ export class ChartText extends BaseElement {
 	}
 
 	override render() {
-		//const styles = `grid-template-rows: repeat(${this.columns}, 1fr)`;
 		return html`
-			<ul class="grid w-max">
+			<ul class="px-4 grid w-max">
 				${this.imagesTemplate()}
 			</ul>
 		`;

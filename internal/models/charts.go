@@ -167,13 +167,13 @@ func (m *ChartModel) Latest(userID, n int) ([]Chart, error) {
 	return cs, nil
 }
 
-func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsWidth uint8) error {
+func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsSize uint8) error {
 	query := `UPDATE charts
 		SET title = ?, column_count = ?, row_count = ?,
-			spacing = ?, padding = ?, images_width = ?
+			spacing = ?, padding = ?, images_size = ?
 		WHERE rowid = ?`
 
-	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsWidth, id)
+	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsSize, id)
 
 	return err
 }

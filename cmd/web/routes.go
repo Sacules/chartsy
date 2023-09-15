@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"net/url"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -41,16 +40,6 @@ func (app *application) routes() *chi.Mux {
 		r.Post("/login", app.userLogin)
 		r.Post("/logout", app.userLogout)
 		r.Patch("/settings", app.chartSettings)
-
-		r.Get("/email", func(w http.ResponseWriter, r *http.Request) {
-			params := url.Values{}
-			params.Add("email", "leociancalucas@gmail.com")
-			params.Add("code", randomString(8))
-			data := &templateData{
-				UserVerificationURL: "http://localhost:4000/verify?" + params.Encode(),
-			}
-			app.renderFragment(w, http.StatusOK, "home", "confirmation-mail", data)
-		})
 
 		r.Get("/verify", app.emailVerify)
 

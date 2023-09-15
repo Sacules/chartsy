@@ -172,12 +172,7 @@
 			</li>
 		{{ end }}
 		<li class="grid place-items-center py-4">
-			<button
-				class="flex gap-2"
-				hx-post="/chart"
-				hx-triger="click"
-				hx-swap="multi:#charts,#header,#main,#panel-right:outerHTML"
-			>
+			<button class="flex gap-2" hx-post="/chart" hx-swap="multi:#charts,#header,#main,#panel-right:outerHTML">
 				<div class="h-6 w-6">
 					<icon-plus></icon-plus>
 				</div>

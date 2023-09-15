@@ -287,23 +287,53 @@ func (app *application) emailVerify(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/chart", http.StatusSeeOther)
 }
 
+type chartSettingsForm struct {
+	ID    int    `form:"id"`
+	Title string `form:"title"`
+
+	BackgroundColor        string `form:"bgColor"`
+	BackgroundGradientFrom string `form:"bgGradientFrom"`
+	BackgroundGradientTo   string `form:"bgGradientTo"`
+	BackgroundImage        string `form:"bgImage"`
+
+	Columns uint8 `form:"cols"`
+	Rows    uint8 `form:"rows"`
+	Spacing uint8 `form:"spacing"`
+	Padding uint8 `form:"padding"`
+
+	ImagesSize         uint8  `form:"imagesSize"`
+	ImagesShape        string `form:"imagesShape"`
+	ImagesTextPosition string `form:"imagesTextPosition"`
+
+	validator.Validator `form:"-"`
+}
+
 func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+	var form chartSettingsForm
+
+	err := app.decodePostForm(r, &form)
 	if err != nil {
-		app.errorLog.Println(err)
 		app.clientError(w, http.StatusBadRequest)
 		return
 	}
 
-	title := r.PostForm.Get("title")
-	id, _ := strconv.Atoi(r.PostForm.Get("id"))
-	columns, _ := strconv.Atoi(r.PostForm.Get("columns"))
-	rows, _ := strconv.Atoi(r.PostForm.Get("rows"))
-	spacing, _ := strconv.Atoi(r.PostForm.Get("spacing"))
-	padding, _ := strconv.Atoi(r.PostForm.Get("padding"))
-	imgsHeight, _ := strconv.Atoi(r.PostForm.Get("imgs-height"))
+	form.CheckField(validator.MaxChars(form.Title, 128), "title", "Title too long")
+	form.CheckField(validator.Matches(form.BackgroundColor, validator.RGBColorRegex), "bgColor", "Not a valid color")
+	form.CheckField(validator.Matches(form.BackgroundGradientFrom, validator.RGBColorRegex), "bgGradientFrom", "Not a valid color")
+	form.CheckField(validator.Matches(form.BackgroundGradientTo, validator.RGBColorRegex), "bgGradientTo", "Not a valid color")
+	form.CheckField(validator.URL(form.BackgroundImage), "bgImage", "Not a valid image URL")
+	form.CheckField(validator.PermittedInt(int(form.Columns), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "columns", "Not a valid number")
+	form.CheckField(validator.PermittedInt(int(form.Rows), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "rows", "Not a valid number")
+	form.CheckField(validator.PermittedInt(int(form.Spacing), 0, 1, 2, 3, 4, 5), "spacing", "Not a valid number")
+	form.CheckField(validator.PermittedInt(int(form.Padding), 0, 1, 2, 3, 4, 5), "padding", "Not a valid number")
+	form.CheckField(validator.PermittedInt(int(form.ImagesSize), 150, 200), "imagesSize", "Not a valid number")
 
-	err = app.charts.Update(id, title, uint8(columns), uint8(rows), uint8(spacing), uint8(padding), uint8(imgsHeight))
+	if !form.Valid() {
+		app.errorLog.Println(form)
+		return
+	}
+
+	err = app.charts.Update(form.ID, form.Title, form.Columns, form.Rows, form.Spacing, form.Padding, form.ImagesSize)
 	if err != nil {
 		app.serverError(w, err)
 		return

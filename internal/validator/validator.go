@@ -2,9 +2,14 @@ package validator
 
 import (
 	"net/mail"
+	"net/url"
 	"regexp"
 	"strings"
 	"unicode/utf8"
+)
+
+var (
+	RGBColorRegex = regexp.MustCompile("^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$")
 )
 
 type Validator struct {
@@ -59,5 +64,10 @@ func Matches(value string, rx *regexp.Regexp) bool {
 
 func Email(value string) bool {
 	_, err := mail.ParseAddress(value)
+	return err == nil
+}
+
+func URL(value string) bool {
+	_, err := url.Parse(value)
 	return err == nil
 }

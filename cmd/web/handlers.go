@@ -226,7 +226,8 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
-	http.Redirect(w, r, "/chart", http.StatusSeeOther)
+	w.Header().Set("HX-Redirect", "/chart")
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func (app *application) userLogout(w http.ResponseWriter, r *http.Request) {

@@ -82,7 +82,7 @@ func main() {
 
 	sessionManager := scs.New()
 	sessionManager.Store = sqlite3store.New(db)
-	sessionManager.Lifetime = 12 * time.Hour
+	sessionManager.Lifetime = 24 * time.Hour * 7
 
 	sqlxDB := sqlx.NewDb(db, "sqlite3")
 

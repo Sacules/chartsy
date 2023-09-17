@@ -4,48 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#chart {
-	--chart-settings-cols: 3;
-	--chart-settings-rows: 3;
-	--chart-settings-spacing: 4;
-	--chart-settings-padding: 4;
-	--chart-settings-images-width: 150;
-	--chart-settings-background-color: #ffffff;
-	--chart-settings-background-gradient-from: #ffffff;
-	--chart-settings-background-gradient-to: #000000;
-	--chart-settings-background-image: url('https://i.imgur.com/w4toMiR.jpg');
-}
-
-#images {
-	grid-template-columns: repeat(var(--chart-settings-cols), max-content);
-	grid-template-rows: repeat(var(--chart-settings-rows), max-content);
-	gap: calc(var(--chart-settings-spacing) * 1rem / 2);
-}
-
-#images-text {
-	padding: calc(var(--chart-settings-padding) * 1rem / 2);
-}
-
-#images-text.color {
-	background-color: var(--chart-settings-background-color);
-}
-
-#images-text.gradient {
-	background-image: linear-gradient(
-		to bottom right,
-		var(--chart-settings-background-gradient-from),
-		var(--chart-settings-background-gradient-to)
-	);
-}
-
-#images-text.image {
-	background-image: var(--chart-settings-background-image);
-}
-
-chart-image {
-	width: calc(var(--chart-settings-images-width) * 1px);
-}
-
 .ghost-album {
 	outline: 2px solid blue;
 }

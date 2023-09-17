@@ -61,6 +61,7 @@
 	>
 		<div class="flex flex-col gap-4 p-4">
 			<strong>Chart</strong>
+			<input type="number" name="id" hidden value="{{ .ID }}" class="settings-desktop" />
 			<input-text
 				_="on input(value)
 				       send chart:title(value: value) to #images-text"

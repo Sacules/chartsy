@@ -83,6 +83,10 @@ func (app *application) chartNew(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	if userID == 0 {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
 
 	id, err := app.charts.Insert(userID)
 	if err != nil {
@@ -318,6 +322,7 @@ func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	form.CheckField(validator.NotZero(form.ID), "id", "ID can't be zero")
 	form.CheckField(validator.MaxChars(form.Title, 128), "title", "Title too long")
 	form.CheckField(validator.Matches(form.BackgroundColor, validator.RGBColorRegex), "bgColor", "Not a valid color")
 	form.CheckField(validator.Matches(form.BackgroundGradientFrom, validator.RGBColorRegex), "bgGradientFrom", "Not a valid color")
@@ -330,7 +335,7 @@ func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
 	form.CheckField(validator.PermittedInt(int(form.ImagesSize), 150, 200), "imagesSize", "Not a valid number")
 
 	if !form.Valid() {
-		app.errorLog.Println(form)
+		app.errorLog.Println("error validating form:", form.FieldErrors)
 		return
 	}
 

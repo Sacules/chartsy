@@ -54,7 +54,11 @@ type Chart struct {
 	ImagesShape        ImagesShape        `db:"images_shape"`
 	ImagesTextPosition ImagesTextPosition `db:"images_text_position"`
 
-	BgColor   string `db:"bg_color"`
+	BgColor        string `db:"bg_color"`
+	BgGradientFrom string `db:"bg_gradient_from"`
+	BgGradientTo   string `db:"bg_gradient_to"`
+	BgImageURL     string `db:"bg_image_url"`
+
 	TextColor string `db:"text_color"`
 }
 
@@ -169,9 +173,9 @@ func (m *ChartModel) Latest(userID, n int) ([]Chart, error) {
 
 func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsSize uint8) error {
 	query := `UPDATE charts
-		SET title = ?, column_count = ?, row_count = ?,
-			spacing = ?, padding = ?, images_size = ?
-		WHERE rowid = ?`
+				SET title = ?, column_count = ?, row_count = ?,
+					spacing = ?, padding = ?, images_size = ?
+				WHERE rowid = ?`
 
 	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsSize, id)
 

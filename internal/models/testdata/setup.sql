@@ -14,8 +14,10 @@ CREATE TABLE IF NOT EXISTS charts (
 	images_text_position TEXT CHECK(images_text_position IN ('hide', 'inline', 'left', 'right', 'below', 'overlay')) DEFAULT 'hide' NOT NULL,
 	images_size		     TINYINT(8) CHECK(images_size IN (150, 200)) DEFAULT 150 NOT NULL,
 
-	bg_color   CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
-	text_color CHAR(7) DEFAULT "#020617" NOT NULL, -- dark:slate-950
+	bg_color		 CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
+	bg_gradient_from CHAR(7) DEFAULT "#f1f5f9" NOT NULL, -- dark:slate-100
+	bg_gradient_to   CHAR(7) DEFAULT "#020617" NOT NULL, -- dark:slate-950
+	text_color		 CHAR(7) DEFAULT "#020617" NOT NULL, -- dark:slate-950
 
 	FOREIGN KEY (user_id)
 		REFERENCES users(id)

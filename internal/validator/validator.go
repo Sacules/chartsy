@@ -6,6 +6,8 @@ import (
 	"regexp"
 	"strings"
 	"unicode/utf8"
+
+	"golang.org/x/exp/constraints"
 )
 
 var (
@@ -46,6 +48,10 @@ func MinChars(value string, n int) bool {
 
 func MaxChars(value string, n int) bool {
 	return utf8.RuneCountInString(value) <= n
+}
+
+func NotZero[T constraints.Integer](value T) bool {
+	return value != 0
 }
 
 func PermittedInt(value int, permittedValues ...int) bool {

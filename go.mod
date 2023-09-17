@@ -26,5 +26,6 @@ require (
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/toorop/go-dkim v0.0.0-20201103131630-e1cd1a0a5208 // indirect
-	golang.org/x/sys v0.11.0 // indirect
+	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
+	golang.org/x/sys v0.12.0 // indirect
 )

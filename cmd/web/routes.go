@@ -34,12 +34,15 @@ func (app *application) routes() *chi.Mux {
 			data.Form = userSignupForm{}
 			app.render(w, http.StatusOK, "home", data)
 		})
-		r.Get("/chart", app.chart)
-		r.Post("/chart", app.chartNew)
+		r.Route("/chart", func(r chi.Router) {
+			r.Get("/", app.chart)
+			r.Post("/new", app.chartNew)
+			r.Patch("/settings", app.chartSettings)
+			r.Patch("/images", app.chartImages)
+		})
 		r.Post("/signup", app.userSignupPost)
 		r.Post("/login", app.userLogin)
 		r.Post("/logout", app.userLogout)
-		r.Patch("/settings", app.chartSettings)
 
 		r.Get("/verify", app.emailVerify)
 

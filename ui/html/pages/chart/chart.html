@@ -105,6 +105,9 @@
 					   end
 				   on end(item)
 					   set the item's @data-was-dragging to false"
+				hx-patch="/chart/images"
+				hx-trigger="update delay:300ms, drop"
+				hx-include="#chart-id,chart-image[aria-hidden=false]"
 				id="images"
 				class="grid"
 				slot="images"
@@ -112,7 +115,7 @@
 				{{ $textColor := .TextColor }}
 				{{ $shape := .ImagesShape }}
 
-				{{ range $i := .Images }}
+				{{ range $i, $v := .Images }}
 					<chart-image
 						_="on touchend
 							   if @data-was-dragging
@@ -135,10 +138,14 @@
 						shape="{{ $shape }}"
 						aria-hidden="true"
 					>
+						<input slot="title" type="text" value="{{ .Title }}" hidden autocomplete="off">
+						<input slot="caption" type="text" value="{{ .Caption }}" hidden autocomplete="off">
+						<input slot="url" type="text" value="{{ .URL }}" hidden autocomplete="off">
 					</chart-image>
 				{{ end }}
 			</ul>
 			<chart-text id="text" slot="text" columns="{{ .ColumnCount }}" rows="{{ .RowCount }}"></chart-text>
+			<input id="chart-id" type="number" name="id" value="{{ .ID }}">
 		</chart-images-text>
 	</div>
 {{ end }}
@@ -172,7 +179,7 @@
 			</li>
 		{{ end }}
 		<li class="grid place-items-center py-4">
-			<button class="flex gap-2" hx-post="/chart" hx-swap="multi:#charts,#header,#main,#panel-right:outerHTML">
+			<button class="flex gap-2" hx-post="/chart/new" hx-swap="multi:#charts,#header,#main,#panel-right:outerHTML">
 				<div class="h-6 w-6">
 					<icon-plus></icon-plus>
 				</div>

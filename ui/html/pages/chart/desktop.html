@@ -54,7 +54,7 @@
 
 {{ define "desktop/panel/right" }}
 	<form
-		hx-patch="/settings"
+		hx-patch="/chart/settings"
 		hx-trigger="input from:input-text delay:300ms, input from:input delay:300ms, change from:.settings-desktop delay:300ms"
 		hx-include=".settings-desktop"
 		hx-swap="none"

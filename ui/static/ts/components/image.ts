@@ -1,7 +1,7 @@
-import { css, html, nothing } from 'lit';
+import { PropertyValueMap, css, html, nothing } from 'lit';
 import { html as staticHtml, unsafeStatic } from 'lit/static-html.js';
 import { map } from 'lit/directives/map.js';
-import { query, property, customElement, state } from 'lit/decorators.js';
+import { query, queryAssignedElements, property, customElement, state } from 'lit/decorators.js';
 import { marked } from 'marked';
 
 import { BaseElement } from './base';
@@ -33,6 +33,10 @@ export class ChartImage extends BaseElement {
 
 	@state() isDraggingOver = false;
 
+	@queryAssignedElements({ slot: 'title' }) titleInput!: HTMLInputElement[];
+	@queryAssignedElements({ slot: 'caption' }) captionInput!: HTMLInputElement[];
+	@queryAssignedElements({ slot: 'url' }) urlInput!: HTMLInputElement[];
+
 	constructor() {
 		super();
 
@@ -42,7 +46,6 @@ export class ChartImage extends BaseElement {
 			e.stopPropagation();
 		});
 		this.addEventListener('dragleave', () => (this.isDraggingOver = false));
-		this.addEventListener('dragend', () => console.log('in the end'));
 		this.addEventListener('drop', (e) => {
 			const data = e.dataTransfer!.getData('text/plain');
 			if (data.trim() === '') {
@@ -57,10 +60,24 @@ export class ChartImage extends BaseElement {
 			this.isDraggingOver = false;
 
 			this.dataset.caption = caption;
+
+			this.titleInput[0].value = title;
+			this.captionInput[0].value = caption;
+			this.urlInput[0].value = src;
 		});
 
 		// mobile only
 		this.addEventListener('chart:replace', this.handleReplace);
+	}
+
+	protected override updated(changedProperties: PropertyValueMap<this>) {
+		if (!changedProperties.has("index")) {
+			return;
+		}
+
+		this.titleInput[0].name = `image[${this.index}].title`;
+		this.captionInput[0].name = `image[${this.index}].caption`;
+		this.urlInput[0].name = `image[${this.index}].url`;
 	}
 
 	handleReplace(e: CustomEvent<Image>) {
@@ -114,6 +131,9 @@ export class ChartImage extends BaseElement {
 					${this.overlayTemplate()}
 					<img class="${className}" data-dragging-over="${this.isDraggingOver}" role="img" src="${this.src}" />
 					${this.inlineTemplate()}
+					<slot name="title"></slot>
+					<slot name="caption"></slot>
+					<slot name="url"></slot>
 				</figure>
 			</li>
 		`;

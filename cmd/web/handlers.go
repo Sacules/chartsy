@@ -115,6 +115,65 @@ func (app *application) chartNew(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "chart", data)
 }
 
+type chartImagesForm struct {
+	ID                  int            `form:"id"`
+	Image               []models.Image `form:"image"`
+	validator.Validator `form:"-"`
+}
+
+func (app *application) chartImages(w http.ResponseWriter, r *http.Request) {
+	var form chartImagesForm
+
+	err := app.decodePostForm(r, &form)
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form.CheckField(validator.Positive(form.ID), "id", "ID invalid")
+
+	if !form.Valid() {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	err = app.sessionManager.RenewToken(r.Context())
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	if userID == 0 {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
+	c, err := app.charts.Get(form.ID, userID)
+	if err != nil {
+		if errors.Is(err, models.ErrNoRecord) {
+			app.notFound(w)
+			return
+		}
+
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	if len(form.Image) != int(c.ColumnCount*c.RowCount) {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	err = app.charts.UpdateImages(form.ID, form.Image)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
 type userSignupForm struct {
 	Email               string `form:"email"`
 	Password            string `form:"password"`
@@ -339,7 +398,7 @@ func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = app.charts.Update(form.ID, form.Title, form.Columns, form.Rows, form.Spacing, form.Padding, form.ImagesSize)
+	err = app.charts.UpdateSettings(form.ID, form.Title, form.Columns, form.Rows, form.Spacing, form.Padding, form.ImagesSize)
 	if err != nil {
 		app.serverError(w, err)
 		return

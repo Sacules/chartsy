@@ -54,6 +54,10 @@ func NotZero[T constraints.Integer](value T) bool {
 	return value != 0
 }
 
+func Positive[T constraints.Integer](value T) bool {
+	return value > 0
+}
+
 func PermittedInt(value int, permittedValues ...int) bool {
 	for i := range permittedValues {
 		if value == permittedValues[i] {

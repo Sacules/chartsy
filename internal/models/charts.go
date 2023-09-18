@@ -13,9 +13,9 @@ import (
 // Image represents the core of a chart, whether
 // it is an Album, a Movie, a Game, etc.
 type Image struct {
-	Title   string `db:"title"`
-	Caption string `db:"caption"`
-	URL     string `db:"url"`
+	Title   string `db:"title" form:"title"`
+	Caption string `db:"caption" form:"caption"`
+	URL     string `db:"url" form:"url"`
 }
 
 type ImagesTextPosition string
@@ -171,7 +171,7 @@ func (m *ChartModel) Latest(userID, n int) ([]Chart, error) {
 	return cs, nil
 }
 
-func (m *ChartModel) Update(id int, title string, columns, rows, spacing, padding, imgsSize uint8) error {
+func (m *ChartModel) UpdateSettings(id int, title string, columns, rows, spacing, padding, imgsSize uint8) error {
 	query := `UPDATE charts
 				SET title = ?, column_count = ?, row_count = ?,
 					spacing = ?, padding = ?, images_size = ?
@@ -180,4 +180,28 @@ func (m *ChartModel) Update(id int, title string, columns, rows, spacing, paddin
 	_, err := m.DB.Exec(query, title, columns, rows, spacing, padding, imgsSize, id)
 
 	return err
+}
+
+func (m *ChartModel) UpdateImages(id int, imgs []Image) error {
+	for i, img := range imgs {
+		stmt := `INSERT INTO images (title, caption, url)
+					VALUES (?, ?, ?)
+					ON CONFLICT DO NOTHING`
+
+		_, err := m.DB.Exec(stmt, img.Title, img.Caption, img.URL)
+		if err != nil {
+			return err
+		}
+
+		stmt = `UPDATE charts_images
+					SET image_url = ?
+					WHERE chart_id = ? AND image_position = ?`
+
+		_, err = m.DB.Exec(stmt, img.URL, id, i)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

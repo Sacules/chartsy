@@ -155,6 +155,7 @@
 	<ul class="grid divide-y divide-slate-700">
 		{{ $curr := .CurrentChart }}
 		{{ range .Charts }}
+			{{ $isCurrent := and $curr (eq $curr.ID .ID) }}
 			<li tabindex="0">
 				<button
 					class="w-full"
@@ -164,16 +165,10 @@
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 				>
-					<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100">
+				<figure class="group p-4 flex gap-4 items-center {{ if $isCurrent }}bg-slate-800{{ else }}hover:bg-slate-800{{ end }}">
 						<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
-						<figcaption class="group-hover:text-slate-900 select-none">
-							{{ with $curr }}
-								{{ if eq $curr.ID .ID }}
-									<strong>{{ .Name }}</strong>
-								{{ end }}
-							{{ else }}
-								{{ .Name }}
-							{{ end }}
+						<figcaption class="select-none {{ if $isCurrent }}font-bold{{ end }}">
+							{{ .Name }}
 						</figcaption>
 					</figure>
 				</button>

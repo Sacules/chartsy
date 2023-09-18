@@ -156,7 +156,7 @@ func (m *ChartModel) Latest(userID, n int) ([]Chart, error) {
 	query := `SELECT rowid, name, updated
 				FROM charts
 				WHERE user_id = ?
-				ORDER BY updated DESC
+				ORDER BY updated ASC
 				LIMIT ?`
 
 	err := m.DB.Select(&cs, query, userID, n)

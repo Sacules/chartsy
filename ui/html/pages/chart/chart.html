@@ -161,7 +161,7 @@
 					name="id"
 					value="{{ .ID }}"
 					hx-get="/chart"
-					hx-swap="multi:#header,#main,#panel-right:outerHTML transition:true"
+					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 				>
 					<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100">
@@ -180,7 +180,7 @@
 			</li>
 		{{ end }}
 		<li class="grid place-items-center py-4">
-			<button class="flex gap-2" hx-post="/chart/new" hx-swap="multi:#charts,#header,#main,#panel-right:outerHTML">
+			<button class="flex gap-2" hx-post="/chart/new" hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true">
 				<div class="h-6 w-6">
 					<icon-plus></icon-plus>
 				</div>

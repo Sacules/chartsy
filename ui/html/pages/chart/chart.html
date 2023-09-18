@@ -53,6 +53,7 @@
 		   "
 		id="chart"
 		style="display: none;"
+		class="slide-it"
 	>
 		<chart-images-text
 			_="on bgChange(state)
@@ -160,7 +161,7 @@
 					name="id"
 					value="{{ .ID }}"
 					hx-get="/chart"
-					hx-swap="multi:#header,#main,#panel-right:outerHTML"
+					hx-swap="multi:#header,#main,#panel-right:outerHTML transition:true"
 					hx-push-url="true"
 				>
 					<figure class="group p-4 flex gap-4 items-center hover:bg-slate-100">

@@ -3,7 +3,6 @@ package models
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -205,8 +204,6 @@ func (m *ChartModel) UpdateImages(id int, imgs []Image) error {
 		if err != nil {
 			return err
 		}
-
-		fmt.Println("imgID:", imgID)
 
 		stmt = `UPDATE charts_images
 					SET image_id = ?

@@ -31,3 +31,4 @@ tls/
 *.webp
 .reloader
 .env
+*.pem

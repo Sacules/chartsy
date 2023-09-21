@@ -46,11 +46,7 @@ const injectStyles: BuildConfig = {
 	plugins: [tailwindLit],
 };
 
-const isProd = env.BUILD_ENV === 'prod';
-
-if (isProd) {
-	const result = await Bun.build(injectStyles);
-	if (!result.success) {
-		console.log(result.logs);
-	}
+const result = await Bun.build(injectStyles);
+if (!result.success) {
+	console.log(result.logs);
 }

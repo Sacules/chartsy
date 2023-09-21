@@ -1,13 +1,12 @@
-import type { BunPlugin, BuildConfig } from 'bun';
+import * as esbuild from 'esbuild';
 import path from 'node:path';
-import { env } from 'node:process';
 
 import postcss from 'postcss';
 import postcssLit from 'postcss-lit';
 import autoprefixer from 'autoprefixer';
 import tailwindcss from 'tailwindcss';
 
-const tailwindLit: BunPlugin = {
+const tailwindLit: esbuild.Plugin = {
 	name: 'tailwind-lit',
 	setup(build) {
 		build.onLoad({ filter: /\.ts$/ }, async (args) => {
@@ -38,15 +37,15 @@ const tailwindLit: BunPlugin = {
 	},
 };
 
-const injectStyles: BuildConfig = {
-	entrypoints: ['ui/static/ts/index.ts'],
+const injectStyles: esbuild.BuildOptions = {
+	entryPoints: ['ui/static/ts/index.ts'],
 	outdir: 'public',
 	format: 'esm',
 	minify: true,
 	plugins: [tailwindLit],
 };
 
-const result = await Bun.build(injectStyles);
-if (!result.success) {
-	console.log(result.logs);
+const result = await esbuild.build(injectStyles);
+if (result.errors.length > 0) {
+	console.log(result.errors);
 }

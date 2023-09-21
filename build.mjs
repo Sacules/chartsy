@@ -11,7 +11,8 @@ const tailwindLit = {
 	name: 'tailwind-lit',
 	setup(build) {
 		build.onLoad({ filter: /\.ts$/ }, async (args) => {
-			const source = fs.readFileSync(args.path);
+			const buf = fs.readFileSync(args.path);
+			const source = buf.toString();
 
 			try {
 				const result = await postcss([tailwindcss({ config: './tailwind.config.js' }), autoprefixer]).process(source, {
@@ -26,7 +27,7 @@ const tailwindLit = {
 					loader: 'ts',
 				};
 			} catch (error) {
-				console.log(error);
+				console.error(error);
 			}
 
 			return {
@@ -40,6 +41,7 @@ const tailwindLit = {
 const injectStyles = {
 	entryPoints: ['ui/static/ts/index.ts'],
 	outdir: 'public',
+	bundle: true,
 	format: 'esm',
 	minify: true,
 	plugins: [tailwindLit],

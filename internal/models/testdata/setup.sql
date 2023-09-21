@@ -25,20 +25,20 @@ CREATE TABLE IF NOT EXISTS charts (
 );
 
 CREATE TABLE IF NOT EXISTS images (
-	url		VARCHAR(255) DEFAULT 'https://i.imgur.com/w4toMiR.jpg' NOT NULL PRIMARY KEY,
+	url		VARCHAR(255) NOT NULL UNIQUE,
 	title	VARCHAR(255) DEFAULT '' NOT NULL,
 	caption VARCHAR(255) DEFAULT '' NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS charts_images (
 	chart_id	   INTEGER NOT NULL,
-	image_url	   VARCHAR(255) DEFAULT 'https://i.imgur.com/w4toMiR.jpg' NOT NULL,
+	image_id	   INTEGER NOT NULL,
 	image_position TINYINT(8) NOT NULL,
 	FOREIGN KEY (chart_id)
 		REFERENCES charts(id)
 		ON DELETE CASCADE,
-	FOREIGN KEY (image_url)
-		REFERENCES images(url)
+	FOREIGN KEY (image_id)
+		REFERENCES images(id)
 );
 
 CREATE TABLE IF NOT EXISTS sessions (

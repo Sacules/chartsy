@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -13,6 +14,7 @@ import (
 // Image represents the core of a chart, whether
 // it is an Album, a Movie, a Game, etc.
 type Image struct {
+	ID      int    `db:"rowid"`
 	Title   string `db:"title" form:"title"`
 	Caption string `db:"caption" form:"caption"`
 	URL     string `db:"url" form:"url"`
@@ -81,8 +83,8 @@ func (m *ChartModel) Insert(userID int) (int, error) {
 	}
 
 	stmt := `INSERT INTO
-				charts_images (chart_id, image_position)
-				VALUES (?, !);`
+				charts_images (image_id, chart_id, image_position)
+				VALUES (1, ?, !);`
 
 	b := strings.Builder{}
 
@@ -131,8 +133,9 @@ func (m *ChartModel) Get(id, userID int) (*Chart, error) {
 
 	query = `SELECT title, caption, url
 		FROM images
-		INNER JOIN charts_images ci
-		ON ci.chart_id = ? AND images.url = ci.image_url
+		JOIN charts_images ci
+		ON images.rowid = ci.image_id
+		WHERE ci.chart_id = ?
 		ORDER BY ci.image_position ASC`
 
 	images := []Image{}
@@ -193,11 +196,23 @@ func (m *ChartModel) UpdateImages(id int, imgs []Image) error {
 			return err
 		}
 
+		imgID := 0
+
+		query := `SELECT rowid
+					FROM images
+					WHERE url = ?`
+		err = m.DB.Get(&imgID, query, img.URL)
+		if err != nil {
+			return err
+		}
+
+		fmt.Println("imgID:", imgID)
+
 		stmt = `UPDATE charts_images
-					SET image_url = ?
+					SET image_id = ?
 					WHERE chart_id = ? AND image_position = ?`
 
-		_, err = m.DB.Exec(stmt, img.URL, id, i)
+		_, err = m.DB.Exec(stmt, imgID, id, i)
 		if err != nil {
 			return err
 		}

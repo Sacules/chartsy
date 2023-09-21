@@ -21,6 +21,7 @@
     "@types/sortablejs": "^1.15.2",
     "autoprefixer": "^10.4.15",
     "dompurify": "^3.0.5",
+    "esbuild": "0.19.3",
     "html-to-image": "^1.11.11",
     "lit": "^2.8.0",
     "marked": "^9.0.0",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
+    "bun-types": "^1.0.2",
     "esbuild-plugin-tsc": "^0.4.0",
     "esbuild-style-plugin": "^1.6.2",
     "eslint": "^8.49.0",

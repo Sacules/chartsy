@@ -36,8 +36,8 @@ func (app *application) notFound(w http.ResponseWriter) {
 }
 
 type templateData struct {
-	IsServer bool
-	URL      string
+	IsDev bool
+	URL   string
 
 	CurrentChart        *models.Chart
 	Charts              []models.Chart
@@ -50,7 +50,7 @@ type templateData struct {
 
 func (app *application) newTemplateData(r *http.Request) *templateData {
 	return &templateData{
-		IsServer:        app.isServer,
+		IsDev:           app.isDev,
 		URL:             app.url,
 		IsAuthenticated: app.isAuthenticated(r),
 	}

@@ -1,3 +1,75 @@
-{{ define "user" }}
-	<p>Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.</p>
+{{ define "account" }}
+	{{ if .IsAuthenticated }}
+		{{ block "login" . }}
+			<form id="login" class="aria-hidden:hidden" hx-post="/login" hx-swap="outerHTML">
+				<h2 class="text-base p-4">Log in</h2>
+				<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
+					<input-text
+						required
+						name="email"
+						{{ with .Form.Email }}
+							value="{{ . }}"
+						{{ end }}
+					>
+						E-mail
+					</input-text>
+					<input-text required name="password" type="password"> Password </input-text>
+				</div>
+				<div class="p-4 flex justify-evenly border-t border-slate-700">
+					<button type="reset" class="grid place-items-center gap-2">
+						<icon-x></icon-x>
+						Cancel
+					</button>
+					<button type="submit" class="grid place-items-center gap-2">
+						<icon-check class="confirm"></icon-check>
+						<icon-spinner class="htmx-indicator spinner"></icon-spinner>
+						Confirm
+					</button>
+				</div>
+			</form>
+		{{ end }}
+	{{ else }}
+		{{ block "signup" . }}
+			<form id="signup" class="aria-hidden:hidden" hx-post="/signup" hx-swap="outerHTML">
+				<h2 class="text-base p-4">Sign up</h2>
+				<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
+					<input-text
+						required
+						name="email"
+						caption="Required"
+						{{ with .Form.FieldErrors.email }}
+							error="{{ . }}"
+						{{ end }}
+						{{ with .Form.Email }}
+							value="{{ . }}"
+						{{ end }}
+					>
+						E-mail
+					</input-text>
+					<input-text
+						required
+						name="password"
+						type="password"
+						caption="Required, must be at least 8 characters long"
+						{{ with .Form.FieldErrors.password }}
+							error="{{ . }}"
+						{{ end }}
+					>
+						Password
+					</input-text>
+				</div>
+				<div class="p-4 flex justify-evenly border-t border-slate-700">
+					<button type="reset" class="grid place-items-center gap-2">
+						<icon-x></icon-x>
+						Cancel
+					</button>
+					<button type="submit" class="grid place-items-center gap-2">
+						<icon-check class="confirm"></icon-check>
+						<icon-spinner class="htmx-indicator spinner"></icon-spinner>
+						Confirm
+					</button>
+				</div>
+			</form>
+		{{ end }}
+	{{ end }}
 {{ end }}

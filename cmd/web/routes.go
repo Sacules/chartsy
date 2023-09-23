@@ -29,12 +29,7 @@ func (app *application) routes() *chi.Mux {
 			r.Post("/", app.search)
 		})
 
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			data := app.newTemplateData(r)
-			data.Form = userSignupForm{}
-			app.render(w, http.StatusOK, "home", data)
-		})
-		r.Route("/chart", func(r chi.Router) {
+		r.Route("/", func(r chi.Router) {
 			r.Get("/", app.chart)
 			r.Post("/new", app.chartNew)
 			r.Patch("/settings", app.chartSettings)

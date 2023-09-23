@@ -28,6 +28,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 
 	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
 	data := app.newTemplateData(r)
+	data.Form = userSignupForm{}
 
 	err = r.ParseForm()
 	if err != nil {
@@ -267,7 +268,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	id, err := app.users.Authenticate(form.Email, form.Password)
 	if err != nil {
 		if errors.Is(err, models.ErrInvalidCredentials) {
-			// form.AddFieldError()
+			form.AddFieldError("general", "Invalid username or password")
 
 			data := app.newTemplateData(r)
 			data.Form = form
@@ -289,7 +290,6 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
-	w.Header().Set("HX-Redirect", "/chart")
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -348,7 +348,7 @@ func (app *application) emailVerify(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
-	http.Redirect(w, r, "/chart", http.StatusSeeOther)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
 type chartSettingsForm struct {

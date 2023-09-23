@@ -25,17 +25,6 @@
 					Search
 				</a>
 			{{ end }}
-			{{ if .IsAuthenticated }}
-				<a
-					id="tab-user"
-					href="#user"
-					role="tab"
-					aria-controls="user"
-					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
-				>
-					User
-				</a>
-			{{ end }}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
 			{{ template "charts" . }}
@@ -45,17 +34,12 @@
 				{{ template "desktop/search" . }}
 			</div>
 		{{ end }}
-		{{ if .IsAuthenticated }}
-			<div id="user" role="tabpanel" aria-labelledby="tab-user" hidden>
-				{{ template "user" . }}
-			</div>
-		{{ end }}
 	</aside>
 {{ end }}
 
 {{ define "desktop/panel/right" }}
 	<form
-		hx-patch="/chart/settings"
+		hx-patch="/settings"
 		hx-trigger="input from:input-text delay:300ms, input from:input delay:300ms, change from:.settings-desktop delay:300ms"
 		hx-include=".settings-desktop"
 		hx-swap="none"

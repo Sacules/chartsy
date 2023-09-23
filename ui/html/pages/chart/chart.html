@@ -106,7 +106,7 @@
 					   end
 				   on end(item)
 					   set the item's @data-was-dragging to false"
-				hx-patch="/chart/images"
+				hx-patch="/images"
 				hx-trigger="update delay:300ms, drop"
 				hx-include="#chart-id,chart-image[aria-hidden=false]"
 				id="images"
@@ -139,14 +139,14 @@
 						shape="{{ $shape }}"
 						aria-hidden="true"
 					>
-						<input slot="title" type="text" value="{{ .Title }}" hidden autocomplete="off">
-						<input slot="caption" type="text" value="{{ .Caption }}" hidden autocomplete="off">
-						<input slot="url" type="text" value="{{ .URL }}" hidden autocomplete="off">
+						<input slot="title" type="text" value="{{ .Title }}" hidden autocomplete="off" />
+						<input slot="caption" type="text" value="{{ .Caption }}" hidden autocomplete="off" />
+						<input slot="url" type="text" value="{{ .URL }}" hidden autocomplete="off" />
 					</chart-image>
 				{{ end }}
 			</ul>
 			<chart-text id="text" slot="text" columns="{{ .ColumnCount }}" rows="{{ .RowCount }}"></chart-text>
-			<input id="chart-id" type="number" name="id" value="{{ .ID }}">
+			<input id="chart-id" type="number" name="id" value="{{ .ID }}" />
 		</chart-images-text>
 	</div>
 {{ end }}
@@ -161,11 +161,17 @@
 					class="w-full"
 					name="id"
 					value="{{ .ID }}"
-					hx-get="/chart"
+					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 				>
-				<figure class="group p-4 flex gap-4 items-center {{ if $isCurrent }}bg-slate-800{{ else }}hover:bg-slate-800{{ end }}">
+					<figure
+						class="group p-4 flex gap-4 items-center {{ if $isCurrent }}
+							bg-slate-800
+						{{ else }}
+							hover:bg-slate-800
+						{{ end }}"
+					>
 						<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
 						<figcaption class="select-none {{ if $isCurrent }}font-bold{{ end }}">
 							{{ .Name }}
@@ -175,7 +181,11 @@
 			</li>
 		{{ end }}
 		<li class="grid place-items-center py-4">
-			<button class="flex gap-2" hx-post="/chart/new" hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true">
+			<button
+				class="flex gap-2"
+				hx-post="/new"
+				hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
+			>
 				<div class="h-6 w-6">
 					<icon-plus></icon-plus>
 				</div>

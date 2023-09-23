@@ -35,8 +35,8 @@ func openDB(filename string) (*sql.DB, error) {
 }
 
 type application struct {
-	url      string
-	isServer bool
+	url   string
+	isDev bool
 
 	infoLog  *log.Logger
 	errorLog *log.Logger
@@ -88,7 +88,7 @@ func main() {
 
 	app := &application{
 		url:            serverURL,
-		isServer:       env == "dev",
+		isDev:          env == "dev",
 		infoLog:        infoLog,
 		errorLog:       errorLog,
 		sessionManager: sessionManager,

@@ -5,9 +5,7 @@
 		{{ template "header" .CurrentChart }}
 		{{ template "desktop/panel/left" . }}
 		<main id="main" class="overflow-auto grid place-items-center p-8">
-			{{ with .CurrentChart }}
-				{{ template "chart" . }}
-			{{ end }}
+			{{ template "chart" . }}
 		</main>
 		<aside
 			id="panel-right"
@@ -15,9 +13,7 @@
 				flex-col overflow-y-auto bg-slate-900 hidden md:flex col-start-3 border-l border-slate-700
 			{{ end }}"
 		>
-			{{ with .CurrentChart }}
-				{{ template "desktop/panel/right" . }}
-			{{ end }}
+			{{ template "desktop/panel/right" . }}
 		</aside>
 		{{ template "mobile/search" . }}
 		{{ with .CurrentChart }}

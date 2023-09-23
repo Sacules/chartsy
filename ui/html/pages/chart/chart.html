@@ -1,6 +1,9 @@
 {{ define "chart" }}
-	<div
-		_="def updateChart()
+	{{ $isAuthenticated := .IsAuthenticated }}
+
+	{{ with .CurrentChart }}
+		<div
+			_="def updateChart()
 			   get the getComputedStyle(me) then set computedStyles to it
 			   set cols to computedStyles.getPropertyValue('--chart-settings-cols')
 			   set rows to computedStyles.getPropertyValue('--chart-settings-rows')
@@ -51,12 +54,12 @@
 		       set <chart-image/>'s @shape to value
 		   end
 		   "
-		id="chart"
-		style="display: none;"
-		class="slide-it"
-	>
-		<chart-images-text
-			_="on bgChange(state)
+			id="chart"
+			style="display: none;"
+			class="slide-it"
+		>
+			<chart-images-text
+				_="on bgChange(state)
 				   if state is 'color'
 				       remove .gradient from me
 				       remove .image from me
@@ -82,13 +85,13 @@
 			       set src to URL.createObjectURL(file)
 			       set url to `url('${src}')`
 				   call #chart.style.setProperty('--chart-settings-background-image', url)"
-			id="images-text"
-			text-placement="hide"
-			chart-title="{{ .Title }}"
-			class="grid bg-cover bg-center color"
-		>
-			<ul
-				_="init
+				id="images-text"
+				text-placement="hide"
+				chart-title="{{ .Title }}"
+				class="grid bg-cover bg-center color"
+			>
+				<ul
+					_="init
 					   call prepareChart(me)
 					   send chart:update(images: me) to #text
 				   end
@@ -106,19 +109,20 @@
 					   end
 				   on end(item)
 					   set the item's @data-was-dragging to false"
-				hx-patch="/images"
-				hx-trigger="update delay:300ms, drop"
-				hx-include="#chart-id,chart-image[aria-hidden=false]"
-				id="images"
-				class="grid"
-				slot="images"
-			>
-				{{ $textColor := .TextColor }}
-				{{ $shape := .ImagesShape }}
+					{{ if $isAuthenticated }}
+						hx-patch="/images" hx-trigger="update delay:300ms, drop"
+						hx-include="#chart-id,chart-image[aria-hidden=false]"
+					{{ end }}
+					id="images"
+					class="grid"
+					slot="images"
+				>
+					{{ $textColor := .TextColor }}
+					{{ $shape := .ImagesShape }}
 
-				{{ range $i, $v := .Images }}
-					<chart-image
-						_="on touchend
+					{{ range $i, $v := .Images }}
+						<chart-image
+							_="on touchend
 							   if @data-was-dragging
 								   remove @data-was-dragging from me
 								   exit
@@ -129,26 +133,27 @@
 							   send open to #search-mobile
 							   call history.pushState('search-mobile-open', null, 'search-mobile')
 							end"
-						class="aria-hidden:hidden sortable-item"
-						index="{{ $i }}"
-						title="{{ .Title }}"
-						caption="{{ .Caption }}"
-						src="{{ .URL }}"
-						text-color="{{ $textColor }}"
-						text-placement="hide"
-						shape="{{ $shape }}"
-						aria-hidden="true"
-					>
-						<input slot="title" type="text" value="{{ .Title }}" hidden autocomplete="off" />
-						<input slot="caption" type="text" value="{{ .Caption }}" hidden autocomplete="off" />
-						<input slot="url" type="text" value="{{ .URL }}" hidden autocomplete="off" />
-					</chart-image>
-				{{ end }}
-			</ul>
-			<chart-text id="text" slot="text" columns="{{ .ColumnCount }}" rows="{{ .RowCount }}"></chart-text>
-			<input id="chart-id" type="number" name="id" value="{{ .ID }}" />
-		</chart-images-text>
-	</div>
+							class="aria-hidden:hidden sortable-item"
+							index="{{ $i }}"
+							title="{{ .Title }}"
+							caption="{{ .Caption }}"
+							src="{{ .URL }}"
+							text-color="{{ $textColor }}"
+							text-placement="hide"
+							shape="{{ $shape }}"
+							aria-hidden="true"
+						>
+							<input slot="title" type="text" value="{{ .Title }}" hidden autocomplete="off" />
+							<input slot="caption" type="text" value="{{ .Caption }}" hidden autocomplete="off" />
+							<input slot="url" type="text" value="{{ .URL }}" hidden autocomplete="off" />
+						</chart-image>
+					{{ end }}
+				</ul>
+				<chart-text id="text" slot="text" columns="{{ .ColumnCount }}" rows="{{ .RowCount }}"></chart-text>
+				<input id="chart-id" type="number" name="id" value="{{ .ID }}" />
+			</chart-images-text>
+		</div>
+	{{ end }}
 {{ end }}
 
 {{ define "charts" }}

@@ -37,6 +37,25 @@
 				>
 					Profile
 				</a>
+			{{ else }}
+				<a
+					id="tab-login"
+					href="#login"
+					role="tab"
+					aria-controls="login"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Log in
+				</a>
+				<a
+					id="tab-signup"
+					href="#signup"
+					role="tab"
+					aria-controls="signup"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Sign up
+				</a>
 			{{ end }}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden class="items-start">
@@ -55,6 +74,13 @@
 		{{ end }}
 		{{ if .IsAuthenticated }}
 			<div id="profile" role="tabpanel" aria-labelledby="tab-profile" hidden>Botón para salir xd</div>
+		{{ else }}
+			<div id="login" role="tabpanel" aria-labelledby="tab-login" hidden>
+				{{ template "login" . }}
+			</div>
+			<div id="signup" role="tabpanel" aria-labelledby="tab-signup" hidden>
+				{{ template "signup" . }}
+			</div>
 		{{ end }}
 	</aside>
 {{ end }}

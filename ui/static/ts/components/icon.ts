@@ -198,7 +198,7 @@ export class IconArrowRight extends BaseElement {
 export class IconX extends BaseElement {
 	override render() {
 		return html`
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 26 26">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 26 26">
 				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m1 1 24 24m0-24L1 25" />
 			</svg>
 		`;
@@ -209,7 +209,7 @@ export class IconX extends BaseElement {
 export class IconCheck extends BaseElement {
 	override render() {
 		return html`
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 25">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 25">
 				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m.5 13.398 7.077 10.32L23.5.5" />
 			</svg>
 		`;
@@ -236,7 +236,7 @@ export class IconEmail extends BaseElement {
 export class IconSpinner extends BaseElement {
 	override render() {
 		return html`
-			<svg width="24" height="24" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+			<svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
 				<defs>
 					<linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
 						<stop stop-color="#fff" stop-opacity="0" offset="0%" />

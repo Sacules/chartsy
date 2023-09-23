@@ -203,7 +203,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		data := app.newTemplateData(r)
 		data.Form = form
 
-		app.renderFragment(w, http.StatusOK, "home", "signup", data)
+		app.renderFragment(w, http.StatusOK, "chart", "signup", data)
 		return
 	}
 
@@ -264,7 +264,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		data := app.newTemplateData(r)
 		data.Form = form
-		app.renderFragment(w, http.StatusUnprocessableEntity, "home", "login", data)
+		app.renderFragment(w, http.StatusOK, "chart", "login", data)
 
 		return
 	}
@@ -277,7 +277,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 			data := app.newTemplateData(r)
 			data.Form = form
 
-			app.renderFragment(w, http.StatusUnprocessableEntity, "home", "login", data)
+			app.renderFragment(w, http.StatusOK, "chart", "login", data)
 			return
 		}
 
@@ -294,7 +294,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
-	w.WriteHeader(http.StatusNoContent)
+	http.Redirect(w, r, "/", http.StatusNoContent)
 }
 
 func (app *application) userLogout(w http.ResponseWriter, r *http.Request) {

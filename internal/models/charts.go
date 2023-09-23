@@ -67,6 +67,28 @@ type ChartModel struct {
 	DB *sqlx.DB
 }
 
+func NewChart() *Chart {
+	imgs := make([]Image, 100)
+	for i := range imgs {
+		imgs[i] = Image{URL: "https://i.imgur.com/w4toMiR.jpg"}
+	}
+
+	return &Chart{
+		Images:             imgs,
+		ColumnCount:        3,
+		RowCount:           3,
+		Spacing:            4,
+		Padding:            4,
+		ImagesSize:         150,
+		ImagesShape:        ImageShapeSquare,
+		ImagesTextPosition: ImagesTextHide,
+		BgColor:            "#ffffff",
+		BgGradientFrom:     "#000000",
+		BgGradientTo:       "#ffffff",
+		BgImageURL:         "https://i.imgur.com/w4toMiR.jpg",
+	}
+}
+
 func (m *ChartModel) Insert(userID int) (int, error) {
 	query := `INSERT INTO charts (user_id)
 				VALUES (?)`

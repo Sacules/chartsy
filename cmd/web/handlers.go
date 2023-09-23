@@ -26,9 +26,27 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
 	data := app.newTemplateData(r)
 	data.Form = userSignupForm{}
+
+	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+	if userID == 0 {
+		data.CurrentChart = models.NewChart()
+	} else {
+		charts, err := app.charts.Latest(userID, 100)
+		if err != nil {
+			if errors.Is(err, models.ErrNoRecord) {
+				app.infoLog.Println(err)
+				app.notFound(w)
+			} else {
+				app.serverError(w, err)
+			}
+
+			return
+		}
+
+		data.Charts = charts
+	}
 
 	err = r.ParseForm()
 	if err != nil {
@@ -58,20 +76,6 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 
 		data.CurrentChart = c
 	}
-
-	charts, err := app.charts.Latest(userID, 100)
-	if err != nil {
-		if errors.Is(err, models.ErrNoRecord) {
-			app.infoLog.Println(err)
-			app.notFound(w)
-		} else {
-			app.serverError(w, err)
-		}
-
-		return
-	}
-
-	data.Charts = charts
 
 	app.render(w, http.StatusOK, "chart", data)
 }

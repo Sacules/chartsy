@@ -88,6 +88,7 @@ export class InputText extends BaseElement {
 	@property() placeholder = '';
 	@property() type = 'text';
 	@property() error = '';
+	@property() autocomplete = 'on';
 
 	@state() internals;
 
@@ -161,7 +162,7 @@ export class InputText extends BaseElement {
 					name="${this.name}"
 					value="${this.value}"
 					maxlength="128"
-					autocomplete="off"
+					?autocomplete=${this.autocomplete}
 					placeholder="${this.placeholder}"
 					class="${c}"
 				/>

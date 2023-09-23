@@ -5,15 +5,17 @@
 		class="hidden bg-slate-900 border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-auto"
 	>
 		<div role="tablist" class="flex gap-2 p-4 border-b border-slate-700">
-			<a
-				id="tab-charts"
-				href="#charts"
-				role="tab"
-				aria-controls="charts"
-				class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
-			>
-				Charts
-			</a>
+			{{ if .IsAuthenticated }}
+				<a
+					id="tab-charts"
+					href="#charts"
+					role="tab"
+					aria-controls="charts"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Charts
+				</a>
+			{{ end }}
 			{{ with .CurrentChart }}
 				<a
 					id="tab-search"
@@ -25,6 +27,17 @@
 					Search
 				</a>
 			{{ end }}
+			{{ if .IsAuthenticated }}
+				<a
+					id="tab-profile"
+					href="#profile"
+					role="tab"
+					aria-controls="profile"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Profile
+				</a>
+			{{ end }}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
 			{{ template "charts" . }}
@@ -33,6 +46,9 @@
 			<div id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
 				{{ template "desktop/search" . }}
 			</div>
+		{{ end }}
+		{{ if .IsAuthenticated }}
+			<div id="profile" role="tabpanel" aria-labelledby="tab-profile" hidden>Botón para salir xd</div>
 		{{ end }}
 	</aside>
 {{ end }}

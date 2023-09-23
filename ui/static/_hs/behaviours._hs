@@ -70,7 +70,13 @@ behavior TabContainer
 		end
 
 		for panel in <[role=tabpanel] /> in me
-			set { hidden: (panel[@id] != target[@aria-controls]) } on panel
+		    set hide to (panel[@id] != target[@aria-controls])
+			set { hidden: hide } on panel
+			if not hide
+				add .grid to panel
+			else
+			    remove .grid from panel
+			end
 		end
 	end
 end

@@ -39,7 +39,7 @@
 				</a>
 			{{ end }}
 		</div>
-		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
+		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden class="items-start">
 			{{ template "charts" . }}
 		</div>
 		{{ with .CurrentChart }}
@@ -47,8 +47,8 @@
 				id="search"
 				role="tabpanel"
 				aria-labelledby="tab-search"
-				hidden
-				class="grid grid-rows-[auto_1fr] overflow-y-hidden"
+				aria-hidden="true"
+				class="hidden:hidden grid grid-rows-[auto_1fr] overflow-y-hidden"
 			>
 				{{ template "desktop/search" . }}
 			</div>

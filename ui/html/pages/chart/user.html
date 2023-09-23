@@ -34,7 +34,7 @@
 	</form>
 {{ end }}
 {{ block "signup" . }}
-	<form id="signup" class="aria-hidden:hidden" hx-post="/signup" hx-swap="outerHTML">
+	<form id="signup" class="aria-hidden:hidden grid-cols-[auto_auto]" hx-post="/signup" hx-swap="outerHTML">
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
 			<input-text
 				required

@@ -2,18 +2,20 @@
 	<aside
 		_="install TabContainer"
 		id="panel-left"
-		class="hidden bg-slate-900 border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-auto"
+		class="hidden bg-slate-900 border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-hidden"
 	>
 		<div role="tablist" class="flex gap-2 p-4 border-b border-slate-700">
-			<a
-				id="tab-charts"
-				href="#charts"
-				role="tab"
-				aria-controls="charts"
-				class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
-			>
-				Charts
-			</a>
+			{{ if .IsAuthenticated }}
+				<a
+					id="tab-charts"
+					href="#charts"
+					role="tab"
+					aria-controls="charts"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300"
+				>
+					Charts
+				</a>
+			{{ end }}
 			{{ with .CurrentChart }}
 				<a
 					id="tab-search"
@@ -25,14 +27,34 @@
 					Search
 				</a>
 			{{ end }}
+			{{ if .IsAuthenticated }}
+				<a
+					id="tab-profile"
+					href="#profile"
+					role="tab"
+					aria-controls="profile"
+					class="w-14 aria-selected:font-bold aria-selected:text-slate-100 text-slate-300 hidden"
+				>
+					Profile
+				</a>
+			{{ end }}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden>
 			{{ template "charts" . }}
 		</div>
 		{{ with .CurrentChart }}
-			<div id="search" role="tabpanel" aria-labelledby="tab-search" hidden>
+			<div
+				id="search"
+				role="tabpanel"
+				aria-labelledby="tab-search"
+				hidden
+				class="grid grid-rows-[auto_1fr] overflow-y-hidden"
+			>
 				{{ template "desktop/search" . }}
 			</div>
+		{{ end }}
+		{{ if .IsAuthenticated }}
+			<div id="profile" role="tabpanel" aria-labelledby="tab-profile" hidden>Botón para salir xd</div>
 		{{ end }}
 	</aside>
 {{ end }}
@@ -40,7 +62,7 @@
 {{ define "desktop/panel/right" }}
 	<form
 		hx-patch="/settings"
-		hx-trigger="input from:input-text delay:300ms, input from:input delay:300ms, change from:.settings-desktop delay:300ms"
+		hx-trigger="input from:.settings-desktop delay:300ms, change from:.settings-desktop delay:300ms"
 		hx-include=".settings-desktop"
 		hx-swap="none"
 	>
@@ -97,7 +119,7 @@
 						   send bgChangeColor(value: val) to #images-text
 						   put val into the previous <output/>"
 						id="settings-chart-bg-color-picker"
-						class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2"
+						class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 settings-desktop"
 						autocomplete="off"
 						type="color"
 						name="bgColor"
@@ -111,7 +133,7 @@
 							_="on input(target)
 							       send bgChangeGradientFrom(value: target.value) to #images-text"
 							id="settings-chart-bg-gradient-from"
-							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
+							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings-desktop"
 							autocomplete="off"
 							type="color"
 							name="bgGradientFrom"
@@ -124,7 +146,7 @@
 							_="on input(target)
 							       send bgChangeGradientTo(value: target.value) to #images-text"
 							id="settings-chart-bg-gradient-to"
-							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden"
+							class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings-desktop"
 							autocomplete="off"
 							type="color"
 							name="bgGradientTo"
@@ -136,7 +158,7 @@
 					_="on input(target)
 						   send bgChangeImage(file: target.files[0]) to #images-text"
 					aria-hidden="true"
-					class="aria-hidden:hidden"
+					class="aria-hidden:hidden settings-desktop"
 					id="settings-chart-bg-image"
 					type="file"
 					name="bgImage"

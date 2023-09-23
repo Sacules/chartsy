@@ -89,7 +89,7 @@ func (m *ChartModel) Insert(userID int) (int, error) {
 
 	// Generate 100 images for each new chart
 	ids := make([]any, 100)
-	for i := 0; i < len(ids); i++ {
+	for i := range ids {
 		ids[i] = id
 		line := strings.Replace(stmt, "!", strconv.Itoa(i), 1)
 

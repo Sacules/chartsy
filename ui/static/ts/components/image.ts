@@ -71,7 +71,7 @@ export class ChartImage extends BaseElement {
 	}
 
 	protected override updated(changedProperties: PropertyValueMap<this>) {
-		if (!changedProperties.has("index")) {
+		if (!changedProperties.has('index')) {
 			return;
 		}
 
@@ -202,10 +202,12 @@ export class ChartImagesText extends BaseElement {
 	}
 
 	override render() {
+		const mdTitle = marked.parse(this.chartTitle);
+
 		return staticHtml`
 			<div id="chart" class="grid ${this.textPlacementStyles[this.textPlacement]}">
 				<div id="chart-title" class="text-slate-900 font-condensed place-self-center max-w-[60ch]">
-					${this.chartTitle === '' ? nothing : unsafeStatic(this.chartTitle)}
+					${mdTitle === '' ? nothing : unsafeStatic(mdTitle)}
 				</div>
 				<slot name="images"></slot>
 				<slot name="text" class="aria-hidden:hidden" aria-hidden="${this.textPlacement === 'hide'}"></slot>

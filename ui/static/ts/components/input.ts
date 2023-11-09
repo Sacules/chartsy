@@ -54,7 +54,7 @@ export class InputNumeric extends BaseElement {
 				<label for="${this.id}">
 					<slot></slot>
 				</label>
-				<div class="flex items-center justify-between w-20">
+				<div class="flex items-center justify-between w-24">
 					<button
 						id="minus-button"
 						type="button"

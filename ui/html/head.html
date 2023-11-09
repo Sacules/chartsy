@@ -30,7 +30,7 @@
 				--chart-settings-rows: {{ .RowCount }};
 				--chart-settings-spacing: {{ .Spacing }};
 				--chart-settings-padding: {{ .Padding }};
-				--chart-settings-images-size: {{ .ImagesSize }};
+				--chart-settings-images-width: {{ .ImagesSize }};
 				--chart-settings-background-color: {{ .BgColor }};
 				--chart-settings-background-gradient-from: {{ .BgGradientFrom }};
 				--chart-settings-background-gradient-to: {{ .BgGradientFrom }};
@@ -64,7 +64,7 @@
 			}
 
 			chart-image {
-				width: calc(var(--chart-settings-images-size) * 1px);
+				width: calc(var(--chart-settings-images-width) * 1px);
 			}
 		</style>
 	{{ end }}

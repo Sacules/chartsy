@@ -4,6 +4,7 @@
 			<input-text
 				required
 				name="email"
+				label="E-mail"
 				{{ with .Form.FieldErrors.email }}
 					error="{{ . }}"
 				{{ end }}
@@ -11,17 +12,16 @@
 					value="{{ . }}"
 				{{ end }}
 			>
-				E-mail
 			</input-text>
 			<input-text
 				required
 				name="password"
 				type="password"
+				label="Password"
 				{{ with .Form.FieldErrors.email }}
 					error="{{ . }}"
 				{{ end }}
 			>
-				Password
 			</input-text>
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700">
@@ -39,6 +39,7 @@
 			<input-text
 				required
 				name="email"
+				label="E-mail"
 				caption="Required"
 				{{ with .Form.FieldErrors.email }}
 					error="{{ . }}"
@@ -47,18 +48,17 @@
 					value="{{ . }}"
 				{{ end }}
 			>
-				E-mail
 			</input-text>
 			<input-text
 				required
 				name="password"
 				type="password"
+				label="Password"
 				caption="Required, must be at least 8 characters long"
 				{{ with .Form.FieldErrors.password }}
 					error="{{ . }}"
 				{{ end }}
 			>
-				Password
 			</input-text>
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700">

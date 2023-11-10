@@ -82,6 +82,7 @@ export class InputNumeric extends BaseElement {
 @customElement('input-text')
 export class InputText extends BaseElement {
 	@property() required = false;
+	@property() label = '';
 	@property() name = '';
 	@property() value = '';
 	@property() caption = '';
@@ -146,15 +147,13 @@ export class InputText extends BaseElement {
 	}
 
 	override render() {
-		const c = `h-10 px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+		const c = `h-10 w-full px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
 			       hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none \
 				   transition text-sm invalid:border-rose-600 ${this.className}`;
 
 		return html`
-			<div class="flex flex-col gap-2">
-				<label for="input-text" class="w-full md:text-sm font-bold">
-					<slot></slot>
-				</label>
+			<div class="w-full">
+				<label for="input-text" class="empty:hidden block mb-2 w-full md:text-sm font-bold">${this.label}</label>
 				<input
 					?required=${this.required}
 					id="input-text"

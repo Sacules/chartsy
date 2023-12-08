@@ -272,3 +272,27 @@ export class IconSpinner extends BaseElement {
 		`;
 	}
 }
+
+@customElement('icon-chevron-down')
+export class IconChevronDown extends BaseElement {
+	override render() {
+		return html`
+			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+				<g clip-path="url(#a)">
+					<path
+						stroke="currentColor"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="4"
+						d="m0 6 12 12L24 6"
+					/>
+				</g>
+				<defs>
+					<clipPath id="a">
+						<path fill="currentColor" d="M0 0h24v24H0z" />
+					</clipPath>
+				</defs>
+			</svg>
+		`;
+	}
+}

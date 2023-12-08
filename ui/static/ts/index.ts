@@ -8,6 +8,7 @@ import Sortable from 'sortablejs';
 import './components/input';
 import './components/image';
 import './components/settings/images';
+import './components/settings/reveal';
 
 // Types
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';

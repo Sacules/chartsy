@@ -50,27 +50,27 @@ export class InputNumeric extends BaseElement {
 
 	override render() {
 		return html`
-			<div role="group" class="flex justify-between items-center">
-				<label for="${this.id}">
+			<div role="group" class="grid grid-cols-2 items-center">
+				<label for="${this.id}" class="justify-self-stretch text-right">
 					<slot></slot>
 				</label>
-				<div class="flex items-center justify-between w-24">
-					<button
-						id="minus-button"
-						type="button"
-						class="w-6 h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
-						@click="${this.decrement}"
-					>
-						<icon-minus></icon-minus>
-					</button>
-					<output for="${this.id}" class="max-w-6 text-center">${this.value} ${this.unit}</output>
+				<div class="grid place-items-center justify-center">
 					<button
 						id="plus-button"
 						type="button"
-						class="w-6 h-6 disabled:text-slate-600 disabled:cursor-not-allowed"
+						class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed transform rotate-180"
 						@click="${this.increment}"
 					>
-						<icon-plus></icon-plus>
+						<icon-chevron-down></icon-chevron-down>
+					</button>
+					<output for="${this.id}" class="text-center">${this.value} ${this.unit}</output>
+					<button
+						id="minus-button"
+						type="button"
+						class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed"
+						@click="${this.decrement}"
+					>
+						<icon-chevron-down></icon-chevron-down>
 					</button>
 				</div>
 				<input id="${this.id}" name="${this.name}" type="hidden" value="${this.value}" />

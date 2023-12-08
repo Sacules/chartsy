@@ -82,6 +82,7 @@ func NewChart() *Chart {
 		ImagesSize:         150,
 		ImagesShape:        ImageShapeSquare,
 		ImagesTextPosition: ImagesTextHide,
+		TextColor:          "#020617",
 		BgColor:            "#ffffff",
 		BgGradientFrom:     "#000000",
 		BgGradientTo:       "#ffffff",

@@ -12,6 +12,7 @@ import (
 
 	"gitlab.com/sacules/chartsy/internal/models"
 	"gitlab.com/sacules/chartsy/internal/validator"
+	"gitlab.com/sacules/chartsy/ui/html"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 	userAgent = "chartsy"
 )
 
-func (app *application) chart(w http.ResponseWriter, r *http.Request) {
+func (app *application) index(w http.ResponseWriter, r *http.Request) {
 	err := app.sessionManager.RenewToken(r.Context())
 	if err != nil {
 		app.serverError(w, err)
@@ -27,7 +28,7 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := app.newTemplateData(r)
-	data.Form = userSignupForm{}
+	data.Form = html.UserSignupForm{}
 
 	userID := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
 	if userID == 0 {
@@ -77,7 +78,8 @@ func (app *application) chart(w http.ResponseWriter, r *http.Request) {
 		data.CurrentChart = c
 	}
 
-	app.render(w, http.StatusOK, "chart", data)
+	//app.render(w, http.StatusOK, "chart", data)
+	app.renderTempl(w, r, http.StatusOK, html.Index(data.URL, data.IsDev, data.IsAuthenticated, data.CurrentChart, data.Charts))
 }
 
 func (app *application) chartNew(w http.ResponseWriter, r *http.Request) {
@@ -179,14 +181,8 @@ func (app *application) chartImages(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
-type userSignupForm struct {
-	Email               string `form:"email"`
-	Password            string `form:"password"`
-	validator.Validator `form:"-"`
-}
-
 func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
-	var form userSignupForm
+	var form html.UserSignupForm
 
 	err := app.decodePostForm(r, &form)
 	if err != nil {
@@ -242,14 +238,8 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type userLoginForm struct {
-	Email               string `form:"email"`
-	Password            string `form:"password"`
-	validator.Validator `form:"-"`
-}
-
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
-	var form userLoginForm
+	var form html.UserLoginForm
 
 	err := app.decodePostForm(r, &form)
 	if err != nil {
@@ -439,12 +429,6 @@ type LastfmAlbumsResults struct {
 	} `json:"results"`
 }
 
-type SearchResult struct {
-	Title  string
-	Author string
-	Url    string
-}
-
 func (app *application) search(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
@@ -486,19 +470,17 @@ func (app *application) search(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	records := make([]SearchResult, 0, len(results.Results.Albummatches.Album))
+	records := make([]html.SearchResult, 0, len(results.Results.Albummatches.Album))
 	for _, al := range results.Results.Albummatches.Album {
 		cover := al.Image[2].Text
 		if cover == "" {
 			continue
 		}
 
-		record := SearchResult{Author: al.Artist, Title: al.Name, Url: cover}
+		record := html.SearchResult{Author: al.Artist, Title: al.Name, Url: cover}
 		records = append(records, record)
 	}
 
-	data := app.newTemplateData(r)
-	data.SearchResults = records
-
-	app.renderFragment(w, http.StatusOK, "chart", "search/results", data)
+	//app.renderFragment(w, http.StatusOK, "chart", "search/results", data)
+	app.renderTempl(w, r, http.StatusOK, html.SearchResults(records))
 }

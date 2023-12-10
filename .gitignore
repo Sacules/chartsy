@@ -32,3 +32,4 @@ tls/
 .reloader
 .env
 *.pem
+*_templ.go

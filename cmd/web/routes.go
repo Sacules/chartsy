@@ -30,7 +30,7 @@ func (app *application) routes() *chi.Mux {
 		})
 
 		r.Route("/", func(r chi.Router) {
-			r.Get("/", app.chart)
+			r.Get("/", app.index)
 			r.Post("/new", app.chartNew)
 			r.Patch("/settings", app.chartSettings)
 			r.Patch("/images", app.chartImages)

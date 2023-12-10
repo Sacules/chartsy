@@ -10,10 +10,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/a-h/templ"
 	"github.com/go-playground/form/v4"
 	mail "github.com/xhit/go-simple-mail/v2"
 
 	"gitlab.com/sacules/chartsy/internal/models"
+	"gitlab.com/sacules/chartsy/ui/html"
 )
 
 var (
@@ -35,32 +37,45 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
-type templateData struct {
-	IsDev bool
-	URL   string
+type TemplateData struct {
+	IsDev           bool
+	URL             string
+	IsAuthenticated bool
 
 	CurrentChart        *models.Chart
 	Charts              []models.Chart
-	SearchResults       []SearchResult
+	SearchResults       []html.SearchResult
 	User                *models.User
 	Form                any
 	UserVerificationURL string
-	IsAuthenticated     bool
 }
 
-func (app *application) newTemplateData(r *http.Request) *templateData {
-	return &templateData{
+func (app *application) newTemplateData(r *http.Request) *TemplateData {
+	return &TemplateData{
 		IsDev:           app.isDev,
 		URL:             app.url,
 		IsAuthenticated: app.isAuthenticated(r),
 	}
 }
 
-func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {
+func (app *application) renderTempl(w http.ResponseWriter, r *http.Request, status int, c templ.Component) {
+	var buf bytes.Buffer
+	err := c.Render(r.Context(), &buf)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	w.WriteHeader(status)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Write(buf.Bytes())
+}
+
+func (app *application) render(w http.ResponseWriter, status int, page string, data *TemplateData) {
 	app.renderFragment(w, status, page, "base", data)
 }
 
-func (app *application) renderFragment(w http.ResponseWriter, status int, page, fragment string, data *templateData) {
+func (app *application) renderFragment(w http.ResponseWriter, status int, page, fragment string, data *TemplateData) {
 	ts, ok := app.templateCache[page]
 	if !ok {
 		err := fmt.Errorf("the template %s doesn't exist", page)
@@ -130,7 +145,7 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 	params := url.Values{}
 	params.Add("email", to)
 	params.Add("code", verificationCode)
-	data := &templateData{
+	data := &TemplateData{
 		UserVerificationURL: app.url + "/verify?" + params.Encode(),
 	}
 

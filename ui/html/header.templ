@@ -1,0 +1,33 @@
+package html
+
+import (
+	"gitlab.com/sacules/chartsy/internal/models"
+)
+
+templ Header(currentChart *models.Chart) {
+	<header
+		id="header"
+		class="bg-slate-900 px-4 flex justify-between text-slate-50 border-b border-slate-700 items-center md:col-span-full"
+	>
+		<figure class="hidden md:flex gap-2 items-center">
+			<img class="w-6 h-6" src="/assets/img/favicon-32x32.png" alt="Chartsy logo" />
+			<figcaption>Chartsy</figcaption>
+		</figure>
+		<div class={"text-center", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}>
+			{currentChart.Name}
+		</div>
+		<button
+			_="on downloadend
+				   set @aria-disabled to 'false'
+			   on click
+				   set @aria-disabled to 'true'
+				   async call downloadChart()"
+			id="download-button"
+			type="button"
+			class={"h-6 w-6 aria-disabled:animate-pulse", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}
+		>
+			<icon-download></icon-download>
+		</button>
+	</header>
+	
+}

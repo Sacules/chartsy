@@ -1,0 +1,100 @@
+package html
+
+import (
+	"gitlab.com/sacules/chartsy/internal/models"
+)
+
+templ Head(isDev bool, currentChart *models.Chart) {
+	<title>Chartsy</title>
+	<meta charset="UTF-8" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
+	<link rel="manifest" href="/assets/img/site.webmanifest" />
+	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5" />
+	<meta name="msapplication-TileColor" content="#7ecce0" />
+	<meta name="theme-color" content="#ffffff" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" href="/assets/index.css" />
+	<script defer src="/assets/index.js"></script>
+
+	<script defer type="text/hyperscript" src="/assets/_hs/behaviours._hs"></script>
+	<script defer src="/assets/js/_hyperscript.min.js"></script>
+	<script defer src="/assets/js/htmx.min.js"></script>
+	<script defer src="/assets/js/multi-swap.min.js"></script>
+	<script defer src="/assets/js/head-support.min.js"></script>
+
+	if isDev {
+		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
+	}
+
+	<style hx-head="re-eval" hx-preserve="false" id="chart-styles" type="text/css">
+		#chart {
+			--chart-settings-cols: 3;
+			--chart-settings-rows: 3;
+			--chart-settings-spacing: 3;
+			--chart-settings-padding: 3;
+			--chart-settings-images-width: 100;
+			--chart-settings-background-color: "#f0f0f0";
+			--chart-settings-background-gradient-from: "#ffffff";
+			--chart-settings-background-gradient-to: "#f0f0f0";
+			--chart-settings-background-image: url('');
+		}
+
+		#images {
+			grid-template-columns: repeat(var(--chart-settings-cols), max-content);
+			grid-template-rows: repeat(var(--chart-settings-rows), max-content);
+			gap: calc(var(--chart-settings-spacing) * 1rem / 2);
+		}
+
+		#images-text {
+			padding: calc(var(--chart-settings-padding) * 1rem / 2);
+		}
+
+		#images-text.color {
+			background-color: var(--chart-settings-background-color);
+		}
+
+		#images-text.gradient {
+			background-image: linear-gradient(
+				to bottom right,
+				var(--chart-settings-background-gradient-from),
+				var(--chart-settings-background-gradient-to)
+			);
+		}
+
+		#images-text.image {
+			background-image: var(--chart-settings-background-image);
+		}
+
+		chart-image {
+			width: calc(var(--chart-settings-images-width) * 1px);
+		}
+	</style>
+}
+
+templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {
+	<div
+		class="bg-slate-950 h-full grid grid-cols-1 grid-rows-[3.5rem_1fr_auto] md:grid-cols-[18rem_1fr_18rem] md:grid-rows-[3.5rem_1fr]"
+	>
+		@Header(currentChart)
+		@PanelLeft(isAuthenticated, currentChart, charts)
+		<main id="main" class="overflow-auto grid place-items-center p-8">
+			@Chart(isAuthenticated, currentChart)
+		</main>
+		@PanelRight(isAuthenticated, currentChart)
+	</div>
+}
+
+templ Index(url string, isDev bool, isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {
+	<!DOCTYPE html>
+	<html lang="en" class="overflow-hidden" hx-ext="multi-swap,head-support">
+		<head hx-head="merge">
+			@Head(isDev, currentChart)
+		</head>
+		<body class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50">
+			@Body(isAuthenticated, currentChart, charts)
+		</body>
+	</html>
+}

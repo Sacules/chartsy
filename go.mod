@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21
-	github.com/a-h/templ v0.2.476
+	github.com/a-h/templ v0.2.501
 	github.com/alexedwards/scs/sqlite3store v0.0.0-20230902070821-95fa2ac9d520
 	github.com/alexedwards/scs/v2 v2.5.1
 	github.com/fsnotify/fsnotify v1.6.0
@@ -28,5 +28,5 @@ require (
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/toorop/go-dkim v0.0.0-20201103131630-e1cd1a0a5208 // indirect
-	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
 )

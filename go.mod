@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/Sacules/lrserver v0.0.0-20230722195719-42e2897afd21
-	github.com/a-h/templ v0.2.501
+	github.com/a-h/templ v0.2.513
 	github.com/alexedwards/scs/sqlite3store v0.0.0-20230902070821-95fa2ac9d520
 	github.com/alexedwards/scs/v2 v2.5.1
 	github.com/fsnotify/fsnotify v1.6.0

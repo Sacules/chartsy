@@ -292,44 +292,44 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					hx-swap="none"
 				}
 			>
+				<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
 				@components.Reveal(components.RevealProps{Title: "General"}) {
-					<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
-					<div class="p-4">
-						<input-text
-							_="on input(value)
-							   send chart:title(value: value) to #images-text"
-							name="title"
-							label="Title"
-							value={ currentChart.Title }
-							class="settings"
-							caption="Works with Markdown and emojis! 🔥"
-						></input-text>
-						<hr class="border-slate-700 my-4"/>
+					<div class="p-4 grid gap-4">
+						@input.Text(input.InputTextProps{
+							Id: "chart-settings-title",
+							Name: "title",
+							Label: "Title",
+							Type: "text",
+							DefaultValue: currentChart.Title,
+							Caption: "Works with Markdown and emojis! 🔥",
+							Autocomplete: "off",
+							HS: "on input(target) send chart:title(value: target.value) to #images-text",
+						})
 						<div
 							_="on toggle(value)
 								   if value is 'color'
-									   add [@aria-hidden=false] to #settings-chart-bg-color
-									   add [@aria-hidden=true] to #settings-chart-bg-gradient
-									   add [@aria-hidden=true] to #settings-chart-bg-image
+									   add [@aria-hidden=false] to #settings-bg-color
+									   add [@aria-hidden=true] to #settings-bg-gradient
+									   add [@aria-hidden=true] to #settings-bg-image
 								   end
 								   if value is 'gradient'
-									   add [@aria-hidden=true] to #settings-chart-bg-color
-									   add [@aria-hidden=false] to #settings-chart-bg-gradient
-									   add [@aria-hidden=true] to #settings-chart-bg-image
+									   add [@aria-hidden=true] to #settings-bg-color
+									   add [@aria-hidden=false] to #settings-bg-gradient
+									   add [@aria-hidden=true] to #settings-bg-image
 								   end
 								   if value is 'image'
-									   add [@aria-hidden=true] to #settings-chart-bg-color
-									   add [@aria-hidden=true] to #settings-chart-bg-gradient
-									   add [@aria-hidden=false] to #settings-chart-bg-image
+									   add [@aria-hidden=true] to #settings-bg-color
+									   add [@aria-hidden=true] to #settings-bg-gradient
+									   add [@aria-hidden=false] to #settings-bg-image
 								   end
 								   send bgChange(state: value) to #images-text"
-							id="settings-chart-bg"
+							id="settings-bg"
 							class="grid gap-4"
 						>
 							@input.RadioGroup(input.RadioGroupProps{
 								Name: "background",
 								Legend: "Background",
-								HS: "on change(target) trigger toggle(value: target.value) on #settings-chart-bg",
+								HS: "on change(target) trigger toggle(value: target.value) on #settings-bg",
 							}) {
 								@input.RadioGroupItem(input.RadioGroupItemProps{
 									Id: "background-setting-color",
@@ -353,55 +353,40 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									IsDefault: false,
 								})
 							}
-							<div id="settings-chart-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
-								<input
-									_="on input(target)
-										   set val to target.value
-										   send bgChangeColor(value: val) to #images-text
-										   put val into the previous <output/>"
-									id="settings-chart-bg-color-picker"
-									class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 settings"
-									autocomplete="off"
-									type="color"
-									name="bgColor"
-									value={ currentChart.BgColor }
-								/>
-								<output name="color" for="settings-chart-bg-color-picker">{ currentChart.BgColor }</output>
+							<div id="settings-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
+								@input.Color(input.InputColorProps{
+									Id: "bg-color-picker",
+									Name: "bgColor",
+									DefaultValue: currentChart.BgColor,
+									HS: `on input(target)
+										    set val to target.value
+										    send bgChangeColor(value: val) to #images-text
+										    put val into the next <output/>`,
+								})
+								<output name="color" for="bg-color-picker">{currentChart.BgColor}</output>
 							</div>
-							<div id="settings-chart-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
-								<div class="flex gap-4 items-center">
-									<label for="settings-chart-bg-gradient-from">From</label>
-									<input
-										_="on input(target)
-											   send bgChangeGradientFrom(value: target.value) to #images-text"
-										id="settings-chart-bg-gradient-from"
-										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings"
-										autocomplete="off"
-										type="color"
-										name="bgGradientFrom"
-										value={ currentChart.BgColor }
-									/>
-								</div>
-								<div class="flex gap-4 items-center">
-									<label for="settings-chart-bg-gradient-to">To</label>
-									<input
-										_="on input(target)
-											  send bgChangeGradientTo(value: target.value) to #images-text"
-										id="settings-chart-bg-gradient-to"
-										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings"
-										autocomplete="off"
-										type="color"
-										name="bgGradientTo"
-										value={ currentChart.BgColor }
-									/>
-								</div>
+							<div id="settings-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
+								@input.Color(input.InputColorProps{
+									Id: "bg-gradient-from",
+									Name: "bgGradientFrom",
+									Label: "From",
+									DefaultValue: currentChart.BgColor,
+									HS: "on input(target) send bgChangeGradientFrom(value: target.value) to #images-text",
+								})
+								@input.Color(input.InputColorProps{
+									Id: "bg-gradient-to",
+									Name: "bgGradientTo",
+									Label: "To",
+									DefaultValue: currentChart.BgColor,
+									HS: "on input(target) send bgChangeGradientTo(value: target.value) to #images-text",
+								})
 							</div>
 							<input
 								_="on input(target)
 									  send bgChangeImage(file: target.files[0]) to #images-text"
 								aria-hidden="true"
 								class="aria-hidden:hidden settings"
-								id="settings-chart-bg-image"
+								id="settings-bg-image"
 								type="file"
 								name="bgImage"
 								accept="image/*"

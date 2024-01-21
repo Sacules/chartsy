@@ -6,6 +6,7 @@ import (
 	"gitlab.com/sacules/chartsy/internal/models"
 	"gitlab.com/sacules/chartsy/internal/validator"
 
+	"gitlab.com/sacules/chartsy/ui/html/components"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
 )
 
@@ -434,46 +435,52 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						})
 					</fieldset>
 				</settings-reveal>
-				<settings-reveal title="Images">
-					@input.RadioGroup(input.RadioGroupProps{
-						Name: "imagesShape",
-						Legend: "Shape",
-						Class: "px-4 settings",
-						HS: "on change(target) send chartImagesShape(value: target.value) to #chart",
-					}) {
-						@input.RadioGroupItem(input.RadioGroupItemProps{
-							Id: "images-shape-square",
-							IsDefault: true,
-							Value: "square",
-							Label: "Square",
-						})
-						@input.RadioGroupItem(input.RadioGroupItemProps{
-							Id: "images-shape-portrait",
-							IsDefault: false,
-							Value: "portrait",
-							Label: "Portrait",
-						})
-					}
-					@input.RadioGroup(input.RadioGroupProps{
-						Name: "imagesSize",
-						Legend: "Size",
-						Class: "px-4 settings",
-						HS: "on change(target) call #chart.style.setProperty('--chart-settings-images-width', target.value)",
-					}) {
-						@input.RadioGroupItem(input.RadioGroupItemProps{
-							Id: "images-size-regular",
-							IsDefault: true,
-							Value: "150",
-							Label: "Regular",
-						})
-						@input.RadioGroupItem(input.RadioGroupItemProps{
-							Id: "images-size-large",
-							IsDefault: false,
-							Value: "200",
-							Label: "Large",
-						})
-					}
-				</settings-reveal>
+				@components.Reveal(components.RevealProps{Title: "Images"}) {
+					<div class="p-4 grid gap-4">
+						@input.RadioGroup(input.RadioGroupProps{
+							Name: "imagesShape",
+							Legend: "Shape",
+							Class: "settings",
+							HS: "on change(target) send chartImagesShape(value: target.value) to #chart",
+						}) {
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-shape-square",
+								IsDefault: true,
+								Name: "images-shape",
+								Value: "square",
+								Label: "Square",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-shape-portrait",
+								IsDefault: false,
+								Name: "images-shape",
+								Value: "portrait",
+								Label: "Portrait",
+							})
+						}
+						@input.RadioGroup(input.RadioGroupProps{
+							Name: "imagesSize",
+							Legend: "Size",
+							Class: "settings",
+							HS: "on change(target) call #chart.style.setProperty('--chart-settings-images-width', target.value)",
+						}) {
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-size-regular",
+								IsDefault: true,
+								Value: "150",
+								Name: "images-size",
+								Label: "Regular",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-size-large",
+								IsDefault: false,
+								Value: "200",
+								Name: "images-size",
+								Label: "Large",
+							})
+						}
+					</div>
+				}
 				<settings-reveal title="Titles">
 					<input-radio-group
 						_="on change(value)

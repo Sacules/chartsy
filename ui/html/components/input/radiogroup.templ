@@ -9,7 +9,7 @@ type RadioGroupProps struct {
 
 templ RadioGroup(props RadioGroupProps) {
 	<fieldset _={props.HS} role="group" name={props.Name} class={props.Class}>
-		<legend class="text-xs font-bold">
+		<legend class="text-xs font-bold contents">
 			{ props.Legend }
 		</legend>
 		<div class="grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] grid-flow-row auto-rows-max pt-2">
@@ -21,6 +21,7 @@ templ RadioGroup(props RadioGroupProps) {
 type RadioGroupItemProps struct {
 	Id string
 	IsDefault bool
+	Name string
 	Value string
 	Label string
 }
@@ -38,7 +39,7 @@ templ RadioGroupItem(props RadioGroupItemProps) {
 			      log @checked"
 			id={props.Id}
 			type="radio"
-			name="text-placement"
+			name={props.Name}
 			checked?={ props.IsDefault }
 			value={props.Value}
 			class="opacity-0 absolute inset-0 peer"

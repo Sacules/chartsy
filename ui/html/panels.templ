@@ -53,10 +53,14 @@ templ Search() {
 		_="on submit(event) event.preventDefault()"
 		hx-post="/search"
 		hx-target="#search-results"
-		hx-trigger="input from:[name='search'] delay:300ms"
+		hx-trigger="input from:#search delay:300ms"
 		class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
 	>
-		<input-text type="search" name="search" placeholder="e.g. In Absentia"></input-text>
+		@input.Text(input.InputTextProps{
+			Id: "search",
+			Name: "search",
+			Placeholder: "e.g. In Absentia",
+		})
 	</form>
 	<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
 }
@@ -317,7 +321,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								   end
 								   send bgChange(state: value) to #images-text"
 							id="settings-chart-bg"
-							class="flex flex-col gap-4"
+							class="grid gap-4"
 						>
 							@input.RadioGroup(input.RadioGroupProps{
 								Name: "background",

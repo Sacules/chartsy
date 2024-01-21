@@ -1,0 +1,41 @@
+package input
+
+type InputTextProps struct {
+	Id string
+	Required bool
+	Label string
+	Error string
+	Name string
+	DefaultValue string
+	Caption string
+	Autocomplete string
+	Type string
+	Placeholder string
+	Class string
+}
+
+templ Text(props InputTextProps) {
+	<div class={"w-full " + props.Class}>
+		<label for={props.Id} class="empty:hidden block mb-2 w-full md:text-sm font-bold">{props.Label}</label>
+		<input
+			required?={props.Required}
+			id={props.Id}
+			type={props.Type}
+			name={props.Name}
+			value={props.DefaultValue}
+			maxlength="128"
+			autocomplete={props.Autocomplete}
+			placeholder={props.Placeholder}
+			class="h-10 w-full px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+			       hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none \
+				   transition text-sm invalid:border-rose-600"
+		/>
+		if props.Error != "" {
+			<span class="text-sm text-rose-600">{props.Error}</span>
+		}
+
+		if props.Caption != "" {
+			<span class="text-sm">{props.Caption}</span>
+		}
+	</div>
+}

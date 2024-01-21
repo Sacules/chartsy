@@ -285,7 +285,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					hx-swap="none"
 				}
 			>
-				<settings-reveal title="General">
+				@components.Reveal(components.RevealProps{Title: "General"}) {
 					<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
 					<div class="p-4">
 						<input-text
@@ -300,6 +300,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						<hr class="border-slate-700 my-4"/>
 						<div
 							_="on toggle(value)
+							beep! value
 						   if value is 'color'
 							   add [@aria-hidden=false] to #settings-chart-bg-color
 							   add [@aria-hidden=true] to #settings-chart-bg-gradient
@@ -319,16 +320,33 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							id="settings-chart-bg"
 							class="flex flex-col gap-4"
 						>
-							<input-radio-group
-								_="on change(value)
-							   send toggle(value: value) to #settings-chart-bg"
-								name="background"
-							>
-								<span slot="legend">Background</span>
-								<div default value="color" class="rounded-l" slot="item">Color</div>
-								<div value="gradient" slot="item">Gradient</div>
-								<div value="image" class="rounded-r" slot="item">Image</div>
-							</input-radio-group>
+							@input.RadioGroup(input.RadioGroupProps{
+								Name: "background",
+								Legend: "Background",
+								HS: "on change(target) trigger toggle(value: target.value) on #settings-chart-bg",
+							}) {
+								@input.RadioGroupItem(input.RadioGroupItemProps{
+									Id: "background-setting-color",
+									Label: "Color",
+									Name: "background-setting",
+									Value: "color",
+									IsDefault: true,
+								})
+								@input.RadioGroupItem(input.RadioGroupItemProps{
+									Id: "background-setting-gradient",
+									Label: "Gradient",
+									Name: "background-setting",
+									Value: "gradient",
+									IsDefault: false,
+								})
+								@input.RadioGroupItem(input.RadioGroupItemProps{
+									Id: "background-setting-image",
+									Label: "Image",
+									Name: "background-setting",
+									Value: "image",
+									IsDefault: false,
+								})
+							}
 							<div id="settings-chart-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
 								<output name="color" for="settings-chart-bg-color-picker">{ currentChart.BgColor }</output>
 								<input
@@ -384,8 +402,8 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							/>
 						</div>
 					</div>
-				</settings-reveal>
-				<settings-reveal title="Layout">
+				}
+				@components.Reveal(components.RevealProps{Title: "Layout"}) {
 					<fieldset
 						_="on change(value, name) from <.settings/>
 							  call #chart.style.setProperty(`--chart-settings-${name}`, value)
@@ -434,7 +452,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Max: 5,
 						})
 					</fieldset>
-				</settings-reveal>
+				}
 				@components.Reveal(components.RevealProps{Title: "Images"}) {
 					<div class="p-4 grid gap-4">
 						@input.RadioGroup(input.RadioGroupProps{
@@ -481,23 +499,59 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						}
 					</div>
 				}
-				<settings-reveal title="Titles">
-					<input-radio-group
-						_="on change(value)
-							  send chartTextPlacement(value: value) to #chart"
-						name="imagesTextPosition"
-						class="p-2 settings"
-						value="hide"
-					>
-						<span slot="legend">Position</span>
-						<div default value="hide" class="rounded-tl border-b-0" slot="item">Hide</div>
-						<div value="inline" class="border-b-0" slot="item">Inline</div>
-						<div value="overlay" class="rounded-tr border-b-0" slot="item">Overlay</div>
-						<div value="left" class="rounded-bl" slot="item">Left</div>
-						<div value="below" slot="item">Below</div>
-						<div value="right" class="rounded-br" slot="item">Right</div>
-					</input-radio-group>
-				</settings-reveal>
+				@components.Reveal(components.RevealProps{Title: "Titles"}) {
+					<div class="p-4 grid gap-4">
+						@input.RadioGroup(input.RadioGroupProps{
+							Name: "imagesTextPosition",
+							Legend: "Position",
+							Class: "settings",
+							HS: "on change(target) send chartTextPlacement(value: target.value) to #chart",
+						}) {
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-hide",
+								IsDefault: true,
+								Name: "images-text-position",
+								Value: "hide",
+								Label: "Hide",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-inline",
+								IsDefault: false,
+								Name: "images-text-position",
+								Value: "inline",
+								Label: "Inline",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-overlay",
+								IsDefault: false,
+								Name: "images-text-position",
+								Value: "overlay",
+								Label: "Overlay",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-left",
+								IsDefault: false,
+								Name: "images-text-position",
+								Value: "left",
+								Label: "Left",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-below",
+								IsDefault: false,
+								Name: "images-text-position",
+								Value: "below",
+								Label: "Below",
+							})
+							@input.RadioGroupItem(input.RadioGroupItemProps{
+								Id: "images-text-position-right",
+								IsDefault: false,
+								Name: "images-text-position",
+								Value: "right",
+								Label: "Right",
+							})
+						}
+					</div>
+				}
 			</form>
 		</aside>
 	}

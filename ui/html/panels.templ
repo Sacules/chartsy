@@ -278,14 +278,14 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 			<form
 				if isAuthenticated {
 					hx-patch="/settings"
-					hx-trigger="input from:.settings-desktop delay:300ms, change from:.settings-desktop
+					hx-trigger="input from:.settings delay:300ms, change from:.settings
 								delay:300ms"
-					hx-include=".settings-desktop"
+					hx-include=".settings"
 					hx-swap="none"
 				}
 			>
 				<settings-reveal title="General">
-					<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings-desktop"/>
+					<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
 					<div class="p-4">
 						<input-text
 							_="on input(value)
@@ -293,7 +293,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							name="title"
 							label="Title"
 							value={ currentChart.Title }
-							class="settings-desktop"
+							class="settings"
 							caption="Works with Markdown and emojis! 🔥"
 						></input-text>
 						<hr class="border-slate-700 my-4"/>
@@ -336,7 +336,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 										   send bgChangeColor(value: val) to #images-text
 										   put val into the previous <output/>"
 									id="settings-chart-bg-color-picker"
-									class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 settings-desktop"
+									class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 settings"
 									autocomplete="off"
 									type="color"
 									name="bgColor"
@@ -350,7 +350,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 										_="on input(target)
 											   send bgChangeGradientFrom(value: target.value) to #images-text"
 										id="settings-chart-bg-gradient-from"
-										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings-desktop"
+										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings"
 										autocomplete="off"
 										type="color"
 										name="bgGradientFrom"
@@ -363,7 +363,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 										_="on input(target)
 											  send bgChangeGradientTo(value: target.value) to #images-text"
 										id="settings-chart-bg-gradient-to"
-										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings-desktop"
+										class="h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2 aria-hidden:hidden settings"
 										autocomplete="off"
 										type="color"
 										name="bgGradientTo"
@@ -375,7 +375,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								_="on input(target)
 									  send bgChangeImage(file: target.files[0]) to #images-text"
 								aria-hidden="true"
-								class="aria-hidden:hidden settings-desktop"
+								class="aria-hidden:hidden settings"
 								id="settings-chart-bg-image"
 								type="file"
 								name="bgImage"
@@ -386,7 +386,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				</settings-reveal>
 				<settings-reveal title="Layout">
 					<fieldset
-						_="on change(value, name) from <.settings-desktop/>
+						_="on change(value, name) from <.settings/>
 							  call #chart.style.setProperty(`--chart-settings-${name}`, value)
 							  trigger chartUpdate on #chart"
 						class="grid grid-cols-2 gap-4 p-4"
@@ -394,7 +394,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					>
 						@input.Numeric(input.NumericProps{ 
 							Id: "column-count", 
-							Class: "settings-desktop",
+							Class: "settings",
 							Name: "cols", 
 							DefaultValue: int(currentChart.ColumnCount), 
 							Label: "Columns", 
@@ -404,7 +404,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						})
 						@input.Numeric(input.NumericProps{ 
 							Id: "row-count", 
-							Class: "settings-desktop",
+							Class: "settings",
 							Name: "rows", 
 							DefaultValue: int(currentChart.RowCount), 
 							Label: "Rows", 
@@ -414,7 +414,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						})
 						@input.Numeric(input.NumericProps{ 
 							Id: "spacing", 
-							Class: "settings-desktop",
+							Class: "settings",
 							Name: "spacing", 
 							DefaultValue: int(currentChart.Spacing), 
 							Label: "Spacing", 
@@ -424,7 +424,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						})
 						@input.Numeric(input.NumericProps{ 
 							Id: "padding", 
-							Class: "settings-desktop",
+							Class: "settings",
 							Name: "padding", 
 							DefaultValue: int(currentChart.Padding), 
 							Label: "Padding", 
@@ -435,11 +435,29 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					</fieldset>
 				</settings-reveal>
 				<settings-reveal title="Images">
+					@input.RadioGroup(input.RadioGroupProps{
+						Name: "imagesShape",
+						Class: "settings",
+						HS: "on change(target) log target.value",
+					}) {
+						@input.RadioGroupItem(input.RadioGroupItemProps{
+							Id: "images-shape-square",
+							IsDefault: true,
+							Value: "square",
+							Label: "Square",
+						})
+						@input.RadioGroupItem(input.RadioGroupItemProps{
+							Id: "images-shape-portrait",
+							IsDefault: false,
+							Value: "portrait",
+							Label: "Portrait",
+						})
+					}
 					<input-radio-group
 						_="on change(value)
 							  send chartImagesShape(value: value) to #chart"
 						name="imagesShape"
-						class="settings-desktop px-2"
+						class="settings px-2"
 						value="square"
 					>
 						<span slot="legend">Shape</span>
@@ -450,7 +468,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						_="on change(value)
 							  call #chart.style.setProperty('--chart-settings-images-width', value)"
 						name="imagesSize"
-						class="settings-desktop"
+						class="settings"
 						value="150"
 					>
 						<span slot="legend">Size</span>
@@ -463,7 +481,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						_="on change(value)
 							  send chartTextPlacement(value: value) to #chart"
 						name="imagesTextPosition"
-						class="p-2 settings-desktop"
+						class="p-2 settings"
 						value="hide"
 					>
 						<span slot="legend">Position</span>

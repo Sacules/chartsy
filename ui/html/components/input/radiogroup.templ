@@ -1,0 +1,55 @@
+package input
+
+type RadioGroupProps struct {
+	Name string
+	Legend string
+	Class string
+	HS string
+}
+
+templ RadioGroup(props RadioGroupProps) {
+	<fieldset _={props.HS} role="group" name={props.Name} class="grid gap-2">
+		<legend>
+			{ props.Legend }
+		</legend>
+		<div class="grid grid-cols-[repeat(auto-fit,minmax(5rem,1fr))] grid-flow-row auto-rows-max">
+			{ children... }
+		</div>
+	</fieldset>
+}
+
+type RadioGroupItemProps struct {
+	Id string
+	IsDefault bool
+	Value string
+	Label string
+}
+
+templ RadioGroupItem(props RadioGroupItemProps) {
+	<div
+		_="on keydown(key)[key == 'Enter' or key == ' ']
+			  log 'wtf'
+			  add [@checked=true] to the first <input /> in me"
+		class="group focus-visible:outline focus-visible:outline-sky-600 h-8 relative hover:cursor-pointer"
+		tabindex="0"
+	>
+		<input
+			_="on mutation of @checked
+			      log @checked"
+			id={props.Id}
+			type="radio"
+			name="text-placement"
+			checked?={ props.IsDefault }
+			value={props.Value}
+			class="opacity-0 absolute inset-0 peer"
+			autocomplete="off"
+		/>
+		<label
+			for={props.Id}
+			class="z-10 hover:cursor-pointer peer-checked:font-bold peer-checked:bg-slate-50 peer-checked:text-slate-900 \
+				   grid place-items-center border border-slate-700 select-none h-full"
+		>
+			{props.Label}
+		</label>
+	</div>
+}

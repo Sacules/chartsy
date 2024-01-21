@@ -133,12 +133,18 @@ templ Login(form UserLoginForm) {
 				Required: true,
 			})
 		</div>
-		<div class="p-4 flex justify-evenly border-t border-slate-700">
-			<button type="reset" class="grid place-items-center gap-2">Cancel</button>
-			<button type="submit" class="pl-4 grid grid-cols-[1fr_1rem] gap-2">
+		<div class="p-4 flex justify-evenly border-t border-slate-700 relative">
+			@components.Button(components.ButtonProps{
+				Type: "reset",
+			}) {
+				Reset
+			}
+			@components.Button(components.ButtonProps{
+				Type: "submit",
+			}) {
 				Confirm
-				<icon-spinner class="htmx-indicator spinner w-4 h-4"></icon-spinner>
-			</button>
+			}
+			<icon-spinner class="absolute right-4 inset-y-8 htmx-indicator spinner w-4 h-4"></icon-spinner>
 		</div>
 	</form>
 }
@@ -171,12 +177,18 @@ templ Signup(form UserSignupForm) {
 				Required: true,
 			})
 		</div>
-		<div class="p-4 flex justify-evenly border-t border-slate-700">
-			<button type="reset" class="grid place-items-center gap-2">Cancel</button>
-			<button type="submit" class="pl-4 grid grid-cols-[1fr_1rem] gap-2">
+		<div class="p-4 flex justify-evenly border-t border-slate-700 relative">
+			@components.Button(components.ButtonProps{
+				Type: "reset",
+			}) {
+				Reset
+			}
+			@components.Button(components.ButtonProps{
+				Type: "submit",
+			}) {
 				Confirm
-				<icon-spinner class="htmx-indicator spinner w-4 h-4"></icon-spinner>
-			</button>
+			}
+			<icon-spinner class="absolute right-4 inset-y-8 htmx-indicator spinner w-4 h-4"></icon-spinner>
 		</div>
 	</form>
 }

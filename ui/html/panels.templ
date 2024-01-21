@@ -118,6 +118,7 @@ templ Login(form UserLoginForm) {
 				Id: "login-email",
 				Name: "email",
 				Label: "E-mail",
+				Type: "E-mail",
 				Error: form.FieldErrors["email"],
 				DefaultValue: form.Email,
 				Required: true,
@@ -151,28 +152,24 @@ type UserSignupForm struct {
 templ Signup(form UserSignupForm) {
 	<form id="signup" class="aria-hidden:hidden grid-cols-[auto_auto]" hx-post="/signup" hx-swap="outerHTML">
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
-			<input-text
-				required
-				name="email"
-				label="E-mail"
-				caption="Required"
-				if _, ok := form.FieldErrors["email"]; ok {
-					error={ form.FieldErrors["email"] }
-				}
-				if form.Email != "" {
-					value={ form.Email }
-				}
-			></input-text>
-			<input-text
-				required
-				name="password"
-				type="password"
-				label="Password"
-				caption="Required, must be at least 8 characters long"
-				if _, ok := form.FieldErrors["email"]; ok {
-					error={ form.FieldErrors["email"] }
-				}
-			></input-text>
+			@input.Text(input.InputTextProps{
+				Id: "signup-password",
+				Name: "email",
+				Type: "email",
+				Label: "E-mail",
+				Caption: "Required",
+				Error: form.FieldErrors["email"],
+				Required: true,
+			})
+			@input.Text(input.InputTextProps{
+				Id: "signup-password",
+				Name: "password",
+				Type: "password",
+				Label: "Password",
+				Error: form.FieldErrors["email"],
+				Caption: "Required, must be at least 8 characters long",
+				Required: true,
+			})
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700">
 			<button type="reset" class="grid place-items-center gap-2">Cancel</button>

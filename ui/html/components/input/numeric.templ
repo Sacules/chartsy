@@ -1,0 +1,81 @@
+package input
+
+import "fmt"
+
+type NumericProps struct {
+	Id string
+	Class string
+	Name string
+	Label string
+	DefaultValue int
+	Min int
+	Max int
+	Step int
+}
+
+templ Numeric(props NumericProps) {
+	<div
+		_={fmt.Sprintf(`
+			set element n to %d
+			set element step to %d
+			set element min to %d
+			set element max to %d
+
+			on inc
+				increment n by step
+				if n >= max then
+				  set { disabled: true } on (the first <button/> in me)
+				end
+				if n > min then
+				  remove @disabled from (the last <button/> in me)
+				end
+				trigger change(value: n, name: '%s') on me
+			end
+			on dec
+				decrement n by step
+				if n <= min then
+				  set { disabled: true } on (the last <button/> in me)
+				end
+				if n < max then
+				  remove @disabled from (the first <button/> in me)
+				end
+				trigger change(value: n, name: '%s') on me
+			end
+			on change(value)
+				put n into the first <output /> in me
+			end
+		`, props.DefaultValue, props.Step, props.Min, props.Max, props.Name, props.Name)}
+		id={props.Id}
+		role="group"
+		class={"grid grid-cols-2 items-center " + props.Class}
+	>
+		<label for={props.Id + "-input"} class="justify-self-stretch text-right">
+			{ props.Label }
+		</label>
+		<div class="grid place-items-center justify-center gap-2">
+			<button
+				_={"on click send inc to #" + props.Id}
+				id={props.Id + "-plus"}
+				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed transform rotate-180"
+				type="button"
+			>
+				<icon-chevron-down></icon-chevron-down>
+			</button>
+			<output
+				for={props.Id + "-input"}
+				class="text-center"
+			>
+				{ fmt.Sprint(props.DefaultValue) }
+			</output>
+			<button
+				_={"on click send dec to #" + props.Id}
+				id={props.Id + "-minus"}
+				type="button"
+				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed"
+			>
+				<icon-chevron-down></icon-chevron-down>
+			</button>
+			<input id={props.Id + "-input"} value={fmt.Sprint(props.DefaultValue)} name={props.Name} hidden />
+		</div>
+	</div>
+}

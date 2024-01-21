@@ -9,7 +9,7 @@ import (
 templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 	if currentChart != nil {
 		<div
-		    _="def updateChart()
+			_="def updateChart()
 				   get the getComputedStyle(me) then set computedStyles to it
 				   set cols to computedStyles.getPropertyValue('--chart-settings-cols')
 				   set rows to computedStyles.getPropertyValue('--chart-settings-rows')
@@ -92,7 +92,7 @@ templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 				   call #chart.style.setProperty('--chart-settings-background-image', url)"
 				id="images-text"
 				text-placement="hide"
-				chart-title={currentChart.Title}
+				chart-title={ currentChart.Title }
 				class="grid bg-cover bg-center color"
 			>
 				<ul
@@ -115,7 +115,8 @@ templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 				   on end(item)
 					   set the item's @data-was-dragging to false"
 					if isAuthenticated {
-						hx-patch="/images" hx-trigger="update delay:300ms, drop"
+						hx-patch="/images"
+						hx-trigger="update delay:300ms, drop"
 						hx-include="#chart-id,chart-image[aria-hidden=false]"
 					}
 					id="images"
@@ -136,24 +137,23 @@ templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 							   call history.pushState('search-mobile-open', null, 'search-mobile')
 							end"
 							class="aria-hidden:hidden sortable-item"
-							index={fmt.Sprint(i)}
-							title={v.Title}
-							caption={v.Caption}
-							src={v.URL}
-							text-color={currentChart.TextColor}
+							index={ fmt.Sprint(i) }
+							title={ v.Title }
+							caption={ v.Caption }
+							src={ v.URL }
+							text-color={ currentChart.TextColor }
 							text-placement="hide"
-							shape={string(currentChart.ImagesShape)}
+							shape={ string(currentChart.ImagesShape) }
 							aria-hidden="true"
 						>
-							<input slot="title" type="text" value={v.Title} hidden autocomplete="off" />
-							<input slot="caption" type="text" value={v.Caption} hidden autocomplete="off" />
-							<input slot="url" type="text" value={v.URL} hidden autocomplete="off" />
+							<input slot="title" type="text" value={ v.Title } hidden autocomplete="off"/>
+							<input slot="caption" type="text" value={ v.Caption } hidden autocomplete="off"/>
+							<input slot="url" type="text" value={ v.URL } hidden autocomplete="off"/>
 						</chart-image>
 					}
 				</ul>
-				<chart-text id="text" slot="text" columns={fmt.Sprint(currentChart.ColumnCount)} rows={fmt.Sprint(currentChart.RowCount)}>
-				</chart-text>
-				<input id="chart-id" type="number" name="id" value={fmt.Sprint(currentChart.ID)} />
+				<chart-text id="text" slot="text" columns={ fmt.Sprint(currentChart.ColumnCount) } rows={ fmt.Sprint(currentChart.RowCount) }></chart-text>
+				<input id="chart-id" type="number" name="id" value={ fmt.Sprint(currentChart.ID) }/>
 			</chart-images-text>
 		</div>
 	}

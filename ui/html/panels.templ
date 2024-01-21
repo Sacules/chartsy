@@ -5,6 +5,8 @@ import (
 
 	"gitlab.com/sacules/chartsy/internal/models"
 	"gitlab.com/sacules/chartsy/internal/validator"
+
+	"gitlab.com/sacules/chartsy/ui/html/components/input"
 )
 
 templ ChartList(currentChart *models.Chart, charts []models.Chart) {
@@ -14,17 +16,17 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 				<button
 					class="w-full"
 					name="id"
-					value={fmt.Sprint(c.ID)}
+					value={ fmt.Sprint(c.ID) }
 					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 				>
 					<figure
-						class={"group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID)}
+						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }
 					>
-						<img src="/assets/img/generic-chart.png" class="w-24 h-24" />
-						<figcaption class={"select-none", templ.KV("font-bold", currentChart.ID == c.ID)}>
-							{c.Name}
+						<img src="/assets/img/generic-chart.png" class="w-24 h-24"/>
+						<figcaption class={ "select-none", templ.KV("font-bold", currentChart.ID == c.ID) }>
+							{ c.Name }
 						</figcaption>
 					</figure>
 				</button>
@@ -67,7 +69,7 @@ type SearchResult struct {
 templ SearchResults(res []SearchResult) {
 	for _, r := range res {
 		<li
-			_={fmt.Sprintf(`set element data to { src: '%s', title: '%s', caption: '%s' }
+			_={ fmt.Sprintf(`set element data to { src: '%s', title: '%s', caption: '%s' }
 				   on click
 					   send chartImages(src: data.src, title: data.title, caption: data.caption) to #chart
 					   send close to #search-mobile
@@ -76,7 +78,7 @@ templ SearchResults(res []SearchResult) {
 					   call event.dataTransfer.setData('text/plain', data as JSON)
 					   set $draggingFromResults to true
 				   on dragend
-					   set $draggingFromResults to false`, r.Url, r.Title, r.Author)}
+					   set $draggingFromResults to false`, r.Url, r.Title, r.Author) }
 			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150"
 			draggable="true"
 			tabindex="0"
@@ -85,7 +87,7 @@ templ SearchResults(res []SearchResult) {
 				<img
 					class="w-24 object-center object-cover transition-all duration-150 shadow-md"
 					role="img"
-					src={r.Url}
+					src={ r.Url }
 				/>
 				<figcaption
 					class="max-w-[10rem] max-h-full text-sm break-words \
@@ -93,8 +95,8 @@ templ SearchResults(res []SearchResult) {
 						   filter group-focus-visible:invert group-hover:invert"
 					style="user-select: none;"
 				>
-					<strong>{r.Author}</strong>
-					<p>{r.Title}</p>
+					<strong>{ r.Author }</strong>
+					<p>{ r.Title }</p>
 				</figcaption>
 			</figure>
 		</li>
@@ -115,23 +117,21 @@ templ Login(form UserLoginForm) {
 				name="email"
 				label="E-mail"
 				if _, ok := form.FieldErrors["email"]; ok {
-					error={form.FieldErrors["email"]}
+					error={ form.FieldErrors["email"] }
 				}
 				if form.Email != "" {
-					value={form.Email}
+					value={ form.Email }
 				}
-			>
-			</input-text>
+			></input-text>
 			<input-text
 				required
 				name="password"
 				type="password"
 				label="Password"
 				if _, ok := form.FieldErrors["email"]; ok {
-					error={form.FieldErrors["email"]}
+					error={ form.FieldErrors["email"] }
 				}
-			>
-			</input-text>
+			></input-text>
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700">
 			<button type="reset" class="grid place-items-center gap-2">Cancel</button>
@@ -158,13 +158,12 @@ templ Signup(form UserSignupForm) {
 				label="E-mail"
 				caption="Required"
 				if _, ok := form.FieldErrors["email"]; ok {
-					error={form.FieldErrors["email"]}
+					error={ form.FieldErrors["email"] }
 				}
 				if form.Email != "" {
-					value={form.Email}
+					value={ form.Email }
 				}
-			>
-			</input-text>
+			></input-text>
 			<input-text
 				required
 				name="password"
@@ -172,10 +171,9 @@ templ Signup(form UserSignupForm) {
 				label="Password"
 				caption="Required, must be at least 8 characters long"
 				if _, ok := form.FieldErrors["email"]; ok {
-					error={form.FieldErrors["email"]}
+					error={ form.FieldErrors["email"] }
 				}
-			>
-			</input-text>
+			></input-text>
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700">
 			<button type="reset" class="grid place-items-center gap-2">Cancel</button>
@@ -281,24 +279,24 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				if isAuthenticated {
 					hx-patch="/settings"
 					hx-trigger="input from:.settings-desktop delay:300ms, change from:.settings-desktop
-								delay:300ms" hx-include=".settings-desktop"
+								delay:300ms"
+					hx-include=".settings-desktop"
 					hx-swap="none"
 				}
 			>
 				<settings-reveal title="General">
-					<input type="number" name="id" hidden value={fmt.Sprint(currentChart.ID)} class="settings-desktop" />
+					<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings-desktop"/>
 					<div class="p-4">
 						<input-text
 							_="on input(value)
 							   send chart:title(value: value) to #images-text"
 							name="title"
 							label="Title"
-							value={currentChart.Title}
+							value={ currentChart.Title }
 							class="settings-desktop"
 							caption="Works with Markdown and emojis! 🔥"
-						>
-						</input-text>
-						<hr class="border-slate-700 my-4" />
+						></input-text>
+						<hr class="border-slate-700 my-4"/>
 						<div
 							_="on toggle(value)
 						   if value is 'color'
@@ -331,7 +329,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								<div value="image" class="rounded-r" slot="item">Image</div>
 							</input-radio-group>
 							<div id="settings-chart-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
-								<output name="color" for="settings-chart-bg-color-picker">{currentChart.BgColor}</output>
+								<output name="color" for="settings-chart-bg-color-picker">{ currentChart.BgColor }</output>
 								<input
 									_="on input(target)
 										   set val to target.value
@@ -342,7 +340,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									autocomplete="off"
 									type="color"
 									name="bgColor"
-									value={currentChart.BgColor}
+									value={ currentChart.BgColor }
 								/>
 							</div>
 							<div id="settings-chart-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
@@ -356,7 +354,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 										autocomplete="off"
 										type="color"
 										name="bgGradientFrom"
-										value={currentChart.BgColor}
+										value={ currentChart.BgColor }
 									/>
 								</div>
 								<div class="flex gap-4 items-center">
@@ -369,7 +367,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 										autocomplete="off"
 										type="color"
 										name="bgGradientTo"
-										value={currentChart.BgColor}
+										value={ currentChart.BgColor }
 									/>
 								</div>
 							</div>
@@ -387,51 +385,53 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					</div>
 				</settings-reveal>
 				<settings-reveal title="Layout">
-					<fieldset class="grid grid-cols-2 gap-4 p-4" role="group">
-						<input-numeric
-							_="install ChartSetting"
-							id="column-count"
-							name="cols"
-							value={fmt.Sprint(currentChart.ColumnCount)}
-							class="settings-desktop"
-							min="1"
-							max="10"
-						>
-							Columns
-						</input-numeric>
-						<input-numeric
-							_="install ChartSetting"
-							id="row-count"
-							name="rows"
-							value={fmt.Sprint(currentChart.RowCount)}
-							class="settings-desktop"
-							min="1"
-							max="10"
-						>
-							Rows
-						</input-numeric>
-						<input-numeric
-							_="install ChartSetting"
-							id="spacing"
-							name="spacing"
-							value={fmt.Sprint(currentChart.Spacing)}
-							class="settings-desktop"
-							min="0"
-							max="5"
-						>
-							Spacing
-						</input-numeric>
-						<input-numeric
-							_="install ChartSetting"
-							id="padding"
-							name="padding"
-							value={fmt.Sprint(currentChart.Padding)}
-							class="settings-desktop"
-							min="0"
-							max="5"
-						>
-							Padding
-						</input-numeric>
+					<fieldset
+						_="on change(value, name) from <.settings-desktop/>
+							  call #chart.style.setProperty(`--chart-settings-${name}`, value)
+							  trigger chartUpdate on #chart"
+						class="grid grid-cols-2 gap-4 p-4"
+						role="group"
+					>
+						@input.Numeric(input.NumericProps{ 
+							Id: "column-count", 
+							Class: "settings-desktop",
+							Name: "cols", 
+							DefaultValue: int(currentChart.ColumnCount), 
+							Label: "Columns", 
+							Step: 1, 
+							Min: 1, 
+							Max: 10,
+						})
+						@input.Numeric(input.NumericProps{ 
+							Id: "row-count", 
+							Class: "settings-desktop",
+							Name: "rows", 
+							DefaultValue: int(currentChart.RowCount), 
+							Label: "Rows", 
+							Step: 1, 
+							Min: 1, 
+							Max: 10,
+						})
+						@input.Numeric(input.NumericProps{ 
+							Id: "spacing", 
+							Class: "settings-desktop",
+							Name: "spacing", 
+							DefaultValue: int(currentChart.Spacing), 
+							Label: "Spacing", 
+							Step: 1, 
+							Min: 0, 
+							Max: 5,
+						})
+						@input.Numeric(input.NumericProps{ 
+							Id: "padding", 
+							Class: "settings-desktop",
+							Name: "padding", 
+							DefaultValue: int(currentChart.Padding), 
+							Label: "Padding", 
+							Step: 1, 
+							Min: 0, 
+							Max: 5,
+						})
 					</fieldset>
 				</settings-reveal>
 				<settings-reveal title="Images">

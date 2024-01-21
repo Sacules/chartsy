@@ -437,8 +437,9 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				<settings-reveal title="Images">
 					@input.RadioGroup(input.RadioGroupProps{
 						Name: "imagesShape",
-						Class: "settings",
-						HS: "on change(target) log target.value",
+						Legend: "Shape",
+						Class: "px-4 settings",
+						HS: "on change(target) send chartImagesShape(value: target.value) to #chart",
 					}) {
 						@input.RadioGroupItem(input.RadioGroupItemProps{
 							Id: "images-shape-square",
@@ -453,28 +454,25 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Label: "Portrait",
 						})
 					}
-					<input-radio-group
-						_="on change(value)
-							  send chartImagesShape(value: value) to #chart"
-						name="imagesShape"
-						class="settings px-2"
-						value="square"
-					>
-						<span slot="legend">Shape</span>
-						<div default value="square" class="rounded-l" slot="item">Square</div>
-						<div value="portrait" class="rounded-r" slot="item">Portrait</div>
-					</input-radio-group>
-					<input-radio-group
-						_="on change(value)
-							  call #chart.style.setProperty('--chart-settings-images-width', value)"
-						name="imagesSize"
-						class="settings"
-						value="150"
-					>
-						<span slot="legend">Size</span>
-						<div default value="150" class="rounded-l" slot="item">Regular</div>
-						<div value="200" class="rounded-r" slot="item">Large</div>
-					</input-radio-group>
+					@input.RadioGroup(input.RadioGroupProps{
+						Name: "imagesSize",
+						Legend: "Size",
+						Class: "px-4 settings",
+						HS: "on change(target) call #chart.style.setProperty('--chart-settings-images-width', target.value)",
+					}) {
+						@input.RadioGroupItem(input.RadioGroupItemProps{
+							Id: "images-size-regular",
+							IsDefault: true,
+							Value: "150",
+							Label: "Regular",
+						})
+						@input.RadioGroupItem(input.RadioGroupItemProps{
+							Id: "images-size-large",
+							IsDefault: false,
+							Value: "200",
+							Label: "Large",
+						})
+					}
 				</settings-reveal>
 				<settings-reveal title="Titles">
 					<input-radio-group

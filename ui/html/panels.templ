@@ -155,7 +155,7 @@ type UserSignupForm struct {
 	validator.Validator `form:"-"`
 }
 
-templ Signup(form UserSignupForm) {
+templ Signup(form UserSignupForm, err error) {
 	<form id="signup" class="aria-hidden:hidden grid-cols-[auto_auto]" hx-post="/signup" hx-swap="outerHTML">
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
 			@input.Text(input.InputTextProps{
@@ -164,6 +164,7 @@ templ Signup(form UserSignupForm) {
 				Type: "email",
 				Label: "E-mail",
 				Caption: "Required",
+				DefaultValue: form.Email,
 				Error: form.FieldErrors["email"],
 				Required: true,
 			})
@@ -172,11 +173,16 @@ templ Signup(form UserSignupForm) {
 				Name: "password",
 				Type: "password",
 				Label: "Password",
-				Error: form.FieldErrors["email"],
+				Error: form.FieldErrors["password"],
 				Caption: "Required, must be at least 8 characters long",
 				Required: true,
 			})
 		</div>
+		if err != nil {
+			<p>
+				{err.Error()}
+			</p>
+		}
 		<div class="p-4 flex justify-evenly border-t border-slate-700 relative">
 			@components.Button(components.ButtonProps{
 				Type: "reset",
@@ -274,7 +280,7 @@ templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []model
 				@Login(UserLoginForm{})
 			</div>
 			<div id="signup" role="tabpanel" aria-labelledby="tab-signup" hidden>
-				@Signup(UserSignupForm{})
+				@Signup(UserSignupForm{}, nil)
 			</div>
 		}
 	</aside>

@@ -199,7 +199,7 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		data := app.newTemplateData(r)
 		data.Form = form
 
-		app.renderFragment(w, http.StatusOK, "chart", "signup", data)
+		app.renderTempl(w, r, http.StatusOK, html.Signup(form, nil))
 		return
 	}
 
@@ -208,21 +208,16 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, models.ErrDuplicateEmail) {
 			form.AddFieldError("email", "Email address is already in use")
 
-			data := app.newTemplateData(r)
-			data.Form = form
-
-			app.renderFragment(w, http.StatusOK, "home", "signup", data)
+			app.renderTempl(w, r, http.StatusOK, html.Signup(form, nil))
 		} else {
+			app.renderTempl(w, r, http.StatusOK, html.Signup(form, err))
 			app.serverError(w, err)
 		}
 
 		return
 	}
 
-	data := app.newTemplateData(r)
-	data.Form = form
-
-	app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
+	//app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
 
 	verificationCode := randomString(8)
 	err = app.verifications.Insert(form.Email, verificationCode)

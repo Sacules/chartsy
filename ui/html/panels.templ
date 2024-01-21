@@ -8,6 +8,7 @@ import (
 
 	"gitlab.com/sacules/chartsy/ui/html/components"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
+	"html"
 )
 
 templ ChartList(currentChart *models.Chart, charts []models.Chart) {
@@ -75,16 +76,12 @@ templ SearchResults(res []SearchResult) {
 	for _, r := range res {
 		<li
 			_={ fmt.Sprintf(`set element data to { src: '%s', title: '%s', caption: '%s' }
-				   on click
-					   send chartImages(src: data.src, title: data.title, caption: data.caption) to #chart
-					   send close to #search-mobile
-					   call history.pushState(null, null, '/')
 				   on dragstart
 					   call event.dataTransfer.setData('text/plain', data as JSON)
 					   set $draggingFromResults to true
 				   on dragend
-					   set $draggingFromResults to false`, r.Url, r.Title, r.Author) }
-			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150"
+					   set $draggingFromResults to false`, templ.URL(r.Url), html.EscapeString(r.Title), html.EscapeString(r.Author)) }
+			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150 hover:cursor-grab"
 			draggable="true"
 			tabindex="0"
 		>

@@ -300,23 +300,22 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						<hr class="border-slate-700 my-4"/>
 						<div
 							_="on toggle(value)
-							beep! value
-						   if value is 'color'
-							   add [@aria-hidden=false] to #settings-chart-bg-color
-							   add [@aria-hidden=true] to #settings-chart-bg-gradient
-							   add [@aria-hidden=true] to #settings-chart-bg-image
-						   end
-						   if value is 'gradient'
-							   add [@aria-hidden=true] to #settings-chart-bg-color
-							   add [@aria-hidden=false] to #settings-chart-bg-gradient
-							   add [@aria-hidden=true] to #settings-chart-bg-image
-						   end
-						   if value is 'image'
-							   add [@aria-hidden=true] to #settings-chart-bg-color
-							   add [@aria-hidden=true] to #settings-chart-bg-gradient
-							   add [@aria-hidden=false] to #settings-chart-bg-image
-						   end
-						   send bgChange(state: value) to #images-text"
+								   if value is 'color'
+									   add [@aria-hidden=false] to #settings-chart-bg-color
+									   add [@aria-hidden=true] to #settings-chart-bg-gradient
+									   add [@aria-hidden=true] to #settings-chart-bg-image
+								   end
+								   if value is 'gradient'
+									   add [@aria-hidden=true] to #settings-chart-bg-color
+									   add [@aria-hidden=false] to #settings-chart-bg-gradient
+									   add [@aria-hidden=true] to #settings-chart-bg-image
+								   end
+								   if value is 'image'
+									   add [@aria-hidden=true] to #settings-chart-bg-color
+									   add [@aria-hidden=true] to #settings-chart-bg-gradient
+									   add [@aria-hidden=false] to #settings-chart-bg-image
+								   end
+								   send bgChange(state: value) to #images-text"
 							id="settings-chart-bg"
 							class="flex flex-col gap-4"
 						>
@@ -348,7 +347,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								})
 							}
 							<div id="settings-chart-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
-								<output name="color" for="settings-chart-bg-color-picker">{ currentChart.BgColor }</output>
 								<input
 									_="on input(target)
 										   set val to target.value
@@ -361,6 +359,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									name="bgColor"
 									value={ currentChart.BgColor }
 								/>
+								<output name="color" for="settings-chart-bg-color-picker">{ currentChart.BgColor }</output>
 							</div>
 							<div id="settings-chart-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
 								<div class="flex gap-4 items-center">

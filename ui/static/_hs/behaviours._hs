@@ -80,9 +80,3 @@ behavior TabContainer
 		end
 	end
 end
-
-behavior ChartSetting
-	on change(value)
-		call #chart.style.setProperty(`--chart-settings-${me.name}`, value)
-		send chartUpdate to #chart
-end

@@ -38,20 +38,34 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
+	from {
+		opacity: 0;
+	}
 }
 
 @keyframes fade-out {
-  to { opacity: 0; }
+	to {
+		opacity: 0;
+	}
 }
 
 .fade-it {
-  view-transition-name: fade-it;
+	view-transition-name: fade-it;
 }
 
 ::view-transition-old(fade-it) {
-  animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
+	animation: 180ms cubic-bezier(0.4, 0, 1, 1) both fade-out;
 }
 ::view-transition-new(fade-it) {
-  animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+	animation: 420ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+input[type='number'] {
+	-moz-appearance: textfield;
 }

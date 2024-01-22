@@ -77,7 +77,11 @@ templ Head(isDev bool, currentChart *models.Chart) {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
 	}
 
-	@templ.FromGoHTML(chartSettings, currentChart)
+	if currentChart == nil {
+		@templ.FromGoHTML(chartSettings, &models.Chart{})
+	} else {
+		@templ.FromGoHTML(chartSettings, currentChart)
+	}
 }
 
 templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {

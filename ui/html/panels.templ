@@ -260,7 +260,11 @@ templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []model
 			}
 		</div>
 		<div id="charts" role="tabpanel" aria-labelledby="tab-charts" hidden class="items-start">
-			@ChartList(currentChart, charts)
+			if currentChart == nil {
+				@ChartList(&models.Chart{}, charts)
+			} else {
+				@ChartList(currentChart, charts)
+			}
 		</div>
 		if currentChart != nil {
 			<div

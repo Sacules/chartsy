@@ -1,45 +1,23 @@
 package html
 
 import (
+	"html/template"
+
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
-templ Head(isDev bool, currentChart *models.Chart) {
-	<title>Chartsy</title>
-	<meta charset="UTF-8" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
-	<link rel="manifest" href="/assets/img/site.webmanifest" />
-	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5" />
-	<meta name="msapplication-TileColor" content="#7ecce0" />
-	<meta name="theme-color" content="#ffffff" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<link rel="stylesheet" href="/assets/index.css" />
-	<script defer src="/assets/index.js"></script>
-
-	<script defer type="text/hyperscript" src="/assets/_hs/behaviours._hs"></script>
-	<script defer src="/assets/js/_hyperscript.min.js"></script>
-	<script defer src="/assets/js/htmx.min.js"></script>
-	<script defer src="/assets/js/multi-swap.min.js"></script>
-	<script defer src="/assets/js/head-support.min.js"></script>
-
-	if isDev {
-		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
-	}
-
+var chartSettings = template.Must(template.New("styles").Parse(`
 	<style hx-head="re-eval" hx-preserve="false" id="chart-styles" type="text/css">
 		#chart {
-			--chart-settings-cols: 3;
-			--chart-settings-rows: 3;
-			--chart-settings-spacing: 3;
-			--chart-settings-padding: 3;
-			--chart-settings-images-width: 100;
-			--chart-settings-background-color: #f0f0f0;
-			--chart-settings-background-gradient-from: #ffffff;
-			--chart-settings-background-gradient-to: #f0f0f0;
-			--chart-settings-background-image: url('');
+			--chart-settings-cols: {{ .ColumnCount }};
+			--chart-settings-rows: {{ .RowCount }};
+			--chart-settings-spacing: {{ .Spacing }};
+			--chart-settings-padding: {{ .Padding }};
+			--chart-settings-images-width: {{ .ImagesSize }};
+			--chart-settings-background-color: {{ .BgColor }};
+			--chart-settings-background-gradient-from: {{ .BgGradientFrom }};
+			--chart-settings-background-gradient-to: {{ .BgGradientTo }};
+			--chart-settings-background-image: url('{{ .BgImageURL }}');
 		}
 
 		#images {
@@ -72,6 +50,34 @@ templ Head(isDev bool, currentChart *models.Chart) {
 			width: calc(var(--chart-settings-images-width) * 1px);
 		}
 	</style>
+`))
+
+templ Head(isDev bool, currentChart *models.Chart) {
+	<title>Chartsy</title>
+	<meta charset="UTF-8" />
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
+	<link rel="manifest" href="/assets/img/site.webmanifest" />
+	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5" />
+	<meta name="msapplication-TileColor" content="#7ecce0" />
+	<meta name="theme-color" content="#ffffff" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<link rel="stylesheet" href="/assets/index.css" />
+	<script defer src="/assets/index.js"></script>
+
+	<script defer type="text/hyperscript" src="/assets/_hs/behaviours._hs"></script>
+	<script defer src="/assets/js/_hyperscript.min.js"></script>
+	<script defer src="/assets/js/htmx.min.js"></script>
+	<script defer src="/assets/js/multi-swap.min.js"></script>
+	<script defer src="/assets/js/head-support.min.js"></script>
+
+	if isDev {
+		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
+	}
+
+	@templ.FromGoHTML(chartSettings, currentChart)
 }
 
 templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {

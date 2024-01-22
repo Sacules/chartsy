@@ -43,6 +43,7 @@ templ Numeric(props NumericProps) {
 			end
 			on change(value)
 				put n into the first <output /> in me
+				set { value: n } on (the last <input /> in me)
 			end
 		`, props.DefaultValue, props.Step, props.Min, props.Max, props.Name, props.Name)}
 		id={props.Id}

@@ -340,19 +340,19 @@ type chartSettingsForm struct {
 	ID    int    `form:"id"`
 	Title string `form:"title"`
 
-	BackgroundColor        string `form:"bgColor"`
-	BackgroundGradientFrom string `form:"bgGradientFrom"`
-	BackgroundGradientTo   string `form:"bgGradientTo"`
-	BackgroundImage        string `form:"bgImage"`
+	BackgroundColor        string `form:"bg-color"`
+	BackgroundGradientFrom string `form:"bg-gradient-from"`
+	BackgroundGradientTo   string `form:"bg-gradient-to"`
+	BackgroundImageUrl     string `form:"bg-image-url"`
 
 	Columns uint8 `form:"cols"`
 	Rows    uint8 `form:"rows"`
 	Spacing uint8 `form:"spacing"`
 	Padding uint8 `form:"padding"`
 
-	ImagesSize         uint8  `form:"imagesSize"`
-	ImagesShape        string `form:"imagesShape"`
-	ImagesTextPosition string `form:"imagesTextPosition"`
+	ImagesSize         uint8  `form:"images-size"`
+	ImagesShape        string `form:"images-shape"`
+	ImagesTextPosition string `form:"images-text-position"`
 
 	validator.Validator `form:"-"`
 }
@@ -371,7 +371,7 @@ func (app *application) chartSettings(w http.ResponseWriter, r *http.Request) {
 	form.CheckField(validator.Matches(form.BackgroundColor, validator.RGBColorRegex), "bgColor", "Not a valid color")
 	form.CheckField(validator.Matches(form.BackgroundGradientFrom, validator.RGBColorRegex), "bgGradientFrom", "Not a valid color")
 	form.CheckField(validator.Matches(form.BackgroundGradientTo, validator.RGBColorRegex), "bgGradientTo", "Not a valid color")
-	form.CheckField(validator.URL(form.BackgroundImage), "bgImage", "Not a valid image URL")
+	form.CheckField(validator.URL(form.BackgroundImageUrl), "bgImage", "Not a valid image URL")
 	form.CheckField(validator.PermittedInt(int(form.Columns), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "columns", "Not a valid number")
 	form.CheckField(validator.PermittedInt(int(form.Rows), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "rows", "Not a valid number")
 	form.CheckField(validator.PermittedInt(int(form.Spacing), 0, 1, 2, 3, 4, 5), "spacing", "Not a valid number")

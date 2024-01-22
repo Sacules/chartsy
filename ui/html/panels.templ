@@ -366,7 +366,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							<div id="settings-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
 								@input.Color(input.InputColorProps{
 									Id: "bg-color-picker",
-									Name: "bgColor",
+									Name: "bg-color",
 									DefaultValue: currentChart.BgColor,
 									HS: `on input(target)
 										    set val to target.value
@@ -378,14 +378,14 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							<div id="settings-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
 								@input.Color(input.InputColorProps{
 									Id: "bg-gradient-from",
-									Name: "bgGradientFrom",
+									Name: "bg-gradient-from",
 									Label: "From",
 									DefaultValue: currentChart.BgColor,
 									HS: "on input(target) send bgChangeGradientFrom(value: target.value) to #images-text",
 								})
 								@input.Color(input.InputColorProps{
 									Id: "bg-gradient-to",
-									Name: "bgGradientTo",
+									Name: "bg-gradient-to",
 									Label: "To",
 									DefaultValue: currentChart.BgColor,
 									HS: "on input(target) send bgChangeGradientTo(value: target.value) to #images-text",

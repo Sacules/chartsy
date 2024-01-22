@@ -14,7 +14,9 @@ templ Header(currentChart *models.Chart) {
 			<figcaption>Chartsy</figcaption>
 		</figure>
 		<div class={"text-center", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}>
-			{currentChart.Name}
+			if currentChart != nil {
+				{currentChart.Name}
+			}
 		</div>
 		<button
 			_="on downloadend
@@ -29,5 +31,4 @@ templ Header(currentChart *models.Chart) {
 			<icon-download></icon-download>
 		</button>
 	</header>
-	
 }

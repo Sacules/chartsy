@@ -291,8 +291,8 @@ templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []model
 }
 
 templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
-	if currentChart != nil {
-		<aside id="panel-right" class="flex-col overflow-y-auto bg-slate-900 hidden md:flex col-start-3 border-l border-slate-700">
+	<aside id="panel-right" class="empty:hidden flex-col overflow-y-auto bg-slate-900 hidden md:flex col-start-3 border-l border-slate-700">
+		if currentChart != nil {
 			<form
 				if isAuthenticated {
 					hx-patch="/settings"
@@ -554,6 +554,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					</div>
 				}
 			</form>
-		</aside>
-	}
+		}
+	</aside>
 }

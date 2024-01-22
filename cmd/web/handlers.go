@@ -115,11 +115,7 @@ func (app *application) chartNew(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := app.newTemplateData(r)
-	data.CurrentChart = c
-	data.Charts = charts
-
-	app.render(w, http.StatusOK, "chart", data)
+	app.renderTempl(w, r, http.StatusOK, html.Body(true, c, charts))
 }
 
 type chartImagesForm struct {

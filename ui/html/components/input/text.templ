@@ -28,16 +28,16 @@ templ Text(props InputTextProps) {
 			maxlength="128"
 			autocomplete={props.Autocomplete}
 			placeholder={props.Placeholder}
-			class="h-10 mb-2 w-full px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
+			class="h-10 w-full px-2 rounded bg-slate-800 border border-slate-500/75 focus:shadow-none \
 			       hover:border-sky-600 focus:border-sky-600 focus:ring-0 focus-visible:outline-none \
 				   transition text-sm"
 		/>
 		if props.Error != "" {
-			<p class="text-sm text-rose-600">{props.Error}</p>
+			<p class="mt-2 text-sm text-rose-600">{props.Error}</p>
 		}
 
 		if props.Error == "" && props.Caption != "" {
-			<p class="text-sm">{props.Caption}</p>
+			<p class="mt-2 text-sm">{props.Caption}</p>
 		}
 	</div>
 }

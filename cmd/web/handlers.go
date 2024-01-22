@@ -78,7 +78,6 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 		data.CurrentChart = c
 	}
 
-	//app.render(w, http.StatusOK, "chart", data)
 	app.renderTempl(w, r, http.StatusOK, html.Index(data.URL, data.IsDev, data.IsAuthenticated, data.CurrentChart, data.Charts))
 }
 

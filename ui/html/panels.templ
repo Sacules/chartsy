@@ -27,7 +27,11 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }
 					>
 						<img src="/assets/img/generic-chart.png" class="w-24 h-24"/>
-						<figcaption class={ "select-none", templ.KV("font-bold", currentChart.ID == c.ID) }>
+						<figcaption
+							_="on chart:title(value)
+								  put value into me"
+							class={ "select-none", templ.KV("font-bold chart-title", currentChart.ID == c.ID) }
+						>
 							{ c.Name }
 						</figcaption>
 					</figure>
@@ -313,7 +317,9 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							DefaultValue: currentChart.Title,
 							Caption: "Works with Markdown and emojis! 🔥",
 							Autocomplete: "off",
-							HS: "on input(target) send chart:title(value: target.value) to #images-text",
+							Class: "settings",
+							HS: `on input(target)
+									send chart:title(value: target.value) to <.chart-title />`,
 						})
 						<div
 							_="on toggle(value)

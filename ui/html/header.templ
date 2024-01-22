@@ -2,6 +2,7 @@ package html
 
 import (
 	"gitlab.com/sacules/chartsy/internal/models"
+	"gitlab.com/sacules/chartsy/ui/html/components/input"
 )
 
 templ Header(currentChart *models.Chart) {
@@ -13,9 +14,27 @@ templ Header(currentChart *models.Chart) {
 			<img class="w-6 h-6" src="/assets/img/favicon-32x32.png" alt="Chartsy logo" />
 			<figcaption>Chartsy</figcaption>
 		</figure>
-		<div class={"text-center", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}>
+		<div
+			class={"flex items-center text-center hover:bg-slate-800 h-3/4", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}
+		>
 			if currentChart != nil {
-				{currentChart.Name}
+				<p
+					_="on click
+						  toggle .hidden on the next <.chart-name />
+						  toggle .hidden on me"
+					class="px-4"
+				>
+					{currentChart.Name}
+				</p>
+				@input.Text(input.InputTextProps{
+					Id: "chart-name",
+					Class: "hidden chart-name text-center",
+					DefaultValue: currentChart.Name,
+					HS: `on change(target)
+							toggle .hidden on <.chart-name />
+							put target.value into the previous <p />
+						    toggle .hidden on the previous <p />`,
+				})
 			}
 		</div>
 		<button

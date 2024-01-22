@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -140,17 +141,13 @@ func (app *application) sendConfirmationEmail(to, verificationCode string) error
 		return err
 	}
 
-	ts := app.templateCache["home"]
-
 	params := url.Values{}
 	params.Add("email", to)
 	params.Add("code", verificationCode)
-	data := &TemplateData{
-		UserVerificationURL: app.url + "/verify?" + params.Encode(),
-	}
 
 	var buf bytes.Buffer
-	err = ts.ExecuteTemplate(&buf, "confirmation-mail", data)
+	c := html.EmailConfirm(app.url + "/verify?" + params.Encode())
+	err = c.Render(context.Background(), &buf)
 	if err != nil {
 		return err
 	}

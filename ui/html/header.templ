@@ -35,7 +35,7 @@ templ Header(currentChart *models.Chart) {
 					Name: "name",
 					DefaultValue: currentChart.Name,
 					Autocomplete: "off",
-					HS: `on keydown(key)[key == 'Enter']
+					HS: `on keydown[key == 'Enter']
 							send chart:name(value: target.value) to <.chart-name />
 							toggle .hidden on <.chart-name-input />
 						    toggle .hidden on the previous <p />`,

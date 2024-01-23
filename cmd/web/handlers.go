@@ -212,8 +212,6 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//app.renderFragment(w, http.StatusOK, "home", "signup-ok", data)
-
 	verificationCode := randomString(8)
 	err = app.verifications.Insert(form.Email, verificationCode)
 	if err != nil {
@@ -226,6 +224,8 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		app.serverError(w, err)
 		return
 	}
+
+	app.renderTempl(w, r, http.StatusCreated, html.SignupOk(form.Email))
 }
 
 func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
@@ -254,10 +254,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 		if errors.Is(err, models.ErrInvalidCredentials) {
 			form.AddFieldError("general", "Invalid username or password")
 
-			data := app.newTemplateData(r)
-			data.Form = form
-
-			app.renderFragment(w, http.StatusOK, "chart", "login", data)
+			app.renderTempl(w, r, http.StatusOK, html.Login(form))
 			return
 		}
 
@@ -274,7 +271,7 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 
 	app.sessionManager.Put(r.Context(), "authenticatedUserID", id)
 
-	http.Redirect(w, r, "/", http.StatusNoContent)
+	app.index(w, r)
 }
 
 func (app *application) userLogout(w http.ResponseWriter, r *http.Request) {

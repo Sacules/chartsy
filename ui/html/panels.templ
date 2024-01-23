@@ -116,7 +116,12 @@ type UserLoginForm struct {
 }
 
 templ Login(form UserLoginForm) {
-	<form id="login" class="aria-hidden:hidden" hx-post="/login" hx-swap="outerHTML">
+	<form
+		id="login"
+		class="aria-hidden:hidden"
+		hx-post="/login"
+		hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
+	>
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
 			@input.Text(input.InputTextProps{
 				Id: "login-email",
@@ -133,9 +138,14 @@ templ Login(form UserLoginForm) {
 				Name: "password",
 				Type: "password",
 				Label: "Password",
-				Error: form.FieldErrors["email"],
+				Error: form.FieldErrors["password"],
 				Required: true,
 			})
+			if _, ok := form.FieldErrors["general"]; ok {
+				<p class="text-rose-600">
+					{form.FieldErrors["general"]}
+				</p>
+			}
 		</div>
 		<div class="p-4 flex justify-evenly border-t border-slate-700 relative">
 			@components.Button(components.ButtonProps{
@@ -201,6 +211,13 @@ templ Signup(form UserSignupForm, err error) {
 			<icon-spinner class="absolute right-4 inset-y-8 htmx-indicator spinner w-4 h-4"></icon-spinner>
 		</div>
 	</form>
+}
+
+templ SignupOk(email string) {
+	<p class="p-4">
+	    A confirmation email has been sent to <strong>{email}</strong>.
+		Please click the link within to confirm your account.
+	</p>
 }
 
 templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {

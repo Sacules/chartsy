@@ -20,19 +20,24 @@ templ Header(currentChart *models.Chart) {
 			if currentChart != nil {
 				<p
 					_="on click
-						  toggle .hidden on the next <.chart-name />
-						  toggle .hidden on me"
-					class="px-4"
+						  toggle .hidden on the next <.chart-name-input />
+						  call #chart-name.focus()
+						  toggle .hidden on me
+					  on chart:name(value)
+						  put value into me"
+					class="px-4 chart-name"
 				>
 					{currentChart.Name}
 				</p>
 				@input.Text(input.InputTextProps{
 					Id: "chart-name",
-					Class: "hidden chart-name text-center",
+					Class: "hidden chart-name-input text-center settings",
+					Name: "name",
 					DefaultValue: currentChart.Name,
-					HS: `on change(target)
-							toggle .hidden on <.chart-name />
-							put target.value into the previous <p />
+					Autocomplete: "off",
+					HS: `on keydown(key)[key == 'Enter']
+							send chart:name(value: target.value) to <.chart-name />
+							toggle .hidden on <.chart-name-input />
 						    toggle .hidden on the previous <p />`,
 				})
 			}

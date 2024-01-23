@@ -28,9 +28,9 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 					>
 						<img src="/assets/img/generic-chart.png" class="w-24 h-24"/>
 						<figcaption
-							_="on chart:title(value)
+							_="on chart:name(value)
 								  put value into me"
-							class={ "select-none", templ.KV("font-bold chart-title", currentChart.ID == c.ID) }
+							class={ "select-none", templ.KV("font-bold chart-name", currentChart.ID == c.ID) }
 						>
 							{ c.Name }
 						</figcaption>
@@ -300,8 +300,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 			<form
 				if isAuthenticated {
 					hx-patch="/settings"
-					hx-trigger="input from:.settings delay:300ms, change from:.settings
-								delay:300ms"
+					hx-trigger="input from:.settings delay:300ms, change from:.settings delay:300ms"
 					hx-include=".settings"
 					hx-swap="none"
 				}

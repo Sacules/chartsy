@@ -10,6 +10,8 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+const ImageBlankURI = "data:image/gif;base64,R0lGODlhAQABAIAAAP7//wAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+
 // Image represents the core of a chart, whether
 // it is an Album, a Movie, a Game, etc.
 type Image struct {
@@ -70,7 +72,7 @@ type ChartModel struct {
 func NewChart() *Chart {
 	imgs := make([]Image, 100)
 	for i := range imgs {
-		imgs[i] = Image{URL: "https://i.imgur.com/w4toMiR.jpg"}
+		imgs[i] = Image{URL: ImageBlankURI}
 	}
 
 	return &Chart{
@@ -86,7 +88,7 @@ func NewChart() *Chart {
 		BgColor:            "#ffffff",
 		BgGradientFrom:     "#000000",
 		BgGradientTo:       "#ffffff",
-		BgImageURL:         "https://i.imgur.com/w4toMiR.jpg",
+		BgImageURL:         ImageBlankURI,
 	}
 }
 

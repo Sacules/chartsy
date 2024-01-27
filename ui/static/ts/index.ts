@@ -6,6 +6,7 @@ import Sortable from 'sortablejs';
 
 // Components
 import './components/image';
+import './components/icon';
 
 // Types
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';

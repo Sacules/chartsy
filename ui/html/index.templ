@@ -72,6 +72,7 @@ templ Head(isDev bool, currentChart *models.Chart) {
 	<script defer src="/assets/js/htmx.min.js"></script>
 	<script defer src="/assets/js/multi-swap.min.js"></script>
 	<script defer src="/assets/js/head-support.min.js"></script>
+	<script defer src="/assets/js/konva.min.js"></script>
 
 	if isDev {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
@@ -91,7 +92,8 @@ templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Cha
 		@Header(currentChart)
 		@PanelLeft(isAuthenticated, currentChart, charts)
 		<main id="main" class="overflow-auto grid place-items-center p-8">
-			@Chart(isAuthenticated, currentChart)
+			@ChartCanvas(currentChart)
+			//@Chart(isAuthenticated, currentChart)
 		</main>
 		@PanelRight(isAuthenticated, currentChart)
 	</div>
@@ -103,7 +105,10 @@ templ Index(url string, isDev bool, isAuthenticated bool, currentChart *models.C
 		<head hx-head="merge">
 			@Head(isDev, currentChart)
 		</head>
-		<body class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50">
+		<body
+			class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50"
+			onload={chartRender(currentChart)}
+		>
 			@Body(isAuthenticated, currentChart, charts)
 		</body>
 	</html>

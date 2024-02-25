@@ -6,6 +6,78 @@ import (
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
+script chartRender(currentChart *models.Chart) {
+	const sizeMultiplier = 8;
+
+	const width = currentChart.ImagesSize * currentChart.ColumnCount + (currentChart.Spacing * sizeMultiplier) * (currentChart.ColumnCount - 1) + (currentChart.Padding * sizeMultiplier) * 2;
+	const height = currentChart.ImagesSize * currentChart.RowCount + (currentChart.Spacing * sizeMultiplier) * (currentChart.RowCount - 1) + (currentChart.Padding * sizeMultiplier) * 2;
+
+	var stage = new Konva.Stage({
+	  container: 'chart',
+	  width,
+	  height,
+	});
+
+	var layer = new Konva.Layer();
+
+	const totalImgs = currentChart.ColumnCount * currentChart.RowCount;
+
+	for (let i = 0; i < currentChart.RowCount; i++) {
+		for (let j = 0; j < currentChart.ColumnCount; j++) {
+			const imgSize = currentChart.ImagesSize;
+
+			let x = (j % currentChart.ColumnCount) * imgSize + currentChart.Padding * sizeMultiplier;
+			if (j > 0) {
+				x += currentChart.Spacing * sizeMultiplier * j; // Equivalent to 1rem most of the time
+			}
+
+			let y = (i % currentChart.RowCount) * imgSize + currentChart.Padding * sizeMultiplier;
+			if (i > 0) {
+				y += currentChart.Spacing * sizeMultiplier * i; // Equivalent to 1rem most of the time
+			}
+
+			const image = new Image();
+			image.onload = () => {
+				const cover = new Konva.Image({
+				  x,
+				  y,
+				  width: imgSize,
+				  height: imgSize,
+				  image,
+				  stroke: 'cyan',
+				  draggable: true,
+				  strokeWidth: 4,
+				  strokeEnabled: false,
+				});
+
+				layer.add(cover);
+			};
+			image.src = currentChart.Images[i * j].URL;
+		}
+	}
+
+	stage.add(layer);
+
+	layer.draw();
+
+	layer.on("mouseover", e => {
+		const img = e.target;
+		document.body.style.cursor = "grab";
+		img.strokeEnabled(true);
+	});
+
+	layer.on("mouseout", e => {
+		const img = e.target;
+		document.body.style.cursor = "default";
+		img.strokeEnabled(false);
+	});
+}
+
+templ ChartCanvas(currentChart *models.Chart) {
+	<div id="chart" class="bg-slate-200">
+	</div>
+}
+
 templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 	if currentChart != nil {
 		<div

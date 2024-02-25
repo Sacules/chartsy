@@ -22,19 +22,30 @@ script chartRender(currentChart *models.Chart) {
 	const tempLayer = new Konva.Layer();
 
 	const totalImgs = currentChart.ColumnCount * currentChart.RowCount;
+	let images = currentChart.Images.slice(0, totalImgs);
 
-	for (let i = 0; i < currentChart.RowCount; i++) {
-		for (let j = 0; j < currentChart.ColumnCount; j++) {
+	const chunkIntoN = (arr, n) => {
+		const size = Math.ceil(arr.length / n);
+		return Array.from({ length: n }, (v, i) =>
+			arr.slice(i * size, i * size + size)
+		);
+    };
+
+	images = chunkIntoN(images, currentChart.RowCount);
+
+	images.forEach((imgRow, row) => {
+		imgRow.forEach((img, col) => {
 			const imgSize = currentChart.ImagesSize;
+			const name = `${img.ID}. ${img.Title} - ${img.Caption}`;
 
-			let x = (j % currentChart.ColumnCount) * imgSize + currentChart.Padding * sizeMultiplier;
-			if (j > 0) {
-				x += currentChart.Spacing * sizeMultiplier * j; // Equivalent to 1rem most of the time
+			let x = (col % currentChart.ColumnCount) * imgSize + currentChart.Padding * sizeMultiplier;
+			if (col > 0) {
+				x += currentChart.Spacing * sizeMultiplier * col;
 			}
 
-			let y = (i % currentChart.RowCount) * imgSize + currentChart.Padding * sizeMultiplier;
-			if (i > 0) {
-				y += currentChart.Spacing * sizeMultiplier * i; // Equivalent to 1rem most of the time
+			let y = (row % currentChart.RowCount) * imgSize + currentChart.Padding * sizeMultiplier;
+			if (row > 0) {
+				y += currentChart.Spacing * sizeMultiplier * row;
 			}
 
 			const image = new Image();
@@ -45,7 +56,7 @@ script chartRender(currentChart *models.Chart) {
 				  width: imgSize,
 				  height: imgSize,
 				  image,
-				  name: ((i+1)*(j+1)) + ". " + currentChart.Images[i * j].Title + " - " + currentChart.Images[i * j].Caption,
+				  name,
 				  stroke: 'cyan',
 				  draggable: true,
 				  strokeWidth: 4,
@@ -70,10 +81,10 @@ script chartRender(currentChart *models.Chart) {
 
 				layer.add(cover);
 			};
-			image.src = currentChart.Images[i * j].URL;
-		}
-	}
-
+			image.src = img.URL;
+		});
+	});
+	
 	const text = new Konva.Text({
 		fill: "black",
 	});

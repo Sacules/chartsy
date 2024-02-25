@@ -152,9 +152,37 @@ templ Chart(isAuthenticated bool, currentChart *models.Chart) {
 						</chart-image>
 					}
 				</ul>
-				<chart-text id="text" slot="text" columns={ fmt.Sprint(currentChart.ColumnCount) } rows={ fmt.Sprint(currentChart.RowCount) }></chart-text>
+				@ChartText(currentChart.Images)
 				<input id="chart-id" type="number" name="id" value={ fmt.Sprint(currentChart.ID) }/>
 			</chart-images-text>
 		</div>
 	}
+}
+
+templ ChartText(imgs []models.Image) {
+	<ul
+		_="on chart:update(images)
+			  set total to @rows * @columns
+			  set titles to my children
+			  for img in images.children index i
+			    set t to titles[i]
+				put img's caption into the <strong/> in t
+				put img's title into the <span/> in t
+				if i >= total then
+				  set t's @aria-hidden to true
+				else
+				  set t's @aria-hidden to false
+				end
+			  end"
+		id="text"
+		class="px-4 w-max"
+		slot="text"
+	>
+		for i, img := range imgs {
+			<li class="aria-hidden:hidden text-slate-900" index={fmt.Sprint(i)} aria-hidden="true">
+				<strong>{img.Caption}</strong>
+				<span>{img.Title}</span>
+			</li>
+		}
+	</ul>
 }

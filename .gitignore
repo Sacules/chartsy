@@ -33,3 +33,5 @@ tls/
 .env
 *.pem
 *_templ.go
+*_templ.txt
+.structurizr/

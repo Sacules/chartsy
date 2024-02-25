@@ -46,8 +46,7 @@ templ Header(currentChart *models.Chart) {
 			_="on downloadend
 				   set @aria-disabled to 'false'
 			   on click
-				   set @aria-disabled to 'true'
-				   async call downloadChart()"
+				   set @aria-disabled to 'true'"
 			id="download-button"
 			type="button"
 			class={"h-6 w-6 aria-disabled:animate-pulse", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}

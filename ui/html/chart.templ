@@ -81,6 +81,7 @@ script chartRender(currentChart *models.Chart) {
 
 				layer.add(cover);
 			};
+			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
 		});
 	});
@@ -141,28 +142,35 @@ script chartRender(currentChart *models.Chart) {
 		}
 	});
 
-	 stage.on('dragenter', e => {
-        e.target.stroke('green');
-		e.target.strokeEnabled(true);
-        text.text('dragenter ' + e.target.name());
-      });
+	stage.on('dragenter', e => {
+       e.target.stroke('green');
+	   e.target.strokeEnabled(true);
+       text.text('dragenter ' + e.target.name());
+    });
 
-      stage.on('dragleave', e => {
-        e.target.stroke('blue');
-		e.target.strokeEnabled(true);
-        text.text('dragleave ' + e.target.name());
-      });
+     stage.on('dragleave', e => {
+       e.target.stroke('blue');
+	   e.target.strokeEnabled(true);
+       text.text('dragleave ' + e.target.name());
+    });
 
-      stage.on('dragover', e => {
-		e.target.strokeEnabled(true);
-        text.text('dragover ' + e.target.name());
-      });
+     stage.on('dragover', e => {
+	   e.target.strokeEnabled(true);
+       text.text('dragover ' + e.target.name());
+    });
 
-      stage.on('drop', e => {
-        e.target.stroke('red');
-		e.target.strokeEnabled(true);
-        text.text('drop ' + e.target.name());
-      });
+     stage.on('drop', e => {
+       e.target.stroke('red');
+	   e.target.strokeEnabled(true);
+       text.text('drop ' + e.target.name());
+    });
+
+	// Enable downloads
+	const button = document.getElementById('download-button');
+	button.addEventListener("click", () => {
+		const dataUrl = stage.toDataURL();
+		downloadChart(dataUrl);
+	}, false);
 }
 
 templ ChartCanvas(currentChart *models.Chart) {

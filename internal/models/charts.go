@@ -155,7 +155,7 @@ func (m *ChartModel) Get(id, userID int) (*Chart, error) {
 		return nil, err
 	}
 
-	query = `SELECT title, caption, url
+	query = `SELECT images.rowid, title, caption, url
 		FROM images
 		JOIN charts_images ci
 		ON images.rowid = ci.image_id

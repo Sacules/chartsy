@@ -1,6 +1,10 @@
 package input
 
-import "fmt"
+import (
+	"fmt"
+
+	"gitlab.com/sacules/chartsy/ui/html/components/icon"
+)
 
 type NumericProps struct {
 	Id string
@@ -60,7 +64,7 @@ templ Numeric(props NumericProps) {
 				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed transform rotate-180"
 				type="button"
 			>
-				<icon-chevron-down></icon-chevron-down>
+				@icon.ChevronDown()
 			</button>
 			<output
 				for={props.Id + "-input"}
@@ -74,7 +78,7 @@ templ Numeric(props NumericProps) {
 				type="button"
 				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed"
 			>
-				<icon-chevron-down></icon-chevron-down>
+				@icon.ChevronDown()
 			</button>
 			<input id={props.Id + "-input"} value={fmt.Sprint(props.DefaultValue)} name={props.Name} hidden />
 		</div>

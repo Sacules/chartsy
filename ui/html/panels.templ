@@ -2,13 +2,14 @@ package html
 
 import (
 	"fmt"
+	"html"
 
 	"gitlab.com/sacules/chartsy/internal/models"
 	"gitlab.com/sacules/chartsy/internal/validator"
 
 	"gitlab.com/sacules/chartsy/ui/html/components"
+	"gitlab.com/sacules/chartsy/ui/html/components/icon"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
-	"html"
 )
 
 templ ChartList(currentChart *models.Chart, charts []models.Chart) {
@@ -45,7 +46,7 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 				hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 			>
 				<div class="h-6 w-6">
-					<icon-plus></icon-plus>
+					@icon.Plus()
 				</div>
 				New chart
 			</button>

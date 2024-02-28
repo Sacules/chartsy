@@ -2,6 +2,7 @@ package html
 
 import (
 	"gitlab.com/sacules/chartsy/internal/models"
+	"gitlab.com/sacules/chartsy/ui/html/components/icon"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
 )
 
@@ -51,7 +52,7 @@ templ Header(currentChart *models.Chart) {
 			type="button"
 			class={"h-6 w-6 aria-disabled:animate-pulse", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}
 		>
-			<icon-download></icon-download>
+			@icon.Download()
 		</button>
 	</header>
 }

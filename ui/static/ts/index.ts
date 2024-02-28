@@ -1,9 +1,6 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-// Components
-import './components/icon';
-
 // Types
 import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
 

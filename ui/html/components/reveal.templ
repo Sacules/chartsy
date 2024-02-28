@@ -1,5 +1,7 @@
 package components
 
+import "gitlab.com/sacules/chartsy/ui/html/components/icon"
+
 type RevealProps struct {
 	Title string
 }
@@ -13,7 +15,9 @@ templ Reveal(props RevealProps) {
 			class="p-4 list-none flex items-center justify-between hover:bg-slate-800 hover:cursor-pointer border-y border-slate-700"
 		>
 			<strong>{ props.Title }</strong>
-			<icon-chevron-down class="chevron w-4 h-4 transition transform"></icon-chevron-down>
+			<div class="chevron w-4 h-4 transition transform">
+				@icon.ChevronDown()
+			</div>
 		</summary>
 		{ children... }
 	</details>

@@ -107,6 +107,12 @@ script chartRender(currentChart *models.Chart) {
 					imageStash.konvaImg = null;
 				});
 
+				cover.on("dragend", e => {
+					// Go back to where it began the drag, to keep it in the grid
+					e.target.setAttr("x", imageStash.x);
+					e.target.setAttr("y", imageStash.y);
+				});
+
 				layer.add(cover);
 			};
 			image.crossOrigin = 'Anonymous';

@@ -1,10 +1,12 @@
 module gitlab.com/sacules/chartsy
 
-go 1.20
+go 1.21
+
+toolchain go1.22.0
 
 require (
 	github.com/Sacules/lrserver v0.0.0-20230722195831-1d5bea1fc136
-	github.com/a-h/templ v0.2.543
+	github.com/a-h/templ v0.2.680
 	github.com/alexedwards/scs/sqlite3store v0.0.0-20231113091146-cef4b05350c8
 	github.com/alexedwards/scs/v2 v2.7.0
 	github.com/fsnotify/fsnotify v1.7.0
@@ -16,7 +18,7 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/mattn/go-sqlite3 v1.14.19
 	github.com/xhit/go-simple-mail/v2 v2.16.0
-	golang.org/x/crypto v0.18.0
+	golang.org/x/crypto v0.22.0
 	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a
 )
 
@@ -28,6 +30,6 @@ require (
 	github.com/jaschaephraim/lrserver v0.0.0-20171129202958-50d19f603f71 // indirect
 	github.com/stretchr/testify v1.8.4 // indirect
 	github.com/toorop/go-dkim v0.0.0-20240103092955-90b7d1423f92 // indirect
-	golang.org/x/net v0.20.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/net v0.24.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 )

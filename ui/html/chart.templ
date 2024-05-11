@@ -31,6 +31,14 @@ script chartRender(currentChart *models.Chart) {
 		);
     };
 
+	// By default, Konva doesn't allow DataTransfer, so we'll have to do it manually...
+	var imageStash = {
+		konvaImg: null,
+		img: null,
+		x: 0,
+		y: 0,
+	};
+
 	images = chunkIntoN(images, currentChart.RowCount);
 
 	images.forEach((imgRow, row) => {
@@ -77,7 +85,27 @@ script chartRender(currentChart *models.Chart) {
 
 				cover.on("dragenter", e => {
 					e.target.strokeEnabled(false);
-				})
+				});
+
+				cover.on("dragstart", e => {
+					imageStash.konvaImg = e.target;
+					imageStash.x = e.target.attrs.x;
+					imageStash.y = e.target.attrs.y;
+				});
+
+				cover.on("drop", e => {
+					const img = e.target;
+
+					imageStash.konvaImg.setAttr("x", cover.getAttr("x"));
+					imageStash.konvaImg.setAttr("y", cover.getAttr("y"));
+
+					img.setAttr("x", imageStash.x);
+					img.setAttr("y", imageStash.y);
+
+					imageStash.x = 0;
+					imageStash.y = 0;
+					imageStash.konvaImg = null;
+				});
 
 				layer.add(cover);
 			};
@@ -86,18 +114,12 @@ script chartRender(currentChart *models.Chart) {
 		});
 	});
 	
-	const text = new Konva.Text({
-		fill: "black",
-	});
-	layer.add(text);
-
 	stage.add(layer);
 	stage.add(tempLayer);
 
 	stage.on("dragstart", e => {
 		e.target.moveTo(tempLayer);
 		layer.draw();
-		text.text("moving " + e.target.name());
 	});
 
 	let previousImg;
@@ -145,24 +167,21 @@ script chartRender(currentChart *models.Chart) {
 	stage.on('dragenter', e => {
        e.target.stroke('green');
 	   e.target.strokeEnabled(true);
-       text.text('dragenter ' + e.target.name());
     });
 
      stage.on('dragleave', e => {
        e.target.stroke('blue');
 	   e.target.strokeEnabled(true);
-       text.text('dragleave ' + e.target.name());
     });
 
      stage.on('dragover', e => {
 	   e.target.strokeEnabled(true);
-       text.text('dragover ' + e.target.name());
     });
 
      stage.on('drop', e => {
        e.target.stroke('red');
 	   e.target.strokeEnabled(true);
-       text.text('drop ' + e.target.name());
+	   //TODO: fire event to save chart order
     });
 
 	// Enable downloads

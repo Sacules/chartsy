@@ -85,6 +85,10 @@ script chartRender(currentChart *models.Chart) {
 
 				cover.on("dragenter", e => {
 					e.target.strokeEnabled(false);
+					console.log("dragenter");
+				});
+				cover.on("dragover", e => {
+					console.log("dragover");
 				});
 
 				cover.on("dragstart", e => {
@@ -180,14 +184,32 @@ script chartRender(currentChart *models.Chart) {
 	   e.target.strokeEnabled(true);
     });
 
-     stage.on('dragover', e => {
-	   e.target.strokeEnabled(true);
+	 let droppedCover;
+	 const con = stage.container();
+     con.addEventListener('dragover', e => {
+	   e.preventDefault();
+
+	   // manually register where the pointer is
+	   stage.setPointersPositions(e);
+
+	   const pointerPos = stage.getPointerPosition();
+	   const [cover] = layer.getChildren(c => {
+		const coverSize = c.size();
+		const coverPos = c.absolutePosition();
+
+		return (pointerPos.x > coverPos.x && pointerPos.x < coverPos.x + coverSize.width)
+			&& (pointerPos.y > coverPos.y && pointerPos.y < coverPos.y + coverSize.height);
+	   });
+
+	   droppedCover = cover;
     });
 
-     stage.on('drop', e => {
-       e.target.stroke('red');
-	   e.target.strokeEnabled(true);
-	   //TODO: fire event to save chart order
+     con.addEventListener('drop', e => {
+	   e.preventDefault();
+
+	   const img = droppedCover.getAttrs("image").image;
+	   droppedCover.destroy();
+       img.src = imageSearchData.Url;
     });
 
 	// Enable downloads

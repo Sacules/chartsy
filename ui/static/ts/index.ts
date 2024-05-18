@@ -26,9 +26,19 @@ function downloadChart(dataUrl: string) {
 
 window.downloadChart = downloadChart;
 
+// Make it global so it can be accessed from the chart code
+window.imageSearchData = undefined;
+
+type ImageSearchData = {
+	Url: string;
+	Title: string;
+	Caption: string;
+}
+
 declare global {
 	interface Window {
 		downloadChart: typeof downloadChart;
+		imageSearchData?: ImageSearchData;
 	}
 
 	interface HTMLElementEventMap {

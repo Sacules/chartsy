@@ -1,9 +1,6 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-// Types
-import { ImageTextUpdate, ImageTextPlacement, Image } from './components/image';
-
 const downloadend = new Event('downloadend');
 
 function downloadChart(dataUrl: string) {
@@ -42,9 +39,6 @@ declare global {
 	}
 
 	interface HTMLElementEventMap {
-		'chart:update': CustomEvent<ImageTextUpdate>;
-		'chart:replace': CustomEvent<Image>;
-		'chart:textplacement': CustomEvent<ImageTextPlacement>;
 		'chart:title': CustomEvent<{ value: string }>;
 	}
 }

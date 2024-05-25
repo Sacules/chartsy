@@ -27,7 +27,7 @@ interface ChartImage {
 	URL: string;
 }
 
-export default function chartRender() {
+export function chartRender() {
 	const chart = document.getElementById('chart');
 	if (!chart) {
 		console.error('no chart was found');

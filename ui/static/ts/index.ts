@@ -1,11 +1,11 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-import chartRender from './chart';
+import { chartRender } from './chart';
 
 const downloadend = new Event('downloadend');
 
-function downloadChart(dataUrl: string) {
+function chartDownload(dataUrl: string) {
 	const button = document.getElementById('download-button') as HTMLButtonElement;
 	const link = document.createElement('a');
 
@@ -24,7 +24,7 @@ function downloadChart(dataUrl: string) {
 }
 
 window.chartRender = chartRender;
-window.downloadChart = downloadChart;
+window.downloadChart = chartDownload;
 
 // Make it global so it can be accessed from the chart code
 window.imageSearchData = undefined;
@@ -37,7 +37,7 @@ type ImageSearchData = {
 
 declare global {
 	interface Window {
-		downloadChart: typeof downloadChart;
+		downloadChart: typeof chartDownload;
 		chartRender: typeof chartRender;
 		imageSearchData?: ImageSearchData;
 	}

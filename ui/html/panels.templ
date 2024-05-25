@@ -18,12 +18,12 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 				<button
 					class="w-full"
 					name="id"
-					value={ fmt.Sprint(c.ID) }
+					value={fmt.Sprint(c.ID)}
 					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 					_="on htmx:afterSettle
-					      call chartRender()"
+					      call window.chartRender()"
 				>
 					<figure
 						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }

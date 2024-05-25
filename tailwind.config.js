@@ -1,13 +1,6 @@
-const { tailwindTransform } = require('postcss-lit');
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: {
-		files: ['ui/**/*.{templ,html,ts}'],
-		transform: {
-			ts: tailwindTransform,
-		},
-	},
+	content: ['ui/**/*.{templ,html,ts}'],
 	theme: {
 		fontSize: {
 			sm: '0.812rem',

@@ -26,41 +26,23 @@ behavior TabContainer
 			set target to first <[role=tab]/> in me
 		end
 
-		send select to target
+		send selectTab to target
 	end
 
-	-- move to first tab on HOME
-	on keydown[keyCode==36]
-		send select to first <[role=tab]/> in me
-
-	-- move to last tab on END
-	on keydown[keyCode==35]
-		send select to last <[role=tab]/> in me
-
-	-- move to previous tab LEFT ARROW
-	on keydown[keyCode==37]
-		set current to first <[aria-selected=true]/> in me
-		send select to previous <[role=tab]/> from current with wrapping
-	
-	-- move to next tab on RIGHT ARROW
-	on keydown[keyCode==39]
-		set current to first <[aria-selected=true]/> in me
-		send select to next <[role=tab]/> from current with wrapping
-	
 	-- select highlighted tab on SPACE (expected for ARIA buttons)
 	on keydown[keyCode==32]
-		send select to first <[role=tab]:focus/>
+		send selectTab to first <[role=tab]:focus/>
 
 	-- select highlighted tab on ENTER (additional key to select tabs)
 	on keydown[keyCode==13]
-		send select to first <[role=tab]:focus/>
+		send selectTab to first <[role=tab]:focus/>
 
 	-- handle mouse clicks and touch events directly on tabs
 	on pointerdown from <[role=tablist] [role=tab]/>
-		send select to target
+		send selectTab to target
 	end
 
-	on select(target)
+	on selectTab(target)
 		for tab in <[role=tab] /> in me
 			if tab is target
 				add [@aria-selected="true"] to tab

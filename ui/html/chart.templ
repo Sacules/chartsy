@@ -4,224 +4,28 @@ import (
 	"fmt"
 
 	"gitlab.com/sacules/chartsy/internal/models"
+	"encoding/json"
 )
 
-script chartRender(currentChart *models.Chart) {
-	const sizeMultiplier = 8;
+func JSON(v any) string {
+	val, _ := json.Marshal(v)
 
-	const width = currentChart.ImagesSize * currentChart.ColumnCount + (currentChart.Spacing * sizeMultiplier) * (currentChart.ColumnCount - 1) + (currentChart.Padding * sizeMultiplier) * 2;
-	const height = currentChart.ImagesSize * currentChart.RowCount + (currentChart.Spacing * sizeMultiplier) * (currentChart.RowCount - 1) + (currentChart.Padding * sizeMultiplier) * 2;
-
-	const stage = new Konva.Stage({
-	  container: 'chart',
-	  width,
-	  height,
-	});
-
-	const layer = new Konva.Layer();
-	const tempLayer = new Konva.Layer();
-
-	const totalImgs = currentChart.ColumnCount * currentChart.RowCount;
-	let images = currentChart.Images.slice(0, totalImgs);
-
-	const chunkIntoN = (arr, n) => {
-		const size = Math.ceil(arr.length / n);
-		return Array.from({ length: n }, (v, i) =>
-			arr.slice(i * size, i * size + size)
-		);
-    };
-
-	// By default, Konva doesn't allow DataTransfer, so we'll have to do it manually...
-	var imageStash = {
-		konvaImg: null,
-		img: null,
-		x: 0,
-		y: 0,
-	};
-
-	images = chunkIntoN(images, currentChart.RowCount);
-
-	images.forEach((imgRow, row) => {
-		imgRow.forEach((img, col) => {
-			const imgSize = currentChart.ImagesSize;
-			const name = `${img.ID}. ${img.Title} - ${img.Caption}`;
-
-			let x = (col % currentChart.ColumnCount) * imgSize + currentChart.Padding * sizeMultiplier;
-			if (col > 0) {
-				x += currentChart.Spacing * sizeMultiplier * col;
-			}
-
-			let y = (row % currentChart.RowCount) * imgSize + currentChart.Padding * sizeMultiplier;
-			if (row > 0) {
-				y += currentChart.Spacing * sizeMultiplier * row;
-			}
-
-			const image = new Image();
-			image.onload = () => {
-				const cover = new Konva.Image({
-				  x,
-				  y,
-				  width: imgSize,
-				  height: imgSize,
-				  image,
-				  name,
-				  stroke: 'cyan',
-				  draggable: true,
-				  strokeWidth: 4,
-				  strokeEnabled: false,
-				});
-
-				cover.on("mouseover", e => {
-					const img = e.target;
-					document.body.style.cursor = "grab";
-					img.strokeEnabled(true);
-				});
-
-				cover.on("mouseout", e => {
-					const img = e.target;
-					document.body.style.cursor = "default";
-					img.strokeEnabled(false);
-				});
-
-				cover.on("dragenter", e => {
-					e.target.strokeEnabled(false);
-					console.log("dragenter");
-				});
-				cover.on("dragover", e => {
-					console.log("dragover");
-				});
-
-				cover.on("dragstart", e => {
-					imageStash.konvaImg = e.target;
-					imageStash.x = e.target.attrs.x;
-					imageStash.y = e.target.attrs.y;
-				});
-
-				cover.on("drop", e => {
-					const img = e.target;
-
-					imageStash.konvaImg.setAttr("x", cover.getAttr("x"));
-					imageStash.konvaImg.setAttr("y", cover.getAttr("y"));
-
-					img.setAttr("x", imageStash.x);
-					img.setAttr("y", imageStash.y);
-
-					imageStash.x = 0;
-					imageStash.y = 0;
-					imageStash.konvaImg = null;
-				});
-
-				cover.on("dragend", e => {
-					// Go back to where it began the drag, to keep it in the grid
-					e.target.setAttr("x", imageStash.x);
-					e.target.setAttr("y", imageStash.y);
-				});
-
-				layer.add(cover);
-			};
-			image.crossOrigin = 'Anonymous';
-			image.src = img.URL;
-		});
-	});
-	
-	stage.add(layer);
-	stage.add(tempLayer);
-
-	stage.on("dragstart", e => {
-		e.target.moveTo(tempLayer);
-		layer.draw();
-	});
-
-	let previousImg;
-	stage.on("dragmove", e => {
-		const pos = stage.getPointerPosition();
-		const img = layer.getIntersection(pos);
-		if (previousImg && img) {
-			if (previousImg === img) {
-				previousImg.fire("dragover", { evt: e.evt }, true);
-				return;
-			}
-
-			// leave old target
-			previousImg.fire("dragleave", { evt: e.evt }, true);
-
-			// enter new one
-			img.fire("dragenter", { evt: e.evt }, true);
-			return;
-		}
-
-		if (!previousImg && img) {
-			previousImg = img;
-			img.fire("dragenter", { evt: e.evt }, true);
-		}
-
-		if (previousImg && !img) {
-			previousImg.fire("dragleave", { evt: e.evt }, true);
-			previousImg = undefined;
-		}
-
-		document.body.style.cursor = "grab";
-	});
-
-	stage.on("dragend", e => {
-		const pos = stage.getPointerPosition();
-		const img = layer.getIntersection(pos);
-
-		if (img) {
-			previousImg.fire("drop", { evt: e.evt }, true);
-			previousImg = undefined;
-			e.target.moveTo(layer);
-		}
-	});
-
-	stage.on('dragenter', e => {
-       e.target.stroke('green');
-	   e.target.strokeEnabled(true);
-    });
-
-     stage.on('dragleave', e => {
-       e.target.stroke('blue');
-	   e.target.strokeEnabled(true);
-    });
-
-	 let droppedCover;
-	 const con = stage.container();
-     con.addEventListener('dragover', e => {
-	   e.preventDefault();
-
-	   // manually register where the pointer is
-	   stage.setPointersPositions(e);
-
-	   const pointerPos = stage.getPointerPosition();
-	   const [cover] = layer.getChildren(c => {
-		const coverSize = c.size();
-		const coverPos = c.absolutePosition();
-
-		return (pointerPos.x > coverPos.x && pointerPos.x < coverPos.x + coverSize.width)
-			&& (pointerPos.y > coverPos.y && pointerPos.y < coverPos.y + coverSize.height);
-	   });
-
-	   droppedCover = cover;
-    });
-
-     con.addEventListener('drop', e => {
-	   e.preventDefault();
-
-	   const img = droppedCover.getAttrs("image").image;
-	   droppedCover.destroy();
-       img.src = imageSearchData.Url;
-    });
-
-	// Enable downloads
-	const button = document.getElementById('download-button');
-	button.addEventListener("click", () => {
-		const dataUrl = stage.toDataURL();
-		downloadChart(dataUrl);
-	}, false);
+	return string(val)
 }
 
 templ ChartCanvas(currentChart *models.Chart) {
-	<div id="chart" class="bg-slate-200">
+	<div
+		id="chart"
+		class="bg-slate-200"
+		if currentChart != nil {
+			data-images={JSON(currentChart.Images)}
+			data-rows={fmt.Sprint(currentChart.RowCount)}
+			data-cols={fmt.Sprint(currentChart.ColumnCount)}
+			data-spacing={fmt.Sprint(currentChart.Spacing)}
+			data-padding={fmt.Sprint(currentChart.Padding)}
+			data-images-size={fmt.Sprint(currentChart.ImagesSize)}
+		}
+	>
 	</div>
 }
 

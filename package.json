@@ -28,10 +28,9 @@
     "dompurify": "^3.0.5",
     "esbuild": "0.19.3",
     "html-to-image": "^1.11.11",
-    "lit": "^2.8.0",
+    "konva": "^9.3.11",
     "marked": "^9.0.0",
     "postcss": "^8.4.29",
-    "sortablejs": "github:Sacules/Sortable",
     "tailwindcss": "^3.3.3"
   },
   "devDependencies": {

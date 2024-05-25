@@ -22,6 +22,8 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
+					_="on htmx:afterSettle
+					      call chartRender()"
 				>
 					<figure
 						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }

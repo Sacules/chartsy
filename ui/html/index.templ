@@ -93,7 +93,6 @@ templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Cha
 		@PanelLeft(isAuthenticated, currentChart, charts)
 		<main id="main" class="overflow-auto grid place-items-center p-8">
 			@ChartCanvas(currentChart)
-			//@Chart(isAuthenticated, currentChart)
 		</main>
 		@PanelRight(isAuthenticated, currentChart)
 	</div>
@@ -107,7 +106,6 @@ templ Index(url string, isDev bool, isAuthenticated bool, currentChart *models.C
 		</head>
 		<body
 			class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50"
-			onload={chartRender(currentChart)}
 		>
 			@Body(isAuthenticated, currentChart, charts)
 		</body>

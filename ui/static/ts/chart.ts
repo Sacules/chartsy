@@ -1,5 +1,25 @@
 import Konva from 'konva';
 
+const downloadend = new Event('downloadend');
+
+export function download(dataUrl: string) {
+	const button = document.getElementById('download-button') as HTMLButtonElement;
+	const link = document.createElement('a');
+
+	// Some older browsers may not fully support downloading
+	if (typeof link.download !== 'string') {
+		window.open(dataUrl);
+		button.dispatchEvent(downloadend);
+		return 'ok';
+	}
+	link.href = dataUrl;
+	link.download = 'chartsy.png';
+	link.click();
+
+	button.dispatchEvent(downloadend);
+	return 'ok';
+}
+
 // By default, Konva doesn't allow DataTransfer, so we'll have to do it manually...
 interface ImageStash {
 	konvaImg: Konva.Image | null;
@@ -27,7 +47,7 @@ interface ChartImage {
 	URL: string;
 }
 
-export function chartRender() {
+export function render() {
 	const chart = document.getElementById('chart');
 	if (!chart) {
 		console.error('no chart was found');
@@ -248,7 +268,7 @@ export function chartRender() {
 		'click',
 		() => {
 			const dataUrl = stage.toDataURL();
-			window.downloadChart(dataUrl);
+			download(dataUrl);
 		},
 		false,
 	);

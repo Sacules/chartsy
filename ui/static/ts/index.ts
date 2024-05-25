@@ -1,30 +1,10 @@
 /// <reference lib="dom" />
 /// <reference lib="dom.iterable" />
 
-import { chartRender } from './chart';
+import { render, download } from './chart';
 
-const downloadend = new Event('downloadend');
-
-function chartDownload(dataUrl: string) {
-	const button = document.getElementById('download-button') as HTMLButtonElement;
-	const link = document.createElement('a');
-
-	// Some older browsers may not fully support downloading
-	if (typeof link.download !== 'string') {
-		window.open(dataUrl);
-		button.dispatchEvent(downloadend);
-		return 'ok';
-	}
-	link.href = dataUrl;
-	link.download = 'chartsy.png';
-	link.click();
-
-	button.dispatchEvent(downloadend);
-	return 'ok';
-}
-
-window.chartRender = chartRender;
-window.downloadChart = chartDownload;
+window.chartRender = render;
+window.chartDownload = download;
 
 // Make it global so it can be accessed from the chart code
 window.imageSearchData = undefined;
@@ -37,8 +17,8 @@ type ImageSearchData = {
 
 declare global {
 	interface Window {
-		downloadChart: typeof chartDownload;
-		chartRender: typeof chartRender;
+		chartDownload: typeof download;
+		chartRender: typeof render;
 		imageSearchData?: ImageSearchData;
 	}
 

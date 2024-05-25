@@ -5,10 +5,16 @@ import (
 
 	"gitlab.com/sacules/chartsy/internal/models"
 	"encoding/json"
+	"log"
 )
 
+// JSON just serializes whatever, and ignores all errors
 func JSON(v any) string {
-	val, _ := json.Marshal(v)
+	val, err := json.Marshal(v)
+	if err != nil {
+		log.Println("couldn't unmarshall: ", err)
+		return ""
+	}
 
 	return string(val)
 }

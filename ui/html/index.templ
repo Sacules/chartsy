@@ -1,56 +1,8 @@
 package html
 
 import (
-	"html/template"
-
 	"gitlab.com/sacules/chartsy/internal/models"
 )
-
-var chartSettings = template.Must(template.New("styles").Parse(`
-	<style hx-head="re-eval" hx-preserve="false" id="chart-styles" type="text/css">
-		#chart {
-			--chart-settings-cols: {{ .ColumnCount }};
-			--chart-settings-rows: {{ .RowCount }};
-			--chart-settings-spacing: {{ .Spacing }};
-			--chart-settings-padding: {{ .Padding }};
-			--chart-settings-images-width: {{ .ImagesSize }};
-			--chart-settings-background-color: {{ .BgColor }};
-			--chart-settings-background-gradient-from: {{ .BgGradientFrom }};
-			--chart-settings-background-gradient-to: {{ .BgGradientTo }};
-			--chart-settings-background-image: url('{{ .BgImageURL }}');
-		}
-
-		#images {
-			grid-template-columns: repeat(var(--chart-settings-cols), max-content);
-			grid-template-rows: repeat(var(--chart-settings-rows), max-content);
-			gap: calc(var(--chart-settings-spacing) * 1rem / 2);
-		}
-
-		#images-text {
-			padding: calc(var(--chart-settings-padding) * 1rem / 2);
-		}
-
-		#images-text.color {
-			background-color: var(--chart-settings-background-color);
-		}
-
-		#images-text.gradient {
-			background-image: linear-gradient(
-				to bottom right,
-				var(--chart-settings-background-gradient-from),
-				var(--chart-settings-background-gradient-to)
-			);
-		}
-
-		#images-text.image {
-			background-image: var(--chart-settings-background-image);
-		}
-
-		chart-image {
-			width: calc(var(--chart-settings-images-width) * 1px);
-		}
-	</style>
-`))
 
 templ Head(isDev bool, currentChart *models.Chart) {
 	<title>Chartsy</title>
@@ -77,12 +29,6 @@ templ Head(isDev bool, currentChart *models.Chart) {
 
 	if isDev {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
-	}
-
-	if currentChart == nil {
-		@templ.FromGoHTML(chartSettings, &models.Chart{})
-	} else {
-		@templ.FromGoHTML(chartSettings, currentChart)
 	}
 }
 

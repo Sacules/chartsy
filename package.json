@@ -12,7 +12,7 @@
 		"prebuild": "run-s clean",
 		"build": "run-p ts js img css _hs",
 		"css": "tailwindcss --input ui/static/css/index.css --output public/index.css",
-		"ts": "esbuild ui/static/ts/index.ts --bundle --outfile=public/index.js",
+		"ts": "esbuild ui/static/ts/index.ts --bundle --minify --outfile=public/index.js",
 		"js": "rsync --recursive ui/static/js public/",
 		"_hs": "rsync --recursive ui/static/_hs public/",
 		"img": "rsync --recursive ui/static/img public/",

@@ -23,7 +23,7 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
 					_="on htmx:afterSettle
-					      call chartRender()"
+					      call chartRender(true)"
 				>
 					<figure
 						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }
@@ -430,9 +430,8 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				}
 				@components.Reveal(components.RevealProps{Title: "Layout"}) {
 					<fieldset
-						_="on change(value, name) from <.settings/>
-							  call #chart.style.setProperty(`--chart-settings-${name}`, value)
-							  trigger chartUpdate on #chart"
+						_="on change(name, value) from <.settings/>
+							  trigger update(name: name, value: value) on #chart"
 						class="grid grid-cols-2 gap-4 p-4"
 						role="group"
 					>
@@ -505,7 +504,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Name: "imagesSize",
 							Legend: "Size",
 							Class: "settings",
-							HS: "on change(target) call #chart.style.setProperty('--chart-settings-images-width', target.value)",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
 								Id: "images-size-regular",

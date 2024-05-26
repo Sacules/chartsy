@@ -21,6 +21,9 @@ func JSON(v any) string {
 
 templ ChartCanvas(currentChart *models.Chart) {
 	<div
+		_="on update(name, value)
+			  set #chart's dataset[name] to value
+		      call chartRender(false)"
 		id="chart"
 		class="bg-slate-200"
 		if currentChart != nil {

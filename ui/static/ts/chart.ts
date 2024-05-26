@@ -77,6 +77,70 @@ function getAttrs(chart: HTMLElement) {
 	};
 }
 
+function createChartImage(x: number, y: number, imgSize: number, name: string, image: HTMLImageElement) {
+	const cover = new Konva.Image({
+		x,
+		y,
+		width: imgSize,
+		height: imgSize,
+		image,
+		name,
+		stroke: 'cyan',
+		draggable: true,
+		strokeWidth: 4,
+		strokeEnabled: false,
+	});
+
+	cover.on('mouseover', (e) => {
+		const img = e.target as Konva.Image;
+		document.body.style.cursor = 'grab';
+		img.strokeEnabled(true);
+	});
+
+	cover.on('mouseout', (e) => {
+		const img = e.target as Konva.Image;
+		document.body.style.cursor = 'default';
+		img.strokeEnabled(false);
+	});
+
+	cover.on('dragenter', (e) => {
+		const img = e.target as Konva.Image;
+		img.strokeEnabled(false);
+	});
+
+	cover.on('dragstart', (e) => {
+		imageStash.konvaImg = e.target as Konva.Image;
+		imageStash.x = e.target.attrs.x;
+		imageStash.y = e.target.attrs.y;
+	});
+
+	cover.on('drop', (e) => {
+		const img = e.target;
+
+		if (!imageStash.konvaImg) {
+			return;
+		}
+
+		imageStash.konvaImg!.setAttr('x', cover.getAttr('x'));
+		imageStash.konvaImg!.setAttr('y', cover.getAttr('y'));
+
+		img.setAttr('x', imageStash.x);
+		img.setAttr('y', imageStash.y);
+
+		imageStash.x = 0;
+		imageStash.y = 0;
+		imageStash.konvaImg = null;
+	});
+
+	cover.on('dragend', (e) => {
+		// Go back to where it began the drag, to keep it in the grid
+		e.target.setAttr('x', imageStash.x);
+		e.target.setAttr('y', imageStash.y);
+	});
+
+	chartLayer.add(cover);
+}
+
 export function render(reset: boolean) {
 	const chart = document.getElementById('chart');
 	if (!chart) {
@@ -131,66 +195,7 @@ export function render(reset: boolean) {
 			}
 
 			let image: HTMLImageElement = new Image();
-			image.onload = () => {
-				const cover = new Konva.Image({
-					x,
-					y,
-					width: imgSize,
-					height: imgSize,
-					image,
-					name,
-					stroke: 'cyan',
-					draggable: true,
-					strokeWidth: 4,
-					strokeEnabled: false,
-				});
-
-				cover.on('mouseover', (e) => {
-					const img = e.target as Konva.Image;
-					document.body.style.cursor = 'grab';
-					img.strokeEnabled(true);
-				});
-
-				cover.on('mouseout', (e) => {
-					const img = e.target as Konva.Image;
-					document.body.style.cursor = 'default';
-					img.strokeEnabled(false);
-				});
-
-				cover.on('dragenter', (e) => {
-					const img = e.target as Konva.Image;
-					img.strokeEnabled(false);
-					console.log('dragenter');
-				});
-
-				cover.on('dragstart', (e) => {
-					imageStash.konvaImg = e.target as Konva.Image;
-					imageStash.x = e.target.attrs.x;
-					imageStash.y = e.target.attrs.y;
-				});
-
-				cover.on('drop', (e) => {
-					const img = e.target;
-
-					imageStash.konvaImg!.setAttr('x', cover.getAttr('x'));
-					imageStash.konvaImg!.setAttr('y', cover.getAttr('y'));
-
-					img.setAttr('x', imageStash.x);
-					img.setAttr('y', imageStash.y);
-
-					imageStash.x = 0;
-					imageStash.y = 0;
-					imageStash.konvaImg = null;
-				});
-
-				cover.on('dragend', (e) => {
-					// Go back to where it began the drag, to keep it in the grid
-					e.target.setAttr('x', imageStash.x);
-					e.target.setAttr('y', imageStash.y);
-				});
-
-				chartLayer.add(cover);
-			};
+			image.onload = () => createChartImage(x, y, imgSize, name, image);
 			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
 		});

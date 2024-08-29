@@ -77,14 +77,14 @@ function getAttrs(chart: HTMLElement) {
 	};
 }
 
-function createChartImage(x: number, y: number, imgSize: number, name: string, image: HTMLImageElement) {
+function createChartImage(x: number, y: number, imgSize: number, id: string, image: HTMLImageElement) {
 	const cover = new Konva.Image({
 		x,
 		y,
 		width: imgSize,
 		height: imgSize,
 		image,
-		name,
+		id,
 		stroke: 'cyan',
 		draggable: true,
 		strokeWidth: 4,
@@ -172,10 +172,10 @@ export function render(reset: boolean) {
 		chartLayer.destroyChildren();
 	}
 
+	let i = 0;
 	imageGrid.forEach((imgRow, row) => {
 		imgRow.forEach((img, col) => {
 			const imgSize = attrs.imagesSize;
-			const name = `${img.ID} - ${row}-${col}`;
 
 			let x = (col % cols) * imgSize + padding * sizeMultiplier;
 			if (col > 0) {
@@ -187,15 +187,19 @@ export function render(reset: boolean) {
 				y += spacing * sizeMultiplier * row;
 			}
 
-			const [chartImage] = chartLayer.getChildren((c) => c.name() === name) as Konva.Image[];
+			i++;
+
+			const [chartImage] = chartLayer.getChildren((c) => c.id() === id) as Konva.Image[];
 			if (!emptyChart && !!chartImage) {
 				chartImage.x(x);
 				chartImage.y(y);
 				return;
 			}
 
+			const id = `${img.ID}`;
+
 			let image: HTMLImageElement = new Image();
-			image.onload = () => createChartImage(x, y, imgSize, name, image);
+			image.onload = () => createChartImage(x, y, imgSize, id, image);
 			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
 		});
@@ -309,21 +313,6 @@ export function render(reset: boolean) {
 		},
 		false,
 	);
-}
-
-export function update(name: string, value: string) {
-	switch (name) {
-		case 'cols':
-		case 'rows':
-			break;
-
-		case 'padding':
-		case 'spacing':
-			break;
-
-		default:
-			break;
-	}
 }
 
 function chunkIntoN<T>(arr: T[], n: number): T[][] {

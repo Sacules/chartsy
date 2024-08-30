@@ -372,8 +372,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Class: "settings",
 						})
 						<div
-							_="on toggle(value)
-								   send bgChange(state: value) to #images-text"
 							id="settings-bg"
 							class="grid gap-4"
 						>
@@ -446,6 +444,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						me("#settings-bg [name='background']").on("change", ({ target }) => {
 							any(".settings-bg").attribute("aria-hidden", true)
 							me(`#settings-bg-${target.value}`).attribute("aria-hidden", false)
+							me("#images-text").send("bgChange", { "state": target.value })
 						})
 						me("#settings-bg-image").on("input", ({ target }) => me("#images-text").send("bgChangeImage", { "file": target.files[0] }))
 					</script>

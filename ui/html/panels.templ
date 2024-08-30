@@ -323,21 +323,25 @@ templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []model
 					any("div[role=tabpanel]").classRemove("grid")
 					me(`#${me(ev).attribute("aria-controls")}`).classAdd("grid")
 				}
-			</script>
-		}
-		<script type="text/javascript">
-		    const hash = window.location.hash
-			if (hash) {
-				tabShow(me(`a[aria-controls="${hash.slice(1)}"]`))
-			}
 
-			any("a[role=tab]").on("pointerdown", ev => tabShow(ev))
-			any("a[role=tab]").on("keydown", ev => {
-				if (ev.keyCode === 13 || ev.keyCode === 32) {
-					tabShow(ev)
+    			var hash = window.location.hash
+				if (hash) {
+					let target = me(`a[aria-controls="${hash.slice(1)}"]`)
+					if (target != null) {
+						tabShow(target)
+					}
+				} else {
+					tabShow(me("a[role=tab]"))
 				}
-			})
+
+				any("a[role=tab]").on("pointerdown", ev => tabShow(ev))
+				any("a[role=tab]").on("keydown", ev => {
+					if (ev.keyCode === 13 || ev.keyCode === 32) {
+						tabShow(ev)
+					}
+				})
   			</script>
+		}
 	</aside>
 }
 

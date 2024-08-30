@@ -37,23 +37,28 @@ templ Header(currentChart *models.Chart) {
 					Name: "name",
 					DefaultValue: currentChart.Name,
 					Autocomplete: "off",
-					HS: `on keydown[key == 'Enter']
-							send chart:title(value: target.value) to <.chart-title />
-							toggle .hidden on <.chart-title-input />
-						    toggle .hidden on the previous <p />`,
 				})
+				<script>
+					me(".chart-title-input input").on("keydown", ({ target, key }) => {
+						if (key === "Enter") {
+							any(".chart-title").send("chart:title", { "value": target.value })
+							me(".chart-title-input").toggleClass(".hidden")
+							me(".chart-title").toggleClass(".hidden")
+						}
+					})
+				</script>
 			}
 		</div>
 		<button
-			_="on downloadend
-				   set @aria-disabled to 'false'
-			   on click
-				   set @aria-disabled to 'true'"
 			id="download-button"
 			type="button"
 			class={"h-6 w-6 aria-disabled:animate-pulse", templ.KV("visible", currentChart != nil), templ.KV("invisible", currentChart == nil)}
 		>
 			@icon.Download()
 		</button>
+		<script>
+			me("#download-button").on("downloadend", ev => me(ev).attribute("aria-disabled", false))
+			me("#download-button").on("click", ev => me(ev).attribute("aria-disabled", true))
+		</script>
 	</header>
 }

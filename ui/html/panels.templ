@@ -452,8 +452,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				}
 				@components.Reveal(components.RevealProps{Title: "Layout"}) {
 					<fieldset
-						_="on change(name, value) from <.settings/>
-							  trigger update(name: name, value: value) on #chart"
+						id="settings-layout"
 						class="grid grid-cols-2 gap-4 p-4"
 						role="group"
 					>
@@ -497,6 +496,9 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Min: 0,
 							Max: 5,
 						})
+						<script>
+							any("#settings-layout > .settings").on("change", ev => me("#chart").send("update", ev.detail))
+						</script>
 					</fieldset>
 				}
 				@components.Reveal(components.RevealProps{Title: "Images"}) {

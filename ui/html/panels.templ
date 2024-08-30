@@ -23,21 +23,23 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
-					_="on htmx:afterSettle
-					      call chartRender(true)"
 				>
 					<figure
 						class={ "group p-4 flex gap-4 items-center", templ.KV("bg-slate-800", currentChart.ID == c.ID), templ.KV("hover:bg-slate-800", currentChart.ID != c.ID) }
 					>
 						<img src="/assets/img/generic-chart.png" class="w-24 h-24"/>
 						<figcaption
-							_="on chart:name(value)
-								  put value into me"
-							class={ "select-none", templ.KV("font-bold chart-name", currentChart.ID == c.ID) }
+							class={ "select-none", templ.KV("font-bold chart-title", currentChart.ID == c.ID) }
 						>
 							{ c.Name }
+							<script>
+								me().on("chart:title", ev => me(ev).textContent = ev.detail.value)
+							</script>
 						</figcaption>
 					</figure>
+					<script>
+						me().on("htmx:afterSettle", () => chartRender(true))
+					</script>
 				</button>
 			</li>
 		}
@@ -368,8 +370,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Caption: "Works with Markdown and emojis! 🔥",
 							Autocomplete: "off",
 							Class: "settings",
-							HS: `on input(target)
-									send chart:title(value: target.value) to <.chart-title />`,
 						})
 						<div
 							_="on toggle(value)
@@ -459,6 +459,9 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							/>
 						</div>
 					</div>
+					<script>
+						me("#chart-settings-title").on("input", ev => any(".chart-title").send("chart:title", { 'value': ev.target.value }))
+					</script>
 				}
 				@components.Reveal(components.RevealProps{Title: "Layout"}) {
 					<fieldset

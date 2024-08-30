@@ -361,16 +361,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
 				@components.Reveal(components.RevealProps{Title: "General"}) {
 					<div class="p-4 grid gap-4">
-						@input.Text(input.InputTextProps{
-							Id: "chart-settings-title",
-							Name: "title",
-							Label: "Title",
-							Type: "text",
-							DefaultValue: currentChart.Title,
-							Caption: "Works with Markdown and emojis! 🔥",
-							Autocomplete: "off",
-							Class: "settings",
-						})
 						<div
 							id="settings-bg"
 							class="grid gap-4"
@@ -440,7 +430,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						</div>
 					</div>
 					<script>
-						me("#chart-settings-title").on("input", ev => any(".chart-title").send("chart:title", { 'value': ev.target.value }))
 						me("#settings-bg [name='background']").on("change", ({ target }) => {
 							any(".settings-bg").attribute("aria-hidden", true)
 							me(`#settings-bg-${target.value}`).attribute("aria-hidden", false)

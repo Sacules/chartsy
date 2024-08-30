@@ -432,8 +432,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								})
 							</div>
 							<input
-								_="on input(target)
-									  send bgChangeImage(file: target.files[0]) to #images-text"
 								id="settings-bg-image"
 								aria-hidden="true"
 								class="aria-hidden:hidden settings settings-bg"
@@ -449,6 +447,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							any(".settings-bg").attribute("aria-hidden", true)
 							me(`#settings-bg-${target.value}`).attribute("aria-hidden", false)
 						})
+						me("#settings-bg-image").on("input", ({ target }) => me("#images-text").send("bgChangeImage", { "file": target.files[0] }))
 					</script>
 				}
 				@components.Reveal(components.RevealProps{Title: "Layout"}) {

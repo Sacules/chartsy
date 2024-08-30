@@ -17,15 +17,14 @@ templ Head(isDev bool, currentChart *models.Chart) {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 	<link rel="stylesheet" href="/assets/index.css" />
-	<script defer src="/assets/index.js"></script>
-
-	<script defer type="text/hyperscript" src="/assets/_hs/behaviours._hs"></script>
 
 	<script defer src="/assets/js/_hyperscript.min.js"></script>
 	<script defer src="/assets/js/htmx.min.js"></script>
 	<script defer src="/assets/js/multi-swap.min.js"></script>
 	<script defer src="/assets/js/head-support.min.js"></script>
 	<script defer src="/assets/js/konva.min.js"></script>
+	<script src="/assets/js/surreal.js"></script>
+	<script defer src="/assets/index.js"></script>
 
 	if isDev {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>

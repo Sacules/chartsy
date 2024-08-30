@@ -1,20 +1,5 @@
-behavior ToggleSettingMenu(menuId)
-	on click
-		if @aria-pressed is 'false'
-			set <button.setting-button/>'s @aria-pressed to 'false'
-			set @aria-pressed to 'true'
-
-			set <div.setting-menu/>'s @aria-expanded to 'false'
-			set menuId's @aria-expanded to 'true'
-		else
-			set @aria-pressed to 'false'
-			set menuId's @aria-expanded to 'false'
-		end
-	end
-end
-
 behavior TabContainer
-	-- init handles the default tab selection.  If a document hash exists 
+	-- init handles the default tab selection.  If a document hash exists
 	-- (and points to one of our tabs) then select it first.  Otherwise,
 	-- select the first tab in the list
 	init
@@ -22,7 +7,7 @@ behavior TabContainer
 			set target to the first <[aria-controls="${window.location.hash.slice(1)}"]/>
 		end
 
-		if not target then 
+		if not target then
 			set target to first <[role=tab]/> in me
 		end
 

@@ -9,6 +9,7 @@ import (
 	"gitlab.com/sacules/chartsy/ui/html/components"
 	"gitlab.com/sacules/chartsy/ui/html/components/icon"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
+
 )
 
 templ ChartList(currentChart *models.Chart, charts []models.Chart) {
@@ -222,9 +223,10 @@ templ SignupOk(email string) {
 	</p>
 }
 
+var tabShowHandle = templ.NewOnceHandle()
+
 templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []models.Chart) {
 	<aside
-		_="install TabContainer"
 		id="panel-left"
 		class="hidden bg-slate-900 border-r border-slate-700 md:grid grid-cols-1 grid-rows-[auto_1fr] overflow-y-hidden"
 	>
@@ -310,6 +312,30 @@ templ PanelLeft(isAuthenticated bool, currentChart *models.Chart, charts []model
 				@Signup(UserSignupForm{}, nil)
 			</div>
 		}
+		@tabShowHandle.Once() {
+			<script>
+				function tabShow(ev) {
+					any("a[role=tab]").attribute("aria-selected", false)
+					me(ev).attribute("aria-selected", true)
+
+					any("div[role=tabpanel]").classRemove("grid")
+					me(`#${me(ev).attribute("aria-controls")}`).classAdd("grid")
+				}
+			</script>
+		}
+		<script type="text/javascript">
+		    const hash = window.location.hash
+			if (hash) {
+				tabShow(me(`a[aria-controls="${hash.slice(1)}"]`))
+			}
+
+			any("a[role=tab]").on("pointerdown", ev => tabShow(ev))
+			any("a[role=tab]").on("keydown", ev => {
+				if (ev.keyCode === 13 || ev.keyCode === 32) {
+					tabShow(ev)
+				}
+			})
+  			</script>
 	</aside>
 }
 
@@ -435,44 +461,44 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						class="grid grid-cols-2 gap-4 p-4"
 						role="group"
 					>
-						@input.Numeric(input.NumericProps{ 
-							Id: "column-count", 
+						@input.Numeric(input.NumericProps{
+							Id: "column-count",
 							Class: "settings",
-							Name: "cols", 
-							DefaultValue: int(currentChart.ColumnCount), 
-							Label: "Columns", 
-							Step: 1, 
-							Min: 1, 
+							Name: "cols",
+							DefaultValue: int(currentChart.ColumnCount),
+							Label: "Columns",
+							Step: 1,
+							Min: 1,
 							Max: 10,
 						})
-						@input.Numeric(input.NumericProps{ 
-							Id: "row-count", 
+						@input.Numeric(input.NumericProps{
+							Id: "row-count",
 							Class: "settings",
-							Name: "rows", 
-							DefaultValue: int(currentChart.RowCount), 
-							Label: "Rows", 
-							Step: 1, 
-							Min: 1, 
+							Name: "rows",
+							DefaultValue: int(currentChart.RowCount),
+							Label: "Rows",
+							Step: 1,
+							Min: 1,
 							Max: 10,
 						})
-						@input.Numeric(input.NumericProps{ 
-							Id: "spacing", 
+						@input.Numeric(input.NumericProps{
+							Id: "spacing",
 							Class: "settings",
-							Name: "spacing", 
-							DefaultValue: int(currentChart.Spacing), 
-							Label: "Spacing", 
-							Step: 1, 
-							Min: 0, 
+							Name: "spacing",
+							DefaultValue: int(currentChart.Spacing),
+							Label: "Spacing",
+							Step: 1,
+							Min: 0,
 							Max: 5,
 						})
-						@input.Numeric(input.NumericProps{ 
-							Id: "padding", 
+						@input.Numeric(input.NumericProps{
+							Id: "padding",
 							Class: "settings",
-							Name: "padding", 
-							DefaultValue: int(currentChart.Padding), 
-							Label: "Padding", 
-							Step: 1, 
-							Min: 0, 
+							Name: "padding",
+							DefaultValue: int(currentChart.Padding),
+							Label: "Padding",
+							Step: 1,
+							Min: 0,
 							Max: 5,
 						})
 					</fieldset>

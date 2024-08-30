@@ -373,21 +373,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						})
 						<div
 							_="on toggle(value)
-								   if value is 'color'
-									   add [@aria-hidden=false] to #settings-bg-color
-									   add [@aria-hidden=true] to #settings-bg-gradient
-									   add [@aria-hidden=true] to #settings-bg-image
-								   end
-								   if value is 'gradient'
-									   add [@aria-hidden=true] to #settings-bg-color
-									   add [@aria-hidden=false] to #settings-bg-gradient
-									   add [@aria-hidden=true] to #settings-bg-image
-								   end
-								   if value is 'image'
-									   add [@aria-hidden=true] to #settings-bg-color
-									   add [@aria-hidden=true] to #settings-bg-gradient
-									   add [@aria-hidden=false] to #settings-bg-image
-								   end
 								   send bgChange(state: value) to #images-text"
 							id="settings-bg"
 							class="grid gap-4"
@@ -395,7 +380,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							@input.RadioGroup(input.RadioGroupProps{
 								Name: "background",
 								Legend: "Background",
-								HS: "on change(target) trigger toggle(value: target.value) on #settings-bg",
 							}) {
 								@input.RadioGroupItem(input.RadioGroupItemProps{
 									Id: "background-setting-color",
@@ -419,7 +403,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									IsDefault: false,
 								})
 							}
-							<div id="settings-bg-color" class="aria-hidden:hidden flex justify-start items-center gap-4">
+							<div id="settings-bg-color" class="settings-bg aria-hidden:hidden flex justify-start items-center gap-4">
 								@input.Color(input.InputColorProps{
 									Id: "bg-color-picker",
 									Name: "bg-color",
@@ -431,7 +415,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 								})
 								<output name="color" for="bg-color-picker">{currentChart.BgColor}</output>
 							</div>
-							<div id="settings-bg-gradient" class="flex justify-between aria-hidden:hidden" aria-hidden="true">
+							<div id="settings-bg-gradient" class="settings-bg flex justify-between aria-hidden:hidden" aria-hidden="true">
 								@input.Color(input.InputColorProps{
 									Id: "bg-gradient-from",
 									Name: "bg-gradient-from",
@@ -450,9 +434,9 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							<input
 								_="on input(target)
 									  send bgChangeImage(file: target.files[0]) to #images-text"
-								aria-hidden="true"
-								class="aria-hidden:hidden settings"
 								id="settings-bg-image"
+								aria-hidden="true"
+								class="aria-hidden:hidden settings settings-bg"
 								type="file"
 								name="bgImage"
 								accept="image/*"
@@ -461,6 +445,10 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 					</div>
 					<script>
 						me("#chart-settings-title").on("input", ev => any(".chart-title").send("chart:title", { 'value': ev.target.value }))
+						me("#settings-bg [name='background']").on("change", ({ target }) => {
+							any(".settings-bg").attribute("aria-hidden", true)
+							me(`#settings-bg-${target.value}`).attribute("aria-hidden", false)
+						})
 					</script>
 				}
 				@components.Reveal(components.RevealProps{Title: "Layout"}) {

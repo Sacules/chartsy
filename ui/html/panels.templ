@@ -58,7 +58,6 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 
 templ Search() {
 	<form
-		_="on submit(event) event.preventDefault()"
 		hx-post="/search"
 		hx-target="#search-results"
 		hx-trigger="input from:#search delay:300ms"
@@ -69,6 +68,9 @@ templ Search() {
 			Name: "search",
 			Placeholder: "e.g. In Absentia",
 		})
+		<script type="text/javascript">
+			me().on("submit", ev => halt(ev))
+		</script>
 	</form>
 	<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
 }

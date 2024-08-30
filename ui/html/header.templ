@@ -20,15 +20,16 @@ templ Header(currentChart *models.Chart) {
 		>
 			if currentChart != nil {
 				<p
-					_="on click
-						  toggle .hidden on the next <.chart-title-input />
-						  call #chart-title.focus()
-						  toggle .hidden on me
-					  on chart:title(value)
-						  put value into me"
 					class="px-4 chart-title"
 				>
 					{currentChart.Name}
+					<script>
+						me().on("click", ev => {
+							me(".chart-title-input").toggleClass("hidden").focus()
+							me(ev).toggleClass("hidden")
+						})
+						me().on("chart:title", ev => me(ev).textContent = ev.detail.value)
+					</script>
 				</p>
 				@input.Text(input.InputTextProps{
 					Id: "chart-title",
@@ -37,7 +38,7 @@ templ Header(currentChart *models.Chart) {
 					DefaultValue: currentChart.Name,
 					Autocomplete: "off",
 					HS: `on keydown[key == 'Enter']
-							send chart:name(value: target.value) to <.chart-title />
+							send chart:title(value: target.value) to <.chart-title />
 							toggle .hidden on <.chart-title-input />
 						    toggle .hidden on the previous <p />`,
 				})

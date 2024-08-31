@@ -19,52 +19,27 @@ type NumericProps struct {
 
 templ Numeric(props NumericProps) {
 	<div
-		_={fmt.Sprintf(`
-			set element n to %d
-			set element step to %d
-			set element min to %d
-			set element max to %d
-
-			on inc
-				increment n by step
-				if n >= max then
-				  set { disabled: true } on (the first <button/> in me)
-				end
-				if n > min then
-				  remove @disabled from (the last <button/> in me)
-				end
-				trigger change(value: n, name: '%s') on me
-			end
-			on dec
-				decrement n by step
-				if n <= min then
-				  set { disabled: true } on (the last <button/> in me)
-				end
-				if n < max then
-				  remove @disabled from (the first <button/> in me)
-				end
-				trigger change(value: n, name: '%s') on me
-			end
-			on change(value)
-				put n into the first <output /> in me
-				set { value: n } on (the last <input /> in me)
-			end
-		`, props.DefaultValue, props.Step, props.Min, props.Max, props.Name, props.Name)}
 		id={props.Id}
 		role="group"
 		class={"grid grid-cols-2 items-center " + props.Class}
+		data-step={fmt.Sprint(props.Step)}
+		data-min={fmt.Sprint(props.Min)}
+		data-max={fmt.Sprint(props.Max)}
+		data-name={props.Name}
 	>
 		<label for={props.Id + "-input"} class="justify-self-stretch text-right">
 			{ props.Label }
 		</label>
 		<div class="grid place-items-center justify-center gap-2">
 			<button
-				_={"on click send inc to #" + props.Id}
-				id={props.Id + "-plus"}
-				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed transform rotate-180"
 				type="button"
+				aria-controls={props.Id}
+				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed transform rotate-180"
 			>
 				@icon.ChevronDown()
+				<script>
+					me().on("click", ev => me(`#${me(ev).attribute("aria-controls")}`).send("inc"))
+				</script>
 			</button>
 			<output
 				for={props.Id + "-input"}
@@ -73,14 +48,58 @@ templ Numeric(props NumericProps) {
 				{ fmt.Sprint(props.DefaultValue) }
 			</output>
 			<button
-				_={"on click send dec to #" + props.Id}
-				id={props.Id + "-minus"}
 				type="button"
+				aria-controls={props.Id}
 				class="w-4 h-4 text-slate-600 hover:text-slate-50 disabled:text-slate-600 disabled:cursor-not-allowed"
 			>
 				@icon.ChevronDown()
+				<script>
+					me().on("click", ev => me(`#${me(ev).attribute("aria-controls")}`).send("dec"))
+				</script>
 			</button>
-			<input id={props.Id + "-input"} value={fmt.Sprint(props.DefaultValue)} name={props.Name} hidden />
+			<input id={props.Id + "-input"} value={fmt.Sprint(props.DefaultValue)} name={props.Name} hidden autocomplete="off" />
 		</div>
+		<script>
+			// Prevent vars from leaking to the global scope
+			(() => {
+				const { name } = me().dataset
+				const step = Number(me().dataset.step)
+				const min = Number(me().dataset.min)
+				const max = Number(me().dataset.max)
+
+				function change(ev, val) {
+					me(`#${ev.target.id} output`).value = val
+					me(`#${ev.target.id} input`).value = val
+				}
+
+				me().on("inc", ev => {
+					const val = Number(me(`#${ev.target.id} input`).value) + step
+
+					if (val >= max) {
+						me(`#${ev.target.id} button:first-child`).attribute("disabled", true)
+					}
+
+					if (val > min) {
+						me(`#${ev.target.id} button:last-of-type`).attribute("disabled", null)
+					}
+
+					change(ev, val)
+				})
+
+				me().on("dec", ev => {
+					const val = Number(me(`#${ev.target.id} input`).value) - step
+
+					if (val <= min) {
+						me(`#${ev.target.id} button:last-of-type`).attribute("disabled", true)
+					}
+
+					if (val < max) {
+						me(`#${ev.target.id} button:first-child`).attribute("disabled", null)
+					}
+
+					change(ev, val)
+				})
+			})()
+		</script>
 	</div>
 }

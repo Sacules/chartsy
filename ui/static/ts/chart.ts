@@ -151,8 +151,8 @@ export function render(reset: boolean) {
 	chartStage.container(chart as HTMLDivElement);
 
 	const attrs = getAttrs(chart);
-
 	const { cols, rows, spacing, padding } = attrs;
+
 	const sizeMultiplier = 8;
 	let images: ChartImage[] = JSON.parse(chart.dataset.images!);
 
@@ -189,14 +189,13 @@ export function render(reset: boolean) {
 
 			i++;
 
+			const id = `${img.ID}`;
 			const [chartImage] = chartLayer.getChildren((c) => c.id() === id) as Konva.Image[];
 			if (!emptyChart && !!chartImage) {
 				chartImage.x(x);
 				chartImage.y(y);
 				return;
 			}
-
-			const id = `${img.ID}`;
 
 			let image: HTMLImageElement = new Image();
 			image.onload = () => createChartImage(x, y, imgSize, id, image);

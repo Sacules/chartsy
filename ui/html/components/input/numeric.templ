@@ -68,19 +68,19 @@ templ Numeric(props NumericProps) {
 				const max = Number(me().dataset.max)
 
 				function change(ev, val) {
-					me(`#${ev.target.id} output`).value = val
-					me(`#${ev.target.id} input`).value = val
+					me("output", me(ev)).value = val
+					me("input", me(ev)).value = val
 				}
 
 				me().on("inc", ev => {
 					const val = Number(me(`#${ev.target.id} input`).value) + step
 
 					if (val >= max) {
-						me(`#${ev.target.id} button:first-child`).attribute("disabled", true)
+						me("button:first-child", me(ev)).attribute("disabled", true)
 					}
 
 					if (val > min) {
-						me(`#${ev.target.id} button:last-of-type`).attribute("disabled", null)
+						me("button:last-of-type", me(ev)).attribute("disabled", null)
 					}
 
 					change(ev, val)
@@ -90,11 +90,11 @@ templ Numeric(props NumericProps) {
 					const val = Number(me(`#${ev.target.id} input`).value) - step
 
 					if (val <= min) {
-						me(`#${ev.target.id} button:last-of-type`).attribute("disabled", true)
+						me("button:last-of-type", me(ev)).attribute("disabled", true)
 					}
 
 					if (val < max) {
-						me(`#${ev.target.id} button:first-child`).attribute("disabled", null)
+						me("button:first-child", me(ev)).attribute("disabled", null)
 					}
 
 					change(ev, val)

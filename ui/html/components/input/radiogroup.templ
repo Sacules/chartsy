@@ -8,7 +8,7 @@ type RadioGroupProps struct {
 }
 
 templ RadioGroup(props RadioGroupProps) {
-	<fieldset _={props.HS} role="group" name={props.Name} class={props.Class}>
+	<fieldset role="group" name={props.Name} class={props.Class}>
 		<legend class="text-sm font-bold contents">
 			{ props.Legend }
 		</legend>
@@ -28,15 +28,10 @@ type RadioGroupItemProps struct {
 
 templ RadioGroupItem(props RadioGroupItemProps) {
 	<div
-		_="on keydown(key)[key == 'Enter' or key == ' ']
-			  log 'wtf'
-			  add [@checked=true] to the first <input /> in me"
 		class="group focus-visible:outline focus-visible:outline-sky-600 h-8 relative hover:cursor-pointer"
 		tabindex="0"
 	>
 		<input
-			_="on mutation of @checked
-			      log @checked"
 			id={props.Id}
 			type="radio"
 			name={props.Name}

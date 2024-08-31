@@ -12,14 +12,12 @@ type InputTextProps struct {
 	Type string
 	Placeholder string
 	Class string
-	HS string
 }
 
 templ Text(props InputTextProps) {
 	<div class={"w-full " + props.Class}>
 		<label for={props.Id} class="empty:hidden block mb-2 w-full md:text-sm font-bold">{props.Label}</label>
 		<input
-			_={props.HS}
 			required?={props.Required}
 			id={props.Id}
 			type={props.Type}

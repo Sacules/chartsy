@@ -6,14 +6,12 @@ type InputColorProps struct {
 	Name string
 	DefaultValue string
 	Class string
-	HS string
 }
 
 templ Color(props InputColorProps) {
 	<div class="flex gap-4 items-center">
 		<label for={props.Id} class="empty:hidden">{props.Label}</label>
 		<input
-			_={props.HS}
 			id={props.Id}
 			class={"h-8 w-16 rounded border border-slate-700 bg-slate-900 p-2" + props.Class}
 			autocomplete="off"

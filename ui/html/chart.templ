@@ -24,7 +24,7 @@ templ ChartCanvas(currentChart *models.Chart) {
 		id="chart"
 		class="bg-slate-200"
 		if currentChart != nil {
-			data-images={JSON(currentChart.Images)}
+			data-images={templ.JSONString(currentChart.Images)}
 			data-rows={fmt.Sprint(currentChart.RowCount)}
 			data-cols={fmt.Sprint(currentChart.ColumnCount)}
 			data-spacing={fmt.Sprint(currentChart.Spacing)}

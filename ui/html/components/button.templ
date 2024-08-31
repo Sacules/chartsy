@@ -3,12 +3,10 @@ package components
 type ButtonProps struct {
 	Type string
 	Class string
-	HS string
 }
 
 templ Button(props ButtonProps) {
 	<button
-		_={props.HS}
 		type={props.Type}
 		class={"text-center border border-slate-600 px-4 py-2 transition hover:bg-slate-50 hover:text-slate-900 " + props.Class}
 	>

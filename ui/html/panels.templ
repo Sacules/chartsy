@@ -396,10 +396,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									Id: "bg-color-picker",
 									Name: "bg-color",
 									DefaultValue: currentChart.BgColor,
-									HS: `on input(target)
-										    set val to target.value
-										    send bgChangeColor(value: val) to #images-text
-										    put val into the next <output/>`,
 								})
 								<output name="color" for="bg-color-picker">{currentChart.BgColor}</output>
 							</div>
@@ -409,14 +405,12 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 									Name: "bg-gradient-from",
 									Label: "From",
 									DefaultValue: currentChart.BgColor,
-									HS: "on input(target) send bgChangeGradientFrom(value: target.value) to #images-text",
 								})
 								@input.Color(input.InputColorProps{
 									Id: "bg-gradient-to",
 									Name: "bg-gradient-to",
 									Label: "To",
 									DefaultValue: currentChart.BgColor,
-									HS: "on input(target) send bgChangeGradientTo(value: target.value) to #images-text",
 								})
 							</div>
 							<input
@@ -495,7 +489,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Name: "imagesShape",
 							Legend: "Shape",
 							Class: "settings",
-							HS: "on change(target) send chartImagesShape(value: target.value) to #chart",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
 								Id: "images-shape-square",
@@ -540,7 +533,6 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Name: "imagesTextPosition",
 							Legend: "Position",
 							Class: "settings",
-							HS: "on change(target) send chartTextPlacement(value: target.value) to #chart",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
 								Id: "images-text-position-hide",

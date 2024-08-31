@@ -70,6 +70,7 @@ templ Numeric(props NumericProps) {
 				function change(ev, val) {
 					me("output", me(ev)).value = val
 					me("input", me(ev)).value = val
+					me(ev).send("change", { "name": name, "value": val })
 				}
 
 				me().on("inc", ev => {

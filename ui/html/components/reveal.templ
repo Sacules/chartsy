@@ -3,14 +3,12 @@ package components
 import "gitlab.com/sacules/chartsy/ui/html/components/icon"
 
 type RevealProps struct {
+	Id string
 	Title string
 }
 
 templ Reveal(props RevealProps) {
-	<details
-		_="on toggle
-			  toggle .rotate-180 on the <.chevron /> in me"
-	>
+	<details id={props.Id}>
 		<summary
 			class="p-4 list-none flex items-center justify-between hover:bg-slate-800 hover:cursor-pointer border-y border-slate-700"
 		>
@@ -20,5 +18,8 @@ templ Reveal(props RevealProps) {
 			</div>
 		</summary>
 		{ children... }
+		<script>
+			me().on("toggle", ev => me(`#${me(ev).id} .chevron`).toggleClass("rotate-180"))
+		</script>
 	</details>
 }

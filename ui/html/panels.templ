@@ -359,7 +359,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				}
 			>
 				<input type="number" name="id" hidden value={ fmt.Sprint(currentChart.ID) } class="settings"/>
-				@components.Reveal(components.RevealProps{Title: "General"}) {
+				@components.Reveal(components.RevealProps{Title: "General", Id: "reveal-general"}) {
 					<div class="p-4 grid gap-4">
 						<div
 							id="settings-bg"
@@ -438,7 +438,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						me("#settings-bg-image").on("input", ({ target }) => me("#images-text").send("bgChangeImage", { "file": target.files[0] }))
 					</script>
 				}
-				@components.Reveal(components.RevealProps{Title: "Layout"}) {
+				@components.Reveal(components.RevealProps{Title: "Layout", Id: "reveal-layout"}) {
 					<fieldset
 						id="settings-layout"
 						class="grid grid-cols-2 gap-4 p-4"
@@ -489,7 +489,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						</script>
 					</fieldset>
 				}
-				@components.Reveal(components.RevealProps{Title: "Images"}) {
+				@components.Reveal(components.RevealProps{Title: "Images", Id: "reveal-images"}) {
 					<div class="p-4 grid gap-4">
 						@input.RadioGroup(input.RadioGroupProps{
 							Name: "imagesShape",
@@ -534,7 +534,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						}
 					</div>
 				}
-				@components.Reveal(components.RevealProps{Title: "Titles"}) {
+				@components.Reveal(components.RevealProps{Title: "Titles", Id: "reveal-titles"}) {
 					<div class="p-4 grid gap-4">
 						@input.RadioGroup(input.RadioGroupProps{
 							Name: "imagesTextPosition",

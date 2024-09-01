@@ -28,21 +28,12 @@ interface ImageStash {
 	y: number;
 }
 
-const imageStash: ImageStash = {
-	konvaImg: null,
-	img: null,
-	x: 0,
-	y: 0,
-};
-
-let chartStage: Konva.Stage = new Konva.Stage({
-	container: 'chart',
-	width: 0,
-	height: 0,
-});
-
-let chartLayer = new Konva.Layer();
-let chartTempLayer = new Konva.Layer();
+export interface Chart {
+	stage: Konva.Stage;
+	mainLayer: Konva.Layer;
+	tmpLayer: Konva.Layer;
+	imageStash: ImageStash;
+}
 
 interface ChartImage {
 	ID: number;
@@ -77,7 +68,7 @@ function getAttrs(chart: HTMLElement) {
 	};
 }
 
-function createChartImage(x: number, y: number, imgSize: number, id: string, image: HTMLImageElement) {
+function createChartImage(x: number, y: number, imgSize: number, id: string, image: HTMLImageElement, chart: Chart) {
 	const cover = new Konva.Image({
 		x,
 		y,
@@ -109,67 +100,82 @@ function createChartImage(x: number, y: number, imgSize: number, id: string, ima
 	});
 
 	cover.on('dragstart', (e) => {
-		imageStash.konvaImg = e.target as Konva.Image;
-		imageStash.x = e.target.attrs.x;
-		imageStash.y = e.target.attrs.y;
+		chart.imageStash.konvaImg = e.target as Konva.Image;
+		chart.imageStash.x = e.target.attrs.x;
+		chart.imageStash.y = e.target.attrs.y;
 	});
 
 	cover.on('drop', (e) => {
 		const img = e.target;
 
-		if (!imageStash.konvaImg) {
+		if (!chart.imageStash.konvaImg) {
 			return;
 		}
 
-		imageStash.konvaImg!.setAttr('x', cover.getAttr('x'));
-		imageStash.konvaImg!.setAttr('y', cover.getAttr('y'));
+		chart.imageStash.konvaImg!.setAttr('x', cover.getAttr('x'));
+		chart.imageStash.konvaImg!.setAttr('y', cover.getAttr('y'));
 
-		img.setAttr('x', imageStash.x);
-		img.setAttr('y', imageStash.y);
+		img.setAttr('x', chart.imageStash.x);
+		img.setAttr('y', chart.imageStash.y);
 
-		imageStash.x = 0;
-		imageStash.y = 0;
-		imageStash.konvaImg = null;
+		chart.imageStash.x = 0;
+		chart.imageStash.y = 0;
+		chart.imageStash.konvaImg = null;
 	});
 
 	cover.on('dragend', (e) => {
 		// Go back to where it began the drag, to keep it in the grid
-		e.target.setAttr('x', imageStash.x);
-		e.target.setAttr('y', imageStash.y);
+		e.target.setAttr('x', chart.imageStash.x);
+		e.target.setAttr('y', chart.imageStash.y);
 	});
 
-	chartLayer.add(cover);
+	chart.mainLayer.add(cover);
 }
 
-export function create(reset: boolean) {
-	const chart = document.getElementById('chart');
-	if (!chart) {
-		console.error('no chart was found');
-		return;
+export function create(): Chart {
+	const chartElement = document.getElementById('chart');
+	if (!chartElement) {
+		throw new Error('no chart was found');
 	}
 
-	chartStage.container(chart as HTMLDivElement);
+	const chart: Chart = {
+		stage: new Konva.Stage({
+			container: 'chart',
+			width: 0,
+			height: 0,
+		}),
+		mainLayer: new Konva.Layer(),
+		tmpLayer: new Konva.Layer(),
+		imageStash: {
+			konvaImg: null,
+			img: null,
+			x: 0,
+			y: 0,
+		},
+	};
 
-	const attrs = getAttrs(chart);
+	chart.stage.container(chartElement as HTMLDivElement);
+
+	const attrs = getAttrs(chartElement);
 	const { cols, rows, spacing, padding } = attrs;
 
 	const sizeMultiplier = 8;
-	let images: ChartImage[] = JSON.parse(chart.dataset.images!);
+	let images: ChartImage[] = JSON.parse(chartElement.dataset.images!);
 
 	const w = calculateDimensions(cols, attrs.imagesSize, spacing, padding, sizeMultiplier);
 	const h = calculateDimensions(rows, attrs.imagesSize, spacing, padding, sizeMultiplier);
 
-	chartStage.width(w);
-	chartStage.height(h);
+	chart.stage.width(w);
+	chart.stage.height(h);
 
 	const totalImgs = cols * rows;
 	images = images.slice(0, totalImgs);
 
 	const imageGrid = chunkIntoN(images, rows);
 
-	const emptyChart = chartLayer.getChildren().length === 0;
-	if (emptyChart || reset) {
-		chartLayer.destroyChildren();
+	const emptyChart = chart.mainLayer.getChildren().length === 0;
+	if (emptyChart) {
+		chart.mainLayer.destroyChildren();
 	}
 
 	let i = 0;
@@ -190,7 +196,7 @@ export function create(reset: boolean) {
 			i++;
 
 			const id = `${img.ID}`;
-			const [chartImage] = chartLayer.getChildren((c) => c.id() === id) as Konva.Image[];
+			const [chartImage] = chart.mainLayer.getChildren((c) => c.id() === id) as Konva.Image[];
 			if (!emptyChart && !!chartImage) {
 				chartImage.x(x);
 				chartImage.y(y);
@@ -198,24 +204,24 @@ export function create(reset: boolean) {
 			}
 
 			let image: HTMLImageElement = new Image();
-			image.onload = () => createChartImage(x, y, imgSize, id, image);
+			image.onload = () => createChartImage(x, y, imgSize, id, image, chart);
 			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
 		});
 	});
 
-	chartStage.add(chartLayer);
-	chartStage.add(chartTempLayer);
+	chart.stage.add(chart.mainLayer);
+	chart.stage.add(chart.tmpLayer);
 
-	chartStage.on('dragstart', (e) => {
-		e.target.moveTo(chartTempLayer);
-		chartLayer.draw();
+	chart.stage.on('dragstart', (e) => {
+		e.target.moveTo(chart.tmpLayer);
+		chart.mainLayer.draw();
 	});
 
 	let previousImg: Konva.Image | undefined;
-	chartStage.on('dragmove', (e) => {
-		const pos = chartStage!.getPointerPosition();
-		const img = chartLayer.getIntersection(pos!) as Konva.Image;
+	chart.stage.on('dragmove', (e) => {
+		const pos = chart.stage!.getPointerPosition();
+		const img = chart.mainLayer.getIntersection(pos!) as Konva.Image;
 		if (previousImg && img) {
 			if (previousImg === img) {
 				previousImg.fire('dragover', { evt: e.evt }, true);
@@ -243,39 +249,39 @@ export function create(reset: boolean) {
 		document.body.style.cursor = 'grab';
 	});
 
-	chartStage.on('dragend', (e) => {
-		const pos = chartStage.getPointerPosition();
-		const img = chartLayer.getIntersection(pos!);
+	chart.stage.on('dragend', (e) => {
+		const pos = chart.stage.getPointerPosition();
+		const img = chart.mainLayer.getIntersection(pos!);
 
 		if (img && previousImg) {
 			previousImg.fire('drop', { evt: e.evt }, true);
 			previousImg = undefined;
-			e.target.moveTo(chartLayer);
+			e.target.moveTo(chart.mainLayer);
 		}
 	});
 
-	chartStage.on('dragenter', (e) => {
+	chart.stage.on('dragenter', (e) => {
 		const img = e.target as Konva.Image;
 		img.stroke('green');
 		img.strokeEnabled(true);
 	});
 
-	chartStage.on('dragleave', (e) => {
+	chart.stage.on('dragleave', (e) => {
 		const img = e.target as Konva.Image;
 		img.stroke('blue');
 		img.strokeEnabled(true);
 	});
 
 	let droppedCover: Konva.Image | undefined;
-	const con = chartStage.container();
+	const con = chart.stage.container();
 	con.addEventListener('dragover', (e) => {
 		e.preventDefault();
 
 		// manually register where the pointer is
-		chartStage.setPointersPositions(e);
+		chart.stage.setPointersPositions(e);
 
-		const pointerPos = chartStage.getPointerPosition()!;
-		const [cover] = chartLayer.getChildren((c) => {
+		const pointerPos = chart.stage.getPointerPosition()!;
+		const [cover] = chart.mainLayer.getChildren((c) => {
 			const coverSize = c.size();
 			const coverPos = c.absolutePosition();
 
@@ -307,11 +313,13 @@ export function create(reset: boolean) {
 	button.addEventListener(
 		'click',
 		() => {
-			const dataUrl = chartStage.toDataURL();
+			const dataUrl = chart.stage.toDataURL();
 			download(dataUrl);
 		},
 		false,
 	);
+
+	return chart;
 }
 
 function chunkIntoN<T>(arr: T[], n: number): T[][] {

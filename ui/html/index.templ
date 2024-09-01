@@ -52,7 +52,7 @@ templ Index(url string, isDev bool, isAuthenticated bool, currentChart *models.C
 		<body
 			class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50"
 			if currentChart != nil {
-				onload="chartCreate(false)"
+				onload="window.chart = chartCreate()"
 			}
 		>
 			@Body(isAuthenticated, currentChart, charts)

@@ -2,6 +2,7 @@
 /// <reference lib="dom.iterable" />
 
 import { create, download } from './chart';
+import type { Chart } from './chart';
 
 type ImageSearchData = {
 	Url: string;
@@ -9,6 +10,7 @@ type ImageSearchData = {
 	Caption: string;
 };
 
+window.chart = undefined;
 window.chartCreate = create;
 window.chartDownload = download;
 
@@ -17,6 +19,7 @@ window.imageSearchData = undefined;
 
 declare global {
 	interface Window {
+		chart?: Chart;
 		chartDownload: typeof download;
 		chartCreate: typeof create;
 		imageSearchData?: ImageSearchData;

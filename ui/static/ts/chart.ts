@@ -87,7 +87,7 @@ function createChartImage(x: number, y: number, imgSize: number, id: string, ima
 		id,
 		stroke: 'cyan',
 		draggable: true,
-		strokeWidth: 4,
+		strokeWidth: 0,
 		strokeEnabled: false,
 	});
 

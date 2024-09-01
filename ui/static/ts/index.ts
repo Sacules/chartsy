@@ -3,17 +3,17 @@
 
 import { render, download } from './chart';
 
-window.chartRender = render;
-window.chartDownload = download;
-
-// Make it global so it can be accessed from the chart code
-window.imageSearchData = undefined;
-
 type ImageSearchData = {
 	Url: string;
 	Title: string;
 	Caption: string;
 };
+
+window.chartRender = render;
+window.chartDownload = download;
+
+// Make it global so it can be accessed from the chart code
+window.imageSearchData = undefined;
 
 declare global {
 	interface Window {

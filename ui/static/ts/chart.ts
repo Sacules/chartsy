@@ -141,7 +141,7 @@ function createChartImage(x: number, y: number, imgSize: number, id: string, ima
 	chartLayer.add(cover);
 }
 
-export function render(reset: boolean) {
+export function create(reset: boolean) {
 	const chart = document.getElementById('chart');
 	if (!chart) {
 		console.error('no chart was found');

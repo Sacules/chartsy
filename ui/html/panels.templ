@@ -38,7 +38,7 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 						</figcaption>
 					</figure>
 					<script>
-						me().on("htmx:afterSettle", () => chartRender(true))
+						me().on("htmx:afterSettle", () => chartCreate(true))
 					</script>
 				</button>
 			</li>

@@ -35,7 +35,7 @@ templ ChartCanvas(currentChart *models.Chart) {
 		<script>
 			me().on("update", ev => {
 				me(ev).dataset[ev.detail.name] = ev.detail.value
-				chartRender(false)
+				chartCreate(false)
 			})
 		</script>
 	</div>

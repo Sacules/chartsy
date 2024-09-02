@@ -2,34 +2,20 @@ package html
 
 import (
 	"fmt"
-
 	"gitlab.com/sacules/chartsy/internal/models"
-	"encoding/json"
-	"log"
 )
-
-// JSON just serializes whatever, and ignores all errors
-func JSON(v any) string {
-	val, err := json.Marshal(v)
-	if err != nil {
-		log.Println("couldn't unmarshall: ", err)
-		return ""
-	}
-
-	return string(val)
-}
 
 templ ChartCanvas(currentChart *models.Chart) {
 	<div
 		id="chart"
 		class="bg-slate-200"
 		if currentChart != nil {
-			data-images={templ.JSONString(currentChart.Images)}
-			data-rows={fmt.Sprint(currentChart.RowCount)}
-			data-cols={fmt.Sprint(currentChart.ColumnCount)}
-			data-spacing={fmt.Sprint(currentChart.Spacing)}
-			data-padding={fmt.Sprint(currentChart.Padding)}
-			data-images-size={fmt.Sprint(currentChart.ImagesSize)}
+			data-images={ templ.JSONString(currentChart.Images) }
+			data-rows={ fmt.Sprint(currentChart.RowCount) }
+			data-cols={ fmt.Sprint(currentChart.ColumnCount) }
+			data-spacing={ fmt.Sprint(currentChart.Spacing) }
+			data-padding={ fmt.Sprint(currentChart.Padding) }
+			data-images-size={ fmt.Sprint(currentChart.ImagesSize) }
 		}
 	>
 		if currentChart != nil {

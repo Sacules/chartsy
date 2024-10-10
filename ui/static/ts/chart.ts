@@ -29,6 +29,14 @@ interface ImageStash {
 }
 
 export interface Chart {
+	images: ChartImage[];
+	attrs: {
+		imagesSize: number;
+		padding: number;
+		spacing: number;
+		rows: number;
+		cols: number;
+	};
 	stage: Konva.Stage;
 	mainLayer: Konva.Layer;
 	tmpLayer: Konva.Layer;
@@ -42,7 +50,7 @@ interface ChartImage {
 	URL: string;
 }
 
-function calculateDimensions(
+export function calculateDimensions(
 	colsOrRows: number,
 	imagesSize: number,
 	spacing: number,
@@ -50,22 +58,6 @@ function calculateDimensions(
 	multiplier: number,
 ) {
 	return imagesSize * colsOrRows + spacing * multiplier * (colsOrRows - 1) + padding * multiplier * 2;
-}
-
-function getAttrs(chart: HTMLElement) {
-	const imagesSize = Number(chart.dataset.imagesSize!);
-	const padding = Number(chart.dataset.padding!);
-	const spacing = Number(chart.dataset.spacing!);
-	const rows = Number(chart.dataset.rows!);
-	const cols = Number(chart.dataset.cols!);
-
-	return {
-		imagesSize,
-		padding,
-		spacing,
-		rows,
-		cols,
-	};
 }
 
 function createChartImage(x: number, y: number, imgSize: number, id: string, image: HTMLImageElement, chart: Chart) {
@@ -138,7 +130,21 @@ export function create(): Chart {
 		throw new Error('no chart was found');
 	}
 
+	const imagesSize = Number(chartElement.dataset.imagesSize!);
+	const padding = Number(chartElement.dataset.padding!);
+	const spacing = Number(chartElement.dataset.spacing!);
+	const rows = Number(chartElement.dataset.rows!);
+	const cols = Number(chartElement.dataset.cols!);
+
 	const chart: Chart = {
+		images: JSON.parse(chartElement.dataset.images!),
+		attrs: {
+			imagesSize,
+			padding,
+			spacing,
+			rows,
+			cols,
+		},
 		stage: new Konva.Stage({
 			container: 'chart',
 			width: 0,
@@ -156,59 +162,25 @@ export function create(): Chart {
 
 	chart.stage.container(chartElement as HTMLDivElement);
 
-	const attrs = getAttrs(chartElement);
-	const { cols, rows, spacing, padding } = attrs;
-
 	const sizeMultiplier = 8;
-	let images: ChartImage[] = JSON.parse(chartElement.dataset.images!);
 
-	const w = calculateDimensions(cols, attrs.imagesSize, spacing, padding, sizeMultiplier);
-	const h = calculateDimensions(rows, attrs.imagesSize, spacing, padding, sizeMultiplier);
+	const w = calculateDimensions(cols, chart.attrs.imagesSize, spacing, padding, sizeMultiplier);
+	const h = calculateDimensions(rows, chart.attrs.imagesSize, spacing, padding, sizeMultiplier);
 
 	chart.stage.width(w);
 	chart.stage.height(h);
 
 	const totalImgs = cols * rows;
-	images = images.slice(0, totalImgs);
+	chart.images = chart.images.slice(0, totalImgs);
 
-	const imageGrid = chunkIntoN(images, rows);
+	positionImages(chart, sizeMultiplier);
 
+	/*
 	const emptyChart = chart.mainLayer.getChildren().length === 0;
 	if (emptyChart) {
 		chart.mainLayer.destroyChildren();
 	}
-
-	let i = 0;
-	imageGrid.forEach((imgRow, row) => {
-		imgRow.forEach((img, col) => {
-			const imgSize = attrs.imagesSize;
-
-			let x = (col % cols) * imgSize + padding * sizeMultiplier;
-			if (col > 0) {
-				x += spacing * sizeMultiplier * col;
-			}
-
-			let y = (row % rows) * imgSize + padding * sizeMultiplier;
-			if (row > 0) {
-				y += spacing * sizeMultiplier * row;
-			}
-
-			i++;
-
-			const id = `${img.ID}`;
-			const [chartImage] = chart.mainLayer.getChildren((c) => c.id() === id) as Konva.Image[];
-			if (!emptyChart && !!chartImage) {
-				chartImage.x(x);
-				chartImage.y(y);
-				return;
-			}
-
-			let image: HTMLImageElement = new Image();
-			image.onload = () => createChartImage(x, y, imgSize, id, image, chart);
-			image.crossOrigin = 'Anonymous';
-			image.src = img.URL;
-		});
-	});
+	*/
 
 	chart.stage.add(chart.mainLayer);
 	chart.stage.add(chart.tmpLayer);
@@ -320,6 +292,45 @@ export function create(): Chart {
 	);
 
 	return chart;
+}
+
+function positionImages(chart: Chart, sizeMultiplier: number) {
+	const { attrs } = chart;
+	const imageGrid = chunkIntoN(chart.images, attrs.rows);
+
+	let i = 0;
+	imageGrid.forEach((imgRow, row) => {
+		imgRow.forEach((img, col) => {
+			const imgSize = attrs.imagesSize;
+
+			let x = (col % attrs.cols) * imgSize + attrs.padding * sizeMultiplier;
+			if (col > 0) {
+				x += attrs.spacing * sizeMultiplier * col;
+			}
+
+			let y = (row % attrs.rows) * imgSize + attrs.padding * sizeMultiplier;
+			if (row > 0) {
+				y += attrs.spacing * sizeMultiplier * row;
+			}
+
+			i++;
+
+			/*
+			const [chartImage] = chart.mainLayer.getChildren((c) => c.id() === id) as Konva.Image[];
+			if (!emptyChart && !!chartImage) {
+				chartImage.x(x);
+				chartImage.y(y);
+				return;
+			}
+			*/
+
+			const id = `${img.ID}`;
+			let image: HTMLImageElement = new Image();
+			image.onload = () => createChartImage(x, y, imgSize, id, image, chart);
+			image.crossOrigin = 'Anonymous';
+			image.src = img.URL;
+		});
+	});
 }
 
 function chunkIntoN<T>(arr: T[], n: number): T[][] {

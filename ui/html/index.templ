@@ -1,30 +1,25 @@
 package html
 
-import (
-	"gitlab.com/sacules/chartsy/internal/models"
-)
+import "gitlab.com/sacules/chartsy/internal/models"
 
-templ Head(isDev bool, currentChart *models.Chart) {
+templ Head(isDev bool) {
 	<title>Chartsy</title>
-	<meta charset="UTF-8" />
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png" />
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png" />
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png" />
-	<link rel="manifest" href="/assets/img/site.webmanifest" />
-	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5" />
-	<meta name="msapplication-TileColor" content="#7ecce0" />
-	<meta name="theme-color" content="#ffffff" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-	<link rel="stylesheet" href="/assets/index.css" />
-
+	<meta charset="UTF-8"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png"/>
+	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32.png"/>
+	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16.png"/>
+	<link rel="manifest" href="/assets/img/site.webmanifest"/>
+	<link rel="mask-icon" href="/assets/img/safari-pinned-tab.svg" color="#5bbad5"/>
+	<meta name="msapplication-TileColor" content="#7ecce0"/>
+	<meta name="theme-color" content="#ffffff"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="/assets/index.css"/>
 	<script defer src="/assets/js/htmx.min.js"></script>
 	<script defer src="/assets/js/multi-swap.min.js"></script>
 	<script defer src="/assets/js/head-support.min.js"></script>
 	<script defer src="/assets/js/konva.min.js"></script>
 	<script defer src="/assets/index.js"></script>
 	<script src="/assets/js/surreal.js"></script>
-
 	if isDev {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
 	}
@@ -47,7 +42,7 @@ templ Index(url string, isDev bool, isAuthenticated bool, currentChart *models.C
 	<!DOCTYPE html>
 	<html lang="en" class="overflow-hidden" hx-ext="multi-swap,head-support">
 		<head hx-head="merge">
-			@Head(isDev, currentChart)
+			@Head(isDev)
 		</head>
 		<body
 			class="h-[100dvh] md:h-screen w-full fixed font-sans-serif bg-slate-900 text-slate-50"

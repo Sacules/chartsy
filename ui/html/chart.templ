@@ -20,9 +20,9 @@ templ ChartCanvas(currentChart *models.Chart) {
 	>
 		if currentChart != nil {
 			<script>
-				me().on("update", ev => {
+				me().on("chart:update", ev => {
 					me(ev).dataset[ev.detail.name] = ev.detail.value
-					chartUpdate()
+					chartResize(window.chart);
 				})
 			</script>
 		}

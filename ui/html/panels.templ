@@ -479,7 +479,7 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							Max: 5,
 						})
 						<script>
-							any("#settings-layout > .settings").on("change", ev => me("#chart").send("update", ev.detail))
+							any("#settings-layout > .settings").on("change", ev => me("#chart").send("chart:update", ev.detail))
 						</script>
 					</fieldset>
 				}

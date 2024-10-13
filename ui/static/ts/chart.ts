@@ -46,7 +46,7 @@ export interface Chart {
 }
 
 interface ChartImage {
-	ID: number;
+	ID: string;
 	Title: string;
 	Caption: string;
 	URL: string;
@@ -276,6 +276,7 @@ export function create(): Chart {
 	});
 
 	let droppedCover: Konva.Image | undefined;
+	let droppedId = '';
 	const con = chart.stage.container();
 	con.addEventListener('dragover', (e) => {
 		e.preventDefault();
@@ -296,7 +297,12 @@ export function create(): Chart {
 			);
 		});
 
+		if (!cover) {
+			return;
+		}
+
 		droppedCover = cover as Konva.Image;
+		droppedId = cover.id();
 	});
 
 	con.addEventListener('drop', (e) => {
@@ -309,6 +315,9 @@ export function create(): Chart {
 		const img = droppedCover.getAttr('image');
 		droppedCover.destroy();
 		img.src = window.imageSearchData!.Url;
+
+		console.debug(droppedId);
+		chart.images[Number(droppedId)].URL = window.imageSearchData!.Url;
 	});
 
 	// Enable downloads
@@ -344,8 +353,6 @@ function placeImages(chart: Chart, imgs: ChartImage[]) {
 				y += attrs.spacing * SIZE_MULTIPLIER * row;
 			}
 
-			i++;
-
 			/*
 			const [chartImage] = chart.mainLayer.getChildren((c) => c.id() === id) as Konva.Image[];
 			if (!emptyChart && !!chartImage) {
@@ -355,11 +362,13 @@ function placeImages(chart: Chart, imgs: ChartImage[]) {
 			}
 			*/
 
-			const id = `${img.ID}`;
+			const id = `${i}`;
 			let image: HTMLImageElement = new Image();
 			image.onload = () => createImageAt(x, y, imgSize, id, image, chart);
 			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
+
+			i++;
 		});
 	});
 }

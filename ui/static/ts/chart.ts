@@ -1,5 +1,7 @@
 import Konva from 'konva';
 
+const SIZE_MULTIPLIER = 8;
+
 const downloadend = new Event('downloadend');
 
 export function download(dataUrl: string) {
@@ -124,6 +126,44 @@ function createImageAt(x: number, y: number, imgSize: number, id: string, htmlIm
 	chart.mainLayer.add(cover);
 }
 
+export function resize(chart: Chart) {
+	chart.mainLayer.destroyChildren();
+
+	const chartElement = document.getElementById('chart');
+	if (!chartElement) {
+		throw new Error('no chart was found');
+	}
+
+	chart.attrs.imagesSize = Number(chartElement.dataset.imagesSize!);
+	chart.attrs.padding = Number(chartElement.dataset.padding!);
+	chart.attrs.spacing = Number(chartElement.dataset.spacing!);
+	chart.attrs.rows = Number(chartElement.dataset.rows!);
+	chart.attrs.cols = Number(chartElement.dataset.cols!);
+
+	const w = calculateDimensions(
+		chart.attrs.cols,
+		chart.attrs.imagesSize,
+		chart.attrs.spacing,
+		chart.attrs.padding,
+		SIZE_MULTIPLIER,
+	);
+	const h = calculateDimensions(
+		chart.attrs.rows,
+		chart.attrs.imagesSize,
+		chart.attrs.spacing,
+		chart.attrs.padding,
+		SIZE_MULTIPLIER,
+	);
+
+	chart.stage.width(w);
+	chart.stage.height(h);
+
+	const totalImgs = chart.attrs.cols * chart.attrs.rows;
+	const imgs = chart.images.slice(0, totalImgs);
+
+	placeImages(chart, imgs);
+}
+
 export function create(): Chart {
 	const chartElement = document.getElementById('chart');
 	if (!chartElement) {
@@ -162,25 +202,16 @@ export function create(): Chart {
 
 	chart.stage.container(chartElement as HTMLDivElement);
 
-	const sizeMultiplier = 8;
-
-	const w = calculateDimensions(cols, chart.attrs.imagesSize, spacing, padding, sizeMultiplier);
-	const h = calculateDimensions(rows, chart.attrs.imagesSize, spacing, padding, sizeMultiplier);
+	const w = calculateDimensions(cols, chart.attrs.imagesSize, spacing, padding, SIZE_MULTIPLIER);
+	const h = calculateDimensions(rows, chart.attrs.imagesSize, spacing, padding, SIZE_MULTIPLIER);
 
 	chart.stage.width(w);
 	chart.stage.height(h);
 
 	const totalImgs = cols * rows;
-	chart.images = chart.images.slice(0, totalImgs);
+	const imgs = chart.images.slice(0, totalImgs);
 
-	placeImages(chart, sizeMultiplier);
-
-	/*
-	const emptyChart = chart.mainLayer.getChildren().length === 0;
-	if (emptyChart) {
-		chart.mainLayer.destroyChildren();
-	}
-	*/
+	placeImages(chart, imgs);
 
 	chart.stage.add(chart.mainLayer);
 	chart.stage.add(chart.tmpLayer);
@@ -294,23 +325,23 @@ export function create(): Chart {
 	return chart;
 }
 
-function placeImages(chart: Chart, sizeMultiplier: number) {
+function placeImages(chart: Chart, imgs: ChartImage[]) {
 	const { attrs } = chart;
-	const imageGrid = chunkIntoN(chart.images, attrs.rows);
+	const imageGrid = chunkIntoN(imgs, attrs.rows);
 
 	let i = 0;
 	imageGrid.forEach((imgRow, row) => {
 		imgRow.forEach((img, col) => {
 			const imgSize = attrs.imagesSize;
 
-			let x = (col % attrs.cols) * imgSize + attrs.padding * sizeMultiplier;
+			let x = (col % attrs.cols) * imgSize + attrs.padding * SIZE_MULTIPLIER;
 			if (col > 0) {
-				x += attrs.spacing * sizeMultiplier * col;
+				x += attrs.spacing * SIZE_MULTIPLIER * col;
 			}
 
-			let y = (row % attrs.rows) * imgSize + attrs.padding * sizeMultiplier;
+			let y = (row % attrs.rows) * imgSize + attrs.padding * SIZE_MULTIPLIER;
 			if (row > 0) {
-				y += attrs.spacing * sizeMultiplier * row;
+				y += attrs.spacing * SIZE_MULTIPLIER * row;
 			}
 
 			i++;

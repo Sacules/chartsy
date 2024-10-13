@@ -60,13 +60,13 @@ export function calculateDimensions(
 	return imagesSize * colsOrRows + spacing * multiplier * (colsOrRows - 1) + padding * multiplier * 2;
 }
 
-function createChartImage(x: number, y: number, imgSize: number, id: string, image: HTMLImageElement, chart: Chart) {
+function createImageAt(x: number, y: number, imgSize: number, id: string, htmlImage: HTMLImageElement, chart: Chart) {
 	const cover = new Konva.Image({
 		x,
 		y,
 		width: imgSize,
 		height: imgSize,
-		image,
+		image: htmlImage,
 		id,
 		stroke: 'cyan',
 		draggable: true,
@@ -173,7 +173,7 @@ export function create(): Chart {
 	const totalImgs = cols * rows;
 	chart.images = chart.images.slice(0, totalImgs);
 
-	positionImages(chart, sizeMultiplier);
+	placeImages(chart, sizeMultiplier);
 
 	/*
 	const emptyChart = chart.mainLayer.getChildren().length === 0;
@@ -294,7 +294,7 @@ export function create(): Chart {
 	return chart;
 }
 
-function positionImages(chart: Chart, sizeMultiplier: number) {
+function placeImages(chart: Chart, sizeMultiplier: number) {
 	const { attrs } = chart;
 	const imageGrid = chunkIntoN(chart.images, attrs.rows);
 
@@ -326,7 +326,7 @@ function positionImages(chart: Chart, sizeMultiplier: number) {
 
 			const id = `${img.ID}`;
 			let image: HTMLImageElement = new Image();
-			image.onload = () => createChartImage(x, y, imgSize, id, image, chart);
+			image.onload = () => createImageAt(x, y, imgSize, id, image, chart);
 			image.crossOrigin = 'Anonymous';
 			image.src = img.URL;
 		});

@@ -5,7 +5,7 @@ import (
 	"gitlab.com/sacules/chartsy/internal/models"
 )
 
-templ ChartCanvas(currentChart *models.Chart) {
+templ ChartCanvas(isAuthenticated bool, currentChart *models.Chart) {
 	<div
 		id="chart"
 		class="bg-slate-200"
@@ -16,6 +16,7 @@ templ ChartCanvas(currentChart *models.Chart) {
 			data-spacing={ fmt.Sprint(currentChart.Spacing) }
 			data-padding={ fmt.Sprint(currentChart.Padding) }
 			data-images-size={ fmt.Sprint(currentChart.ImagesSize) }
+			data-id={ fmt.Sprint(currentChart.ID) }
 		}
 	>
 		if currentChart != nil {
@@ -23,6 +24,24 @@ templ ChartCanvas(currentChart *models.Chart) {
 				me().on("chart:update", ev => {
 					me(ev).dataset[ev.detail.name] = ev.detail.value
 					chartResize(window.chart);
+				})
+			</script>
+		}
+		if isAuthenticated {
+			<script>
+				me().on("chart:update", ev => {
+					if (ev.detail.name !== "images") {
+						return;
+					}
+
+					const form = new FormData();
+					form.append("id", me(ev).dataset.id);
+					form.append("id", me(ev).dataset.images);
+
+					fetch("/images", {
+						method: "PATCH",
+						body: ev.detail.value
+					});
 				})
 			</script>
 		}

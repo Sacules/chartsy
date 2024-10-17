@@ -2,14 +2,12 @@ package html
 
 import (
 	"fmt"
-
 	"gitlab.com/sacules/chartsy/internal/models"
 	"gitlab.com/sacules/chartsy/internal/validator"
 
 	"gitlab.com/sacules/chartsy/ui/html/components"
 	"gitlab.com/sacules/chartsy/ui/html/components/icon"
 	"gitlab.com/sacules/chartsy/ui/html/components/input"
-
 )
 
 templ ChartList(currentChart *models.Chart, charts []models.Chart) {
@@ -19,7 +17,7 @@ templ ChartList(currentChart *models.Chart, charts []models.Chart) {
 				<button
 					class="w-full"
 					name="id"
-					value={fmt.Sprint(c.ID)}
+					value={ fmt.Sprint(c.ID) }
 					hx-get="/"
 					hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
 					hx-push-url="true"
@@ -66,8 +64,8 @@ templ Search() {
 		class="w-full flex flex-col gap-2 border-b border-slate-500/75 p-4"
 	>
 		@input.Text(input.InputTextProps{
-			Id: "search",
-			Name: "search",
+			Id:          "search",
+			Name:        "search",
 			Placeholder: "e.g. In Absentia",
 		})
 		<script type="text/javascript">
@@ -76,7 +74,6 @@ templ Search() {
 	</form>
 	<ul id="search-results" class="flex flex-col overflow-y-auto divide-y divide-slate-500/75"></ul>
 }
-
 
 type SearchResult struct {
 	Title  string
@@ -91,7 +88,7 @@ script handleDragStart(s SearchResult) {
 templ SearchResults(res []SearchResult) {
 	for _, r := range res {
 		<li
-			ondragstart={handleDragStart(r)}
+			ondragstart={ handleDragStart(r) }
 			class="search-result p-4 group focus-visible:bg-slate-200 hover:bg-slate-200 transition duration-150 hover:cursor-grab"
 			draggable="true"
 			tabindex="0"
@@ -130,30 +127,30 @@ templ Login(form UserLoginForm) {
 		id="login"
 		class="aria-hidden:hidden"
 		hx-post="/login"
-		hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML transition:true"
+		hx-swap="multi:#header,#main,#panel-right:outerHTML,#panel-left:outerHTML,#login:outerHTML transition:true"
 	>
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
 			@input.Text(input.InputTextProps{
-				Id: "login-email",
-				Name: "email",
-				Label: "E-mail",
-				Type: "E-mail",
-				Error: form.FieldErrors["email"],
+				Id:           "login-email",
+				Name:         "email",
+				Label:        "E-mail",
+				Type:         "E-mail",
+				Error:        form.FieldErrors["email"],
 				DefaultValue: form.Email,
-				Required: true,
+				Required:     true,
 				Autocomplete: "on",
 			})
 			@input.Text(input.InputTextProps{
-				Id: "login-password",
-				Name: "password",
-				Type: "password",
-				Label: "Password",
-				Error: form.FieldErrors["password"],
+				Id:       "login-password",
+				Name:     "password",
+				Type:     "password",
+				Label:    "Password",
+				Error:    form.FieldErrors["password"],
 				Required: true,
 			})
 			if _, ok := form.FieldErrors["general"]; ok {
 				<p class="text-rose-600">
-					{form.FieldErrors["general"]}
+					{ form.FieldErrors["general"] }
 				</p>
 			}
 		</div>
@@ -183,28 +180,28 @@ templ Signup(form UserSignupForm, err error) {
 	<form id="signup" class="aria-hidden:hidden grid-cols-[auto_auto]" hx-post="/signup" hx-swap="outerHTML">
 		<div class="flex flex-col gap-4 p-4 border-t border-slate-700">
 			@input.Text(input.InputTextProps{
-				Id: "signup-password",
-				Name: "email",
-				Type: "email",
-				Label: "E-mail",
-				Caption: "Required",
+				Id:           "signup-password",
+				Name:         "email",
+				Type:         "email",
+				Label:        "E-mail",
+				Caption:      "Required",
 				DefaultValue: form.Email,
-				Error: form.FieldErrors["email"],
-				Required: true,
+				Error:        form.FieldErrors["email"],
+				Required:     true,
 			})
 			@input.Text(input.InputTextProps{
-				Id: "signup-password",
-				Name: "password",
-				Type: "password",
-				Label: "Password",
-				Error: form.FieldErrors["password"],
-				Caption: "Required, must be at least 8 characters long",
+				Id:       "signup-password",
+				Name:     "password",
+				Type:     "password",
+				Label:    "Password",
+				Error:    form.FieldErrors["password"],
+				Caption:  "Required, must be at least 8 characters long",
 				Required: true,
 			})
 		</div>
 		if err != nil {
 			<p>
-				{err.Error()}
+				{ err.Error() }
 			</p>
 		}
 		<div class="p-4 flex justify-evenly border-t border-slate-700 relative">
@@ -225,7 +222,7 @@ templ Signup(form UserSignupForm, err error) {
 
 templ SignupOk(email string) {
 	<p class="p-4">
-	    A confirmation email has been sent to <strong>{email}</strong>.
+		A confirmation email has been sent to <strong>{ email }</strong>.
 		Please click the link within to confirm your account.
 	</p>
 }
@@ -369,50 +366,50 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 							class="grid gap-4"
 						>
 							@input.RadioGroup(input.RadioGroupProps{
-								Name: "background",
+								Name:   "background",
 								Legend: "Background",
 							}) {
 								@input.RadioGroupItem(input.RadioGroupItemProps{
-									Id: "background-setting-color",
-									Label: "Color",
-									Name: "background-setting",
-									Value: "color",
+									Id:        "background-setting-color",
+									Label:     "Color",
+									Name:      "background-setting",
+									Value:     "color",
 									IsDefault: true,
 								})
 								@input.RadioGroupItem(input.RadioGroupItemProps{
-									Id: "background-setting-gradient",
-									Label: "Gradient",
-									Name: "background-setting",
-									Value: "gradient",
+									Id:        "background-setting-gradient",
+									Label:     "Gradient",
+									Name:      "background-setting",
+									Value:     "gradient",
 									IsDefault: false,
 								})
 								@input.RadioGroupItem(input.RadioGroupItemProps{
-									Id: "background-setting-image",
-									Label: "Image",
-									Name: "background-setting",
-									Value: "image",
+									Id:        "background-setting-image",
+									Label:     "Image",
+									Name:      "background-setting",
+									Value:     "image",
 									IsDefault: false,
 								})
 							}
 							<div id="settings-bg-color" class="settings-bg aria-hidden:hidden flex justify-start items-center gap-4">
 								@input.Color(input.InputColorProps{
-									Id: "bg-color-picker",
-									Name: "bg-color",
+									Id:           "bg-color-picker",
+									Name:         "bg-color",
 									DefaultValue: currentChart.BgColor,
 								})
-								<output name="color" for="bg-color-picker">{currentChart.BgColor}</output>
+								<output name="color" for="bg-color-picker">{ currentChart.BgColor }</output>
 							</div>
 							<div id="settings-bg-gradient" class="settings-bg flex justify-between aria-hidden:hidden" aria-hidden="true">
 								@input.Color(input.InputColorProps{
-									Id: "bg-gradient-from",
-									Name: "bg-gradient-from",
-									Label: "From",
+									Id:           "bg-gradient-from",
+									Name:         "bg-gradient-from",
+									Label:        "From",
 									DefaultValue: currentChart.BgColor,
 								})
 								@input.Color(input.InputColorProps{
-									Id: "bg-gradient-to",
-									Name: "bg-gradient-to",
-									Label: "To",
+									Id:           "bg-gradient-to",
+									Name:         "bg-gradient-to",
+									Label:        "To",
 									DefaultValue: currentChart.BgColor,
 								})
 							</div>
@@ -442,44 +439,44 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 						role="group"
 					>
 						@input.Numeric(input.NumericProps{
-							Id: "column-count",
-							Class: "settings",
-							Name: "cols",
+							Id:           "column-count",
+							Class:        "settings",
+							Name:         "cols",
 							DefaultValue: int(currentChart.ColumnCount),
-							Label: "Columns",
-							Step: 1,
-							Min: 1,
-							Max: 10,
+							Label:        "Columns",
+							Step:         1,
+							Min:          1,
+							Max:          10,
 						})
 						@input.Numeric(input.NumericProps{
-							Id: "row-count",
-							Class: "settings",
-							Name: "rows",
+							Id:           "row-count",
+							Class:        "settings",
+							Name:         "rows",
 							DefaultValue: int(currentChart.RowCount),
-							Label: "Rows",
-							Step: 1,
-							Min: 1,
-							Max: 10,
+							Label:        "Rows",
+							Step:         1,
+							Min:          1,
+							Max:          10,
 						})
 						@input.Numeric(input.NumericProps{
-							Id: "spacing",
-							Class: "settings",
-							Name: "spacing",
+							Id:           "spacing",
+							Class:        "settings",
+							Name:         "spacing",
 							DefaultValue: int(currentChart.Spacing),
-							Label: "Spacing",
-							Step: 1,
-							Min: 0,
-							Max: 5,
+							Label:        "Spacing",
+							Step:         1,
+							Min:          0,
+							Max:          5,
 						})
 						@input.Numeric(input.NumericProps{
-							Id: "padding",
-							Class: "settings",
-							Name: "padding",
+							Id:           "padding",
+							Class:        "settings",
+							Name:         "padding",
 							DefaultValue: int(currentChart.Padding),
-							Label: "Padding",
-							Step: 1,
-							Min: 0,
-							Max: 5,
+							Label:        "Padding",
+							Step:         1,
+							Min:          0,
+							Max:          5,
 						})
 						<script>
 							any("#settings-layout > .settings").on("change", ev => me("#chart").send("chart:update", ev.detail))
@@ -489,43 +486,43 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				@components.Reveal(components.RevealProps{Title: "Images", Id: "reveal-images"}) {
 					<div class="p-4 grid gap-4">
 						@input.RadioGroup(input.RadioGroupProps{
-							Name: "imagesShape",
+							Name:   "imagesShape",
 							Legend: "Shape",
-							Class: "settings",
+							Class:  "settings",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-shape-square",
+								Id:        "images-shape-square",
 								IsDefault: true,
-								Name: "images-shape",
-								Value: "square",
-								Label: "Square",
+								Name:      "images-shape",
+								Value:     "square",
+								Label:     "Square",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-shape-portrait",
+								Id:        "images-shape-portrait",
 								IsDefault: false,
-								Name: "images-shape",
-								Value: "portrait",
-								Label: "Portrait",
+								Name:      "images-shape",
+								Value:     "portrait",
+								Label:     "Portrait",
 							})
 						}
 						@input.RadioGroup(input.RadioGroupProps{
-							Name: "imagesSize",
+							Name:   "imagesSize",
 							Legend: "Size",
-							Class: "settings",
+							Class:  "settings",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-size-regular",
+								Id:        "images-size-regular",
 								IsDefault: true,
-								Value: "150",
-								Name: "images-size",
-								Label: "Regular",
+								Value:     "150",
+								Name:      "images-size",
+								Label:     "Regular",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-size-large",
+								Id:        "images-size-large",
 								IsDefault: false,
-								Value: "200",
-								Name: "images-size",
-								Label: "Large",
+								Value:     "200",
+								Name:      "images-size",
+								Label:     "Large",
 							})
 						}
 					</div>
@@ -533,51 +530,51 @@ templ PanelRight(isAuthenticated bool, currentChart *models.Chart) {
 				@components.Reveal(components.RevealProps{Title: "Titles", Id: "reveal-titles"}) {
 					<div class="p-4 grid gap-4">
 						@input.RadioGroup(input.RadioGroupProps{
-							Name: "imagesTextPosition",
+							Name:   "imagesTextPosition",
 							Legend: "Position",
-							Class: "settings",
+							Class:  "settings",
 						}) {
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-hide",
+								Id:        "images-text-position-hide",
 								IsDefault: true,
-								Name: "images-text-position",
-								Value: "hide",
-								Label: "Hide",
+								Name:      "images-text-position",
+								Value:     "hide",
+								Label:     "Hide",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-inline",
+								Id:        "images-text-position-inline",
 								IsDefault: false,
-								Name: "images-text-position",
-								Value: "inline",
-								Label: "Inline",
+								Name:      "images-text-position",
+								Value:     "inline",
+								Label:     "Inline",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-overlay",
+								Id:        "images-text-position-overlay",
 								IsDefault: false,
-								Name: "images-text-position",
-								Value: "overlay",
-								Label: "Overlay",
+								Name:      "images-text-position",
+								Value:     "overlay",
+								Label:     "Overlay",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-left",
+								Id:        "images-text-position-left",
 								IsDefault: false,
-								Name: "images-text-position",
-								Value: "left",
-								Label: "Left",
+								Name:      "images-text-position",
+								Value:     "left",
+								Label:     "Left",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-below",
+								Id:        "images-text-position-below",
 								IsDefault: false,
-								Name: "images-text-position",
-								Value: "below",
-								Label: "Below",
+								Name:      "images-text-position",
+								Value:     "below",
+								Label:     "Below",
 							})
 							@input.RadioGroupItem(input.RadioGroupItemProps{
-								Id: "images-text-position-right",
+								Id:        "images-text-position-right",
 								IsDefault: false,
-								Name: "images-text-position",
-								Value: "right",
-								Label: "Right",
+								Name:      "images-text-position",
+								Value:     "right",
+								Label:     "Right",
 							})
 						}
 					</div>

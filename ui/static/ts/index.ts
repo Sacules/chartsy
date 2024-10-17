@@ -7,7 +7,7 @@ import type { Chart } from './chart';
 type ImageSearchData = {
 	Url: string;
 	Title: string;
-	Caption: string;
+	Author: string;
 };
 
 window.chart = undefined;

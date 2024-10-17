@@ -1,5 +1,6 @@
 import Konva from 'konva';
 
+// Base unit for padding and spacing
 const SIZE_MULTIPLIER = 8;
 
 const downloadend = new Event('downloadend');
@@ -316,8 +317,12 @@ export function create(): Chart {
 		droppedCover.destroy();
 		img.src = window.imageSearchData!.Url;
 
-		console.debug(droppedId);
 		chart.images[Number(droppedId)].URL = window.imageSearchData!.Url;
+		chart.images[Number(droppedId)].Title = window.imageSearchData!.Title;
+		chart.images[Number(droppedId)].Caption = window.imageSearchData!.Author;
+
+		const ev = new CustomEvent('chart:update', { detail: { name: 'images', value: JSON.stringify(chart.images)! } });
+		chartElement.dispatchEvent(ev);
 	});
 
 	// Enable downloads
@@ -352,15 +357,6 @@ function placeImages(chart: Chart, imgs: ChartImage[]) {
 			if (row > 0) {
 				y += attrs.spacing * SIZE_MULTIPLIER * row;
 			}
-
-			/*
-			const [chartImage] = chart.mainLayer.getChildren((c) => c.id() === id) as Konva.Image[];
-			if (!emptyChart && !!chartImage) {
-				chartImage.x(x);
-				chartImage.y(y);
-				return;
-			}
-			*/
 
 			const id = `${i}`;
 			let image: HTMLImageElement = new Image();

@@ -32,7 +32,7 @@ templ Body(isAuthenticated bool, currentChart *models.Chart, charts []models.Cha
 		@Header(currentChart)
 		@PanelLeft(isAuthenticated, currentChart, charts)
 		<main id="main" class="overflow-auto grid place-items-center p-8">
-			@ChartCanvas(currentChart)
+			@ChartCanvas(isAuthenticated, currentChart)
 		</main>
 		@PanelRight(isAuthenticated, currentChart)
 	</div>

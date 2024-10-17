@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"fmt"
 	"math/rand"
 	"net/http"
 	"net/url"
@@ -62,31 +61,6 @@ func (app *application) newTemplateData(r *http.Request) *TemplateData {
 func (app *application) renderTempl(w http.ResponseWriter, r *http.Request, status int, c templ.Component) {
 	var buf bytes.Buffer
 	err := c.Render(r.Context(), &buf)
-	if err != nil {
-		app.serverError(w, err)
-		return
-	}
-
-	w.WriteHeader(status)
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write(buf.Bytes())
-}
-
-func (app *application) render(w http.ResponseWriter, status int, page string, data *TemplateData) {
-	app.renderFragment(w, status, page, "base", data)
-}
-
-func (app *application) renderFragment(w http.ResponseWriter, status int, page, fragment string, data *TemplateData) {
-	ts, ok := app.templateCache[page]
-	if !ok {
-		err := fmt.Errorf("the template %s doesn't exist", page)
-		app.serverError(w, err)
-
-		return
-	}
-
-	var buf bytes.Buffer
-	err := ts.ExecuteTemplate(&buf, fragment, data)
 	if err != nil {
 		app.serverError(w, err)
 		return

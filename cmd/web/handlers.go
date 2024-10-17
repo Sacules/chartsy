@@ -244,9 +244,15 @@ func (app *application) userLogin(w http.ResponseWriter, r *http.Request) {
 	if !form.Valid() {
 		data := app.newTemplateData(r)
 		data.Form = form
-		app.renderFragment(w, http.StatusOK, "chart", "login", data)
+		app.renderTempl(w, r, http.StatusOK, html.Login(form))
 
 		return
+	}
+
+	if app.isDev {
+		app.sessionManager.Put(r.Context(), "authenticatedUserID", 0)
+
+		app.index(w, r)
 	}
 
 	id, err := app.users.Authenticate(form.Email, form.Password)
@@ -311,7 +317,7 @@ func (app *application) emailVerify(w http.ResponseWriter, r *http.Request) {
 	if ver.ExpiresAt.Before(time.Now()) {
 		app.infoLog.Println("now:", time.Now())
 		app.infoLog.Println("expires at:", ver.ExpiresAt)
-		app.renderFragment(w, http.StatusUnauthorized, "base", "error/expired-code", nil)
+		//app.renderFragment(w, http.StatusUnauthorized, "base", "error/expired-code", nil)
 		return
 	}
 

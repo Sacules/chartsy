@@ -13,7 +13,6 @@ templ Head(isDev bool) {
 	<meta name="msapplication-TileColor" content="#7ecce0"/>
 	<meta name="theme-color" content="#ffffff"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<link rel="stylesheet" href="/assets/index.css"/>
 	<script defer src="/assets/js/htmx.min.js"></script>
 	<script defer src="/assets/js/multi-swap.min.js"></script>
 	<script defer src="/assets/js/head-support.min.js"></script>
@@ -22,6 +21,31 @@ templ Head(isDev bool) {
 	<script src="/assets/js/surreal.js"></script>
 	if isDev {
 		<script defer src="http://0.0.0.0:35729/livereload.js"></script>
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+		    tailwind.config = {
+				theme: {
+					fontSize: {
+						sm: '0.812rem',
+						base: '1rem',
+						lg: '1.25rem',
+						xl: '1.562rem',
+						'2xl': '1.938rem',
+						'3xl': '2.438rem',
+						'4xl': '3.062rem',
+						'5xl': '3.812rem',
+					},
+					extend: {
+						fontFamily: {
+							'sans-serif': ["'Sofia Sans'", 'sans-serif'],
+							condensed: ["'Sofia Sans Condensed'", 'sans-serif'],
+						},
+					},
+				}
+		    }
+		</script>
+	} else {
+		<link rel="stylesheet" href="/assets/index.css"/>
 	}
 }
 

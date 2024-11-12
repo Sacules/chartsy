@@ -19,7 +19,7 @@ templ Reveal(props RevealProps) {
 		</summary>
 		{ children... }
 		<script>
-			me().on("toggle", ev => me(`#${me(ev).id} .chevron`).toggleClass("rotate-180"))
+			me().on("toggle", ev => me(".chevron", me(ev)).toggleClass("rotate-180"))
 		</script>
 	</details>
 }

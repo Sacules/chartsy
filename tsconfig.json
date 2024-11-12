@@ -28,13 +28,8 @@
 		"useDefineForClassFields": false,
 		"forceConsistentCasingInFileNames": true,
 		"noImplicitOverride": true,
-		"plugins": [
-			{
-				"name": "ts-lit-plugin",
-				"strict": true
-			}
-		],
-		"types": ["bun-types"]
+		"plugins": [],
+		"types": []
 	},
 	"include": ["./*.ts", "./**/*.ts"],
 	"exclude": []

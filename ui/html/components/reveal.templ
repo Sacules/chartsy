@@ -3,14 +3,14 @@ package components
 import "gitlab.com/sacules/chartsy/ui/html/components/icon"
 
 type RevealProps struct {
-	Id string
+	Id    string
 	Title string
 }
 
 templ Reveal(props RevealProps) {
-	<details id={props.Id}>
+	<details id={ props.Id }>
 		<summary
-			class="p-4 list-none flex items-center justify-between hover:bg-slate-800 hover:cursor-pointer border-y border-slate-700"
+			class="p-4 list-none flex items-center justify-between hover:bg-slate-800 hover:cursor-pointer border-b border-slate-700"
 		>
 			<strong>{ props.Title }</strong>
 			<div class="chevron w-4 h-4 transition transform">

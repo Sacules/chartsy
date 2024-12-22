@@ -36,11 +36,11 @@ templ ChartCanvas(isAuthenticated bool, currentChart *models.Chart) {
 
 					const form = new FormData();
 					form.append("id", me(ev).dataset.id);
-					form.append("id", me(ev).dataset.images);
+					form.append("images", me(ev).dataset.images);
 
 					fetch("/images", {
 						method: "PATCH",
-						body: ev.detail.value
+						body: form
 					});
 				})
 			</script>
